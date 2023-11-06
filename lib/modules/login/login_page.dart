@@ -26,6 +26,7 @@ class _LoginPageState extends State<LoginPage> {
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.transparent,
         body: ListView(
+          physics: const BouncingScrollPhysics(),
           // crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             hSpace(120),

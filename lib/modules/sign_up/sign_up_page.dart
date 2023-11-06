@@ -26,6 +26,7 @@ class _SignUpPageState extends State<SignUpPage> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: ListView(
+          physics: const BouncingScrollPhysics(),
           // crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             hSpace(120),
@@ -111,7 +112,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => LoginPage(),
+                              builder: (context) => const LoginPage(),
                             ));
                       },
                       label: 'Already have an account? Login Here.',

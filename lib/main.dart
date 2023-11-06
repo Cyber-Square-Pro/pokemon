@@ -10,8 +10,10 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
+  // Making the statusbar transparent initially
   SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
+    const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
+  );
 
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences.getInstance().then((instance) async {

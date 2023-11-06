@@ -1,8 +1,8 @@
 import 'package:app/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
-class PrimaryElevatedButton extends StatelessWidget {
-  const PrimaryElevatedButton({
+class CustomElevatedButton extends StatelessWidget {
+  const CustomElevatedButton({
     required this.label,
     required this.onPressed,
     super.key,
@@ -18,6 +18,7 @@ class PrimaryElevatedButton extends StatelessWidget {
         label,
         style: TextStyle(
           fontFamily: 'Circular',
+          fontSize: 15,
           color: mediumBlue,
           fontWeight: FontWeight.bold,
         ),
@@ -27,8 +28,8 @@ class PrimaryElevatedButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         elevation: 0,
         shadowColor: Colors.transparent,
-        backgroundColor: Colors.white,
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+        backgroundColor: Colors.white.withOpacity(0.95),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
         ),

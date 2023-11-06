@@ -25,7 +25,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
 
       style: const TextStyle(
         fontFamily: 'Circular',
-        fontSize: 16,
+        fontSize: 18,
         color: Colors.white,
       ),
       // Decoration
@@ -36,22 +36,26 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(_borderRadius),
           borderSide: BorderSide(
-            color: Colors.white.withOpacity(0.5),
+            width: 2,
+            color: Colors.white.withOpacity(0.75),
           ),
         ),
+
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(_borderRadius),
           borderSide: BorderSide(
-            color: Colors.white.withOpacity(0.5),
+            width: 2,
+            color: Colors.white.withOpacity(0.75),
           ),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(_borderRadius),
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
+            width: 2,
             color: Colors.red,
           ),
         ),
-        contentPadding: EdgeInsets.all(20),
+        contentPadding: const EdgeInsets.only(left: 10, bottom: 10, top: 10, right: 25),
 
         // Label
         labelText: widget.labelText,
@@ -59,7 +63,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
           color: Colors.white.withOpacity(0.5),
         ),
         // Prefix Icon
-        prefixIcon: Icon(widget.prefixIcon),
+        prefixIcon: SizedBox(width: 65, child: Icon(widget.prefixIcon)),
         prefixIconColor: Colors.white,
       ),
     );

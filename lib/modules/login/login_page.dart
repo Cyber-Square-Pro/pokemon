@@ -16,72 +16,93 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: mediumBlue,
-      body: SafeArea(
-        child: ListView(
-          physics: const BouncingScrollPhysics(),
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/images/bg/login_bg.png'),
+          fit: BoxFit.fill,
+        ),
+      ),
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        backgroundColor: Colors.transparent,
+        body: ListView(
           // crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            hSpace(200),
+            hSpace(120),
+            Container(
+              height: 75,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  fit: BoxFit.fitHeight,
+                  image: AssetImage(
+                    'assets/images/pokemon_logo.png',
+                  ),
+                ),
+              ),
+            ),
+            hSpace(25),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Image.asset(
                   'assets/images/pokeball.png',
-                  width: 50,
+                  width: 40,
                 ),
-                wSpace(10),
+                wSpace(5),
                 Text(
-                  'Login',
+                  'Log In',
                   style: pageTitle,
                 ),
+                hSpace(20),
               ],
             ),
             // Form
             hSpace(20),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 40,
+              ),
               child: Form(
                 child: Column(
                   children: [
-                    CustomTextFormField(
+                    const CustomTextFormField(
                       prefixIcon: Icons.person,
                       labelText: 'Username',
                     ),
                     hSpace(20),
-                    CustomTextFormField(
+                    const CustomTextFormField(
                       isPassword: true,
                       prefixIcon: Icons.lock,
                       labelText: 'Password',
                     ),
-                    hSpace(25),
-                    PrimaryElevatedButton(
+                    hSpace(20),
+                    CustomElevatedButton(
                       label: 'Log In',
                       onPressed: () {},
                     ),
                     hSpace(15),
                     CustomTextButton(
                       onPressed: () {},
-                      label: 'Forgot Password?',
+                      label: 'Forgot Password? Click Here.',
                     ),
                   ],
                 ),
               ),
             ),
             //Ashr
-            const Spacer(),
-            hSpace(30),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Image.asset(
-                  'assets/images/ash_blue.png',
-                  width: 220,
-                ),
-              ],
-            )
+            // const Spacer(),
+            // hSpace(20),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.end,
+            //   children: [
+            //     Image.asset(
+            //       'assets/images/ashtransparent.png',
+            //       width: 250,
+            //     ),
+            //   ],
+            // )
           ],
         ),
       ),

@@ -18,10 +18,19 @@ class CustomTextButton extends StatelessWidget {
         style: TextStyle(
           fontSize: 14,
           fontFamily: 'Circular',
+          shadows: [
+            BoxShadow(
+              blurRadius: 5,
+              spreadRadius: 3,
+              color: Colors.black.withOpacity(0.5),
+            ),
+          ],
         ),
       ),
       style: TextButton.styleFrom(
         foregroundColor: Colors.white,
+        shadowColor: Colors.black,
+        shape: const StadiumBorder(),
       ),
     );
   }

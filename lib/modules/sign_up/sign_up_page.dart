@@ -31,7 +31,7 @@ class _SignUpPageState extends State<SignUpPage> {
           children: [
             hSpace(120),
             Container(
-              height: 50,
+              height: 60,
               decoration: const BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.fitHeight,
@@ -51,9 +51,9 @@ class _SignUpPageState extends State<SignUpPage> {
                   width: 40,
                 ),
                 wSpace(5),
-                const Text(
+                Text(
                   'Create An Account',
-                  style: pageTitle,
+                  style: pageTitleWithShadow,
                 ),
                 hSpace(20),
               ],
@@ -95,12 +95,14 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                     hSpace(20),
                     Container(
-                      decoration: BoxDecoration(boxShadow: [
-                        BoxShadow(
-                          blurRadius: 15,
-                          color: Colors.black.withOpacity(0.25),
-                        )
-                      ]),
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            blurRadius: 15,
+                            color: Colors.black.withOpacity(0.25),
+                          )
+                        ],
+                      ),
                       child: CustomElevatedButton(
                         label: 'Sign Up',
                         onPressed: () {},
@@ -110,10 +112,11 @@ class _SignUpPageState extends State<SignUpPage> {
                     CustomTextButton(
                       onPressed: () {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const LoginPage(),
-                            ));
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const LoginPage(),
+                          ),
+                        );
                       },
                       label: 'Already have an account? Login Here.',
                     ),

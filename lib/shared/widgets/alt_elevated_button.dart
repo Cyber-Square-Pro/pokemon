@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class CustomElevatedButton extends StatelessWidget {
-  const CustomElevatedButton({
+class CustomAltElevatedButton extends StatelessWidget {
+  const CustomAltElevatedButton({
     required this.label,
     required this.onPressed,
     super.key,
@@ -14,13 +14,17 @@ class CustomElevatedButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
 
-      //
+      // Decoration
       style: ElevatedButton.styleFrom(
         elevation: 0,
         shadowColor: Colors.transparent,
-        backgroundColor: Colors.white.withOpacity(0.95),
+        backgroundColor: Colors.transparent,
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         shape: RoundedRectangleBorder(
+          side: BorderSide(
+            width: 2,
+            color: Colors.white.withOpacity(0.9),
+          ),
           borderRadius: BorderRadius.circular(15),
         ),
       ),
@@ -29,7 +33,7 @@ class CustomElevatedButton extends StatelessWidget {
         style: TextStyle(
           fontFamily: 'Circular',
           fontSize: 16,
-          color: Colors.blue.shade700,
+          color: Colors.white.withOpacity(0.9),
           fontWeight: FontWeight.w900,
         ),
       ),

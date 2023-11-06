@@ -25,7 +25,10 @@ dependencies:
   audioplayers: ^5.1.0
   font_awesome_flutter: ^10.5.0
   audio_video_progress_bar: ^2.0.0
+  # State Management
   provider: ^6.0.5
+  # OTP Input Field
+  pinput:
 
 dev_dependencies:
   mockito:
@@ -61,3 +64,4 @@ flutter:
     - family: Circular
       fonts:
         - asset:  assets/fonts/CircularStd-Book.otf
+        - asset:  assets/fonts/CircularStd-Black.otf

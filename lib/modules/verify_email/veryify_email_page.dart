@@ -1,18 +1,17 @@
 import 'package:app/shared/utils/spacer.dart';
-import 'package:app/shared/widgets/custom_text_button.dart';
 import 'package:app/shared/widgets/custom_text_form_field.dart';
 import 'package:app/shared/widgets/primary_elevated_button.dart';
 import 'package:app/theme/text_styles.dart';
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class VerifyEmailPage extends StatefulWidget {
+  const VerifyEmailPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<VerifyEmailPage> createState() => _VerifyEmailPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _VerifyEmailPageState extends State<VerifyEmailPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -23,13 +22,12 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
         backgroundColor: Colors.transparent,
         body: ListView(
           physics: const BouncingScrollPhysics(),
           // crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            hSpace(120),
+            hSpace(150),
             Container(
               height: 60,
               decoration: const BoxDecoration(
@@ -41,7 +39,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
             ),
-            hSpace(25),
+            hSpace(40),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
@@ -51,15 +49,13 @@ class _LoginPageState extends State<LoginPage> {
                   width: 40,
                 ),
                 wSpace(5),
-                const Text(
-                  'Log In',
-                  style: pageTitle,
+                Text(
+                  'Verify Your Email',
+                  style: pageTitleWithShadow,
                 ),
-                hSpace(20),
               ],
             ),
-            // Form
-            hSpace(20),
+            //Form
             Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: 40,
@@ -67,34 +63,34 @@ class _LoginPageState extends State<LoginPage> {
               child: Form(
                 child: Column(
                   children: [
-                    const CustomTextFormField(
-                      prefixIcon: Icons.person,
-                      labelText: 'Username',
+                    hSpace(5),
+                    Text(
+                      'An OTP Number will be sent to your email, Please enter the OTP number correctly in the next screen to verify your email.',
+                      maxLines: 3,
+                      textAlign: TextAlign.center,
+                      style: pageSubtitle,
                     ),
                     hSpace(20),
                     const CustomTextFormField(
-                      isPassword: true,
-                      prefixIcon: Icons.lock,
-                      labelText: 'Password',
+                      prefixIcon: Icons.email,
+                      labelText: 'Enter your email',
                     ),
                     hSpace(20),
                     Container(
-                      decoration: BoxDecoration(boxShadow: [
-                        BoxShadow(
-                          blurRadius: 15,
-                          color: Colors.black.withOpacity(0.25),
-                        )
-                      ]),
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            blurRadius: 15,
+                            color: Colors.black.withOpacity(0.25),
+                          )
+                        ],
+                      ),
                       child: CustomElevatedButton(
-                        label: 'Log In',
+                        label: 'Send OTP',
                         onPressed: () {},
                       ),
                     ),
                     hSpace(15),
-                    CustomTextButton(
-                      onPressed: () {},
-                      label: 'Forgot Password? Click Here.',
-                    ),
                   ],
                 ),
               ),

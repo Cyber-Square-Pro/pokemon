@@ -37,7 +37,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
           borderRadius: BorderRadius.circular(_borderRadius),
           borderSide: BorderSide(
             width: 2,
-            color: Colors.white.withOpacity(0.75),
+            color: Colors.white.withOpacity(0.5),
           ),
         ),
 
@@ -58,8 +58,13 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         contentPadding: const EdgeInsets.only(left: 10, bottom: 10, top: 10, right: 25),
 
         // Label
+        floatingLabelStyle: TextStyle(
+          fontSize: 15,
+          color: Colors.white.withOpacity(0.75),
+        ),
         labelText: widget.labelText,
         labelStyle: TextStyle(
+          fontSize: 15,
           color: Colors.white.withOpacity(0.5),
         ),
         // Prefix Icon

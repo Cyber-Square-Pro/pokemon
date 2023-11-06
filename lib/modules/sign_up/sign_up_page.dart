@@ -1,3 +1,4 @@
+import 'package:app/modules/login/login_page.dart';
 import 'package:app/shared/utils/spacer.dart';
 import 'package:app/shared/widgets/custom_text_button.dart';
 import 'package:app/shared/widgets/custom_text_form_field.dart';
@@ -5,14 +6,14 @@ import 'package:app/shared/widgets/primary_elevated_button.dart';
 import 'package:app/theme/text_styles.dart';
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<SignUpPage> createState() => _SignUpPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -23,14 +24,13 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
         backgroundColor: Colors.transparent,
         body: ListView(
           // crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             hSpace(120),
             Container(
-              height: 75,
+              height: 50,
               decoration: const BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.fitHeight,
@@ -51,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 wSpace(5),
                 const Text(
-                  'Log In',
+                  'Create An Account',
                   style: pageTitle,
                 ),
                 hSpace(20),
@@ -72,9 +72,25 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     hSpace(20),
                     const CustomTextFormField(
+                      prefixIcon: Icons.phone_android,
+                      labelText: 'Phone Number',
+                    ),
+                    hSpace(20),
+                    const CustomTextFormField(
+                      prefixIcon: Icons.email,
+                      labelText: 'Email Address',
+                    ),
+                    hSpace(20),
+                    const CustomTextFormField(
+                      isPassword: true,
+                      prefixIcon: Icons.lock_outline,
+                      labelText: 'Enter Password',
+                    ),
+                    hSpace(20),
+                    const CustomTextFormField(
                       isPassword: true,
                       prefixIcon: Icons.lock,
-                      labelText: 'Password',
+                      labelText: 'Confirm Password',
                     ),
                     hSpace(20),
                     Container(
@@ -85,14 +101,20 @@ class _LoginPageState extends State<LoginPage> {
                         )
                       ]),
                       child: CustomElevatedButton(
-                        label: 'Log In',
+                        label: 'Sign Up',
                         onPressed: () {},
                       ),
                     ),
                     hSpace(15),
                     CustomTextButton(
-                      onPressed: () {},
-                      label: 'Forgot Password? Click Here.',
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => LoginPage(),
+                            ));
+                      },
+                      label: 'Already have an account? Login Here.',
                     ),
                   ],
                 ),

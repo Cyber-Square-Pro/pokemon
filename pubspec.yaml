@@ -55,3 +55,8 @@ flutter:
     - assets/images/pokemons_generations/generation_8/
     - assets/lotties/
     - assets/images/pokemons_types/20/water.png
+
+  fonts:
+    - family: Circular
+      fonts:
+        - asset:  assets/fonts/CircularStd-Book.otf

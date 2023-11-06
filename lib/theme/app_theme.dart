@@ -104,3 +104,5 @@ class AppTheme {
         : const AppColorsDark();
   }
 }
+
+const Color mediumBlue =  Color.fromRGBO(67, 138, 211, 1);

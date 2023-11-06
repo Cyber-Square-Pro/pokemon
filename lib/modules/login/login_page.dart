@@ -20,6 +20,8 @@ class _LoginPageState extends State<LoginPage> {
               children: [],
             ),
             Image.asset('assets/images/ash_blue.png'),
+
+            // THIS HAS BEEN CHANGED BY PREM
           ],
         ),
       ),

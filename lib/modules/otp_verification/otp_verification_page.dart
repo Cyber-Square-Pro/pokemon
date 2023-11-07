@@ -1,8 +1,10 @@
 import 'package:app/shared/utils/spacer.dart';
 import 'package:app/shared/widgets/custom_text_form_field.dart';
+import 'package:app/shared/widgets/otp_field.dart';
 import 'package:app/shared/widgets/primary_elevated_button.dart';
 import 'package:app/theme/text_styles.dart';
 import 'package:flutter/material.dart';
+import 'package:pinput/pinput.dart';
 // import 'package:pinput/pinput.dart';
 
 class OtpVerificationPage extends StatefulWidget {
@@ -77,8 +79,8 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                       labelText: 'Enter the OTP',
                     ),
                     hSpace(20),
-                    //
-
+                    // otp field
+                    OtpField(controller: TextEditingController()),
                     //
                     hSpace(20),
                     Container(

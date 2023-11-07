@@ -1,4 +1,5 @@
 import 'package:app/modules/login/login_page.dart';
+import 'package:app/modules/otp_verification/otp_verification_page.dart';
 import 'package:app/modules/sign_up/sign_up_page.dart';
 import 'package:app/modules/verify_email/veryify_email_page.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ abstract class Router {
   static String login = "/login";
   static String signup = "/signup";
   static String verifyEmail = "/verifyEmail";
+  static String enterOTP = "/otp";
 
   static Map<String, WidgetBuilder> getRoutes(context) {
     return {
@@ -19,6 +21,7 @@ abstract class Router {
       login: (context) => LoginPage(),
       signup: (context) => SignUpPage(),
       verifyEmail: (context) => VerifyEmailPage(),
+      enterOTP: (context) => OtpVerificationPage(),
     };
   }
 }

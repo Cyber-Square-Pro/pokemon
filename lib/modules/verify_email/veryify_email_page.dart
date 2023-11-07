@@ -87,7 +87,9 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                       ),
                       child: CustomElevatedButton(
                         label: 'Send OTP',
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/otp');
+                        },
                       ),
                     ),
                     hSpace(15),

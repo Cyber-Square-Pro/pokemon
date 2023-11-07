@@ -53,7 +53,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                 ),
                 wSpace(5),
                 Text(
-                  'Email Verification',
+                  'Verify with OTP',
                   style: pageTitleWithShadow,
                 ),
               ],
@@ -69,18 +69,14 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                     hSpace(5),
                     Text(
                       'Enter the 6 Digit OTP that has been sent to your email.',
-                      maxLines: 3,
+                      maxLines: 2,
                       textAlign: TextAlign.center,
                       style: pageSubtitle,
                     ),
                     hSpace(20),
-                    const CustomTextFormField(
-                      prefixIcon: Icons.email,
-                      labelText: 'Enter the OTP',
-                    ),
-                    hSpace(20),
+
                     // otp field
-                    OtpField(controller: TextEditingController()),
+                    CustomOtpField(controller: TextEditingController()),
                     //
                     hSpace(20),
                     Container(
@@ -93,7 +89,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                         ],
                       ),
                       child: CustomElevatedButton(
-                        label: 'Send OTP',
+                        label: 'Verify',
                         onPressed: () {},
                       ),
                     ),

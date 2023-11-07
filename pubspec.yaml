@@ -27,8 +27,7 @@ dependencies:
   audio_video_progress_bar: ^2.0.0
   # State Management
   provider: ^6.0.5
-  # OTP Input Field
-  pinput:
+  pinput: ^3.0.1
 
 dev_dependencies:
   mockito:

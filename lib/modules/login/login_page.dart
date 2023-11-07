@@ -94,7 +94,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     CustomTextButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, '/verifyEmail');
+                        Navigator.pushNamed(context, '/signup');
                       },
                       label: 'Dont have an account? Sign Up.',
                     ),

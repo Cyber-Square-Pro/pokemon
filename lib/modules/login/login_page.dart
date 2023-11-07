@@ -87,13 +87,23 @@ class _LoginPageState extends State<LoginPage> {
                       ]),
                       child: CustomElevatedButton(
                         label: 'Log In',
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/home');
+                        },
                       ),
                     ),
-                    hSpace(15),
                     CustomTextButton(
-                      onPressed: () {},
-                      label: 'Forgot Password? Click Here.',
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/verifyEmail');
+                      },
+                      label: 'Dont have an account? Sign Up.',
+                    ),
+                    hSpace(20),
+                    CustomTextButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/verifyEmail');
+                      },
+                      label: 'Forgot Password',
                     ),
                   ],
                 ),

@@ -65,7 +65,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                   children: [
                     hSpace(5),
                     Text(
-                      'An OTP Number will be sent to your email, Please enter the OTP number correctly in the next screen to verify your email.',
+                      'Please re-enter your email, An OTP Number will be sent to this email shortly.',
                       maxLines: 3,
                       textAlign: TextAlign.center,
                       style: pageSubtitle,
@@ -73,7 +73,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                     hSpace(20),
                     const CustomTextFormField(
                       prefixIcon: Icons.email,
-                      labelText: 'Enter your email',
+                      labelText: 'Re-enter your email',
                     ),
                     hSpace(20),
                     Container(
@@ -86,7 +86,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                         ],
                       ),
                       child: CustomElevatedButton(
-                        label: 'Send OTP',
+                        label: 'Continue',
                         onPressed: () {
                           Navigator.pushNamed(context, '/otp');
                         },

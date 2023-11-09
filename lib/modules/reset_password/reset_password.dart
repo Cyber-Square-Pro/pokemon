@@ -1,18 +1,17 @@
 import 'package:app/shared/utils/spacer.dart';
-import 'package:app/shared/widgets/custom_text_button.dart';
-import 'package:app/shared/widgets/otp_field.dart';
+import 'package:app/shared/widgets/custom_text_form_field.dart';
 import 'package:app/shared/widgets/primary_elevated_button.dart';
 import 'package:app/theme/text_styles.dart';
 import 'package:flutter/material.dart';
 
-class OtpVerificationPage extends StatefulWidget {
-  const OtpVerificationPage({super.key});
+class ResetPasswordPage extends StatefulWidget {
+  const ResetPasswordPage({super.key});
 
   @override
-  State<OtpVerificationPage> createState() => _OtpVerificationPageState();
+  State<ResetPasswordPage> createState() => _ResetPasswordPageState();
 }
 
-class _OtpVerificationPageState extends State<OtpVerificationPage> {
+class _ResetPasswordPageState extends State<ResetPasswordPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -51,7 +50,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                 ),
                 wSpace(5),
                 Text(
-                  'Verify with OTP',
+                  'Reset Password',
                   style: pageTitleWithShadow,
                 ),
               ],
@@ -64,18 +63,23 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
               child: Form(
                 child: Column(
                   children: [
-                    hSpace(5),
+                    hSpace(20),
                     Text(
-                      'Enter the 6 Digit OTP that has been sent to your email.',
+                      'Please create a new password for your account.',
+                      style: pageSubtitle,
                       maxLines: 2,
                       textAlign: TextAlign.center,
-                      style: pageSubtitle,
+                    ),
+                    hSpace(10),
+                    const CustomTextFormField(
+                      prefixIcon: Icons.lock_reset,
+                      labelText: 'New Password',
                     ),
                     hSpace(20),
-
-                    // otp field
-                    CustomOtpField(controller: TextEditingController()),
-                    //
+                    const CustomTextFormField(
+                      prefixIcon: Icons.lock_reset,
+                      labelText: 'Confirm Password',
+                    ),
                     hSpace(20),
                     Container(
                       decoration: BoxDecoration(
@@ -87,19 +91,13 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                         ],
                       ),
                       child: CustomElevatedButton(
-                        label: 'Verify',
+                        label: 'Reset',
                         onPressed: () {
-                          Navigator.pushNamed(context, '/resetPass');
+                          Navigator.pushNamed(context, '/otp');
                         },
                       ),
                     ),
                     hSpace(15),
-                    CustomTextButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/');
-                      },
-                      label: 'Resend OTP',
-                    ),
                   ],
                 ),
               ),

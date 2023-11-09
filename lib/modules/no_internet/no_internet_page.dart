@@ -1,18 +1,16 @@
 import 'package:app/shared/utils/spacer.dart';
-import 'package:app/shared/widgets/custom_text_button.dart';
-import 'package:app/shared/widgets/otp_field.dart';
-import 'package:app/shared/widgets/primary_elevated_button.dart';
 import 'package:app/theme/text_styles.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
-class OtpVerificationPage extends StatefulWidget {
-  const OtpVerificationPage({super.key});
+class NoInternetPage extends StatefulWidget {
+  const NoInternetPage({super.key});
 
   @override
-  State<OtpVerificationPage> createState() => _OtpVerificationPageState();
+  State<NoInternetPage> createState() => _NoInternetPageState();
 }
 
-class _OtpVerificationPageState extends State<OtpVerificationPage> {
+class _NoInternetPageState extends State<NoInternetPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -51,7 +49,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                 ),
                 wSpace(5),
                 Text(
-                  'Verify with OTP',
+                  'No Internet',
                   style: pageTitleWithShadow,
                 ),
               ],
@@ -64,42 +62,21 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
               child: Form(
                 child: Column(
                   children: [
-                    hSpace(5),
+                    Lottie.asset(
+                      'assets/lotties/no_internet.json',
+                      animate: true,
+                      fit: BoxFit.contain,
+                      height: 100,
+                      width: 100,
+                    ),
+                    hSpace(20),
                     Text(
-                      'Enter the 6 Digit OTP that has been sent to your email.',
-                      maxLines: 2,
+                      'Failed to connect to pokemon services, please check your internet.',
+                      maxLines: 3,
                       textAlign: TextAlign.center,
                       style: pageSubtitle,
                     ),
                     hSpace(20),
-
-                    // otp field
-                    CustomOtpField(controller: TextEditingController()),
-                    //
-                    hSpace(20),
-                    Container(
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            blurRadius: 15,
-                            color: Colors.black.withOpacity(0.25),
-                          )
-                        ],
-                      ),
-                      child: CustomElevatedButton(
-                        label: 'Verify',
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/resetPass');
-                        },
-                      ),
-                    ),
-                    hSpace(15),
-                    CustomTextButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/');
-                      },
-                      label: 'Resend OTP',
-                    ),
                   ],
                 ),
               ),

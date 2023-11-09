@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
         navigatorObservers: [BotToastNavigatorObserver()],
         debugShowCheckedModeBanner: false,
         routes: router.Router.getRoutes(context),
-        initialRoute: "/login",
+        initialRoute: "/",
       ),
     );
   }

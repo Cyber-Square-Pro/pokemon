@@ -63,8 +63,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       duration: Duration(milliseconds: 250),
     );
 
-    _fabRotateAnimation = Tween(begin: 180.0, end: 0.0).animate(CurvedAnimation(
-        curve: Curves.easeOut, parent: _fabAnimationRotationController));
+    _fabRotateAnimation = Tween(begin: 180.0, end: 0.0)
+        .animate(CurvedAnimation(curve: Curves.easeOut, parent: _fabAnimationRotationController));
 
     _fabSizeAnimation = TweenSequence([
       TweenSequenceItem(tween: Tween(begin: 0.0, end: 1.4), weight: 80.0),

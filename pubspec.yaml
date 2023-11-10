@@ -25,7 +25,9 @@ dependencies:
   audioplayers: ^5.1.0
   font_awesome_flutter: ^10.5.0
   audio_video_progress_bar: ^2.0.0
+  # State Management
   provider: ^6.0.5
+  pinput: ^3.0.1
 
 dev_dependencies:
   mockito:
@@ -40,6 +42,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/images/bg/
     - assets/images/icons/
     - assets/images/pokemons_types/
     - assets/images/technical_records_types/
@@ -55,3 +58,9 @@ flutter:
     - assets/images/pokemons_generations/generation_8/
     - assets/lotties/
     - assets/images/pokemons_types/20/water.png
+
+  fonts:
+    - family: Circular
+      fonts:
+        - asset:  assets/fonts/CircularStd-Book.otf
+        - asset:  assets/fonts/CircularStd-Black.otf

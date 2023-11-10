@@ -6,9 +6,15 @@ import 'package:app/theme/light/light_theme.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:app/shared/routes/router.dart' as router;
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
+  // Making the statusbar transparent initially
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
+  );
+
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences.getInstance().then((instance) async {
     WidgetsFlutterBinding.ensureInitialized();

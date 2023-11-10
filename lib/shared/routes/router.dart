@@ -2,6 +2,7 @@ import 'package:app/modules/login/login_page.dart';
 import 'package:app/modules/no_internet/no_internet_page.dart';
 import 'package:app/modules/otp_verification/otp_verification_page.dart';
 import 'package:app/modules/reset_password/reset_password.dart';
+import 'package:app/modules/screens/splash_screen.dart';
 import 'package:app/modules/sign_up/sign_up_page.dart';
 import 'package:app/modules/verify_email/veryify_email_page.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ import 'package:app/modules/items/items_page.dart';
 
 abstract class Router {
   static String home = "/";
+  static String splash = "/splash";
   static String items = "/items";
   static String login = "/login";
   static String signup = "/signup";
@@ -28,6 +30,7 @@ abstract class Router {
       enterOTP: (context) => OtpVerificationPage(),
       resetPass: (context) => ResetPasswordPage(),
       noInternet: (context) => NoInternetPage(),
+      splash: (context) => SplashScreen(),
     };
   }
 }

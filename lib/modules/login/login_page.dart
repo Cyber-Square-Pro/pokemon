@@ -13,6 +13,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final _passwordcontroller = TextEditingController();
+  final _emailcontroller = TextEditingController();
+  
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -67,12 +71,22 @@ class _LoginPageState extends State<LoginPage> {
               child: Form(
                 child: Column(
                   children: [
-                    const CustomTextFormField(
+                     CustomTextFormField(
+                      controller: _emailcontroller,
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (value) {
+                        return null;
+                      },
                       prefixIcon: Icons.person,
                       labelText: 'Username',
                     ),
                     hSpace(20),
-                    const CustomTextFormField(
+                     CustomTextFormField(
+                       controller: _passwordcontroller,
+                       keyboardType: TextInputType.text,
+                      validator: (value) {
+                        return null;
+                      },
                       isPassword: true,
                       prefixIcon: Icons.lock,
                       labelText: 'Password',

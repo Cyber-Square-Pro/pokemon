@@ -12,6 +12,8 @@ class VerifyEmailPage extends StatefulWidget {
 }
 
 class _VerifyEmailPageState extends State<VerifyEmailPage> {
+  final _reenteremailcontroller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -71,7 +73,12 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                       style: pageSubtitle,
                     ),
                     hSpace(20),
-                    const CustomTextFormField(
+                     CustomTextFormField(
+                      controller: _reenteremailcontroller,
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (value) {
+                        return null;
+                      },
                       prefixIcon: Icons.email,
                       labelText: 'Re-enter your email',
                     ),

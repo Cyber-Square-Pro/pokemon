@@ -14,6 +14,14 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  final _phonenumbercontroller = TextEditingController();
+  final _namecontroller = TextEditingController();
+  final _emailaddresscontroller = TextEditingController();
+
+  final _passwordcontroller = TextEditingController();
+
+  final _confirmpasswordcontroller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -67,29 +75,51 @@ class _SignUpPageState extends State<SignUpPage> {
               child: Form(
                 child: Column(
                   children: [
-                    const CustomTextFormField(
+                    CustomTextFormField(
+                      controller: _namecontroller,
+                      validator: (value) {
+                        return null;
+                      },
                       prefixIcon: Icons.person,
                       labelText: 'Username',
                     ),
                     hSpace(20),
-                    const CustomTextFormField(
+                    CustomTextFormField(
+                      controller: _phonenumbercontroller,
+                      keyboardType: TextInputType.phone,
+                      validator: (value) {
+                        return null;
+                      },
                       prefixIcon: Icons.phone_android,
                       labelText: 'Phone Number',
                     ),
                     hSpace(20),
-                    const CustomTextFormField(
+                    CustomTextFormField(
+                      controller: _emailaddresscontroller,
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (value) {
+                        return null;
+                      },
                       prefixIcon: Icons.email,
                       labelText: 'Email Address',
                     ),
                     hSpace(20),
-                    const CustomTextFormField(
+                    CustomTextFormField(
+                      controller: _passwordcontroller,
                       isPassword: true,
+                      validator: (value) {
+                        return null;
+                      },
                       prefixIcon: Icons.lock_outline,
                       labelText: 'Enter Password',
                     ),
                     hSpace(20),
-                    const CustomTextFormField(
+                    CustomTextFormField(
+                      controller: _confirmpasswordcontroller,
                       isPassword: true,
+                      validator: (value) {
+                        return null;
+                      },
                       prefixIcon: Icons.lock,
                       labelText: 'Confirm Password',
                     ),

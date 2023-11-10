@@ -6,11 +6,18 @@ class CustomTextFormField extends StatefulWidget {
     required this.labelText,
     this.isPassword,
     super.key,
+    required this.controller,
+    required this.validator, this.keyboardType,
+
+    
   });
 
   final String labelText;
   final bool? isPassword;
   final IconData prefixIcon;
+  final TextEditingController controller;
+  final String? Function(String? value) validator;
+  final TextInputType? keyboardType;
 
   @override
   State<CustomTextFormField> createState() => _CustomTextFormFieldState();
@@ -28,8 +35,14 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         fontSize: 18,
         color: Colors.white,
       ),
+
+      controller: widget.controller,
+      validator: (value) => widget.validator(value),
+      keyboardType: widget.keyboardType,
+      
       // Decoration
       decoration: InputDecoration(
+        
         // Text STyle
 
         //Enabled, Focused, Error
@@ -55,7 +68,8 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
             color: Colors.red,
           ),
         ),
-        contentPadding: const EdgeInsets.only(left: 10, bottom: 10, top: 10, right: 25),
+        contentPadding:
+            const EdgeInsets.only(left: 10, bottom: 10, top: 10, right: 25),
 
         // Label
         floatingLabelStyle: TextStyle(

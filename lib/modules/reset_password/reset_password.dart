@@ -12,6 +12,10 @@ class ResetPasswordPage extends StatefulWidget {
 }
 
 class _ResetPasswordPageState extends State<ResetPasswordPage> {
+  final _newpasswordcontroller = TextEditingController();
+  final _confirmpasswordcontroller = TextEditingController();
+  
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -71,12 +75,23 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                       textAlign: TextAlign.center,
                     ),
                     hSpace(10),
-                    const CustomTextFormField(
+                     CustomTextFormField(
+                      controller: _newpasswordcontroller,
+                      isPassword: true,
+                      validator: (value) {
+                        return null;
+                      },
+
                       prefixIcon: Icons.lock_reset,
                       labelText: 'New Password',
                     ),
                     hSpace(20),
-                    const CustomTextFormField(
+                     CustomTextFormField(
+                      controller: _confirmpasswordcontroller,
+                      isPassword: true,
+                      validator: (value) {
+                        return null;
+                      },
                       prefixIcon: Icons.lock_reset,
                       labelText: 'Confirm Password',
                     ),

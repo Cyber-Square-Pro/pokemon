@@ -17,11 +17,10 @@ class _SignUpPageState extends State<SignUpPage> {
   final _phonenumbercontroller = TextEditingController();
   final _namecontroller = TextEditingController();
   final _emailaddresscontroller = TextEditingController();
-
   final _passwordcontroller = TextEditingController();
-
   final _confirmpasswordcontroller = TextEditingController();
 
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -73,12 +72,17 @@ class _SignUpPageState extends State<SignUpPage> {
                 horizontal: 40,
               ),
               child: Form(
+                key: _formKey,
                 child: Column(
                   children: [
                     CustomTextFormField(
                       controller: _namecontroller,
                       validator: (value) {
-                        return null;
+                        if (value == '') {
+                          return 'Enter a valid name';
+                        } else {
+                          return null;
+                        }
                       },
                       prefixIcon: Icons.person,
                       labelText: 'Username',
@@ -88,7 +92,11 @@ class _SignUpPageState extends State<SignUpPage> {
                       controller: _phonenumbercontroller,
                       keyboardType: TextInputType.phone,
                       validator: (value) {
-                        return null;
+                        if (value == '') {
+                          return 'Enter a valid phone number';
+                        } else {
+                          return null;
+                        }
                       },
                       prefixIcon: Icons.phone_android,
                       labelText: 'Phone Number',
@@ -98,7 +106,11 @@ class _SignUpPageState extends State<SignUpPage> {
                       controller: _emailaddresscontroller,
                       keyboardType: TextInputType.emailAddress,
                       validator: (value) {
-                        return null;
+                        if (value == '') {
+                          return 'Enter a valid email';
+                        } else {
+                          return null;
+                        }
                       },
                       prefixIcon: Icons.email,
                       labelText: 'Email Address',
@@ -108,7 +120,11 @@ class _SignUpPageState extends State<SignUpPage> {
                       controller: _passwordcontroller,
                       isPassword: true,
                       validator: (value) {
-                        return null;
+                        if (value == '') {
+                          return 'Enter a valid password';
+                        } else {
+                          return null;
+                        }
                       },
                       prefixIcon: Icons.lock_outline,
                       labelText: 'Enter Password',
@@ -118,7 +134,13 @@ class _SignUpPageState extends State<SignUpPage> {
                       controller: _confirmpasswordcontroller,
                       isPassword: true,
                       validator: (value) {
-                        return null;
+                        if (value == '') {
+                          return 'Enter a valid name';
+                        } else if (value != _passwordcontroller.text) {
+                          return 'Passwords do not match';
+                        } else {
+                          return null;
+                        }
                       },
                       prefixIcon: Icons.lock,
                       labelText: 'Confirm Password',
@@ -135,18 +157,27 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                       child: CustomElevatedButton(
                         label: 'Sign Up',
-                        onPressed: () {},
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const LoginPage(),
+                              ),
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text('Sign up failed: Please check your information again'),
+                              backgroundColor: Colors.red,
+                            ));
+                          }
+                        },
                       ),
                     ),
                     hSpace(15),
                     CustomTextButton(
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const LoginPage(),
-                          ),
-                        );
+                        Navigator.pushNamed(context, '/login');
                       },
                       label: 'Already have an account? Login Here.',
                     ),

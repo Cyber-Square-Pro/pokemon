@@ -14,7 +14,7 @@ class ResetPasswordPage extends StatefulWidget {
 class _ResetPasswordPageState extends State<ResetPasswordPage> {
   final _newpasswordcontroller = TextEditingController();
   final _confirmpasswordcontroller = TextEditingController();
-  
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -65,6 +65,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                 horizontal: 40,
               ),
               child: Form(
+                key: _formKey,
                 child: Column(
                   children: [
                     hSpace(20),
@@ -75,21 +76,26 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                       textAlign: TextAlign.center,
                     ),
                     hSpace(10),
-                     CustomTextFormField(
+                    CustomTextFormField(
                       controller: _newpasswordcontroller,
                       isPassword: true,
                       validator: (value) {
+                        if (value == '') {
+                          return 'Please enter a valid password';
+                        }
                         return null;
                       },
-
                       prefixIcon: Icons.lock_reset,
                       labelText: 'New Password',
                     ),
                     hSpace(20),
-                     CustomTextFormField(
+                    CustomTextFormField(
                       controller: _confirmpasswordcontroller,
                       isPassword: true,
                       validator: (value) {
+                        if (value == '' || value != _confirmpasswordcontroller.text) {
+                          return 'Confirmed password does not match!!!';
+                        }
                         return null;
                       },
                       prefixIcon: Icons.lock_reset,
@@ -108,7 +114,16 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                       child: CustomElevatedButton(
                         label: 'Reset',
                         onPressed: () {
-                          Navigator.pushNamed(context, '/otp');
+                          if (_formKey.currentState!.validate()) {
+                            Navigator.pushNamed(context, '/login');
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('Failed to reset password'),
+                                backgroundColor: Colors.red,
+                              ),
+                            );
+                          }
                         },
                       ),
                     ),

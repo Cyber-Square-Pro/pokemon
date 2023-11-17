@@ -13,6 +13,9 @@ class OtpVerificationPage extends StatefulWidget {
 }
 
 class _OtpVerificationPageState extends State<OtpVerificationPage> {
+  final _formKey = GlobalKey<FormState>();
+  final _otpController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -62,6 +65,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                 horizontal: 40,
               ),
               child: Form(
+                key: _formKey,
                 child: Column(
                   children: [
                     hSpace(5),
@@ -74,7 +78,15 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                     hSpace(20),
 
                     // otp field
-                    CustomOtpField(controller: TextEditingController()),
+                    CustomOtpField(
+                      controller: _otpController,
+                      validator: (value) {
+                        if (value == '') {
+                          return 'Please enter a valid OTP';
+                        }
+                        return null;
+                      },
+                    ),
                     //
                     hSpace(20),
                     Container(
@@ -89,7 +101,14 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                       child: CustomElevatedButton(
                         label: 'Verify',
                         onPressed: () {
-                          Navigator.pushNamed(context, '/resetPass');
+                          if (_formKey.currentState!.validate()) {
+                            Navigator.pushNamed(context, '/resetPass');
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text('Invalid OTP'),
+                              backgroundColor: Colors.red,
+                            ));
+                          }
                         },
                       ),
                     ),

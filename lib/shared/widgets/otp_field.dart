@@ -4,10 +4,12 @@ import 'package:pinput/pinput.dart';
 class CustomOtpField extends StatefulWidget {
   const CustomOtpField({
     required this.controller,
+    this.validator,
     super.key,
   });
 
   final TextEditingController controller;
+  final String? Function(String?)? validator;
 
   @override
   State<CustomOtpField> createState() => _CustomOtpFieldState();
@@ -18,6 +20,7 @@ class _CustomOtpFieldState extends State<CustomOtpField> {
   Widget build(BuildContext context) {
     return Pinput(
       length: 6,
+      keyboardType: TextInputType.number,
       defaultPinTheme: PinTheme(
         textStyle: const TextStyle(
           color: Colors.white,
@@ -36,7 +39,12 @@ class _CustomOtpFieldState extends State<CustomOtpField> {
           borderRadius: const BorderRadius.all(Radius.circular(15)),
         ),
       ),
+      errorTextStyle: TextStyle(
+        color: Colors.red.shade400,
+        fontWeight: FontWeight.bold,
+      ),
       controller: widget.controller,
+      validator: widget.validator,
     );
   }
 }

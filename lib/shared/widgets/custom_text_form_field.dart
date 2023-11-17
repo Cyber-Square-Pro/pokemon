@@ -7,9 +7,8 @@ class CustomTextFormField extends StatefulWidget {
     this.isPassword,
     super.key,
     required this.controller,
-    required this.validator, this.keyboardType,
-
-    
+    required this.validator,
+    this.keyboardType,
   });
 
   final String labelText;
@@ -37,12 +36,11 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       ),
 
       controller: widget.controller,
-      validator: (value) => widget.validator(value),
+      validator: widget.validator,
       keyboardType: widget.keyboardType,
-      
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       // Decoration
       decoration: InputDecoration(
-        
         // Text STyle
 
         //Enabled, Focused, Error
@@ -68,8 +66,14 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
             color: Colors.red,
           ),
         ),
-        contentPadding:
-            const EdgeInsets.only(left: 10, bottom: 10, top: 10, right: 25),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(_borderRadius),
+          borderSide: const BorderSide(
+            width: 2,
+            color: Colors.red,
+          ),
+        ),
+        contentPadding: const EdgeInsets.only(left: 10, bottom: 10, top: 10, right: 25),
 
         // Label
         floatingLabelStyle: TextStyle(
@@ -80,6 +84,9 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         labelStyle: TextStyle(
           fontSize: 15,
           color: Colors.white.withOpacity(0.5),
+        ),
+        errorStyle: TextStyle(
+          color: Colors.white,
         ),
         // Prefix Icon
         prefixIcon: SizedBox(width: 65, child: Icon(widget.prefixIcon)),

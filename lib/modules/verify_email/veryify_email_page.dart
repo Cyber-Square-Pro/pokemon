@@ -1,3 +1,4 @@
+import 'package:app/modules/otp_verification/otp_verification_page.dart';
 import 'package:app/shared/utils/spacer.dart';
 import 'package:app/shared/widgets/custom_text_form_field.dart';
 import 'package:app/shared/widgets/primary_elevated_button.dart';
@@ -13,6 +14,7 @@ class VerifyEmailPage extends StatefulWidget {
 
 class _VerifyEmailPageState extends State<VerifyEmailPage> {
   final _reenteremailcontroller = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +54,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                 ),
                 wSpace(5),
                 Text(
-                  'Verify Your Email',
+                  'Verify via Email',
                   style: pageTitleWithShadow,
                 ),
               ],
@@ -63,6 +65,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                 horizontal: 40,
               ),
               child: Form(
+                key: _formKey,
                 child: Column(
                   children: [
                     hSpace(5),
@@ -73,11 +76,15 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                       style: pageSubtitle,
                     ),
                     hSpace(20),
-                     CustomTextFormField(
+                    CustomTextFormField(
                       controller: _reenteremailcontroller,
                       keyboardType: TextInputType.emailAddress,
                       validator: (value) {
-                        return null;
+                        if (value == '') {
+                          return 'invalid email';
+                        } else {
+                          return null;
+                        }
                       },
                       prefixIcon: Icons.email,
                       labelText: 'Re-enter your email',
@@ -95,7 +102,12 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                       child: CustomElevatedButton(
                         label: 'Continue',
                         onPressed: () {
-                          Navigator.pushNamed(context, '/otp');
+                          if (_formKey.currentState!.validate()) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const OtpVerificationPage()));
+                          }
                         },
                       ),
                     ),

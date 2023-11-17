@@ -36,7 +36,7 @@ class _SplashScreenState extends State<SplashScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Center(child: Lottie.asset('assets/lotties/splashanimation.json', height: 250, width: 250)),
+            Center(child: Lottie.asset('assets/lotties/splashanimation.json', height: 300, width: 300)),
 
           ],
         ),

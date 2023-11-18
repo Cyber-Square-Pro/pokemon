@@ -161,7 +161,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         label: 'Sign Up',
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            if (await UserRepo().userSignup(
+                            if (await AuthService().userSignup(
                               context,
                               username: _namecontroller.text,
                               email: _emailaddresscontroller.text,
@@ -169,9 +169,18 @@ class _SignUpPageState extends State<SignUpPage> {
                               password: _passwordcontroller.text,
                             )) {
                               print('Sign up success');
+                              Navigator.pushNamed(
+                                context,
+                                '/login',
+                                arguments: [
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    CustomSnackbars.successSnackbar('Created Account Succesfully'),
+                                  )
+                                ],
+                              );
                             } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  CustomSnackbars.errorSnackbar('Error: Signup failed'));
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(CustomSnackbars.errorSnackbar('Signup failed'));
                             }
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(

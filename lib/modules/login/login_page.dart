@@ -19,7 +19,7 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    UserRepo().dioTest();
+    AuthService().apiTest();
   }
 
   final _formKey = GlobalKey<FormState>();
@@ -121,19 +121,19 @@ class _LoginPageState extends State<LoginPage> {
                         label: 'Log In',
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            if (await UserRepo().userLogin(
-                              _emailcontroller.text,
-                              _passwordcontroller.text,
-                            )) {
-                              Navigator.pushNamed(
-                                context,
-                                '/',
-                                arguments: [
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    CustomSnackbars.successSnackbar('Login Success,'),
-                                  )
-                                ],
-                              );
+                            final username = _emailcontroller.text;
+                            final password = _passwordcontroller.text;
+
+                            final token = await AuthService().login(username, password);
+
+                            if (token != null) {
+                              await AuthService().saveToken(token);
+                              // Navigate to the next screen or perform other actions
+                              Navigator.pushNamed(context, '/', arguments: [
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  CustomSnackbars.errorSnackbar('Invalid email or password'),
+                                )
+                              ]);
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 CustomSnackbars.errorSnackbar('Invalid email or password'),
@@ -141,7 +141,7 @@ class _LoginPageState extends State<LoginPage> {
                             }
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              CustomSnackbars.errorSnackbar('Failed to login'),
+                              CustomSnackbars.errorSnackbar('Error: Invalid submission'),
                             );
                           }
                         },

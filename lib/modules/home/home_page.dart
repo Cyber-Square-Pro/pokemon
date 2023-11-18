@@ -126,6 +126,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   SliverPadding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 10,
+                      vertical: 10,
                     ),
                     sliver: Observer(
                       builder: (_) => AppBarWidget(

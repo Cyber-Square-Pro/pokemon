@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
 import 'package:app/shared/ui/widgets/animated_pokeball.dart';
 import 'package:app/theme/app_theme.dart';
@@ -11,8 +12,7 @@ class AppBarWidget extends StatefulWidget {
   final String title;
   final String? lottiePath;
 
-  const AppBarWidget({Key? key, required this.title, this.lottiePath})
-      : super(key: key);
+  const AppBarWidget({Key? key, required this.title, this.lottiePath}) : super(key: key);
 
   @override
   _AppBarWidgetState createState() => _AppBarWidgetState();
@@ -24,22 +24,22 @@ class _AppBarWidgetState extends State<AppBarWidget> {
     final TextTheme textTheme = Theme.of(context).textTheme;
 
     return SliverAppBar(
+      systemOverlayStyle: SystemUiOverlayStyle.dark,
       pinned: true,
       snap: false,
       floating: false,
       expandedHeight: 170.0,
-      collapsedHeight: 70,
+      collapsedHeight: 100,
       elevation: 0,
-      backgroundColor: Theme.of(context).backgroundColor,
+      backgroundColor: mediumBlue,
       actions: [
         Padding(
-          padding: EdgeInsets.only(top: 20),
+          padding: EdgeInsets.only(top: 10),
           child: IconButton(
             onPressed: () {
               Scaffold.of(context).openEndDrawer();
             },
-            icon: Icon(Icons.menu,
-                color: AppTheme.getColors(context).appBarButtons),
+            icon: Icon(Icons.menu, color: AppTheme.getColors(context).appBarButtons),
           ),
         )
       ],
@@ -63,13 +63,11 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                 width: 5,
               ),
               Text(widget.title, style: textTheme.headline1),
-              if (kIsWeb &&
-                  getDeviceScreenType(context) != DeviceScreenType.CELLPHONE)
+              if (kIsWeb && getDeviceScreenType(context) != DeviceScreenType.CELLPHONE)
                 SizedBox(
                   width: 5,
                 ),
-              if (kIsWeb &&
-                  getDeviceScreenType(context) != DeviceScreenType.CELLPHONE)
+              if (kIsWeb && getDeviceScreenType(context) != DeviceScreenType.CELLPHONE)
                 Image.network(
                   AppConstants.getRandomPokemonGif(),
                   height: 32,

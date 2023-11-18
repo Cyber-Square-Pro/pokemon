@@ -31,6 +31,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
 
       style: const TextStyle(
         fontFamily: 'Circular',
+        letterSpacing: 0.5,
         fontSize: 18,
         color: Colors.white,
       ),
@@ -51,7 +52,6 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
             color: Colors.white.withOpacity(0.5),
           ),
         ),
-
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(_borderRadius),
           borderSide: BorderSide(
@@ -91,6 +91,18 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         // Prefix Icon
         prefixIcon: SizedBox(width: 65, child: Icon(widget.prefixIcon)),
         prefixIconColor: Colors.white,
+        // suffixIcon: (widget.isPassword != null && widget.isPassword!)
+        //     ? IconButton(
+        //         icon: Icon(
+        //           Icons.password,
+        //         ),
+        //         onPressed: () {
+        //           setState(() {
+        //             widget.isPassword =;
+        //           });
+        //         },
+        //       )
+        //     : const SizedBox(),
       ),
     );
   }

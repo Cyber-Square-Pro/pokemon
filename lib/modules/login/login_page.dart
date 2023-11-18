@@ -1,4 +1,5 @@
 import 'package:app/shared/repositories/user_repo.dart';
+import 'package:app/shared/utils/snackbars.dart';
 import 'package:app/shared/utils/spacer.dart';
 import 'package:app/shared/widgets/custom_text_button.dart';
 import 'package:app/shared/widgets/custom_text_form_field.dart';
@@ -14,6 +15,13 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    UserRepo().dioTest();
+  }
+
   final _formKey = GlobalKey<FormState>();
   final _passwordcontroller = TextEditingController();
   final _emailcontroller = TextEditingController();
@@ -111,31 +119,30 @@ class _LoginPageState extends State<LoginPage> {
                       ]),
                       child: CustomElevatedButton(
                         label: 'Log In',
-                        onPressed: () {
-                          // UserRepo().dioTest();
-                          // if (await UserRepo()
-                          //     .userLogin(_emailcontroller.text, _passwordcontroller.text)) {
-                          //   Navigator.pushNamed(
-                          //     context,
-                          //     '/home',
-                          //     arguments: ScaffoldMessenger.of(context).showSnackBar(
-                          //       SnackBar(content: Text('Login Success!')),
-                          //     ),
-                          //   );
-                          // } else {
-                          //   ScaffoldMessenger.of(context).showSnackBar(
-                          //     SnackBar(
-                          //       content: Text('Invalid email or password!'),
-                          //     ),
-                          //   );
-                          // }
+                        onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            Navigator.pushNamed(context, '/');
+                            if (await UserRepo().userLogin(
+                              _emailcontroller.text,
+                              _passwordcontroller.text,
+                            )) {
+                              Navigator.pushNamed(
+                                context,
+                                '/',
+                                arguments: [
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    CustomSnackbars.successSnackbar('Login Success,'),
+                                  )
+                                ],
+                              );
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                CustomSnackbars.errorSnackbar('Invalid email or password'),
+                              );
+                            }
                           } else {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text('Invalid credentials'),
-                              backgroundColor: Colors.red,
-                            ));
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              CustomSnackbars.errorSnackbar('Failed to login'),
+                            );
                           }
                         },
                       ),

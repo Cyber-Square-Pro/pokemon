@@ -1,4 +1,6 @@
 import 'package:app/modules/login/login_page.dart';
+import 'package:app/shared/repositories/user_repo.dart';
+import 'package:app/shared/utils/snackbars.dart';
 import 'package:app/shared/utils/spacer.dart';
 import 'package:app/shared/widgets/custom_text_button.dart';
 import 'package:app/shared/widgets/custom_text_form_field.dart';
@@ -157,19 +159,24 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                       child: CustomElevatedButton(
                         label: 'Sign Up',
-                        onPressed: () {
+                        onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            Navigator.push(
+                            if (await UserRepo().userSignup(
                               context,
-                              MaterialPageRoute(
-                                builder: (context) => const LoginPage(),
-                              ),
-                            );
+                              username: _namecontroller.text,
+                              email: _emailaddresscontroller.text,
+                              phone: _phonenumbercontroller.text,
+                              password: _passwordcontroller.text,
+                            )) {
+                              print('Sign up success');
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  CustomSnackbars.errorSnackbar('Error: Signup failed'));
+                            }
                           } else {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text('Sign up failed: Please check your information again'),
-                              backgroundColor: Colors.red,
-                            ));
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                CustomSnackbars.errorSnackbar(
+                                    'Error: Please enter valid information'));
                           }
                         },
                       ),
@@ -181,6 +188,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       },
                       label: 'Already have an account? Login Here.',
                     ),
+                    hSpace(10),
                   ],
                 ),
               ),

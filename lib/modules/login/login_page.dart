@@ -1,10 +1,12 @@
-import 'package:app/shared/repositories/user_repo.dart';
+import 'package:app/shared/repositories/auth_interceptor.dart';
+import 'package:app/shared/repositories/auth_service.dart';
 import 'package:app/shared/utils/snackbars.dart';
 import 'package:app/shared/utils/spacer.dart';
 import 'package:app/shared/widgets/custom_text_button.dart';
 import 'package:app/shared/widgets/custom_text_form_field.dart';
 import 'package:app/shared/widgets/primary_elevated_button.dart';
 import 'package:app/theme/text_styles.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -19,12 +21,18 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    AuthService().apiTest();
+  _dio = authService.getDioInstance(); // Add this method in AuthService to get the Dio instance.
+  AuthService().apiTest();
+  _dio.interceptors.add(AuthInterceptor());
   }
 
   final _formKey = GlobalKey<FormState>();
-  final _passwordcontroller = TextEditingController();
-  final _emailcontroller = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _emailController = TextEditingController();
+
+  // Auth
+AuthService authService = AuthService();
+late Dio _dio;
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +90,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   children: [
                     CustomTextFormField(
-                      controller: _emailcontroller,
+                      controller: _emailController,
                       keyboardType: TextInputType.emailAddress,
                       validator: (value) {
                         if (value == '') {
@@ -96,7 +104,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     hSpace(20),
                     CustomTextFormField(
-                      controller: _passwordcontroller,
+                      controller: _passwordController,
                       keyboardType: TextInputType.text,
                       validator: (value) {
                         if (value == '') {
@@ -120,29 +128,17 @@ class _LoginPageState extends State<LoginPage> {
                       child: CustomElevatedButton(
                         label: 'Log In',
                         onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
-                            final username = _emailcontroller.text;
-                            final password = _passwordcontroller.text;
-
-                            final token = await AuthService().login(username, password);
-
-                            if (token != null) {
-                              await AuthService().saveToken(token);
-                              // Navigate to the next screen or perform other actions
-                              Navigator.pushNamed(context, '/', arguments: [
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  CustomSnackbars.errorSnackbar('Invalid email or password'),
-                                )
-                              ]);
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                CustomSnackbars.errorSnackbar('Invalid email or password'),
-                              );
-                            }
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              CustomSnackbars.errorSnackbar('Error: Invalid submission'),
+                          try {
+                            await authService.login(
+                              _emailController.text.trim(),
+                              _passwordController.text.trim(),
                             );
+
+                            // Navigate to secured screen on successful login
+                            Navigator.pushReplacementNamed(context, '/');
+                          } catch (error) {
+                            // Handle login error
+                            print('Login Error: $error');
                           }
                         },
                       ),

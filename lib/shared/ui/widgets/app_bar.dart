@@ -28,6 +28,9 @@ class _AppBarWidgetState extends State<AppBarWidget> {
       pinned: true,
       snap: false,
       floating: false,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+      ),
       expandedHeight: 170.0,
       collapsedHeight: 100,
       elevation: 0,

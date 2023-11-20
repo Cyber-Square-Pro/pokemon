@@ -1,5 +1,5 @@
 import 'package:app/modules/login/login_page.dart';
-import 'package:app/shared/repositories/user_repo.dart';
+import 'package:app/shared/repositories/auth_service.dart';
 import 'package:app/shared/utils/snackbars.dart';
 import 'package:app/shared/utils/spacer.dart';
 import 'package:app/shared/widgets/custom_text_button.dart';
@@ -161,31 +161,31 @@ class _SignUpPageState extends State<SignUpPage> {
                         label: 'Sign Up',
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            if (await AuthService().userSignup(
-                              context,
-                              username: _namecontroller.text,
-                              email: _emailaddresscontroller.text,
-                              phone: _phonenumbercontroller.text,
-                              password: _passwordcontroller.text,
-                            )) {
-                              print('Sign up success');
-                              Navigator.pushNamed(
-                                context,
-                                '/login',
-                                arguments: [
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    CustomSnackbars.successSnackbar('Created Account Succesfully'),
-                                  )
-                                ],
-                              );
-                            } else {
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(CustomSnackbars.errorSnackbar('Signup failed'));
-                            }
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                CustomSnackbars.errorSnackbar(
-                                    'Error: Please enter valid information'));
+                            //   if (await AuthService().userSignup(
+                            //     context,
+                            //     username: _namecontroller.text,
+                            //     email: _emailaddresscontroller.text,
+                            //     phone: _phonenumbercontroller.text,
+                            //     password: _passwordcontroller.text,
+                            //   )) {
+                            //     print('Sign up success');
+                            //     Navigator.pushNamed(
+                            //       context,
+                            //       '/login',
+                            //       arguments: [
+                            //         ScaffoldMessenger.of(context).showSnackBar(
+                            //           CustomSnackbars.successSnackbar('Created Account Succesfully'),
+                            //         )
+                            //       ],
+                            //     );
+                            //   } else {
+                            //     ScaffoldMessenger.of(context)
+                            //         .showSnackBar(CustomSnackbars.errorSnackbar('Signup failed'));
+                            //   }
+                            // } else {
+                            //   ScaffoldMessenger.of(context).showSnackBar(
+                            //       CustomSnackbars.errorSnackbar(
+                            //           'Error: Please enter valid information'));
                           }
                         },
                       ),

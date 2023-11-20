@@ -1,6 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 ThemeData lightTheme = ThemeData(
+  appBarTheme: AppBarTheme(
+    systemOverlayStyle: SystemUiOverlayStyle.dark,
+  ),
+  inputDecorationTheme: InputDecorationTheme(
+    prefixIconColor: MaterialStateColor.resolveWith(
+      (states) {
+        if (states.contains(MaterialState.focused)) {
+          return Colors.white;
+        } else if (states.contains(MaterialState.error)) {
+          return Colors.red;
+        }
+        return Colors.white.withOpacity(0.5);
+      },
+    ),
+  ),
   brightness: Brightness.light,
   backgroundColor: Colors.white,
   textTheme: TextTheme(

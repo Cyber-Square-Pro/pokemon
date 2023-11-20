@@ -1,5 +1,5 @@
-import 'package:app/modules/login/login_page.dart';
-import 'package:app/shared/repositories/auth_service.dart';
+import 'package:app/shared/providers/signup_provider.dart';
+import 'package:app/shared/repositories/otp_service.dart';
 import 'package:app/shared/utils/snackbars.dart';
 import 'package:app/shared/utils/spacer.dart';
 import 'package:app/shared/widgets/custom_text_button.dart';
@@ -7,6 +7,7 @@ import 'package:app/shared/widgets/custom_text_form_field.dart';
 import 'package:app/shared/widgets/primary_elevated_button.dart';
 import 'package:app/theme/text_styles.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -161,31 +162,26 @@ class _SignUpPageState extends State<SignUpPage> {
                         label: 'Sign Up',
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            //   if (await AuthService().userSignup(
-                            //     context,
-                            //     username: _namecontroller.text,
-                            //     email: _emailaddresscontroller.text,
-                            //     phone: _phonenumbercontroller.text,
-                            //     password: _passwordcontroller.text,
-                            //   )) {
-                            //     print('Sign up success');
-                            //     Navigator.pushNamed(
-                            //       context,
-                            //       '/login',
-                            //       arguments: [
-                            //         ScaffoldMessenger.of(context).showSnackBar(
-                            //           CustomSnackbars.successSnackbar('Created Account Succesfully'),
-                            //         )
-                            //       ],
-                            //     );
-                            //   } else {
-                            //     ScaffoldMessenger.of(context)
-                            //         .showSnackBar(CustomSnackbars.errorSnackbar('Signup failed'));
-                            //   }
-                            // } else {
-                            //   ScaffoldMessenger.of(context).showSnackBar(
-                            //       CustomSnackbars.errorSnackbar(
-                            //           'Error: Please enter valid information'));
+                            final signupData = Provider.of<SignupProvider>(context, listen: false);
+
+                            signupData.setSignupData({
+                              'username': _namecontroller.text.trim(),
+                              'email': _emailaddresscontroller.text.trim(),
+                              'phone_number': _phonenumbercontroller.text.trim(),
+                              'password': _passwordcontroller.text.trim(),
+                            });
+                            _namecontroller.clear();
+                            _emailaddresscontroller.clear();
+                            _phonenumbercontroller.clear();
+                            _passwordcontroller.clear();
+                            try {
+                              await OtpService().sendOTP(signupData.getSignupData['email']);
+                              await Navigator.pushNamed(context, '/otp');
+                            } catch (e) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  CustomSnackbars.errorSnackbar('Failed to send OTP'));
+                              signupData.clearSignupData();
+                            }
                           }
                         },
                       ),

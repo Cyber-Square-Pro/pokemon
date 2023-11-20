@@ -12,6 +12,7 @@ class CustomSnackbars {
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(10)),
         ),
+        elevation: 2,
       );
   static SnackBar successSnackbar(String message) => SnackBar(
         duration: duration,
@@ -23,6 +24,7 @@ class CustomSnackbars {
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(10)),
         ),
+        elevation: 2,
       );
 }
 

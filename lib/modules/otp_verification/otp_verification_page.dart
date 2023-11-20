@@ -1,9 +1,14 @@
+import 'package:app/shared/providers/signup_provider.dart';
+import 'package:app/shared/repositories/auth_service.dart';
+import 'package:app/shared/repositories/otp_service.dart';
+import 'package:app/shared/utils/snackbars.dart';
 import 'package:app/shared/utils/spacer.dart';
 import 'package:app/shared/widgets/custom_text_button.dart';
 import 'package:app/shared/widgets/otp_field.dart';
 import 'package:app/shared/widgets/primary_elevated_button.dart';
 import 'package:app/theme/text_styles.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class OtpVerificationPage extends StatefulWidget {
   const OtpVerificationPage({super.key});
@@ -13,11 +18,21 @@ class OtpVerificationPage extends StatefulWidget {
 }
 
 class _OtpVerificationPageState extends State<OtpVerificationPage> {
+  late SignupProvider signupProv;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // Timer logic
+    final signupProv = Provider.of<SignupProvider>(context, listen: false);
+  }
+
   final _formKey = GlobalKey<FormState>();
   final _otpController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final signupProv = Provider.of<SignupProvider>(context, listen: false);
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
@@ -100,14 +115,27 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                       ),
                       child: CustomElevatedButton(
                         label: 'Verify',
-                        onPressed: () {
+                        onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            Navigator.pushNamed(context, '/resetPass');
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text('Invalid OTP'),
-                              backgroundColor: Colors.red,
-                            ));
+                            //^ Check intent later
+                            final data = signupProv.getSignupData;
+
+                            if (await OtpService().verifyEmail(
+                              data['email'],
+                              int.parse(_otpController.text),
+                            )) {
+                              final res = await AuthService().signup(
+                                username: data['username'],
+                                email: data['email'],
+                                phoneNumber: int.parse(data['phone_number']),
+                                password: data['password'],
+                              );
+                              if (res) Navigator.pushNamed(context, '/login');
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                CustomSnackbars.errorSnackbar('Failed to verify Email'),
+                              );
+                            }
                           }
                         },
                       ),

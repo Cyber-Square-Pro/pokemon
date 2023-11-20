@@ -21,18 +21,17 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-  _dio = authService.getDioInstance(); // Add this method in AuthService to get the Dio instance.
-  AuthService().apiTest();
-  _dio.interceptors.add(AuthInterceptor());
+    _dio = authService.getDioInstance(); // Add this method in AuthService to get the Dio instance.
+    AuthService().apiTest();
   }
 
   final _formKey = GlobalKey<FormState>();
   final _passwordController = TextEditingController();
-  final _emailController = TextEditingController();
+  final _usernameController = TextEditingController();
 
   // Auth
-AuthService authService = AuthService();
-late Dio _dio;
+  AuthService authService = AuthService();
+  late Dio _dio;
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +89,7 @@ late Dio _dio;
                 child: Column(
                   children: [
                     CustomTextFormField(
-                      controller: _emailController,
+                      controller: _usernameController,
                       keyboardType: TextInputType.emailAddress,
                       validator: (value) {
                         if (value == '') {
@@ -128,17 +127,36 @@ late Dio _dio;
                       child: CustomElevatedButton(
                         label: 'Log In',
                         onPressed: () async {
-                          try {
-                            await authService.login(
-                              _emailController.text.trim(),
-                              _passwordController.text.trim(),
-                            );
+                          if (_formKey.currentState!.validate()) {
+                            try {
+                              await authService
+                                  .login(
+                                    _usernameController.text.trim(),
+                                    _passwordController.text.trim(),
+                                  )
+                                  .then((value) => {
+                                        Navigator.pushReplacementNamed(
+                                          context,
+                                          '/',
+                                          arguments: [
+                                            ScaffoldMessenger.of(context).showSnackBar(
+                                                CustomSnackbars.successSnackbar(
+                                                    'Welcome to the pokedex!')),
+                                          ],
+                                        ),
+                                      });
 
-                            // Navigate to secured screen on successful login
-                            Navigator.pushReplacementNamed(context, '/');
-                          } catch (error) {
-                            // Handle login error
-                            print('Login Error: $error');
+                              // Navigate to secured screen on successful login
+                            } catch (error) {
+                              // Handle login error
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  CustomSnackbars.errorSnackbar(
+                                      'Login Failed: Please check your credentials'));
+                              print('Login Error: $error');
+                            }
+                          } else {
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(CustomSnackbars.errorSnackbar('Invalid submission!'));
                           }
                         },
                       ),
@@ -152,7 +170,7 @@ late Dio _dio;
                     hSpace(20),
                     CustomTextButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, '/verifyEmail');
+                        // Navigator.pushNamed(context, '/verifyEmail');
                       },
                       label: 'Forgot Password',
                     ),

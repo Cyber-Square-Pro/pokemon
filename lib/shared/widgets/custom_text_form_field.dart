@@ -46,7 +46,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
           borderRadius: BorderRadius.circular(_borderRadius),
           borderSide: BorderSide(
             width: 2,
-            color: Colors.white.withOpacity(0.5),
+            color: Colors.white.withOpacity(0.6),
           ),
         ),
         focusedBorder: OutlineInputBorder(
@@ -82,23 +82,16 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
           fontSize: 15,
           color: Colors.white.withOpacity(0.5),
         ),
-        errorStyle: TextStyle(
-          color: Colors.white,
-        ),
+
+        errorStyle: TextStyle(color: Colors.white, height: 1, shadows: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.5),
+            blurRadius: 5,
+          )
+        ]),
+
         // Prefix Icon
         prefixIcon: SizedBox(width: 65, child: Icon(widget.prefixIcon)),
-        // suffixIcon: (widget.isPassword != null && widget.isPassword!)
-        //     ? IconButton(
-        //         icon: Icon(
-        //           Icons.password,
-        //         ),
-        //         onPressed: () {
-        //           setState(() {
-        //             widget.isPassword =;
-        //           });
-        //         },
-        //       )
-        //     : const SizedBox(),
       ),
     );
   }

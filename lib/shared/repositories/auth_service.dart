@@ -1,7 +1,6 @@
+import 'package:app/shared/utils/api_constants.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-const String baseURL = 'https://10db-2405-201-f00c-3016-2849-cb0e-f79f-f609.ngrok-free.app';
 
 class AuthService {
   static final dio = Dio();
@@ -10,15 +9,15 @@ class AuthService {
   }
 
   Future<void> apiTest() async {
-    final response = await dio.get(baseURL);
+    final response = await dio.get(ApiConstants.baseURL);
     print(response.data);
   }
 
   Future<void> login(String email, String password) async {
     try {
       Response response = await dio.post(
-        '$baseURL/auth/login',
-        data: {'email': email, 'password': password},
+        '${ApiConstants.baseURL}/auth/login',
+        data: {'username': email, 'password': password},
       );
 
       final accessToken = response.data['accessToken'];
@@ -43,7 +42,7 @@ class AuthService {
       final refreshToken = prefs.getString('refreshToken');
 
       Response response = await dio.post(
-        '$baseURL/auth/refresh-token',
+        '${ApiConstants.baseURL}/auth/refresh-token',
         data: {'refreshToken': refreshToken},
       );
 
@@ -74,6 +73,32 @@ class AuthService {
       // Handle error during token regeneration
       print('Token regeneration failed: $error');
       rethrow;
+    }
+  }
+
+  Future<bool> signup({
+    required String username,
+    required String email,
+    required int phoneNumber,
+    required String password,
+  }) async {
+    print('$username $email $phoneNumber $password');
+
+    final uri = '${ApiConstants.baseURL}/auth/register';
+    try {
+      final Response response = await dio.post(uri, data: {
+        'username': username,
+        'email': email,
+        'phone_number': phoneNumber,
+        'password': password,
+      });
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      throw Exception('Failed ot signup: $e');
     }
   }
 }

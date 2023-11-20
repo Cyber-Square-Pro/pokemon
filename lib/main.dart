@@ -1,6 +1,7 @@
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:app/shared/getit/getit.dart';
 import 'package:app/shared/providers/auth_state_provider.dart';
+import 'package:app/shared/providers/signup_provider.dart';
 import 'package:app/shared_preferences_provider.dart';
 import 'package:app/theme/dark/dark_theme.dart';
 import 'package:app/theme/light/light_theme.dart';
@@ -41,7 +42,10 @@ class MyApp extends StatelessWidget {
     return ThemeProvider(
       initTheme: prefs.getBool("darkTheme") ?? false ? darkTheme : lightTheme,
       child: MultiProvider(
-        providers: [ChangeNotifierProvider(create: (context) => AuthProvider())],
+        providers: [
+          ChangeNotifierProvider(create: (context) => AuthProvider()),
+          ChangeNotifierProvider(create: (context) => SignupProvider()),
+        ],
         child: MaterialApp(
           title: 'Pokedex',
           builder: (context, child) {

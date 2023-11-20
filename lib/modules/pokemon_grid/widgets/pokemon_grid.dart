@@ -20,8 +20,7 @@ class PokemonGridWidget extends StatefulWidget {
 class _PokemonGridWidgetState extends State<PokemonGridWidget> {
   static const _pageSize = 20;
 
-  final PagingController<int, Widget> _pagingController =
-      PagingController(firstPageKey: 0);
+  final PagingController<int, Widget> _pagingController = PagingController(firstPageKey: 0);
 
   late ReactionDisposer filterReactionDisposer;
 
@@ -32,8 +31,7 @@ class _PokemonGridWidgetState extends State<PokemonGridWidget> {
       _cacheNextPageImages(pageKey);
     });
 
-    filterReactionDisposer =
-        reaction((_) => widget.pokemonStore.pokemonFilter, (_) {
+    filterReactionDisposer = reaction((_) => widget.pokemonStore.pokemonFilter, (_) {
       _pagingController.refresh();
     });
 
@@ -50,9 +48,8 @@ class _PokemonGridWidgetState extends State<PokemonGridWidget> {
   void _fetchPage(int pageKey) async {
     final maxRange = widget.pokemonStore.pokemonsSummary!.length;
     final initialRange = pageKey * _pageSize;
-    final finalRange = (pageKey * _pageSize) + _pageSize > maxRange
-        ? maxRange
-        : (pageKey * _pageSize) + _pageSize;
+    final finalRange =
+        (pageKey * _pageSize) + _pageSize > maxRange ? maxRange : (pageKey * _pageSize) + _pageSize;
 
     List<Widget> items = [];
 
@@ -99,8 +96,7 @@ class _PokemonGridWidgetState extends State<PokemonGridWidget> {
     }
   }
 
-  Widget _buildPokemonItem(
-      {required int index, required PokemonSummary pokemon}) {
+  Widget _buildPokemonItem({required int index, required PokemonSummary pokemon}) {
     return InkWell(
       onTap: () async {
         await widget.pokemonStore.setPokemon(index);
@@ -131,7 +127,7 @@ class _PokemonGridWidgetState extends State<PokemonGridWidget> {
         maxCrossAxisExtent: 200,
         mainAxisSpacing: 10.0,
         crossAxisSpacing: 10.0,
-        childAspectRatio: 3 / 2,
+        childAspectRatio: 1.25,
       ),
       builderDelegate: PagedChildBuilderDelegate<Widget>(
         itemBuilder: (context, item, index) => item,

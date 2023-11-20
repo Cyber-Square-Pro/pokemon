@@ -14,8 +14,7 @@ enum PanelType {
 
 extension PanelTypeExtension on PanelType {
   bool get isTextFilter {
-    return this == PanelType.FILTER_POKEMON_NAME_NUMBER ||
-        this == PanelType.FILTER_ITEMS;
+    return this == PanelType.FILTER_POKEMON_NAME_NUMBER || this == PanelType.FILTER_ITEMS;
   }
 }
 
@@ -25,7 +24,7 @@ extension HomePageTypeExtension on HomePageType {
   String get description {
     switch (this) {
       case HomePageType.POKEMON_GRID:
-        return "Pokemons";
+        return "PokeDex";
       case HomePageType.ITENS:
         return "Items";
       default:

@@ -170,18 +170,22 @@ class _SignUpPageState extends State<SignUpPage> {
                               'phone_number': _phonenumbercontroller.text.trim(),
                               'password': _passwordcontroller.text.trim(),
                             });
-                            _namecontroller.clear();
-                            _emailaddresscontroller.clear();
-                            _phonenumbercontroller.clear();
-                            _passwordcontroller.clear();
-                            try {
-                              await OtpService().sendOTP(signupData.getSignupData['email']);
-                              await Navigator.pushNamed(context, '/otp');
-                            } catch (e) {
+
+                            if (await OtpService().sendOTP(signupData.getSignupData['email'])) {
+                              _namecontroller.clear();
+                              _emailaddresscontroller.clear();
+                              _phonenumbercontroller.clear();
+                              _passwordcontroller.clear();
+                              _confirmpasswordcontroller.clear();
+                              Navigator.pushNamed(context, '/otp');
+                            } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                   CustomSnackbars.errorSnackbar('Failed to send OTP'));
                               signupData.clearSignupData();
                             }
+                          } else {
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(CustomSnackbars.errorSnackbar('Invalid Submission!'));
                           }
                         },
                       ),

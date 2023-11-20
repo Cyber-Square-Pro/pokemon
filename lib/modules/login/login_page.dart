@@ -90,16 +90,16 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     CustomTextFormField(
                       controller: _usernameController,
-                      keyboardType: TextInputType.emailAddress,
+                      keyboardType: TextInputType.text,
                       validator: (value) {
                         if (value == '') {
-                          return 'Please enter a valid email';
+                          return 'Please enter a valid username';
                         } else {
                           return null;
                         }
                       },
                       prefixIcon: Icons.person,
-                      labelText: 'Email',
+                      labelText: 'Username',
                     ),
                     hSpace(20),
                     CustomTextFormField(

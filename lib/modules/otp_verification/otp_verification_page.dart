@@ -96,14 +96,21 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                     CustomOtpField(
                       controller: _otpController,
                       validator: (value) {
-                        if (value == '') {
-                          return 'Please enter a valid OTP';
+                        if (value != null || value != '') {
+                          if (value!.length < 6) return 'Please enter a valid OTP';
                         }
                         return null;
                       },
                     ),
                     //
-                    hSpace(20),
+                    hSpace(15),
+                    CustomTextButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/');
+                      },
+                      label: 'Resend OTP',
+                    ),
+                    hSpace(15),
                     Container(
                       decoration: BoxDecoration(
                         boxShadow: [
@@ -121,32 +128,45 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                             final data = signupProv.getSignupData;
 
                             if (await OtpService().verifyEmail(
+                              context,
                               data['email'],
                               int.parse(_otpController.text),
                             )) {
-                              final res = await AuthService().signup(
+                              if (await AuthService().signup(
                                 username: data['username'],
                                 email: data['email'],
                                 phoneNumber: int.parse(data['phone_number']),
                                 password: data['password'],
-                              );
-                              if (res) Navigator.pushNamed(context, '/login');
+                              )) {
+                                _otpController.clear();
+                                Navigator.pushNamed(
+                                  context,
+                                  '/login',
+                                  arguments: [
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      CustomSnackbars.successSnackbar(
+                                          'Succesfully Created Account!'),
+                                    ),
+                                  ],
+                                );
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  CustomSnackbars.errorSnackbar('ERROR: Failed to create Account'),
+                                );
+                              }
                             } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                CustomSnackbars.errorSnackbar('Failed to verify Email'),
-                              );
+                              // ScaffoldMessenger.of(context).showSnackBar(
+                              //   CustomSnackbars.errorSnackbar('ERROR: Invalid OTP'),
+                              // );
                             }
+                          } else {
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(CustomSnackbars.errorSnackbar('ERROR: Invalid OTP'));
                           }
                         },
                       ),
                     ),
                     hSpace(15),
-                    CustomTextButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/');
-                      },
-                      label: 'Resend OTP',
-                    ),
                   ],
                 ),
               ),

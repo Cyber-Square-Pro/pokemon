@@ -70,7 +70,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                   children: [
                     hSpace(5),
                     Text(
-                      'Please re-enter your email, An OTP Number will be sent to this email shortly.',
+                      'Please enter your email, An OTP Number will be sent to this email shortly.',
                       maxLines: 3,
                       textAlign: TextAlign.center,
                       style: pageSubtitle,
@@ -103,10 +103,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                         label: 'Continue',
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const OtpVerificationPage()));
+                            Navigator.pushNamed(context, '/otp');
                           }
                         },
                       ),

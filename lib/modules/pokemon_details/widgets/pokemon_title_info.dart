@@ -24,6 +24,8 @@ class PokemonTitleInfoWidget extends StatelessWidget {
                 return Text(
                   _pokemonStore.pokemon!.name,
                   style: textTheme.headline1?.copyWith(
+                    fontFamily: 'Circular',
+                    letterSpacing: -1,
                     fontSize: 36,
                     fontWeight: FontWeight.w900,
                     color: AppTheme.getColors(context).pokemonDetailsTitleColor,
@@ -33,8 +35,9 @@ class PokemonTitleInfoWidget extends StatelessWidget {
               Observer(builder: (_) {
                 return Text("#${_pokemonStore.pokemon!.number}",
                     style: textTheme.headline4?.copyWith(
-                      color:
-                          AppTheme.getColors(context).pokemonDetailsTitleColor,
+                      fontFamily: 'Circular',
+                      fontSize: 30,
+                      color: AppTheme.getColors(context).pokemonDetailsTitleColor.withOpacity(0.5),
                     ));
               }),
             ],
@@ -53,20 +56,18 @@ class PokemonTitleInfoWidget extends StatelessWidget {
                             padding: const EdgeInsets.only(right: 8),
                             child: Container(
                               child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 15, vertical: 5),
+                                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                                 child: Text(type,
                                     style: textTheme.bodyText1?.copyWith(
                                       fontWeight: FontWeight.bold,
-                                      color: AppTheme.getColors(context)
-                                          .pokemonDetailsTitleColor,
+                                      color: AppTheme.getColors(context).pokemonDetailsTitleColor,
                                     )),
                               ),
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(38),
                                   color: AppTheme.getColors(context)
                                       .pokemonDetailsTitleColor
-                                      .withOpacity(0.4)),
+                                      .withOpacity(0.2)),
                             ),
                           ))
                       .toList(),
@@ -76,8 +77,7 @@ class PokemonTitleInfoWidget extends StatelessWidget {
                 builder: (_) {
                   return Text("${_pokemonStore.pokemon!.specie} Pokemon",
                       style: textTheme.bodyText1?.copyWith(
-                        color: AppTheme.getColors(context)
-                            .pokemonDetailsTitleColor,
+                        color: AppTheme.getColors(context).pokemonDetailsTitleColor,
                       ));
                 },
               ),

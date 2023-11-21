@@ -14,17 +14,14 @@ class DrawerMenuWidget extends StatefulWidget {
   State<DrawerMenuWidget> createState() => _DrawerMenuWidgetState();
 }
 
-class _DrawerMenuWidgetState extends State<DrawerMenuWidget>
-    with TickerProviderStateMixin {
+class _DrawerMenuWidgetState extends State<DrawerMenuWidget> with TickerProviderStateMixin {
   final HomePageStore _homeStore = GetIt.instance<HomePageStore>();
 
   late AnimationController _controller;
 
   @override
   void initState() {
-    _controller =
-        AnimationController(vsync: this, duration: Duration(seconds: 2))
-          ..repeat();
+    _controller = AnimationController(vsync: this, duration: Duration(seconds: 2))..repeat();
 
     super.initState();
   }
@@ -40,6 +37,7 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget>
     final TextTheme textTheme = Theme.of(context).textTheme;
 
     return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 5),
       color: Theme.of(context).backgroundColor,
       child: Stack(
         children: [
@@ -57,8 +55,7 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget>
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       AnimatedPokeballWidget(
-                          color: AppTheme.getColors(context).pokeballLogoBlack,
-                          size: 24),
+                          color: AppTheme.getColors(context).pokeballLogoBlack, size: 24),
                       const SizedBox(
                         width: 5,
                       ),
@@ -88,21 +85,26 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget>
                     onTap: () {
                       Navigator.pop(context);
 
-                      _homeStore.setPage(HomePageType.ITENS);
+                      _homeStore.setPage(HomePageType.ITEMS);
                     },
                   ),
                   DrawerMenuItemWidget(
-                      color: AppTheme.getColors(context).drawerMoves,
-                      text: "Moves"),
+                    color: AppTheme.getColors(context).drawerItems,
+                    text: "Favourites",
+                    onTap: () {
+                      Navigator.pop(context);
+
+                      _homeStore.setPage(HomePageType.FAVOURITES);
+                    },
+                  ),
                   DrawerMenuItemWidget(
-                      color: AppTheme.getColors(context).drawerAbilities,
-                      text: "Abilities"),
+                      color: AppTheme.getColors(context).drawerMoves, text: "Moves"),
                   DrawerMenuItemWidget(
-                      color: AppTheme.getColors(context).drawerTypeCharts,
-                      text: "Type Charts"),
+                      color: AppTheme.getColors(context).drawerAbilities, text: "Abilities"),
                   DrawerMenuItemWidget(
-                      color: AppTheme.getColors(context).drawerLocations,
-                      text: "Locations"),
+                      color: AppTheme.getColors(context).drawerTypeCharts, text: "Type Charts"),
+                  DrawerMenuItemWidget(
+                      color: AppTheme.getColors(context).drawerLocations, text: "Locations"),
                 ],
               ),
             ],

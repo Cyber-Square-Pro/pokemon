@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 ThemeData lightTheme = ThemeData(
+  fontFamily: 'Circular',
   appBarTheme: AppBarTheme(
     systemOverlayStyle: SystemUiOverlayStyle.dark,
   ),

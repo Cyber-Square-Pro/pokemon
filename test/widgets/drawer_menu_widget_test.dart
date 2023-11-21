@@ -30,14 +30,12 @@ void main() {
       ),
     );
 
-    testWidgets("Should display animated pokeball logo",
-        (WidgetTester tester) async {
+    testWidgets("Should display animated pokeball logo", (WidgetTester tester) async {
       await tester.pumpWidget(drawerMenu);
 
       final animatedPokeball = find.byWidgetPredicate((widget) {
         if (widget is AnimatedPokeballWidget) {
-          return widget.color == AppTheme.colors.pokeballLogoBlack &&
-              widget.size == 24;
+          return widget.color == AppTheme.colors.pokeballLogoBlack && widget.size == 24;
         }
         return false;
       });
@@ -50,18 +48,15 @@ void main() {
       final title = find.byWidgetPredicate((widget) {
         if (widget is Text) {
           return widget.data == "Pokedex" &&
-              widget.style?.fontSize ==
-                  lightTheme.textTheme.headline1?.fontSize &&
-              widget.style?.fontFamily ==
-                  lightTheme.textTheme.headline1?.fontFamily;
+              widget.style?.fontSize == lightTheme.textTheme.headline1?.fontSize &&
+              widget.style?.fontFamily == lightTheme.textTheme.headline1?.fontFamily;
         }
         return false;
       });
       expect(title, findsOneWidget);
     });
 
-    testWidgets("Should display 6 drawer menu items",
-        (WidgetTester tester) async {
+    testWidgets("Should display 6 drawer menu items", (WidgetTester tester) async {
       await tester.pumpWidget(drawerMenu);
 
       final drawerMenuItems = find.byType(DrawerMenuItemWidget);
@@ -97,7 +92,7 @@ void main() {
 
       expect(pokedexDrawerMenuItem, findsOneWidget);
       await tester.tap(pokedexDrawerMenuItem);
-      verify(homePageStoreMock.setPage(HomePageType.ITENS)).called(1);
+      verify(homePageStoreMock.setPage(HomePageType.ITEMS)).called(1);
     });
   });
 }

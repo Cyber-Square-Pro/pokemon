@@ -21,8 +21,8 @@ class PokeItemWidget extends StatelessWidget {
         color: AppTheme.getColors(context).pokemonItem(pokemon.types[0]),
         boxShadow: [
           BoxShadow(
-            color: AppTheme.getColors(context).pokemonItem(pokemon.types[0]).withOpacity(0.75),
-            blurRadius: 7,
+            color: AppTheme.getColors(context).pokemonItem(pokemon.types[0]).withOpacity(0.5),
+            blurRadius: 10,
             offset: const Offset(-2, 2),
           ),
         ],
@@ -42,7 +42,7 @@ class PokeItemWidget extends StatelessWidget {
                       (85 * 1.0040160642570282)
                           .toDouble()), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
                   painter: PokeballLogoPainter(
-                    color: Colors.white.withOpacity(0.3),
+                    color: Colors.white.withOpacity(0.2),
                   ),
                 ),
               ),

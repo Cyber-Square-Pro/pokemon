@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class FavouritesPage extends StatefulWidget {
   const FavouritesPage({
@@ -12,6 +13,10 @@ class FavouritesPage extends StatefulWidget {
 class _FavouritesPageState extends State<FavouritesPage> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    return SliverFillRemaining(
+      child: Column(
+        children: [],
+      ),
+    );
   }
 }

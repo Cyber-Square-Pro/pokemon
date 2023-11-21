@@ -21,64 +21,93 @@ class AppBarWidget extends StatefulWidget {
 class _AppBarWidgetState extends State<AppBarWidget> {
   @override
   Widget build(BuildContext context) {
-    final TextTheme textTheme = Theme.of(context).textTheme;
-
     return SliverAppBar(
+      stretch: true,
       systemOverlayStyle: SystemUiOverlayStyle.dark,
       pinned: true,
       snap: false,
       floating: false,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(10)),
+        borderRadius: BorderRadius.all(Radius.circular(15)),
       ),
       expandedHeight: 170.0,
       collapsedHeight: 100,
       elevation: 0,
-      backgroundColor: mediumBlue,
+      foregroundColor: Colors.white,
+      backgroundColor: Colors.blue.shade800,
       actions: [
         Padding(
-          padding: EdgeInsets.only(top: 10),
+          padding: const EdgeInsets.only(top: 0),
           child: IconButton(
             onPressed: () {
               Scaffold.of(context).openEndDrawer();
             },
-            icon: Icon(Icons.menu, color: AppTheme.getColors(context).appBarButtons),
+            icon: const Icon(Icons.menu, color: Colors.white),
           ),
         )
       ],
-      flexibleSpace: Stack(children: [
-        FlexibleSpaceBar(
-          centerTitle: false,
-          background: widget.lottiePath != null
-              ? Align(
-                  alignment: Alignment.bottomRight,
-                  child: Lottie.asset(widget.lottiePath!, height: 140.0),
-                )
-              : Container(),
-          titlePadding: EdgeInsets.only(left: 15, bottom: 10),
-          title: Row(
+      flexibleSpace: FlexibleSpaceBar(
+        centerTitle: false,
+        background: ClipRRect(
+          borderRadius: BorderRadius.circular(15),
+          child: Stack(
+            fit: StackFit.expand,
             children: [
-              AnimatedPokeballWidget(
-                size: 24,
-                color: AppTheme.getColors(context).pokeballLogoBlack,
+              Image.asset(
+                'assets/images/bg/login_bg.png',
+                fit: BoxFit.cover,
               ),
-              SizedBox(
-                width: 5,
-              ),
-              Text(widget.title, style: textTheme.headline1),
-              if (kIsWeb && getDeviceScreenType(context) != DeviceScreenType.CELLPHONE)
-                SizedBox(
-                  width: 5,
-                ),
-              if (kIsWeb && getDeviceScreenType(context) != DeviceScreenType.CELLPHONE)
-                Image.network(
-                  AppConstants.getRandomPokemonGif(),
-                  height: 32,
+              if (widget.lottiePath != null)
+                Positioned(
+                  bottom: 10,
+                  right: 0,
+                  child: Lottie.asset(
+                    widget.lottiePath!,
+                    height: 150,
+                    width: 150,
+                  ),
                 )
+              else
+                SizedBox(),
             ],
           ),
         ),
-      ]),
+        // background: widget.lottiePath != null
+        //     ? Align(
+        //         alignment: Alignment.bottomRight,
+        //         child: Lottie.asset(widget.lottiePath!, height: 140.0),
+        //       )
+        //     : Container(),
+        titlePadding: const EdgeInsets.only(left: 15, bottom: 10),
+        title: Row(
+          children: [
+            const AnimatedPokeballWidget(
+              size: 21,
+              color: Colors.white,
+            ),
+            const SizedBox(
+              width: 7,
+            ),
+            Text(
+              widget.title,
+              style: const TextStyle(
+                fontWeight: FontWeight.w900,
+                fontFamily: 'Circular',
+                letterSpacing: -0.5,
+              ),
+            ),
+            if (kIsWeb && getDeviceScreenType(context) != DeviceScreenType.CELLPHONE)
+              const SizedBox(
+                width: 5,
+              ),
+            if (kIsWeb && getDeviceScreenType(context) != DeviceScreenType.CELLPHONE)
+              Image.network(
+                AppConstants.getRandomPokemonGif(),
+                height: 32,
+              )
+          ],
+        ),
+      ),
     );
   }
 }

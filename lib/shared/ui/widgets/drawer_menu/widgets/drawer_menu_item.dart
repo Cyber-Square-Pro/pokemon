@@ -33,9 +33,16 @@ class DrawerMenuItemWidget extends StatelessWidget {
               },
         child: Container(
           decoration: BoxDecoration(
-            color: onTap != null
-                ? color
-                : AppTheme.getColors(context).drawerDisabled,
+            boxShadow: [
+              BoxShadow(
+                color: onTap != null
+                    ? color.withOpacity(0.5)
+                    : AppTheme.getColors(context).drawerDisabled.withOpacity(0.5),
+                blurRadius: 5,
+                offset: const Offset(-1, 1),
+              ),
+            ],
+            color: onTap != null ? color : AppTheme.getColors(context).drawerDisabled,
             borderRadius: BorderRadius.circular(15),
           ),
           child: ClipRRect(
@@ -65,8 +72,16 @@ class DrawerMenuItemWidget extends StatelessWidget {
                       padding: const EdgeInsets.only(left: 10),
                       child: Text(
                         text,
-                        style:
-                            textTheme.bodyText1?.copyWith(color: Colors.white),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'Circular',
+                          shadows: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.25),
+                              blurRadius: 2,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ],

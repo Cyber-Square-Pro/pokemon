@@ -18,15 +18,17 @@ extension PanelTypeExtension on PanelType {
   }
 }
 
-enum HomePageType { POKEMON_GRID, ITENS }
+enum HomePageType { POKEMON_GRID, ITEMS, FAVOURITES }
 
 extension HomePageTypeExtension on HomePageType {
   String get description {
     switch (this) {
       case HomePageType.POKEMON_GRID:
         return "PokeDex";
-      case HomePageType.ITENS:
+      case HomePageType.ITEMS:
         return "Items";
+      case HomePageType.FAVOURITES:
+        return "Favourites";
       default:
         throw "Home Page Type not found";
     }

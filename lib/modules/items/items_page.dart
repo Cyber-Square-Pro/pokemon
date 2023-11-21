@@ -19,8 +19,7 @@ class _ItemsPageState extends State<ItemsPage> {
 
   final ItemStore _itemStore = GetIt.instance<ItemStore>();
 
-  final PagingController<int, Widget> _pagingController =
-      PagingController(firstPageKey: 0);
+  final PagingController<int, Widget> _pagingController = PagingController(firstPageKey: 0);
 
   late ReactionDisposer filterReactionDisposer;
 
@@ -58,9 +57,8 @@ class _ItemsPageState extends State<ItemsPage> {
   void _fetchPage(int pageKey) async {
     final maxRange = _itemStore.items.length;
     final initialRange = pageKey * _pageSize;
-    final finalRange = (pageKey * _pageSize) + _pageSize > maxRange
-        ? maxRange
-        : (pageKey * _pageSize) + _pageSize;
+    final finalRange =
+        (pageKey * _pageSize) + _pageSize > maxRange ? maxRange : (pageKey * _pageSize) + _pageSize;
 
     List<Widget> items = [];
 
@@ -85,8 +83,8 @@ class _ItemsPageState extends State<ItemsPage> {
         leading: item.imageUrl != null
             ? ImageUtils.networkImage(
                 url: item.imageUrl!,
-                height: 25,
-                width: 25,
+                height: 30,
+                width: 30,
               )
             : Icon(
                 Icons.image_not_supported,
@@ -95,7 +93,12 @@ class _ItemsPageState extends State<ItemsPage> {
               ),
         title: Text(
           item.name,
-          style: textTheme.bodyText1,
+          style: TextStyle(
+            fontFamily: 'Circular',
+            fontWeight: FontWeight.bold,
+            letterSpacing: -0.5,
+            fontSize: 15,
+          ),
         ),
         trailing: Text(
           item.category,

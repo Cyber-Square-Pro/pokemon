@@ -1,4 +1,5 @@
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
+import 'package:app/modules/favourites/favourites_page.dart';
 import 'package:app/modules/home/home_page_store.dart';
 import 'package:app/modules/items/items_page.dart';
 import 'package:app/modules/pokemon_grid/pokemon_grid_page.dart';
@@ -142,8 +143,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       switch (_homeStore.page) {
                         case HomePageType.POKEMON_GRID:
                           return PokemonGridPage();
-                        case HomePageType.ITENS:
+                        case HomePageType.ITEMS:
                           return ItemsPage();
+                        case HomePageType.FAVOURITES:
+                          return FavouritesPage();
                         default:
                           return PokemonGridPage();
                       }

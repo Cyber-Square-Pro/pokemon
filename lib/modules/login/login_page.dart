@@ -43,7 +43,6 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
         backgroundColor: Colors.transparent,
         body: ListView(
           physics: const BouncingScrollPhysics(),
@@ -134,17 +133,11 @@ class _LoginPageState extends State<LoginPage> {
                                     _usernameController.text.trim(),
                                     _passwordController.text.trim(),
                                   )
-                                  .then((value) => {
-                                        Navigator.pushReplacementNamed(
-                                          context,
-                                          '/',
-                                          arguments: [
-                                            ScaffoldMessenger.of(context).showSnackBar(
-                                                CustomSnackbars.successSnackbar(
-                                                    'Welcome to the pokedex!')),
-                                          ],
-                                        ),
-                                      });
+                                  .then(
+                                    (value) => {
+                                      Navigator.pop(context),
+                                    },
+                                  );
 
                               // Navigate to secured screen on successful login
                             } catch (error) {

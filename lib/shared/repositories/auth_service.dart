@@ -13,26 +13,31 @@ class AuthService {
     print(response.data);
   }
 
-  Future<void> login(String email, String password) async {
+  Future<bool> login(String email, String password) async {
     try {
       Response response = await dio.post(
         '${ApiConstants.baseURL}/auth/login',
         data: {'username': email, 'password': password},
       );
 
-      final accessToken = response.data['accessToken'];
-      final refreshToken = response.data['refreshToken'];
+      if (response.statusCode == 201 || response.statusCode == 200) {
+        final accessToken = response.data['accessToken'];
+        final refreshToken = response.data['refreshToken'];
 
-      print('AccessToken: $accessToken');
-      print('RefreshToken: $refreshToken');
+        print('AccessToken: $accessToken');
+        print('RefreshToken: $refreshToken');
 
-      // Save tokens to SharedPreferences
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setString('accessToken', accessToken);
-      prefs.setString('refreshToken', refreshToken);
+        // Save tokens to SharedPreferences
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('accessToken', accessToken);
+        prefs.setString('refreshToken', refreshToken);
+        return true;
+      } else {
+        return false;
+      }
     } catch (error) {
       print('Authentication failed');
-      rethrow;
+      return false;
     }
   }
 

@@ -4,6 +4,7 @@ import 'package:app/shared/utils/snackbars.dart';
 import 'package:app/shared/utils/spacer.dart';
 import 'package:app/shared/widgets/custom_text_button.dart';
 import 'package:app/shared/widgets/custom_text_form_field.dart';
+import 'package:app/shared/widgets/loading_spinner_modal.dart';
 import 'package:app/shared/widgets/primary_elevated_button.dart';
 import 'package:app/theme/text_styles.dart';
 import 'package:dio/dio.dart';
@@ -138,31 +139,26 @@ class _LoginPageState extends State<LoginPage> {
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             try {
-                              showDialog(
-                                  context: context,
-                                  builder: (context) => Container(
-                                        child: const Center(child: CircularProgressIndicator()),
-                                      ));
-                              await authService
-                                  .login(
-                                    _usernameController.text.trim(),
-                                    _passwordController.text.trim(),
-                                  )
-                                  .then(
-                                    (value) => {
-                                      Navigator.pop(context),
-                                      Navigator.pushReplacementNamed(
-                                        context,
-                                        '/',
-                                        arguments: [
-                                          ScaffoldMessenger.of(context).showSnackBar(
-                                              CustomSnackbars.successSnackbar(
-                                                  'Welcome to Pokedex')),
-                                        ],
-                                      ),
-                                    },
-                                  );
-
+                              showLoadingSpinnerModal(context, 'Logging In');
+                              if (await authService.login(
+                                _usernameController.text.trim(),
+                                _passwordController.text.trim(),
+                              )) {
+                                Navigator.pop(context);
+                                Navigator.pushNamed(
+                                  context,
+                                  '/',
+                                  arguments: [
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        CustomSnackbars.successSnackbar('Welcome to Pokedex')),
+                                  ],
+                                );
+                              } else {
+                                Navigator.pop(context);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    CustomSnackbars.errorSnackbar(
+                                        'Login Failed: Please check your credentials'));
+                              }
                               // Navigate to secured screen on successful login
                             } catch (error) {
                               // Handle login error

@@ -134,7 +134,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     sliver: Observer(
                       builder: (_) => AppBarWidget(
                         title: _homeStore.page.description,
-                        lottiePath: AppConstants.squirtleLottie,
+                        lottiePath: AppConstants.pikachuTurnLottie,
                       ),
                     ),
                   ),

@@ -115,11 +115,21 @@ class _LoginPageState extends State<LoginPage> {
                       prefixIcon: Icons.lock,
                       labelText: 'Password',
                     ),
-                    hSpace(20),
+                    Row(
+                      children: [
+                        CustomTextButton(
+                          onPressed: () {
+                            // Navigator.pushNamed(context, '/verifyEmail');
+                          },
+                          label: 'Forgot Password? Click Here',
+                        ),
+                      ],
+                    ),
+                    hSpace(15),
                     Container(
                       decoration: BoxDecoration(boxShadow: [
                         BoxShadow(
-                          blurRadius: 15,
+                          blurRadius: 12,
                           color: Colors.black.withOpacity(0.25),
                         )
                       ]),
@@ -128,6 +138,11 @@ class _LoginPageState extends State<LoginPage> {
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             try {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) => Container(
+                                        child: const Center(child: CircularProgressIndicator()),
+                                      ));
                               await authService
                                   .login(
                                     _usernameController.text.trim(),
@@ -136,6 +151,15 @@ class _LoginPageState extends State<LoginPage> {
                                   .then(
                                     (value) => {
                                       Navigator.pop(context),
+                                      Navigator.pushReplacementNamed(
+                                        context,
+                                        '/',
+                                        arguments: [
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                              CustomSnackbars.successSnackbar(
+                                                  'Welcome to Pokedex')),
+                                        ],
+                                      ),
                                     },
                                   );
 
@@ -154,6 +178,7 @@ class _LoginPageState extends State<LoginPage> {
                         },
                       ),
                     ),
+                    hSpace(20),
                     CustomTextButton(
                       onPressed: () {
                         Navigator.pushNamed(context, '/signup');
@@ -161,12 +186,6 @@ class _LoginPageState extends State<LoginPage> {
                       label: 'Dont have an account? Sign Up.',
                     ),
                     hSpace(20),
-                    CustomTextButton(
-                      onPressed: () {
-                        // Navigator.pushNamed(context, '/verifyEmail');
-                      },
-                      label: 'Forgot Password',
-                    ),
                   ],
                 ),
               ),

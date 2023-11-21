@@ -39,7 +39,7 @@ class _SignUpPageState extends State<SignUpPage> {
           physics: const BouncingScrollPhysics(),
           // crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            hSpace(120),
+            hSpace(100),
             Container(
               height: 60,
               decoration: const BoxDecoration(
@@ -177,6 +177,7 @@ class _SignUpPageState extends State<SignUpPage> {
                               _phonenumbercontroller.clear();
                               _passwordcontroller.clear();
                               _confirmpasswordcontroller.clear();
+
                               Navigator.pushNamed(context, '/otp');
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(

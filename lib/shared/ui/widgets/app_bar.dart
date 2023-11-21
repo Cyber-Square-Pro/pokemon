@@ -1,9 +1,12 @@
+import 'package:animated_theme_switcher/animated_theme_switcher.dart';
+import 'package:app/theme/dark/dark_theme.dart';
+import 'package:app/theme/light/light_theme.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
 import 'package:app/shared/ui/widgets/animated_pokeball.dart';
-import 'package:app/theme/app_theme.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../utils/app_constants.dart';
 import '../enums/device_screen_type.dart';
@@ -30,7 +33,6 @@ class _AppBarWidgetState extends State<AppBarWidget> {
     return SliverAppBar(
       automaticallyImplyLeading: widget.showBackButton,
       stretch: true,
-      systemOverlayStyle: SystemUiOverlayStyle.dark,
       pinned: true,
       snap: false,
       floating: false,
@@ -66,13 +68,12 @@ class _AppBarWidgetState extends State<AppBarWidget> {
               ),
               if (widget.lottiePath != null)
                 Positioned(
-                  bottom: 10,
+                  bottom: 12,
                   right: 0,
                   child: Lottie.asset(
-                    frameRate: FrameRate.max,
                     widget.lottiePath!,
-                    height: 150,
-                    width: 150,
+                    height: 140,
+                    width: 140,
                   ),
                 )
               else

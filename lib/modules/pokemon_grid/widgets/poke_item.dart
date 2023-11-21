@@ -117,7 +117,7 @@ class PokeItemWidget extends StatelessWidget {
                                   child: Text(
                                     type,
                                     style: textTheme.bodyText1?.copyWith(
-                                      fontSize: 12,
+                                      fontSize: 11,
                                       fontWeight: FontWeight.w500,
                                       color: AppTheme.getColors(context).pokemonDetailsTitleColor,
                                     ),

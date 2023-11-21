@@ -1,3 +1,4 @@
+import 'package:app/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
@@ -80,6 +81,11 @@ class _ItemsPageState extends State<ItemsPage> {
       final TextTheme textTheme = Theme.of(context).textTheme;
 
       return ListTile(
+        contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        tileColor: AppTheme.getColors(context).panelBackground.withOpacity(0.9),
         leading: item.imageUrl != null
             ? ImageUtils.networkImage(
                 url: item.imageUrl!,
@@ -102,12 +108,19 @@ class _ItemsPageState extends State<ItemsPage> {
         ),
         trailing: Text(
           item.category,
-          style: textTheme.bodyText1,
+          style: textTheme.bodyText1!.copyWith(
+            fontFamily: 'Circular',
+            fontWeight: FontWeight.normal,
+          ),
         ),
         subtitle: item.effect.trim().length > 0
             ? Text(
                 item.effect,
-                style: textTheme.subtitle1,
+                style: textTheme.subtitle1!.copyWith(
+                  fontFamily: 'Circular',
+                  height: 1.3,
+                  fontWeight: FontWeight.w500,
+                ),
               )
             : null,
       );
@@ -136,7 +149,9 @@ class _ItemsPageState extends State<ItemsPage> {
               itemBuilder: (context, item, index) => item,
             ),
             separatorBuilder: (context, index) {
-              return Divider();
+              return const SizedBox(
+                height: 10,
+              );
             },
           ),
         );

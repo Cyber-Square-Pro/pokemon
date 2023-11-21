@@ -9,10 +9,16 @@ import '../../utils/app_constants.dart';
 import '../enums/device_screen_type.dart';
 
 class AppBarWidget extends StatefulWidget {
+  final bool showBackButton;
   final String title;
   final String? lottiePath;
 
-  const AppBarWidget({Key? key, required this.title, this.lottiePath}) : super(key: key);
+  const AppBarWidget({
+    Key? key,
+    required this.title,
+    this.lottiePath,
+    this.showBackButton = false,
+  }) : super(key: key);
 
   @override
   _AppBarWidgetState createState() => _AppBarWidgetState();
@@ -22,6 +28,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
+      automaticallyImplyLeading: widget.showBackButton,
       stretch: true,
       systemOverlayStyle: SystemUiOverlayStyle.dark,
       pinned: true,
@@ -62,6 +69,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                   bottom: 10,
                   right: 0,
                   child: Lottie.asset(
+                    frameRate: FrameRate.max,
                     widget.lottiePath!,
                     height: 150,
                     width: 150,

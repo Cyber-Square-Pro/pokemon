@@ -23,7 +23,7 @@ class PokeItemWidget extends StatelessWidget {
           BoxShadow(
             color: AppTheme.getColors(context).pokemonItem(pokemon.types[0]).withOpacity(0.5),
             blurRadius: 10,
-            offset: const Offset(-2, 2),
+            offset: const Offset(-1, 1),
           ),
         ],
         borderRadius: BorderRadius.circular(15),
@@ -68,12 +68,12 @@ class PokeItemWidget extends StatelessWidget {
             Align(
               alignment: Alignment.topRight,
               child: Padding(
-                padding: const EdgeInsets.only(right: 8, top: 8),
+                padding: const EdgeInsets.only(right: 10, top: 8),
                 child: Text(
                   "#${pokemon.number}",
                   style: TextStyle(
                     fontFamily: "Circular",
-                    fontSize: 24,
+                    fontSize: 20,
                     letterSpacing: -0.5,
                     fontWeight: FontWeight.bold,
                     color: AppTheme.getColors(context).pokemonDetailsTitleColor.withOpacity(0.5),
@@ -82,9 +82,9 @@ class PokeItemWidget extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 16),
+              padding: const EdgeInsets.only(left: 15, top: 10),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
@@ -96,14 +96,16 @@ class PokeItemWidget extends StatelessWidget {
                         letterSpacing: 0,
                         color: AppTheme.getColors(context).pokemonDetailsTitleColor),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
+                  // const SizedBox(
+                  //   height: 10,
+                  // ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: pokemon.types
                         .map((type) => Padding(
-                              padding: const EdgeInsets.only(top: 4),
+                              padding: const EdgeInsets.only(
+                                top: 4,
+                              ),
                               child: Container(
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(38),
@@ -115,7 +117,7 @@ class PokeItemWidget extends StatelessWidget {
                                   child: Text(
                                     type,
                                     style: textTheme.bodyText1?.copyWith(
-                                      fontSize: 10,
+                                      fontSize: 12,
                                       fontWeight: FontWeight.w500,
                                       color: AppTheme.getColors(context).pokemonDetailsTitleColor,
                                     ),
@@ -125,6 +127,7 @@ class PokeItemWidget extends StatelessWidget {
                             ))
                         .toList(),
                   ),
+                  const SizedBox(height: 2),
                 ],
               ),
             ),

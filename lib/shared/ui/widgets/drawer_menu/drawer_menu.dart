@@ -1,3 +1,4 @@
+import 'package:app/theme/light/app_colors_light.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:lottie/lottie.dart';
@@ -55,12 +56,23 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget> with TickerProvider
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       AnimatedPokeballWidget(
-                          color: AppTheme.getColors(context).pokeballLogoBlack, size: 24),
+                          color: AppTheme.getColors(context).pokeballLogoBlack, size: 26),
                       const SizedBox(
                         width: 5,
                       ),
-                      Text("Pokedex", style: textTheme.headline1),
+                      Text(
+                        "Pokedex",
+                        style: textTheme.headline1!.copyWith(
+                          fontFamily: 'Circular',
+                        ),
+                      ),
                     ],
+                  ),
+                  Text(
+                    "Pokemon Project By Team B",
+                    style: textTheme.bodyMedium!.copyWith(
+                      fontFamily: 'Circular',
+                    ),
                   ),
                 ],
               ),
@@ -89,7 +101,7 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget> with TickerProvider
                     },
                   ),
                   DrawerMenuItemWidget(
-                    color: AppTheme.getColors(context).drawerItems,
+                    color: AppTheme.getColors(context).pokemonItem('Psychic'),
                     text: "Favourites",
                     onTap: () {
                       Navigator.pop(context);
@@ -98,7 +110,10 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget> with TickerProvider
                     },
                   ),
                   DrawerMenuItemWidget(
-                      color: AppTheme.getColors(context).drawerMoves, text: "Moves"),
+                    color: AppTheme.getColors(context).pokemonItem('Fighting'),
+                    text: "Moves",
+                    // onTap: () {},
+                  ),
                   DrawerMenuItemWidget(
                       color: AppTheme.getColors(context).drawerAbilities, text: "Abilities"),
                   DrawerMenuItemWidget(

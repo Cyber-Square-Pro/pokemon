@@ -127,7 +127,7 @@ class _PokemonGridWidgetState extends State<PokemonGridWidget> {
         maxCrossAxisExtent: 200,
         mainAxisSpacing: 10.0,
         crossAxisSpacing: 10.0,
-        childAspectRatio: 1.25,
+        childAspectRatio: 1.4,
       ),
       builderDelegate: PagedChildBuilderDelegate<Widget>(
         itemBuilder: (context, item, index) => item,

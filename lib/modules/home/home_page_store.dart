@@ -24,7 +24,7 @@ extension HomePageTypeExtension on HomePageType {
   String get description {
     switch (this) {
       case HomePageType.POKEMON_GRID:
-        return "PokeDex";
+        return "Pokemon";
       case HomePageType.ITEMS:
         return "Items";
       case HomePageType.FAVOURITES:

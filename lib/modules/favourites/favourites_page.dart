@@ -15,7 +15,16 @@ class _FavouritesPageState extends State<FavouritesPage> {
   Widget build(BuildContext context) {
     return SliverFillRemaining(
       child: Column(
-        children: [],
+        children: [
+          Center(
+            child: ElevatedButton(
+              child: const Text('Go to protected route'),
+              onPressed: () async {
+                
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

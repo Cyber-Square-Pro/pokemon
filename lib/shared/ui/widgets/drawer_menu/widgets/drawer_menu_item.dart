@@ -77,8 +77,8 @@ class DrawerMenuItemWidget extends StatelessWidget {
                           fontFamily: 'Circular',
                           shadows: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.25),
-                              blurRadius: 2,
+                              color: Colors.black.withOpacity(0.5),
+                              blurRadius: 3,
                             ),
                           ],
                         ),

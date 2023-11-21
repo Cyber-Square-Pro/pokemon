@@ -162,6 +162,7 @@ class _LoginPageState extends State<LoginPage> {
                               // Navigate to secured screen on successful login
                             } catch (error) {
                               // Handle login error
+                              Navigator.pop(context);
                               ScaffoldMessenger.of(context).showSnackBar(
                                   CustomSnackbars.errorSnackbar(
                                       'Login Failed: Please check your credentials'));

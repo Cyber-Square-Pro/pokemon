@@ -52,6 +52,7 @@ class AuthService {
       );
 
       final newAccessToken = response.data['accessToken'];
+      print('New access token: $newAccessToken');
 
       // Update the access token in SharedPreferences
       prefs.setString('accessToken', newAccessToken);

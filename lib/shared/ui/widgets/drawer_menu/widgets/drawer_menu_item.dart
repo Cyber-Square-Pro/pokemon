@@ -14,35 +14,30 @@ class DrawerMenuItemWidget extends StatelessWidget {
       {Key? key,
       required this.color,
       required this.text,
-      this.height = 60,
+      this.height = 55,
       this.width = 155,
       this.onTap})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final TextTheme textTheme = Theme.of(context).textTheme;
-
     return Padding(
       padding: const EdgeInsets.all(5),
       child: InkWell(
-        onTap: onTap != null
-            ? onTap
-            : () {
-                BotToast.showText(text: "Not implemented yet");
-              },
+        onTap: onTap ??
+            () {
+              BotToast.showText(text: "Not implemented yet");
+            },
         child: Container(
           decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: onTap != null
-                    ? color.withOpacity(0.5)
-                    : AppTheme.getColors(context).drawerDisabled.withOpacity(0.5),
-                blurRadius: 5,
-                offset: const Offset(-1, 1),
-              ),
-            ],
-            color: onTap != null ? color : AppTheme.getColors(context).drawerDisabled,
+            border: Border.all(
+              width: 2,
+              color:
+                  (onTap != null) ? Colors.white.withOpacity(0.75) : Colors.white.withOpacity(0.25),
+            ),
+            color: onTap != null
+                ? Colors.transparent
+                : AppTheme.getColors(context).drawerDisabled.withOpacity(0.25),
             borderRadius: BorderRadius.circular(15),
           ),
           child: ClipRRect(
@@ -54,7 +49,7 @@ class DrawerMenuItemWidget extends StatelessWidget {
                   right: -14,
                   child: PokeballWidget(
                     size: 83,
-                    color: Colors.white.withOpacity(0.2),
+                    color: Colors.white.withOpacity(0.1),
                   ),
                 ),
                 Positioned(
@@ -62,7 +57,7 @@ class DrawerMenuItemWidget extends StatelessWidget {
                   left: -50,
                   child: PokeballWidget(
                     size: 83,
-                    color: Colors.white.withOpacity(0.2),
+                    color: Colors.white.withOpacity(0.1),
                   ),
                 ),
                 Column(
@@ -73,14 +68,8 @@ class DrawerMenuItemWidget extends StatelessWidget {
                       child: Text(
                         text,
                         style: TextStyle(
-                          color: Colors.white,
+                          color: (onTap != null) ? Colors.white : Colors.white.withOpacity(0.5),
                           fontFamily: 'Circular',
-                          shadows: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.5),
-                              blurRadius: 3,
-                            ),
-                          ],
                         ),
                       ),
                     ),

@@ -22,8 +22,8 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _dio = authService.getDioInstance(); // Add this method in AuthService to get the Dio instance.
-    AuthService().apiTest();
+
+// Add this method in AuthService to get the Dio instance.
   }
 
   final _formKey = GlobalKey<FormState>();
@@ -31,11 +31,11 @@ class _LoginPageState extends State<LoginPage> {
   final _usernameController = TextEditingController();
 
   // Auth
-  AuthService authService = AuthService();
-  late Dio _dio;
+  final authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
+    AuthService().apiTest();
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
@@ -145,7 +145,7 @@ class _LoginPageState extends State<LoginPage> {
                                 _passwordController.text.trim(),
                               )) {
                                 Navigator.pop(context);
-                                Navigator.pushNamed(
+                                Navigator.pushReplacementNamed(
                                   context,
                                   '/',
                                   arguments: [

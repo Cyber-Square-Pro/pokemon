@@ -6,7 +6,8 @@ Future<dynamic> showLoadingSpinnerModal(BuildContext context, String? message) {
   return showDialog(
     context: context,
     builder: (context) => Center(
-      child: SizedBox(
+      child: Container(
+        padding: const EdgeInsets.all(5),
         height: 100,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -20,7 +21,7 @@ Future<dynamic> showLoadingSpinnerModal(BuildContext context, String? message) {
                     style: const TextStyle(
                       fontFamily: 'Circular',
                       color: Colors.white,
-                      fontSize: 16,
+                      fontSize: 15,
                       fontWeight: FontWeight.bold,
                     ),
                   ),

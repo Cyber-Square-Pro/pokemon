@@ -22,15 +22,15 @@ abstract class Router {
 
   static Map<String, WidgetBuilder> getRoutes(context) {
     return {
+      splash: (context) => SplashScreen(),
+      login: (context) => LoginPage(),
       home: (context) => HomePage(),
       items: (context) => ItemsPage(),
-      login: (context) => LoginPage(),
       signup: (context) => SignUpPage(),
       verifyEmail: (context) => VerifyEmailPage(),
       enterOTP: (context) => OtpVerificationPage(),
       resetPass: (context) => ResetPasswordPage(),
       noInternet: (context) => NoInternetPage(),
-      splash: (context) => SplashScreen(),
     };
   }
 }

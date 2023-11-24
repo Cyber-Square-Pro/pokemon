@@ -39,7 +39,13 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget> with TickerProvider
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 5),
-      color: Theme.of(context).backgroundColor,
+      decoration: const BoxDecoration(
+        color: Colors.transparent,
+        image: DecorationImage(
+          fit: BoxFit.cover,
+          image: AssetImage('assets/images/bg/login_bg.png'),
+        ),
+      ),
       child: Stack(
         children: [
           Column(
@@ -55,14 +61,14 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget> with TickerProvider
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      AnimatedPokeballWidget(
-                          color: AppTheme.getColors(context).pokeballLogoBlack, size: 26),
+                      const AnimatedPokeballWidget(color: Colors.white, size: 26),
                       const SizedBox(
                         width: 5,
                       ),
                       Text(
                         "Pokedex",
                         style: textTheme.headline1!.copyWith(
+                          color: Colors.white,
                           fontFamily: 'Circular',
                         ),
                       ),
@@ -71,6 +77,7 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget> with TickerProvider
                   Text(
                     "Pokemon Project By Team B",
                     style: textTheme.bodyMedium!.copyWith(
+                      color: Colors.white.withOpacity(0.75),
                       fontFamily: 'Circular',
                     ),
                   ),

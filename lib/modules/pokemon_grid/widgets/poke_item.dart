@@ -92,7 +92,7 @@ class PokeItemWidget extends StatelessWidget {
                     style: textTheme.bodyText1?.copyWith(
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Circular',
-                        fontSize: 16,
+                        fontSize: 15,
                         letterSpacing: 0,
                         color: AppTheme.getColors(context).pokemonDetailsTitleColor),
                   ),
@@ -118,7 +118,8 @@ class PokeItemWidget extends StatelessWidget {
                                     type,
                                     style: textTheme.bodyText1?.copyWith(
                                       fontSize: 11,
-                                      fontWeight: FontWeight.w500,
+                                      fontFamily: 'Circular',
+                                      fontWeight: FontWeight.normal,
                                       color: AppTheme.getColors(context).pokemonDetailsTitleColor,
                                     ),
                                   ),

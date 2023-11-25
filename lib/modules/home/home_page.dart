@@ -2,6 +2,7 @@ import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:app/modules/favourites/favourites_page.dart';
 import 'package:app/modules/home/home_page_store.dart';
 import 'package:app/modules/items/items_page.dart';
+import 'package:app/modules/news/news_page.dart';
 import 'package:app/modules/pokemon_grid/pokemon_grid_page.dart';
 import 'package:app/shared/repositories/auth_service.dart';
 import 'package:app/shared/stores/item_store/item_store.dart';
@@ -147,6 +148,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           return ItemsPage();
                         case HomePageType.FAVOURITES:
                           return FavouritesPage();
+                        case HomePageType.NEWS:
+                          return NewsPage();
                         default:
                           return PokemonGridPage();
                       }

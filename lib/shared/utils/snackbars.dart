@@ -25,7 +25,7 @@ class CustomSnackbars {
   static SnackBar successSnackbar(String message, [String title = 'success']) => SnackBar(
         duration: duration,
         content: snackbarBase(
-          '',
+          'assets/images/ash_throw.png',
           Colors.teal.shade400,
           Text(
             message,
@@ -86,9 +86,11 @@ Widget snackbarBase(String imagePath, Color color, Widget child, String title) =
           bottom: 10,
           child: imagePath != ''
               ? Image.asset(
-                  'assets/images/ash_shocked.png',
+                  imagePath,
                   height: 100,
                   width: 100,
+                  fit: BoxFit.fitHeight,
+                  alignment: Alignment.center,
                 )
               : const SizedBox(),
         ),

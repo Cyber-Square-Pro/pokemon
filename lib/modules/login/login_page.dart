@@ -116,15 +116,12 @@ class _LoginPageState extends State<LoginPage> {
                       prefixIcon: Icons.lock,
                       labelText: 'Password',
                     ),
-                    Row(
-                      children: [
-                        CustomTextButton(
-                          onPressed: () {
-                            // Navigator.pushNamed(context, '/verifyEmail');
-                          },
-                          label: 'Forgot Password? Click Here',
-                        ),
-                      ],
+                    hSpace(15),
+                    CustomTextButton(
+                      onPressed: () {
+                        // Navigator.pushNamed(context, '/verifyEmail');
+                      },
+                      label: 'Forgot Password? Click Here',
                     ),
                     hSpace(15),
                     Container(

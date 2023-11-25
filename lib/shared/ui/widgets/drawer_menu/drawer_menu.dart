@@ -121,7 +121,7 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget> with TickerProvider
                     text: "News",
                     onTap: () {
                       Navigator.pop(context);
-                      _homeStore.setPage(HomePageType.FAVOURITES);
+                      _homeStore.setPage(HomePageType.NEWS);
                     },
                   ),
                   DrawerMenuItemWidget(

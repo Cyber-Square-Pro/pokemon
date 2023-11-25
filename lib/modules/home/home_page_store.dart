@@ -18,7 +18,7 @@ extension PanelTypeExtension on PanelType {
   }
 }
 
-enum HomePageType { POKEMON_GRID, ITEMS, FAVOURITES }
+enum HomePageType { POKEMON_GRID, ITEMS, FAVOURITES, NEWS }
 
 extension HomePageTypeExtension on HomePageType {
   String get description {
@@ -29,6 +29,8 @@ extension HomePageTypeExtension on HomePageType {
         return "Items";
       case HomePageType.FAVOURITES:
         return "Favourites";
+      case HomePageType.NEWS:
+        return "News";
       default:
         throw "Home Page Type not found";
     }

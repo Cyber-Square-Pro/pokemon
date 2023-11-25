@@ -43,7 +43,7 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget> with TickerProvider
         color: Colors.transparent,
         image: DecorationImage(
           fit: BoxFit.cover,
-          image: AssetImage('assets/images/bg/login_bg.png'),
+          image: AssetImage('assets/images/bg/bg.png'),
         ),
       ),
       child: Stack(

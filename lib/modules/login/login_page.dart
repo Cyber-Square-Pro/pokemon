@@ -147,7 +147,7 @@ class _LoginPageState extends State<LoginPage> {
                                 Navigator.pop(context);
                                 Navigator.pushReplacementNamed(
                                   context,
-                                  '/',
+                                  '/home',
                                   arguments: [
                                     ScaffoldMessenger.of(context).showSnackBar(
                                         CustomSnackbars.successSnackbar('Welcome to Pokedex')),

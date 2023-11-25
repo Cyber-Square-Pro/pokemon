@@ -10,10 +10,10 @@ import 'package:app/modules/home/home_page.dart';
 import 'package:app/modules/items/items_page.dart';
 
 abstract class Router {
-  static String home = "/";
-  static String splash = "/splash";
-  static String items = "/items";
   static String login = "/login";
+  static String home = "/home";
+  static String splash = "/";
+  static String items = "/items";
   static String signup = "/signup";
   static String verifyEmail = "/verifyEmail";
   static String enterOTP = "/otp";

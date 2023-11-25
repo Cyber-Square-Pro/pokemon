@@ -38,7 +38,7 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget> with TickerProvider
     final TextTheme textTheme = Theme.of(context).textTheme;
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       decoration: const BoxDecoration(
         color: Colors.transparent,
         image: DecorationImage(
@@ -90,7 +90,7 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget> with TickerProvider
                     crossAxisCount: 2, mainAxisExtent: 70),
                 children: [
                   DrawerMenuItemWidget(
-                    color: AppTheme.getColors(context).drawerPokedex,
+                    icon: Icons.grid_4x4,
                     text: "Pokedex",
                     onTap: () {
                       Navigator.pop(context);
@@ -99,7 +99,7 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget> with TickerProvider
                     },
                   ),
                   DrawerMenuItemWidget(
-                    color: AppTheme.getColors(context).drawerItems,
+                    icon: Icons.list,
                     text: "Items",
                     onTap: () {
                       Navigator.pop(context);
@@ -108,7 +108,7 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget> with TickerProvider
                     },
                   ),
                   DrawerMenuItemWidget(
-                    color: AppTheme.getColors(context).pokemonItem('Psychic'),
+                    icon: Icons.favorite,
                     text: "Favourites",
                     onTap: () {
                       Navigator.pop(context);
@@ -117,16 +117,40 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget> with TickerProvider
                     },
                   ),
                   DrawerMenuItemWidget(
-                    color: AppTheme.getColors(context).pokemonItem('Fighting'),
-                    text: "Moves",
-                    // onTap: () {},
+                    icon: Icons.newspaper,
+                    text: "News",
+                    onTap: () {
+                      Navigator.pop(context);
+                      _homeStore.setPage(HomePageType.FAVOURITES);
+                    },
                   ),
                   DrawerMenuItemWidget(
-                      color: AppTheme.getColors(context).drawerAbilities, text: "Abilities"),
+                    icon: Icons.play_arrow,
+                    text: "Videos",
+                    // onTap: () {
+                    //   Navigator.pop(context);
+                    //   _homeStore.setPage(HomePageType.FAVOURITES);
+                    // },
+                  ),
                   DrawerMenuItemWidget(
-                      color: AppTheme.getColors(context).drawerTypeCharts, text: "Type Charts"),
-                  DrawerMenuItemWidget(
-                      color: AppTheme.getColors(context).drawerLocations, text: "Locations"),
+                    icon: Icons.chat_bubble,
+                    text: "Live Chat",
+                    // onTap: () {
+                    //   Navigator.pop(context);
+                    //   _homeStore.setPage(HomePageType.FAVOURITES);
+                    // },
+                  ),
+                  // DrawerMenuItemWidget(
+                  //   color: AppTheme.getColors(context).pokemonItem('Fighting'),
+                  //   text: "Moves",
+                  //   // onTap: () {},
+                  // ),
+                  // DrawerMenuItemWidget(
+                  //     color: AppTheme.getColors(context).drawerAbilities, text: "Abilities"),
+                  // DrawerMenuItemWidget(
+                  //     color: AppTheme.getColors(context).drawerTypeCharts, text: "Type Charts"),
+                  // DrawerMenuItemWidget(
+                  //     color: AppTheme.getColors(context).drawerLocations, text: "Locations"),
                 ],
               ),
             ],

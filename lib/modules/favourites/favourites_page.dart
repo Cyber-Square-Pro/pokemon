@@ -1,5 +1,6 @@
 import 'package:app/shared/repositories/auth_interceptor.dart';
 import 'package:app/shared/repositories/favourites_service.dart';
+import 'package:app/shared/utils/snackbars.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -19,7 +20,7 @@ class _FavouritesPageState extends State<FavouritesPage> {
     // TODO: implement initState
     super.initState();
     final _dio = favService.getDioInstance();
-    _dio.interceptors.add(AuthInterceptor());
+    _dio.interceptors.add(AuthInterceptor(dio: _dio));
   }
 
   final FavouritesService favService = FavouritesService();
@@ -32,9 +33,16 @@ class _FavouritesPageState extends State<FavouritesPage> {
         children: [
           Center(
             child: ElevatedButton(
-              child: const Text('Go to protected route'),
+              child: const Text('Call Protected Route'),
               onPressed: () async {
-                favService.getProtectedRoute();
+                try {
+                  await favService.getProtectedRoute();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    CustomSnackbars.successSnackbar('Success!'),
+                  );
+                } catch (e) {
+                  throw Exception(e);
+                }
               },
             ),
           ),

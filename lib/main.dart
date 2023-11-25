@@ -55,25 +55,8 @@ class MyApp extends StatelessWidget {
           theme: lightTheme,
           navigatorObservers: [BotToastNavigatorObserver()],
           debugShowCheckedModeBanner: false,
+          initialRoute: "/",
           routes: router.Router.getRoutes(context),
-          initialRoute: "/splash",
-          // onGenerateRoute: (settings) {
-          //   final authProvider = Provider.of<AuthProvider>(context, listen: false);
-
-          //   // Check if the user is authenticated
-          //   if (!authProvider.isAuthenticated) {
-          //     // If not authenticated, redirect to the login screen
-          //     return MaterialPageRoute(
-          //       builder: (context) =>
-          //           router.Router.getRoutes(context)[router.Router.login] as Widget,
-          //     );
-          //   }
-
-          //   // If authenticated, allow access to the requested route
-          //   return MaterialPageRoute(
-          //     builder: (context) => router.Router.getRoutes(context)[router.Router.home] as Widget,
-          //   );
-          // },
         ),
       ),
     );

@@ -3,32 +3,60 @@ import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthInterceptor extends Interceptor {
-  final dio = AuthService().getDioInstance();
+  AuthInterceptor({
+    required this.dio,
+  });
+  final Dio dio;
 
   @override
   Future onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
-    // Add access token to the headers
+    print('Interceptor onRequest called');
     final accessToken = await getAccessToken();
     options.headers['Authorization'] = 'Bearer $accessToken';
     return handler.next(options);
   }
 
   @override
-  Future onResponse(Response response, ResponseInterceptorHandler handler) async {
-    // Handle token expiration and regeneration if needed
-    if (response.statusCode == 401) {
-      // Token expired or invalid, regenerate it
+  Future onError(DioException err, ErrorInterceptorHandler handler) async {
+    print('Interceptor onError() called with error: $err');
+    if (err.response?.statusCode == 401) {
+      print('Access Token expired');
       final refreshed = await regenerateToken();
       if (refreshed) {
         // Retry the original request with the new access token
-        final RequestOptions options = response.requestOptions;
-        options.headers['Authorization'] = 'Bearer ${await getAccessToken()}';
-        return dio.request(options.path, options: options as Options);
+        try {
+          final RequestOptions options = err.requestOptions;
+          final RequestOptions retryOptions = RequestOptions(
+            method: options.method,
+            headers: options.headers,
+            contentType: options.contentType,
+            path: options.path,
+            // Add other necessary properties
+          );
+          final Options opts = Options(
+            method: options.method,
+            headers: options.headers,
+            contentType: options.contentType,
+          );
+          retryOptions.headers['Authorization'] = 'Bearer ${await getAccessToken()}';
+          return await dio.request(retryOptions.path, options: opts);
+        } catch (retryError) {
+          print('Retry error occured');
+          return handler.reject(retryError as DioException); // Propagate the retry error
+        }
       }
     }
 
-    return handler.next(response);
+    return handler.next(err);
   }
+
+  // @override
+  // Future onResponse(Response response, ResponseInterceptorHandler handler) async {
+  //   print('Interceptor onResponse() called');
+  //   if (response.statusCode == 200) {
+  //     print('Re-call successful');
+  //   }
+  // }
 }
 
 Future<String?> getAccessToken() async {
@@ -38,6 +66,7 @@ Future<String?> getAccessToken() async {
 }
 
 Future<bool> regenerateToken() async {
+  print('regenerate token called');
   try {
     final authService = AuthService();
     await authService.requestNewAccessToken();

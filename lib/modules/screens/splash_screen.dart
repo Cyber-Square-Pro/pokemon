@@ -13,7 +13,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Future.delayed(
       const Duration(milliseconds: 2500),
       () {
-        Navigator.pushReplacementNamed(context, '/login');
+        Navigator.popAndPushNamed(context, '/login');
       },
     );
   }

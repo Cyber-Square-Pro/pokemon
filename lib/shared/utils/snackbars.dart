@@ -61,7 +61,7 @@ Widget snackbarBase(String imagePath, Color color, Widget child, String title) =
             ],
             borderRadius: BorderRadius.circular(15),
           ),
-          padding: const EdgeInsets.all(15),
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [

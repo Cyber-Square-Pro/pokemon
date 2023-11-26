@@ -92,14 +92,14 @@ class _ItemsPageState extends State<ItemsPage> {
                 height: 30,
                 width: 30,
               )
-            : Icon(
+            : const Icon(
                 Icons.image_not_supported,
                 color: Colors.grey,
                 size: 20,
               ),
         title: Text(
           item.name,
-          style: TextStyle(
+          style: const TextStyle(
             fontFamily: 'Circular',
             fontWeight: FontWeight.bold,
             letterSpacing: -0.5,
@@ -133,7 +133,7 @@ class _ItemsPageState extends State<ItemsPage> {
 
     return Observer(builder: (_) {
       if (_itemStore.items.isEmpty) {
-        return SliverFillRemaining(
+        return const SliverFillRemaining(
           child: Center(
             child: CircularProgressIndicator(),
           ),

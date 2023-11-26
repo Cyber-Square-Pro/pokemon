@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 ThemeData darkTheme = ThemeData(
-  fontFamily: 'Circular',
+  fontFamily: 'CircularStd-Book',
   brightness: Brightness.dark,
   backgroundColor: Color(0xFF121212),
   textTheme: TextTheme(

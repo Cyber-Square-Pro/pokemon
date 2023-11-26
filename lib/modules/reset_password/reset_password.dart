@@ -1,8 +1,13 @@
+import 'package:app/shared/providers/otp_provider.dart';
+import 'package:app/shared/providers/signup_provider.dart';
+import 'package:app/shared/repositories/otp_service.dart';
+import 'package:app/shared/utils/snackbars.dart';
 import 'package:app/shared/utils/spacer.dart';
 import 'package:app/shared/widgets/custom_text_form_field.dart';
 import 'package:app/shared/widgets/primary_elevated_button.dart';
 import 'package:app/theme/text_styles.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ResetPasswordPage extends StatefulWidget {
   const ResetPasswordPage({super.key});
@@ -18,6 +23,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
 
   @override
   Widget build(BuildContext context) {
+    final _otpProvider = Provider.of<OtpProvider>(context, listen: false);
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
@@ -113,16 +119,20 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                       ),
                       child: CustomElevatedButton(
                         label: 'Reset',
-                        onPressed: () {
+                        onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            Navigator.pushNamed(context, '/login');
+                            final email = _otpProvider.email;
+                            if (await OtpService()
+                                .resetPassword(email, _newpasswordcontroller.text)) {
+                              Navigator.pushNamed(context, '/login');
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  CustomSnackbars.errorSnackbar('Failed To Reset Password'));
+                            }
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text('Failed to reset password'),
-                                backgroundColor: Colors.red,
-                              ),
-                            );
+                                CustomSnackbars.errorSnackbar(
+                                    'Passwords do not match / Invalid passwords'));
                           }
                         },
                       ),

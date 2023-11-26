@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:app/shared/providers/otp_provider.dart';
 import 'package:app/shared/providers/signup_provider.dart';
 import 'package:app/shared/repositories/auth_service.dart';
 import 'package:app/shared/repositories/otp_service.dart';
@@ -33,6 +36,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
   @override
   Widget build(BuildContext context) {
     final signupProv = Provider.of<SignupProvider>(context, listen: false);
+    final _otpProvider = Provider.of<OtpProvider>(context, listen: false);
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
@@ -124,44 +128,50 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                         label: 'Verify',
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            //^ Check intent later
+                            print(_otpController.text);
                             final data = signupProv.getSignupData;
-
+                            final email =
+                                (data['email'] != null) ? data['email'] : _otpProvider.email;
                             if (await OtpService().verifyEmail(
                               context,
-                              data['email'],
+                              email,
                               int.parse(_otpController.text),
                             )) {
-                              if (await AuthService().signup(
-                                username: data['username'],
-                                email: data['email'],
-                                phoneNumber: int.parse(data['phone_number']),
-                                password: data['password'],
-                              )) {
-                                _otpController.clear();
-                                Navigator.pushNamed(
-                                  context,
-                                  '/login',
-                                  arguments: [
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      CustomSnackbars.successSnackbar(
-                                          'Succesfully Created Account!'),
-                                    ),
-                                  ],
-                                );
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  CustomSnackbars.errorSnackbar('ERROR: Failed to create Account'),
-                                );
+                              print('OTP Verified');
+                              if (_otpProvider.getIntent() == OtpIntent.SIGN_UP) {
+                                if (await AuthService().signup(
+                                  username: data['username'],
+                                  email: data['email'],
+                                  phoneNumber: int.parse(data['phone_number']),
+                                  password: data['password'],
+                                )) {
+                                  _otpController.clear();
+                                  Navigator.pushNamed(
+                                    context,
+                                    '/login',
+                                    arguments: [
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        CustomSnackbars.successSnackbar(
+                                            'Succesfully Created Account, Login to continue'),
+                                      ),
+                                    ],
+                                  );
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    CustomSnackbars.errorSnackbar('Failed to create Account'),
+                                  );
+                                }
+                              } else if (_otpProvider.getIntent() == OtpIntent.RESET_PASS) {
+                                _otpProvider.setIntent(OtpIntent.RESET_PASS);
+                                Navigator.pushReplacementNamed(context, '/resetPass');
                               }
                             } else {
-                              // ScaffoldMessenger.of(context).showSnackBar(
-                              //   CustomSnackbars.errorSnackbar('ERROR: Invalid OTP'),
-                              // );
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  CustomSnackbars.errorSnackbar('Failed to verify OTP'));
                             }
                           } else {
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(CustomSnackbars.errorSnackbar('ERROR: Invalid OTP'));
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                CustomSnackbars.errorSnackbar('Eeror during OTP verification'));
                           }
                         },
                       ),

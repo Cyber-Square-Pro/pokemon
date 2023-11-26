@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:app/shared/utils/api_constants.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -10,7 +12,7 @@ class AuthService {
 
   Future<void> apiTest() async {
     final response = await dio.get(ApiConstants.baseURL);
-    print(response.data);
+    log(response.data);
   }
 
   Future<bool> login(String email, String password) async {
@@ -20,7 +22,7 @@ class AuthService {
         data: {'username': email, 'password': password},
       );
 
-      if (response.statusCode == 201 || response.statusCode == 200) {
+      if (response.statusCode == 201) {
         final accessToken = response.data['accessToken'];
         final refreshToken = response.data['refreshToken'];
 
@@ -32,12 +34,13 @@ class AuthService {
         prefs.setString('accessToken', accessToken);
         prefs.setString('refreshToken', refreshToken);
         return true;
-      } else {
+      } else if (response.statusCode == 404) {
         return false;
       }
-    } catch (error) {
-      print('Authentication failed');
       return false;
+    } catch (error) {
+      if (error is DioException) return false;
+      throw Exception(error);
     }
   }
 

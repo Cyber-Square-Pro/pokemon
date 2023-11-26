@@ -1,17 +1,31 @@
 import 'package:flutter/material.dart';
 
 // ignore: constant_identifier_names
-enum OtpDestination { VERIFY_EMAIL, RESET_PASS }
+enum OtpIntent { SIGN_UP, RESET_PASS, OTHER }
 
 class OtpProvider with ChangeNotifier {
-  late String _destination;
-  void getDestination(OtpDestination intent) {
+  late String _destination = '';
+  late String _email = '';
+  late OtpIntent _intent;
+  OtpIntent getIntent() {
+    return _intent;
+  }
+
+  void setEmail(String email) {
+    _email = email;
+    notifyListeners();
+  }
+
+  void setIntent(OtpIntent intent) {
+    print(intent.toString());
     switch (intent) {
-      case OtpDestination.VERIFY_EMAIL:
+      case OtpIntent.SIGN_UP:
+        _intent = OtpIntent.SIGN_UP;
         _destination = '/login';
         notifyListeners();
         break;
-      case OtpDestination.RESET_PASS:
+      case OtpIntent.RESET_PASS:
+        _intent = OtpIntent.RESET_PASS;
         _destination = '/resetPass';
         notifyListeners();
       default:
@@ -20,5 +34,12 @@ class OtpProvider with ChangeNotifier {
     }
   }
 
+  void clearAll() {
+    _intent = OtpIntent.OTHER;
+    _destination = '';
+    _email = '';
+  }
+
   String get destination => _destination;
+  String get email => _email;
 }

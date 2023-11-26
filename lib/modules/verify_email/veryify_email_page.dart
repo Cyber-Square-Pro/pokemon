@@ -1,9 +1,13 @@
 import 'package:app/modules/otp_verification/otp_verification_page.dart';
+import 'package:app/shared/providers/otp_provider.dart';
+import 'package:app/shared/repositories/otp_service.dart';
+import 'package:app/shared/utils/snackbars.dart';
 import 'package:app/shared/utils/spacer.dart';
 import 'package:app/shared/widgets/custom_text_form_field.dart';
 import 'package:app/shared/widgets/primary_elevated_button.dart';
 import 'package:app/theme/text_styles.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class VerifyEmailPage extends StatefulWidget {
   const VerifyEmailPage({super.key});
@@ -18,6 +22,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
 
   @override
   Widget build(BuildContext context) {
+    final _otpProvider = Provider.of<OtpProvider>(context, listen: false);
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
@@ -87,7 +92,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                         }
                       },
                       prefixIcon: Icons.email,
-                      labelText: 'Re-enter your email',
+                      labelText: 'Enter your email',
                     ),
                     hSpace(20),
                     Container(
@@ -101,9 +106,17 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                       ),
                       child: CustomElevatedButton(
                         label: 'Continue',
-                        onPressed: () {
+                        onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            Navigator.pushNamed(context, '/otp');
+                            _otpProvider.setIntent(OtpIntent.RESET_PASS);
+                            if (await OtpService().sendOTP(_reenteremailcontroller.text.trim())) {
+                              _otpProvider.setEmail(_reenteremailcontroller.text.trim());
+                              Navigator.pushNamed(context, '/otp');
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                CustomSnackbars.errorSnackbar('Failed to send OTP'),
+                              );
+                            }
                           }
                         },
                       ),

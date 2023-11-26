@@ -1,3 +1,5 @@
+import 'package:animations/animations.dart';
+import 'package:app/modules/news/news_details_page.dart';
 import 'package:app/shared/models/news_model.dart';
 import 'package:app/shared/repositories/auth_interceptor.dart';
 import 'package:app/shared/repositories/news_service.dart';
@@ -29,40 +31,57 @@ class _NewsPageState extends State<NewsPage> {
   @override
   Widget build(BuildContext context) {
     return SliverFillRemaining(
-      fillOverscroll: false,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        child: Column(
-          children: [
-            // News listview builder
-            FutureBuilder(
-              future: NewsService().fetchAllArticles(),
-              builder: (BuildContext context, snapshot) {
-                print(snapshot.data);
-                if (snapshot.hasData) {
-                  final newsList = snapshot.data!;
-                  return Expanded(
-                    child: ListView.builder(
-                      itemCount: newsList.length,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        News news = newsList[index];
-                        return newsTitle(context, news);
-                      },
-                      // separatorBuilder: (context, index) => const Divider(),
-                    ),
-                  );
-                } else if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
-                    child: const CircularProgressIndicator(),
-                  );
-                } else {
-                  return const Center(child: Text('Error'));
-                }
-              },
-            ),
-          ],
-        ),
+      hasScrollBody: true,
+      child: Column(
+        children: [
+          // News listview builder
+          FutureBuilder(
+            future: NewsService().fetchAllArticles(),
+            builder: (BuildContext context, snapshot) {
+              print(snapshot.data);
+              if (snapshot.hasData) {
+                final newsList = snapshot.data!;
+                return Expanded(
+                  child: ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: newsList.length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      News news = newsList[index];
+                      return OpenContainer(
+                        transitionDuration: const Duration(milliseconds: 400),
+                        closedColor: Colors.transparent,
+                        openColor: Colors.transparent,
+                        clipBehavior: Clip.none,
+                        openElevation: 0,
+                        closedElevation: 0,
+                        openBuilder: (context, VoidCallback open) => NewsDetailsPage(news: news),
+                        closedBuilder: (context, VoidCallback open) => Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: newsTitle(
+                            context,
+                            news,
+                            () {
+                              print('clicked');
+                              open();
+                            },
+                          ),
+                        ),
+                      );
+                    },
+                    // separatorBuilder: (context, index) => const Divider(),
+                  ),
+                );
+              } else if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else {
+                return const Center(child: Text('Error'));
+              }
+            },
+          ),
+        ],
       ),
     );
   }

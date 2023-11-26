@@ -1,3 +1,4 @@
+import 'package:app/shared/providers/otp_provider.dart';
 import 'package:app/shared/repositories/auth_interceptor.dart';
 import 'package:app/shared/repositories/auth_service.dart';
 import 'package:app/shared/utils/snackbars.dart';
@@ -9,6 +10,7 @@ import 'package:app/shared/widgets/primary_elevated_button.dart';
 import 'package:app/theme/text_styles.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -36,6 +38,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     AuthService().apiTest();
+    final _otpProvider = Provider.of<OtpProvider>(context, listen: false);
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
@@ -119,7 +122,8 @@ class _LoginPageState extends State<LoginPage> {
                     hSpace(15),
                     CustomTextButton(
                       onPressed: () {
-                        // Navigator.pushNamed(context, '/verifyEmail');
+                        _otpProvider.setIntent(OtpIntent.RESET_PASS);
+                        Navigator.pushNamed(context, '/verifyEmail');
                       },
                       label: 'Forgot Password? Click Here',
                     ),
@@ -135,36 +139,27 @@ class _LoginPageState extends State<LoginPage> {
                         label: 'Log In',
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            try {
-                              showLoadingSpinnerModal(context, 'Logging In');
-                              if (await authService.login(
-                                _usernameController.text.trim(),
-                                _passwordController.text.trim(),
-                              )) {
-                                Navigator.pop(context);
-                                Navigator.pushReplacementNamed(
-                                  context,
-                                  '/home',
-                                  arguments: [
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                        CustomSnackbars.successSnackbar('Welcome to Pokedex')),
-                                  ],
-                                );
-                              } else {
-                                Navigator.pop(context);
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    CustomSnackbars.errorSnackbar(
-                                        'Login Failed: Please check your credentials'));
-                              }
-                              // Navigate to secured screen on successful login
-                            } catch (error) {
-                              // Handle login error
+                            showLoadingSpinnerModal(context, 'Logging In');
+                            if (await authService.login(
+                              _usernameController.text.trim(),
+                              _passwordController.text.trim(),
+                            )) {
+                              Navigator.pop(context);
+                              Navigator.pushReplacementNamed(
+                                context,
+                                '/home',
+                                arguments: [
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      CustomSnackbars.successSnackbar('Welcome to Pokedex')),
+                                ],
+                              );
+                            } else {
                               Navigator.pop(context);
                               ScaffoldMessenger.of(context).showSnackBar(
                                   CustomSnackbars.errorSnackbar(
                                       'Login Failed: Please check your credentials'));
-                              print('Login Error: $error');
                             }
+                            // Navigate to secured screen on successful login
                           } else {
                             ScaffoldMessenger.of(context)
                                 .showSnackBar(CustomSnackbars.errorSnackbar('Invalid submission!'));
@@ -175,6 +170,7 @@ class _LoginPageState extends State<LoginPage> {
                     hSpace(20),
                     CustomTextButton(
                       onPressed: () {
+                        _otpProvider.setIntent(OtpIntent.SIGN_UP);
                         Navigator.pushNamed(context, '/signup');
                       },
                       label: 'Dont have an account? Sign Up.',

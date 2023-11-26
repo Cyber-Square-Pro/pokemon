@@ -1,6 +1,6 @@
 class News {
   String id;
-  double newsId;
+  int newsId;
   String author;
   String title;
   String content;

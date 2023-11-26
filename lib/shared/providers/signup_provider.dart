@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class SignupProvider with ChangeNotifier {
-  late Map<String, dynamic> _signupData;
+  Map<String, dynamic> _signupData = {};
 
   late bool _emailVerified;
 

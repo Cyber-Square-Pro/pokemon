@@ -13,7 +13,7 @@ class OtpService {
     final uri = '${ApiConstants.baseURL}/users/send-verification-email';
     try {
       final Response response = await _dio.post(uri, data: {'email': email});
-      ;
+
       if (response.statusCode == 201) {
         print(response.data);
         return true;
@@ -34,23 +34,16 @@ class OtpService {
         'otp': otp,
       });
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         return true;
       } else {
-        final errorMessage = response.statusMessage;
-        ScaffoldMessenger.of(context).showSnackBar(
-          CustomSnackbars.errorSnackbar('ERROR: Invalid OTP'),
-        );
         return false;
       }
     } catch (e) {
       if (e is DioException) {
         if (e.response != null && e.response!.statusCode == 400) {
           // Handle 400 status code (Bad Request)
-          final errorMessage = e.message;
-          ScaffoldMessenger.of(context).showSnackBar(
-            CustomSnackbars.errorSnackbar('ERROR: Invalid OTP'),
-          );
+          return false;
         } else {
           // Handle other DioError cases
           ScaffoldMessenger.of(context).showSnackBar(
@@ -64,6 +57,23 @@ class OtpService {
         );
       }
       return false;
+    }
+  }
+
+  Future<bool> resetPassword(String email, String password) async {
+    try {
+      final uri = '${ApiConstants.baseURL}/users/reset-password';
+      final Response response = await _dio.patch(uri, data: {
+        'email': email,
+        'password': password,
+      });
+
+      if (response.statusCode == 201) {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      throw Exception(e);
     }
   }
 }

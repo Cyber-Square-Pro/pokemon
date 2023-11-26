@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 ThemeData darkTheme = ThemeData(
-  // useMaterial3: true,
+  useMaterial3: true,
   appBarTheme: const AppBarTheme(
     systemOverlayStyle: SystemUiOverlayStyle.light,
   ),

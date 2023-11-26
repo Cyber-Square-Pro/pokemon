@@ -1,3 +1,4 @@
+import 'package:app/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class CustomTextButton extends StatelessWidget {
@@ -13,6 +14,13 @@ class CustomTextButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: onPressed,
+      style: TextButton.styleFrom(
+        foregroundColor: Colors.white,
+        shadowColor: Colors.black,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppTheme.globalBorderRadius),
+        ),
+      ),
       child: Text(
         label,
         style: TextStyle(
@@ -26,11 +34,6 @@ class CustomTextButton extends StatelessWidget {
             ),
           ],
         ),
-      ),
-      style: TextButton.styleFrom(
-        foregroundColor: Colors.white,
-        shadowColor: Colors.black,
-        shape: const StadiumBorder(),
       ),
     );
   }

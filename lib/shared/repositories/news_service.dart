@@ -8,22 +8,19 @@ class NewsService {
     return dio;
   }
 
-  Future<List<News>> fetchAllArticles() async {
+  Future<List<Article>> fetchAllArticles() async {
     try {
       Response response = await dio.get(
-        '${ApiConstants.baseURL}/news',
+        'https://newsapi.org/v2/everything?q=pokemon&apiKey=bb642f547ad8439b8d04342f644d7597',
       );
 
       if (response.statusCode == 200) {
-        print(response.data);
-
         // Assuming the JSON array is the top-level structure
-        final List<dynamic> responseData = response.data;
 
         // Use map to convert each item in the list
-        final List<News> result = responseData.map((json) => News.fromJson(json)).toList();
-
-        return result;
+        final News result = News.fromJson(response.data);
+        print(result.articles);
+        return result.articles;
       } else {
         return [];
       }

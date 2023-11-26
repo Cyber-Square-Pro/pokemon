@@ -1,3 +1,4 @@
+import 'package:app/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class CustomTextFormField extends StatefulWidget {
@@ -97,4 +98,4 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   }
 }
 
-const double _borderRadius = 20;
+final double _borderRadius = AppTheme.globalBorderRadius;

@@ -1,3 +1,4 @@
+import 'package:app/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class CustomElevatedButton extends StatelessWidget {
@@ -21,7 +22,7 @@ class CustomElevatedButton extends StatelessWidget {
         backgroundColor: Colors.white.withOpacity(0.95),
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(AppTheme.globalBorderRadius),
         ),
       ),
       child: Text(

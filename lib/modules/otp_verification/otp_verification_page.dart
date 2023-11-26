@@ -151,14 +151,14 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                                     '/login',
                                     arguments: [
                                       ScaffoldMessenger.of(context).showSnackBar(
-                                        CustomSnackbars.successSnackbar(
+                                        MySnackbars.success(
                                             'Succesfully Created Account, Login to continue'),
                                       ),
                                     ],
                                   );
                                 } else {
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    CustomSnackbars.errorSnackbar('Failed to create Account'),
+                                    MySnackbars.error('Failed to create Account'),
                                   );
                                 }
                               } else if (_otpProvider.getIntent() == OtpIntent.RESET_PASS) {
@@ -166,12 +166,12 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                                 Navigator.pushReplacementNamed(context, '/resetPass');
                               }
                             } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  CustomSnackbars.errorSnackbar('Failed to verify OTP'));
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(MySnackbars.error('Failed to verify OTP'));
                             }
                           } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                CustomSnackbars.errorSnackbar('Eeror during OTP verification'));
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(MySnackbars.error('Eeror during OTP verification'));
                           }
                         },
                       ),

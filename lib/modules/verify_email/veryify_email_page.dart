@@ -114,7 +114,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                               Navigator.pushNamed(context, '/otp');
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                CustomSnackbars.errorSnackbar('Failed to send OTP'),
+                                MySnackbars.error('Failed to send OTP'),
                               );
                             }
                           }

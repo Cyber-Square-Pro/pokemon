@@ -126,13 +126,12 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                                 .resetPassword(email, _newpasswordcontroller.text)) {
                               Navigator.pushNamed(context, '/login');
                             } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  CustomSnackbars.errorSnackbar('Failed To Reset Password'));
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(MySnackbars.error('Failed To Reset Password'));
                             }
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
-                                CustomSnackbars.errorSnackbar(
-                                    'Passwords do not match / Invalid passwords'));
+                                MySnackbars.error('Passwords do not match / Invalid passwords'));
                           }
                         },
                       ),

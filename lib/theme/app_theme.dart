@@ -103,6 +103,10 @@ class AppTheme {
         ? const AppColorsLight()
         : const AppColorsDark();
   }
+
+  static double get globalBorderRadius => 10;
+  static EdgeInsetsGeometry get homePadding =>
+      const EdgeInsets.symmetric(horizontal: 10, vertical: 10);
 }
 
-const Color mediumBlue =  Color.fromRGBO(67, 138, 211, 1);
+const Color mediumBlue = Color.fromRGBO(69, 105, 234, 1);

@@ -38,7 +38,7 @@ class _FavouritesPageState extends State<FavouritesPage> {
                 try {
                   await favService.getProtectedRoute();
                   ScaffoldMessenger.of(context).showSnackBar(
-                    CustomSnackbars.successSnackbar('Success!'),
+                    MySnackbars.success('Success!'),
                   );
                 } catch (e) {
                   throw Exception(e);

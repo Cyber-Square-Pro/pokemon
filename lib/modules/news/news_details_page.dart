@@ -1,5 +1,6 @@
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:app/shared/models/news_model.dart';
+import 'package:app/shared/utils/back_button.dart';
 import 'package:app/shared/utils/spacer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,7 +11,7 @@ class NewsDetailsPage extends StatefulWidget {
     super.key,
     required this.news,
   });
-  final News news;
+  final Article news;
   @override
   State<NewsDetailsPage> createState() => _NewsDetailsPageState();
 }
@@ -18,14 +19,22 @@ class NewsDetailsPage extends StatefulWidget {
 class _NewsDetailsPageState extends State<NewsDetailsPage> {
   @override
   Widget build(BuildContext context) {
+    print(widget.news.content);
+    print(widget.news.description);
     return ThemeSwitchingArea(
       child: Builder(builder: (context) {
         final TextStyle _titleStyle = Theme.of(context).textTheme.headline1!.copyWith(
-              fontFamily: 'Circular',
-              fontSize: 15,
-              height: 1.0,
-              color: Colors.white,
-            );
+          fontFamily: 'Circular',
+          fontSize: 16,
+          height: 1.0,
+          color: Colors.white,
+          shadows: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.5),
+              blurRadius: 20,
+            ),
+          ],
+        );
         final TextStyle _contentDetailsStyle = Theme.of(context).textTheme.bodyText1!.copyWith(
               fontFamily: 'Circular',
               fontSize: 16,
@@ -44,15 +53,17 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
           body: CustomScrollView(
             slivers: [
               SliverAppBar.large(
+                automaticallyImplyLeading: false,
+                leading: backButton(context),
+                //
                 systemOverlayStyle: SystemUiOverlayStyle.light,
-                foregroundColor: Colors.white,
                 elevation: 0,
                 scrolledUnderElevation: 0,
-                collapsedHeight: 140,
+                collapsedHeight: 150,
                 toolbarHeight: 60,
                 pinned: true,
                 stretch: true,
-                backgroundColor: Colors.blue.shade800,
+                backgroundColor: Colors.blue.shade800.withOpacity(0.9),
                 expandedHeight: 275,
                 titleSpacing: 0,
                 // title: Text(
@@ -72,17 +83,44 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
                   ),
                   child: FlexibleSpaceBar(
                     titlePadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                    // titlePadding: EdgeInsets.zero,
                     expandedTitleScale: 2,
-                    collapseMode: CollapseMode.parallax,
-                    background: Image.asset(
-                      'assets/images/bg/bg.png',
-                      fit: BoxFit.cover,
+                    collapseMode: CollapseMode.pin,
+
+                    background: Stack(
+                      fit: StackFit.expand,
+                      alignment: Alignment.center,
+                      children: [
+                        (widget.news.urlToImage != null)
+                            ? Image.network(
+                                widget.news.urlToImage!,
+                                fit: BoxFit.cover,
+                              )
+                            : Image.asset(
+                                'assets/images/bg/bg.png',
+                              ),
+                        Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.bottomCenter,
+                              end: Alignment.topCenter,
+                              colors: [
+                                Colors.black.withOpacity(0.75),
+                                Colors.black.withOpacity(0.2),
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
                     ),
-                    title: Text(
-                      widget.news.title,
-                      style: _titleStyle,
-                      overflow: TextOverflow.fade,
-                      maxLines: 4,
+                    title: Container(
+                      padding: const EdgeInsets.only(top: 5),
+                      child: Text(
+                        widget.news.title,
+                        style: _titleStyle,
+                        overflow: TextOverflow.fade,
+                        maxLines: 5,
+                      ),
                     ),
                   ),
                 ),
@@ -92,22 +130,40 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
                   color: Colors.transparent,
                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(widget.news.author, style: _contentDetailsStyle),
-                          Text(DateFormat('yyyy-MM-dd').format(widget.news.date),
-                              style: _contentDetailsStyle),
-                        ],
+                      Text(widget.news.author!, style: _contentDetailsStyle),
+                      Text(DateFormat('yyyy-MM-dd').format(widget.news.publishedAt),
+                          style: _contentDetailsStyle.copyWith(fontWeight: FontWeight.w500)),
+                      hSpace(20),
+                      Text(
+                        widget.news.description!,
+                        style: _contentStyle,
+                        maxLines: 100,
                       ),
                       hSpace(10),
                       Text(
                         widget.news.content,
                         style: _contentStyle,
+                        maxLines: 100,
                       ),
                       hSpace(10),
                       const Divider(),
+                      hSpace(5),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Source:',
+                            style: _contentDetailsStyle,
+                          ),
+                          wSpace(5),
+                          Text(
+                            '${widget.news.source.name}',
+                            style: _contentStyle,
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),

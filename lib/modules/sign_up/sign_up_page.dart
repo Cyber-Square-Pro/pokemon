@@ -29,7 +29,7 @@ class _SignUpPageState extends State<SignUpPage> {
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('assets/images/bg/login_bg.png'),
+          image: AssetImage('assets/images/bg/bg.png'),
           fit: BoxFit.fill,
         ),
       ),
@@ -72,7 +72,7 @@ class _SignUpPageState extends State<SignUpPage> {
             hSpace(20),
             Padding(
               padding: const EdgeInsets.symmetric(
-                horizontal: 40,
+                horizontal: 30,
               ),
               child: Form(
                 key: _formKey,
@@ -150,6 +150,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                     hSpace(20),
                     Container(
+                      width: 120,
                       decoration: BoxDecoration(
                         boxShadow: [
                           BoxShadow(
@@ -180,13 +181,13 @@ class _SignUpPageState extends State<SignUpPage> {
 
                               Navigator.pushNamed(context, '/otp');
                             } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  CustomSnackbars.errorSnackbar('Failed to send OTP'));
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(MySnackbars.error('Failed to send OTP'));
                               signupData.clearSignupData();
                             }
                           } else {
                             ScaffoldMessenger.of(context)
-                                .showSnackBar(CustomSnackbars.errorSnackbar('Invalid Submission!'));
+                                .showSnackBar(MySnackbars.error('Invalid Submission!'));
                           }
                         },
                       ),
@@ -198,11 +199,11 @@ class _SignUpPageState extends State<SignUpPage> {
                       },
                       label: 'Already have an account? Login Here.',
                     ),
-                    hSpace(10),
                   ],
                 ),
               ),
             ),
+            hSpace(50),
           ],
         ),
       ),

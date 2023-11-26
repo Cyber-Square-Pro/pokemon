@@ -26,7 +26,7 @@ class PokemonTitleInfoWidget extends StatelessWidget {
                   style: textTheme.headline1?.copyWith(
                     fontFamily: 'Circular',
                     letterSpacing: -1,
-                    fontSize: 36,
+                    fontSize: 30,
                     fontWeight: FontWeight.w900,
                     color: AppTheme.getColors(context).pokemonDetailsTitleColor,
                   ),
@@ -36,7 +36,7 @@ class PokemonTitleInfoWidget extends StatelessWidget {
                 return Text("#${_pokemonStore.pokemon!.number}",
                     style: textTheme.headline4?.copyWith(
                       fontFamily: 'Circular',
-                      fontSize: 30,
+                      fontSize: 25,
                       color: AppTheme.getColors(context).pokemonDetailsTitleColor.withOpacity(0.5),
                     ));
               }),

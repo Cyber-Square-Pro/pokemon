@@ -47,13 +47,13 @@ class OtpService {
         } else {
           // Handle other DioError cases
           ScaffoldMessenger.of(context).showSnackBar(
-            CustomSnackbars.errorSnackbar('An unexpected error occurred.'),
+            MySnackbars.error('An unexpected error occurred.'),
           );
         }
       } else {
         // Handle other exceptions
         ScaffoldMessenger.of(context).showSnackBar(
-          CustomSnackbars.errorSnackbar('An unexpected error occurred.'),
+          MySnackbars.error('An unexpected error occurred.'),
         );
       }
       return false;

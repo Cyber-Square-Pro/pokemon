@@ -1,3 +1,4 @@
+import 'package:app/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 
@@ -37,7 +38,7 @@ class _CustomOtpFieldState extends State<CustomOtpField> {
             color: Colors.white.withOpacity(0.75),
             width: 2,
           ),
-          borderRadius: const BorderRadius.all(Radius.circular(15)),
+          borderRadius: BorderRadius.all(Radius.circular(AppTheme.globalBorderRadius)),
         ),
       ),
       focusedPinTheme: PinTheme(
@@ -55,7 +56,7 @@ class _CustomOtpFieldState extends State<CustomOtpField> {
             color: Colors.white,
             width: 3,
           ),
-          borderRadius: const BorderRadius.all(Radius.circular(15)),
+          borderRadius: BorderRadius.all(Radius.circular(AppTheme.globalBorderRadius)),
         ),
       ),
       errorPinTheme: PinTheme(
@@ -73,7 +74,7 @@ class _CustomOtpFieldState extends State<CustomOtpField> {
             color: Colors.red,
             width: 2,
           ),
-          borderRadius: const BorderRadius.all(Radius.circular(15)),
+          borderRadius: BorderRadius.all(Radius.circular(AppTheme.globalBorderRadius)),
         ),
       ),
       errorTextStyle: TextStyle(

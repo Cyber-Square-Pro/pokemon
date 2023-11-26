@@ -85,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
             hSpace(20),
             Padding(
               padding: const EdgeInsets.symmetric(
-                horizontal: 40,
+                horizontal: 30,
               ),
               child: Form(
                 key: _formKey,
@@ -129,6 +129,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     hSpace(15),
                     Container(
+                      width: 150,
                       decoration: BoxDecoration(boxShadow: [
                         BoxShadow(
                           blurRadius: 12,
@@ -149,25 +150,24 @@ class _LoginPageState extends State<LoginPage> {
                                 context,
                                 '/home',
                                 arguments: [
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                      CustomSnackbars.successSnackbar('Welcome to Pokedex')),
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(MySnackbars.success('Welcome to Pokedex')),
                                 ],
                               );
                             } else {
                               Navigator.pop(context);
                               ScaffoldMessenger.of(context).showSnackBar(
-                                  CustomSnackbars.errorSnackbar(
-                                      'Login Failed: Please check your credentials'));
+                                  MySnackbars.error('Login Failed: Please check your credentials'));
                             }
                             // Navigate to secured screen on successful login
                           } else {
                             ScaffoldMessenger.of(context)
-                                .showSnackBar(CustomSnackbars.errorSnackbar('Invalid submission!'));
+                                .showSnackBar(MySnackbars.error('Invalid submission!'));
                           }
                         },
                       ),
                     ),
-                    hSpace(20),
+                    hSpace(15),
                     CustomTextButton(
                       onPressed: () {
                         _otpProvider.setIntent(OtpIntent.SIGN_UP);

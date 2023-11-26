@@ -1,9 +1,10 @@
 import 'package:app/shared/utils/spacer.dart';
+import 'package:app/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
-class CustomSnackbars {
+class MySnackbars {
   static Duration duration = const Duration(seconds: 2);
-  static SnackBar errorSnackbar(String message, [String title = 'Error!']) => SnackBar(
+  static SnackBar error(String message, [String title = 'Error!']) => SnackBar(
         duration: duration,
         content: snackbarBase(
           'assets/images/ash_shocked.png',
@@ -22,7 +23,7 @@ class CustomSnackbars {
         margin: EdgeInsets.zero,
         clipBehavior: Clip.none,
       );
-  static SnackBar successSnackbar(String message, [String title = 'success']) => SnackBar(
+  static SnackBar success(String message, [String title = 'success']) => SnackBar(
         duration: duration,
         content: snackbarBase(
           'assets/images/ash_throw.png',
@@ -49,7 +50,7 @@ Widget snackbarBase(String imagePath, Color color, Widget child, String title) =
       alignment: Alignment.centerLeft,
       children: [
         Container(
-          margin: const EdgeInsets.all(10),
+          margin: const EdgeInsets.all(20),
           width: double.infinity,
           decoration: BoxDecoration(
             color: color,
@@ -59,7 +60,7 @@ Widget snackbarBase(String imagePath, Color color, Widget child, String title) =
                 color: Colors.black.withOpacity(0.5),
               )
             ],
-            borderRadius: BorderRadius.circular(15),
+            borderRadius: BorderRadius.circular(AppTheme.globalBorderRadius),
           ),
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
           child: Row(
@@ -82,8 +83,8 @@ Widget snackbarBase(String imagePath, Color color, Widget child, String title) =
           ),
         ),
         Positioned(
-          left: 0,
-          bottom: 10,
+          left: 10,
+          bottom: 20,
           child: imagePath != ''
               ? Image.asset(
                   imagePath,

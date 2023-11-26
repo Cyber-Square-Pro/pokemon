@@ -19,7 +19,7 @@ class NewsService {
 
         // Use map to convert each item in the list
         final News result = News.fromJson(response.data);
-        print(result.articles);
+        // print(result.articles);
         return result.articles;
       } else {
         return [];

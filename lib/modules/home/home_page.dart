@@ -145,11 +145,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         case HomePageType.POKEMON_GRID:
                           return PokemonGridPage();
                         case HomePageType.ITEMS:
-                          return ItemsPage();
+                          return const ItemsPage();
                         case HomePageType.FAVOURITES:
-                          return FavouritesPage();
+                          return const FavouritesPage();
                         case HomePageType.NEWS:
-                          return NewsPage();
+                          return const NewsPage();
                         default:
                           return PokemonGridPage();
                       }

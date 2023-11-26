@@ -1,10 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 ThemeData darkTheme = ThemeData(
+  // useMaterial3: true,
+  appBarTheme: const AppBarTheme(
+    systemOverlayStyle: SystemUiOverlayStyle.light,
+  ),
+  inputDecorationTheme: InputDecorationTheme(
+    prefixIconColor: MaterialStateColor.resolveWith(
+      (states) {
+        if (states.contains(MaterialState.focused)) {
+          return Colors.white;
+        } else if (states.contains(MaterialState.error)) {
+          return Colors.red;
+        }
+        return Colors.white.withOpacity(0.5);
+      },
+    ),
+  ),
   fontFamily: 'CircularStd-Book',
   brightness: Brightness.dark,
-  backgroundColor: Color(0xFF121212),
-  textTheme: TextTheme(
+  backgroundColor: const Color(0xFF121212),
+  textTheme: const TextTheme(
     bodyText1: TextStyle(
       fontFamily: "CircularStd-Book",
       fontSize: 14,

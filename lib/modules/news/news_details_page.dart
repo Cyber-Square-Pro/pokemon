@@ -19,8 +19,6 @@ class NewsDetailsPage extends StatefulWidget {
 class _NewsDetailsPageState extends State<NewsDetailsPage> {
   @override
   Widget build(BuildContext context) {
-    print(widget.news.content);
-    print(widget.news.description);
     return ThemeSwitchingArea(
       child: Builder(builder: (context) {
         final TextStyle _titleStyle = Theme.of(context).textTheme.headline1!.copyWith(
@@ -43,7 +41,7 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
             );
         final TextStyle _contentStyle = Theme.of(context).textTheme.bodyText1!.copyWith(
               fontFamily: 'Circular',
-              fontSize: 16,
+              fontSize: 17,
               height: 1.3,
               fontWeight: FontWeight.w300,
               color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.8),
@@ -59,12 +57,12 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
                 systemOverlayStyle: SystemUiOverlayStyle.light,
                 elevation: 0,
                 scrolledUnderElevation: 0,
-                collapsedHeight: 150,
-                toolbarHeight: 60,
+                collapsedHeight: 160,
+                toolbarHeight: 70,
                 pinned: true,
                 stretch: true,
-                backgroundColor: Colors.blue.shade800.withOpacity(0.9),
-                expandedHeight: 275,
+                backgroundColor: Colors.blue.shade900,
+                expandedHeight: 300,
                 titleSpacing: 0,
                 // title: Text(
                 //   widget.news.title,
@@ -82,7 +80,7 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
                     ],
                   ),
                   child: FlexibleSpaceBar(
-                    titlePadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                    titlePadding: const EdgeInsets.only(left: 20, right: 20, bottom: 15, top: 0),
                     // titlePadding: EdgeInsets.zero,
                     expandedTitleScale: 2,
                     collapseMode: CollapseMode.pin,
@@ -98,6 +96,7 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
                               )
                             : Image.asset(
                                 'assets/images/bg/bg.png',
+                                fit: BoxFit.cover,
                               ),
                         Container(
                           decoration: BoxDecoration(
@@ -125,7 +124,8 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
                   ),
                 ),
               ),
-              SliverFillRemaining(
+              SliverToBoxAdapter(
+                // hasScrollBody: true,
                 child: Container(
                   color: Colors.transparent,
                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
@@ -164,6 +164,7 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
                           ),
                         ],
                       ),
+                      hSpace(200),
                     ],
                   ),
                 ),

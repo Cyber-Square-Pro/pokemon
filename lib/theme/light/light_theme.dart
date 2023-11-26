@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 
 ThemeData lightTheme = ThemeData(
   fontFamily: 'Circular',
-  appBarTheme: AppBarTheme(
-    systemOverlayStyle: SystemUiOverlayStyle.dark,
+  appBarTheme: const AppBarTheme(
+    systemOverlayStyle: SystemUiOverlayStyle.light,
   ),
   inputDecorationTheme: InputDecorationTheme(
     prefixIconColor: MaterialStateColor.resolveWith(

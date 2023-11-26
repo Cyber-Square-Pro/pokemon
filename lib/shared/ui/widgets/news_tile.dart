@@ -1,11 +1,11 @@
 import 'package:app/shared/models/news_model.dart';
 import 'package:app/shared/utils/spacer.dart';
+import 'package:app/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 Widget newsTitle(BuildContext context, Article article, void Function() onTap) {
-  final Color tileColor = Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.75);
-  const double tileHeight = 175;
+  const double tileHeight = 160;
   final newsTitleStyle = TextStyle(
     fontFamily: 'Circular',
     fontSize: 25,
@@ -27,9 +27,15 @@ Widget newsTitle(BuildContext context, Article article, void Function() onTap) {
     letterSpacing: -0.25,
     height: 1.25,
     color: Colors.white.withOpacity(0.9),
+    shadows: [
+      BoxShadow(
+        color: Colors.black.withOpacity(0.4),
+        blurRadius: 25,
+      ),
+    ],
   );
   return Padding(
-    padding: const EdgeInsets.only(bottom: 10, top: 10),
+    padding: const EdgeInsets.only(bottom: 5, top: 5),
     child: InkWell(
       borderRadius: BorderRadius.circular(15),
       onTap: onTap,
@@ -41,13 +47,13 @@ Widget newsTitle(BuildContext context, Article article, void Function() onTap) {
             height: tileHeight,
             width: double.infinity,
             decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: tileColor.withOpacity(0.5),
-                  blurRadius: 7,
-                  // offset: const Offset(-2, 2),
-                )
-              ],
+              // boxShadow: [
+              //   BoxShadow(
+              //     color: tileColor.withOpacity(0.5),
+              //     blurRadius: 7,
+              //     // offset: const Offset(-2, 2),
+              //   )
+              // ],
               borderRadius: BorderRadius.circular(15),
               image: DecorationImage(
                 fit: BoxFit.cover,
@@ -62,6 +68,10 @@ Widget newsTitle(BuildContext context, Article article, void Function() onTap) {
             key: const Key('cont'),
             padding: const EdgeInsets.all(15),
             decoration: BoxDecoration(
+              border: Border.all(
+                color: Colors.white.withOpacity(0.1),
+                width: 1,
+              ),
               borderRadius: BorderRadius.circular(15),
               gradient: LinearGradient(
                 begin: Alignment.bottomCenter,
@@ -75,15 +85,36 @@ Widget newsTitle(BuildContext context, Article article, void Function() onTap) {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
+                  // direction: Axis.horizontal,
+                  // mainAxisSize: MainAxisSize.min,
+                  // clipBehavior: Clip.none,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      'By ${article.author}',
-                      style: newsSubTitleStyle,
+                    Container(
+                      padding: const EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.35),
+                        borderRadius: BorderRadius.circular(AppTheme.globalBorderRadius),
+                      ),
+                      width: 150,
+                      child: Text(
+                        'By ${article.author}',
+                        style: newsSubTitleStyle,
+                        maxLines: 2,
+                        overflow: TextOverflow.fade,
+                      ),
                     ),
-                    Text(
-                      DateFormat('yyyy-MM-dd').format(article.publishedAt),
-                      style: newsSubTitleStyle,
+                    Container(
+                      padding: const EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.35),
+                        borderRadius: BorderRadius.circular(AppTheme.globalBorderRadius),
+                      ),
+                      child: Text(
+                        DateFormat('yyyy-MM-dd').format(article.publishedAt),
+                        style: newsSubTitleStyle,
+                      ),
                     ),
                   ],
                 ),

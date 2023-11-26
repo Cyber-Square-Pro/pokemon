@@ -126,35 +126,33 @@ class _NewsPageState extends State<NewsPage> {
             builder: (BuildContext context, snapshot) {
               if (snapshot.hasData) {
                 final newsList = snapshot.data!;
-                return Expanded(
-                  child: ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: newsList.length,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      Article article = newsList[index];
-                      return OpenContainer(
-                        transitionDuration: const Duration(milliseconds: 400),
-                        closedColor: Colors.transparent,
-                        openColor: Colors.transparent,
-                        clipBehavior: Clip.none,
-                        openElevation: 0,
-                        closedElevation: 0,
-                        openBuilder: (context, VoidCallback open) => NewsDetailsPage(news: article),
-                        closedBuilder: (context, VoidCallback open) => Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: newsTitle(
-                            context,
-                            article,
-                            () {
-                              print('clicked');
-                              open();
-                            },
-                          ),
+                return ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: newsList.length,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    Article article = newsList[index];
+                    return OpenContainer(
+                      transitionDuration: const Duration(milliseconds: 500),
+                      closedColor: Colors.transparent,
+                      openColor: Colors.transparent,
+                      clipBehavior: Clip.none,
+                      openElevation: 0,
+                      closedElevation: 0,
+                      openBuilder: (context, VoidCallback open) => NewsDetailsPage(news: article),
+                      closedBuilder: (context, VoidCallback open) => Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: newsTitle(
+                          context,
+                          article,
+                          () {
+                            print('clicked');
+                            open();
+                          },
                         ),
-                      );
-                    },
-                  ),
+                      ),
+                    );
+                  },
                 );
               } else if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(

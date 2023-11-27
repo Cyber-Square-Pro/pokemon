@@ -1,6 +1,6 @@
 import 'package:app/shared/providers/otp_provider.dart';
-import 'package:app/shared/repositories/auth_interceptor.dart';
 import 'package:app/shared/repositories/auth_service.dart';
+import 'package:app/shared/utils/app_constants.dart';
 import 'package:app/shared/utils/snackbars.dart';
 import 'package:app/shared/utils/spacer.dart';
 import 'package:app/shared/widgets/custom_text_button.dart';
@@ -8,7 +8,6 @@ import 'package:app/shared/widgets/custom_text_form_field.dart';
 import 'package:app/shared/widgets/loading_spinner_modal.dart';
 import 'package:app/shared/widgets/primary_elevated_button.dart';
 import 'package:app/theme/text_styles.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -40,9 +39,9 @@ class _LoginPageState extends State<LoginPage> {
     AuthService().apiTest();
     final _otpProvider = Provider.of<OtpProvider>(context, listen: false);
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('assets/images/bg/login_bg.png'),
+          image: AssetImage(AppConstants.backgroundImage),
           fit: BoxFit.fill,
         ),
       ),
@@ -55,11 +54,11 @@ class _LoginPageState extends State<LoginPage> {
             hSpace(120),
             Container(
               height: 60,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.fitHeight,
                   image: AssetImage(
-                    'assets/images/pokemon_logo.png',
+                    AppConstants.pokemonLogo,
                   ),
                 ),
               ),
@@ -145,19 +144,23 @@ class _LoginPageState extends State<LoginPage> {
                               _usernameController.text.trim(),
                               _passwordController.text.trim(),
                             )) {
-                              Navigator.pop(context);
-                              Navigator.pushReplacementNamed(
-                                context,
-                                '/home',
-                                arguments: [
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(MySnackbars.success('Welcome to Pokedex')),
-                                ],
-                              );
+                              if (context.mounted) {
+                                Navigator.pop(context);
+                                Navigator.pushReplacementNamed(
+                                  context,
+                                  '/home',
+                                  arguments: [
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(MySnackbars.success('Welcome to Pokedex')),
+                                  ],
+                                );
+                              }
                             } else {
-                              Navigator.pop(context);
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  MySnackbars.error('Login Failed: Please check your credentials'));
+                              if (context.mounted) {
+                                Navigator.pop(context);
+                                ScaffoldMessenger.of(context).showSnackBar(MySnackbars.error(
+                                    'Login Failed: Please check your credentials'));
+                              }
                             }
                             // Navigate to secured screen on successful login
                           } else {

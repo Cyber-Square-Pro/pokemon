@@ -1,12 +1,24 @@
 import 'dart:math';
 
 class AppConstants {
-  static String get pikachuLottie => "assets/lotties/pikachu.json";
-  static String get pikachuTurnLottie => "assets/lotties/pikachu_turn.json";
-  static String get squirtleLottie => "assets/lotties/squirtle.json";
-  static String get diglettLottie => "assets/lotties/diglett.json";
+  // ImageAssets
+  static String get backgroundImage => 'assets/images/bg/login_bg.png';
+  static String get backgroundPlainImage => 'assets/images/bg/bg.png';
+  static String get ashThrowImage => 'assets/images/ash_throw.png';
+  static String get ashShockedImage => 'assets/images/ash_shocked.png';
+  static String get ashMaterialImage => 'assets/images/ashtransparent.png';
+  static String get pikachuMaterial => 'assets/images/pikachu.png';
+  static String get pokemonLogo => 'assets/images/pokemon_logo.png';
+
   static String get fabIcon => "assets/images/icons/fab.png";
   static String get pokedexIcon => "assets/images/icons/pokedex_icon.png";
+
+  // Lottie Assets
+  static String get pikachuTurnLottie => "assets/lotties/pikachu_turn.json";
+
+  static String get pikachuLottie => "assets/lotties/pikachu.json";
+  static String get squirtleLottie => "assets/lotties/squirtle.json";
+  static String get diglettLottie => "assets/lotties/diglett.json";
 
   static String getRandomPokemonGif() {
     final pokemonGif = Random().nextInt(650).toString().padLeft(3, '0');

@@ -112,6 +112,7 @@ class _NewsPageState extends State<NewsPage> {
     super.initState();
     _dio = newsService.getDioInstance();
     _dio.interceptors.add(AuthInterceptor(dio: _dio));
+    newsService.fetchAllArticles();
   }
 
   final NewsService newsService = NewsService();
@@ -125,13 +126,13 @@ class _NewsPageState extends State<NewsPage> {
             future: NewsService().fetchAllArticles(),
             builder: (BuildContext context, snapshot) {
               if (snapshot.hasData) {
-                final newsList = snapshot.data!;
+                final List<News> newsList = snapshot.data!;
                 return ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: newsList.length,
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
-                    Article article = newsList[index];
+                    News news = newsList[index];
                     return OpenContainer(
                       transitionDuration: const Duration(milliseconds: 500),
                       closedColor: Colors.transparent,
@@ -139,12 +140,12 @@ class _NewsPageState extends State<NewsPage> {
                       clipBehavior: Clip.none,
                       openElevation: 0,
                       closedElevation: 0,
-                      openBuilder: (context, VoidCallback open) => NewsDetailsPage(news: article),
+                      openBuilder: (context, VoidCallback open) => NewsDetailsPage(news: news),
                       closedBuilder: (context, VoidCallback open) => Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: newsTitle(
                           context,
-                          article,
+                          news,
                           () {
                             print('clicked');
                             open();

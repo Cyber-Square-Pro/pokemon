@@ -4,7 +4,7 @@ import 'package:app/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-Widget newsTitle(BuildContext context, Article article, void Function() onTap) {
+Widget newsTitle(BuildContext context, News article, void Function() onTap) {
   const double tileHeight = 160;
   final newsTitleStyle = TextStyle(
     fontFamily: 'Circular',

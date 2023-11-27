@@ -1,12 +1,12 @@
-import 'dart:math';
-
 import 'package:app/shared/providers/otp_provider.dart';
 import 'package:app/shared/providers/signup_provider.dart';
 import 'package:app/shared/repositories/auth_service.dart';
 import 'package:app/shared/repositories/otp_service.dart';
+import 'package:app/shared/utils/app_constants.dart';
 import 'package:app/shared/utils/snackbars.dart';
 import 'package:app/shared/utils/spacer.dart';
 import 'package:app/shared/widgets/custom_text_button.dart';
+import 'package:app/shared/widgets/loading_spinner_modal.dart';
 import 'package:app/shared/widgets/otp_field.dart';
 import 'package:app/shared/widgets/primary_elevated_button.dart';
 import 'package:app/theme/text_styles.dart';
@@ -27,7 +27,6 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
     // TODO: implement initState
     super.initState();
     // Timer logic
-    final signupProv = Provider.of<SignupProvider>(context, listen: false);
   }
 
   final _formKey = GlobalKey<FormState>();
@@ -38,9 +37,9 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
     final signupProv = Provider.of<SignupProvider>(context, listen: false);
     final _otpProvider = Provider.of<OtpProvider>(context, listen: false);
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('assets/images/bg/login_bg.png'),
+          image: AssetImage(AppConstants.backgroundImage),
           fit: BoxFit.fill,
         ),
       ),
@@ -53,11 +52,11 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
             hSpace(150),
             Container(
               height: 60,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.fitHeight,
                   image: AssetImage(
-                    'assets/images/pokemon_logo.png',
+                    AppConstants.pokemonLogo,
                   ),
                 ),
               ),
@@ -109,8 +108,9 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                     //
                     hSpace(15),
                     CustomTextButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/');
+                      onPressed: () async {
+                        // Navigator.pushNamed(context, '/');
+                        //! Timer provider
                       },
                       label: 'Resend OTP',
                     ),
@@ -129,6 +129,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             print(_otpController.text);
+                            showLoadingSpinnerModal(context, 'Verifying...');
                             final data = signupProv.getSignupData;
                             final email =
                                 (data['email'] != null) ? data['email'] : _otpProvider.email;
@@ -146,32 +147,44 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                                   password: data['password'],
                                 )) {
                                   _otpController.clear();
-                                  Navigator.pushNamed(
-                                    context,
-                                    '/login',
-                                    arguments: [
-                                      ScaffoldMessenger.of(context).showSnackBar(
-                                        MySnackbars.success(
-                                            'Succesfully Created Account, Login to continue'),
-                                      ),
-                                    ],
-                                  );
+                                  (context.mounted)
+                                      ? Navigator.popAndPushNamed(
+                                          context,
+                                          '/login',
+                                          arguments: [
+                                            ScaffoldMessenger.of(context).showSnackBar(
+                                              MySnackbars.success(
+                                                'Succesfully Created Account, Login to continue',
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      : null;
                                 } else {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    MySnackbars.error('Failed to create Account'),
-                                  );
-                                }
+                                  if (context.mounted) {
+                                    Navigator.pop(context);
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      MySnackbars.error('Failed to create Account'),
+                                    );
+                                  }
+                                } // ELSE BLOCK TO FINALIZE SIGNUP AFTER OTP VERIFICATION
                               } else if (_otpProvider.getIntent() == OtpIntent.RESET_PASS) {
                                 _otpProvider.setIntent(OtpIntent.RESET_PASS);
-                                Navigator.pushReplacementNamed(context, '/resetPass');
-                              }
+                                if (context.mounted) {
+                                  Navigator.pop(context);
+                                  Navigator.pushReplacementNamed(context, '/resetPass');
+                                }
+                              } // ELSE BLOCK TO REDIRECT TO RESET PASSWORD SCREEN IF INTENT IS TO RESET PASSWORD
                             } else {
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(MySnackbars.error('Failed to verify OTP'));
-                            }
+                              if (context.mounted) {
+                                Navigator.pop(context);
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(MySnackbars.error('Failed to verify OTP'));
+                              }
+                            } // ELSE BLOCK TO SHOW ERROR IF OTP VERIFICATION FAILED
                           } else {
                             ScaffoldMessenger.of(context)
-                                .showSnackBar(MySnackbars.error('Eeror during OTP verification'));
+                                .showSnackBar(MySnackbars.error('Invalid OTP'));
                           }
                         },
                       ),

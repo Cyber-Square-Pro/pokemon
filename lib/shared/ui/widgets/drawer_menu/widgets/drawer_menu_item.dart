@@ -10,6 +10,7 @@ class DrawerMenuItemWidget extends StatelessWidget {
   final double width;
   final IconData icon;
   final VoidCallback? onTap;
+  final MainAxisAlignment? contentAlignment;
 
   const DrawerMenuItemWidget({
     Key? key,
@@ -18,6 +19,7 @@ class DrawerMenuItemWidget extends StatelessWidget {
     this.width = 155,
     this.onTap,
     required this.icon,
+    this.contentAlignment,
   }) : super(key: key);
 
   @override
@@ -25,64 +27,69 @@ class DrawerMenuItemWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(5),
       child: InkWell(
+        highlightColor: Colors.white,
+        splashColor: Colors.white,
         onTap: onTap ??
             () {
               BotToast.showText(text: "Not implemented yet");
             },
-        child: Container(
-          decoration: BoxDecoration(
-            border: Border.all(
-              width: 2,
-              color:
-                  (onTap != null) ? Colors.white.withOpacity(0.75) : Colors.white.withOpacity(0.15),
+        child: Ink(
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(
+                width: 2,
+                color: (onTap != null)
+                    ? Colors.white.withOpacity(0.75)
+                    : Colors.white.withOpacity(0.15),
+              ),
+              color: onTap != null
+                  ? Colors.transparent
+                  : AppTheme.getColors(context).drawerDisabled.withOpacity(0.15),
+              borderRadius: BorderRadius.circular(15),
             ),
-            color: onTap != null
-                ? Colors.transparent
-                : AppTheme.getColors(context).drawerDisabled.withOpacity(0.15),
-            borderRadius: BorderRadius.circular(15),
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(15),
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                Positioned(
-                  top: -12,
-                  right: -14,
-                  child: PokeballWidget(
-                    size: 83,
-                    color: Colors.white.withOpacity(0.05),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(15),
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Positioned(
+                    top: -12,
+                    right: -14,
+                    child: PokeballWidget(
+                      size: 83,
+                      color: Colors.white.withOpacity(0.05),
+                    ),
                   ),
-                ),
-                Positioned(
-                  top: -60,
-                  left: -50,
-                  child: PokeballWidget(
-                    size: 83,
-                    color: Colors.white.withOpacity(0.05),
+                  Positioned(
+                    top: -60,
+                    left: -50,
+                    child: PokeballWidget(
+                      size: 83,
+                      color: Colors.white.withOpacity(0.05),
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Icon(
-                        icon,
-                        color: (onTap != null) ? Colors.white : Colors.white.withOpacity(0.25),
-                      ),
-                      wSpace(10),
-                      Text(
-                        text,
-                        style: TextStyle(
-                          color: (onTap != null) ? Colors.white : Colors.white.withOpacity(0.5),
-                          fontFamily: 'Circular',
+                  Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Row(
+                      mainAxisAlignment: contentAlignment ?? MainAxisAlignment.start,
+                      children: [
+                        Icon(
+                          icon,
+                          color: (onTap != null) ? Colors.white : Colors.white.withOpacity(0.25),
                         ),
-                      ),
-                    ],
-                  ),
-                )
-              ],
+                        wSpace(10),
+                        Text(
+                          text,
+                          style: TextStyle(
+                            color: (onTap != null) ? Colors.white : Colors.white.withOpacity(0.5),
+                            fontFamily: 'Circular',
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),

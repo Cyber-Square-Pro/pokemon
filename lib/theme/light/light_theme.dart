@@ -5,7 +5,7 @@ ThemeData lightTheme = ThemeData(
   useMaterial3: true,
   fontFamily: 'Circular',
   appBarTheme: const AppBarTheme(
-    systemOverlayStyle: SystemUiOverlayStyle.light,
+    systemOverlayStyle: SystemUiOverlayStyle.dark,
   ),
   inputDecorationTheme: InputDecorationTheme(
     prefixIconColor: MaterialStateColor.resolveWith(

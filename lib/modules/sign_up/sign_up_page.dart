@@ -1,9 +1,11 @@
 import 'package:app/shared/providers/signup_provider.dart';
 import 'package:app/shared/repositories/otp_service.dart';
+import 'package:app/shared/utils/app_constants.dart';
 import 'package:app/shared/utils/snackbars.dart';
 import 'package:app/shared/utils/spacer.dart';
 import 'package:app/shared/widgets/custom_text_button.dart';
 import 'package:app/shared/widgets/custom_text_form_field.dart';
+import 'package:app/shared/widgets/loading_spinner_modal.dart';
 import 'package:app/shared/widgets/primary_elevated_button.dart';
 import 'package:app/theme/text_styles.dart';
 import 'package:flutter/material.dart';
@@ -27,9 +29,9 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('assets/images/bg/bg.png'),
+          image: AssetImage(AppConstants.backgroundPlainImage),
           fit: BoxFit.fill,
         ),
       ),
@@ -42,11 +44,11 @@ class _SignUpPageState extends State<SignUpPage> {
             hSpace(100),
             Container(
               height: 60,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.fitHeight,
                   image: AssetImage(
-                    'assets/images/pokemon_logo.png',
+                    AppConstants.pokemonLogo,
                   ),
                 ),
               ),
@@ -163,27 +165,32 @@ class _SignUpPageState extends State<SignUpPage> {
                         label: 'Sign Up',
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            final signupData = Provider.of<SignupProvider>(context, listen: false);
+                            showLoadingSpinnerModal(context, 'Signing up...');
+                            final signupProvider =
+                                Provider.of<SignupProvider>(context, listen: false);
 
-                            signupData.setSignupData({
+                            signupProvider.setSignupData({
                               'username': _namecontroller.text.trim(),
                               'email': _emailaddresscontroller.text.trim(),
                               'phone_number': _phonenumbercontroller.text.trim(),
                               'password': _passwordcontroller.text.trim(),
                             });
 
-                            if (await OtpService().sendOTP(signupData.getSignupData['email'])) {
+                            if (await OtpService().sendOTP(signupProvider.getSignupData['email'])) {
                               _namecontroller.clear();
                               _emailaddresscontroller.clear();
                               _phonenumbercontroller.clear();
                               _passwordcontroller.clear();
                               _confirmpasswordcontroller.clear();
 
-                              Navigator.pushNamed(context, '/otp');
+                              (context.mounted) ? Navigator.popAndPushNamed(context, '/otp') : null;
                             } else {
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(MySnackbars.error('Failed to send OTP'));
-                              signupData.clearSignupData();
+                              if (context.mounted) {
+                                Navigator.pop(context);
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(MySnackbars.error('Failed to send OTP'));
+                                signupProvider.clearSignupData();
+                              }
                             }
                           } else {
                             ScaffoldMessenger.of(context)

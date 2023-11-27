@@ -1,4 +1,5 @@
-import 'package:app/theme/light/app_colors_light.dart';
+import 'package:app/shared/utils/spacer.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:lottie/lottie.dart';
@@ -6,7 +7,7 @@ import 'package:app/modules/home/home_page_store.dart';
 import 'package:app/shared/ui/widgets/animated_pokeball.dart';
 import 'package:app/shared/ui/widgets/drawer_menu/widgets/drawer_menu_item.dart';
 import 'package:app/shared/utils/app_constants.dart';
-import 'package:app/theme/app_theme.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DrawerMenuWidget extends StatefulWidget {
   const DrawerMenuWidget({Key? key}) : super(key: key);
@@ -39,11 +40,11 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget> with TickerProvider
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: Colors.transparent,
         image: DecorationImage(
           fit: BoxFit.cover,
-          image: AssetImage('assets/images/bg/bg.png'),
+          image: AssetImage(AppConstants.backgroundPlainImage),
         ),
       ),
       child: Stack(
@@ -53,11 +54,11 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget> with TickerProvider
             children: [
               Column(
                 children: [
-                  Image.asset(
-                    AppConstants.pokedexIcon,
-                    width: 100,
-                    height: 100,
-                  ),
+                  // Image.asset(
+                  //   AppConstants.pokedexIcon,
+                  //   width: 100,
+                  //   height: 100,
+                  // ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -152,6 +153,29 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget> with TickerProvider
                   // DrawerMenuItemWidget(
                   //     color: AppTheme.getColors(context).drawerLocations, text: "Locations"),
                 ],
+              ),
+              hSpace(10),
+              Divider(
+                indent: 10,
+                endIndent: 10,
+                color: Colors.white.withOpacity(0.25),
+              ),
+              hSpace(10),
+              SizedBox(
+                width: 150,
+                child: DrawerMenuItemWidget(
+                  icon: CupertinoIcons.return_icon,
+                  text: "Logout",
+                  contentAlignment: MainAxisAlignment.center,
+                  onTap: () async {
+                    final SharedPreferences prefs = await SharedPreferences.getInstance();
+                    await prefs.remove('accessToken');
+                    await prefs.remove('refreshToken');
+                    if (context.mounted) {
+                      Navigator.pushReplacementNamed(context, '/login');
+                    }
+                  },
+                ),
               ),
             ],
           ),

@@ -33,7 +33,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       style: const TextStyle(
         fontFamily: 'Circular',
         letterSpacing: 0.5,
-        fontSize: 18,
+        fontSize: 16,
         color: Colors.white,
       ),
 
@@ -92,7 +92,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         ]),
 
         // Prefix Icon
-        prefixIcon: SizedBox(width: 65, child: Icon(widget.prefixIcon)),
+        prefixIcon: SizedBox(width: 50, child: Icon(widget.prefixIcon)),
       ),
     );
   }

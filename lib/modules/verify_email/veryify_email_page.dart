@@ -1,9 +1,10 @@
-import 'package:app/modules/otp_verification/otp_verification_page.dart';
 import 'package:app/shared/providers/otp_provider.dart';
 import 'package:app/shared/repositories/otp_service.dart';
+import 'package:app/shared/utils/app_constants.dart';
 import 'package:app/shared/utils/snackbars.dart';
 import 'package:app/shared/utils/spacer.dart';
 import 'package:app/shared/widgets/custom_text_form_field.dart';
+import 'package:app/shared/widgets/loading_spinner_modal.dart';
 import 'package:app/shared/widgets/primary_elevated_button.dart';
 import 'package:app/theme/text_styles.dart';
 import 'package:flutter/material.dart';
@@ -17,16 +18,16 @@ class VerifyEmailPage extends StatefulWidget {
 }
 
 class _VerifyEmailPageState extends State<VerifyEmailPage> {
-  final _reenteremailcontroller = TextEditingController();
+  final _emailController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     final _otpProvider = Provider.of<OtpProvider>(context, listen: false);
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('assets/images/bg/login_bg.png'),
+          image: AssetImage(AppConstants.backgroundImage),
           fit: BoxFit.fill,
         ),
       ),
@@ -39,11 +40,11 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
             hSpace(150),
             Container(
               height: 60,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.fitHeight,
                   image: AssetImage(
-                    'assets/images/pokemon_logo.png',
+                    AppConstants.pokemonLogo,
                   ),
                 ),
               ),
@@ -82,7 +83,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                     ),
                     hSpace(20),
                     CustomTextFormField(
-                      controller: _reenteremailcontroller,
+                      controller: _emailController,
                       keyboardType: TextInputType.emailAddress,
                       validator: (value) {
                         if (value == '') {
@@ -108,15 +109,32 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                         label: 'Continue',
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
+                            showLoadingSpinnerModal(context, 'Loading...');
                             _otpProvider.setIntent(OtpIntent.RESET_PASS);
-                            if (await OtpService().sendOTP(_reenteremailcontroller.text.trim())) {
-                              _otpProvider.setEmail(_reenteremailcontroller.text.trim());
-                              Navigator.pushNamed(context, '/otp');
+                            if (await OtpService().sendOTP(_emailController.text.trim())) {
+                              _otpProvider.setEmail(_emailController.text.trim());
+                              Navigator.pop(context);
+                              Navigator.popAndPushNamed(
+                                context,
+                                '/otp',
+                                arguments: [
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    MySnackbars.success('OTP Has been sent succesfully'),
+                                  ),
+                                ],
+                              );
                             } else {
+                              Navigator.pop(context);
                               ScaffoldMessenger.of(context).showSnackBar(
                                 MySnackbars.error('Failed to send OTP'),
                               );
                             }
+                          } else {
+                            // Navigator.pop(context);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              MySnackbars.error(
+                                  'Invalid Submission, please check your email again.'),
+                            );
                           }
                         },
                       ),

@@ -1,9 +1,9 @@
 import 'package:app/shared/providers/otp_provider.dart';
-import 'package:app/shared/providers/signup_provider.dart';
 import 'package:app/shared/repositories/otp_service.dart';
 import 'package:app/shared/utils/snackbars.dart';
 import 'package:app/shared/utils/spacer.dart';
 import 'package:app/shared/widgets/custom_text_form_field.dart';
+import 'package:app/shared/widgets/loading_spinner_modal.dart';
 import 'package:app/shared/widgets/primary_elevated_button.dart';
 import 'package:app/theme/text_styles.dart';
 import 'package:flutter/material.dart';
@@ -121,13 +121,28 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                         label: 'Reset',
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
+                            showLoadingSpinnerModal(context, 'Resetting password...');
                             final email = _otpProvider.email;
                             if (await OtpService()
-                                .resetPassword(email, _newpasswordcontroller.text)) {
-                              Navigator.pushNamed(context, '/login');
+                                .resetPassword(email, _newpasswordcontroller.text.trim())) {
+                              (context.mounted)
+                                  ? Navigator.popAndPushNamed(
+                                      context,
+                                      '/login',
+                                      arguments: [
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          MySnackbars.success(
+                                              'Password has been reset, login to continue'),
+                                        ),
+                                      ],
+                                    )
+                                  : null;
                             } else {
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(MySnackbars.error('Failed To Reset Password'));
+                              if (context.mounted) {
+                                Navigator.pop(context);
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(MySnackbars.error('Failed To Reset Password'));
+                              }
                             }
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(

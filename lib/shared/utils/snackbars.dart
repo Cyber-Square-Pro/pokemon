@@ -1,13 +1,14 @@
+import 'package:app/shared/utils/app_constants.dart';
 import 'package:app/shared/utils/spacer.dart';
 import 'package:app/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class MySnackbars {
-  static Duration duration = const Duration(seconds: 2);
+  static Duration duration = const Duration(seconds: 3);
   static SnackBar error(String message, [String title = 'Error!']) => SnackBar(
         duration: duration,
         content: snackbarBase(
-          'assets/images/ash_shocked.png',
+          AppConstants.ashShockedImage,
           Colors.red.shade500,
           Text(
             message,
@@ -26,7 +27,7 @@ class MySnackbars {
   static SnackBar success(String message, [String title = 'success']) => SnackBar(
         duration: duration,
         content: snackbarBase(
-          'assets/images/ash_throw.png',
+          AppConstants.ashThrowImage,
           Colors.teal.shade400,
           Text(
             message,

@@ -70,7 +70,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
             fit: StackFit.expand,
             children: [
               Image.asset(
-                'assets/images/bg/login_bg.png',
+                AppConstants.backgroundPlainImage,
                 fit: BoxFit.cover,
               ),
               if (widget.lottiePath != null)

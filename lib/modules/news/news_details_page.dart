@@ -11,7 +11,7 @@ class NewsDetailsPage extends StatefulWidget {
     super.key,
     required this.news,
   });
-  final Article news;
+  final News news;
   @override
   State<NewsDetailsPage> createState() => _NewsDetailsPageState();
 }

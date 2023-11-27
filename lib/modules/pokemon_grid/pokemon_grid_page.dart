@@ -1,3 +1,4 @@
+import 'package:app/shared/widgets/custom_progress_spinner.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -37,10 +38,12 @@ class _PokemonGridPageState extends State<PokemonGridPage> {
     return Observer(
       builder: (_) {
         if (_pokemonStore.pokemonsSummary == null) {
-          return const SliverFillRemaining(
+          return SliverFillRemaining(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [CircularProgressIndicator()],
+              children: [
+                loadingSpinner(context),
+              ],
             ),
           );
         } else {

@@ -1,11 +1,19 @@
+import 'package:app/shared/utils/app_constants.dart';
+import 'package:app/shared/utils/spacer.dart';
 import 'package:flutter/material.dart';
 
 Widget errorCard(BuildContext context, {required String message}) {
   return Container(
     padding: const EdgeInsets.all(15),
-    child: Column(
+    child: Row(
       children: [
-        //? <Sad Pokemon Icon>
+        Image.asset(
+          AppConstants.pikachuSadImage,
+          height: 70,
+          width: 70,
+          fit: BoxFit.fitHeight,
+        ),
+        wSpace(10),
         Text(
           message,
           style: TextStyle(

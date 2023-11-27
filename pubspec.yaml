@@ -31,6 +31,7 @@ dependencies:
   animations: ^2.0.8
   intl:
   stop_watch_timer: ^3.0.2
+  flutter_screenutil: ^5.9.0
 
 dev_dependencies:
   mockito:

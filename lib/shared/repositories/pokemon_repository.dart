@@ -25,6 +25,7 @@ class PokemonRepository {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       final favorites = prefs.getStringList('favorites-pokemons');
+      // final favorites = prefs.getStringList('favorites-pokemons');
 
       if (favorites == null) {
         return [];
@@ -40,6 +41,7 @@ class PokemonRepository {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setStringList('favorites-pokemons', favorites);
+      // await prefs.setStringList('${user}-favorites-pokemons', favorites);
     } catch (e) {
       throw e;
     }

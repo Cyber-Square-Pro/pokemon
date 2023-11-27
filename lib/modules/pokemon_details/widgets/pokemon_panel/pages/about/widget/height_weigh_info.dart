@@ -39,10 +39,12 @@ class HeightWeightInfoWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Opacity(
-                opacity: 0.4,
+                opacity: 0.7,
                 child: Text(
-                  "Height",
-                  style: textTheme.bodyText1,
+                  "Weight",
+                  style: textTheme.bodyText1!.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               SizedBox(
@@ -61,10 +63,12 @@ class HeightWeightInfoWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Opacity(
-                opacity: 0.4,
+                opacity: 0.7,
                 child: Text(
-                  "Weight",
-                  style: textTheme.bodyText1,
+                  "Height",
+                  style: textTheme.bodyText1!.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               SizedBox(

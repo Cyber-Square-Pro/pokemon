@@ -51,7 +51,7 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage>
 
     player = AudioPlayer();
 
-    _animationController = AnimationController(vsync: this, duration: Duration(seconds: 2))
+    _animationController = AnimationController(vsync: this, duration: const Duration(seconds: 2))
       ..repeat();
   }
 
@@ -79,7 +79,7 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage>
       child: Builder(builder: (context) {
         return Scaffold(
           appBar: PreferredSize(
-            preferredSize: Size.fromHeight(70),
+            preferredSize: const Size.fromHeight(70),
             child: Stack(
               children: [
                 Observer(
@@ -123,11 +123,11 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage>
                 Observer(builder: (_) {
                   return AppBar(
                     title: AnimatedOpacity(
-                        duration: Duration(milliseconds: 30),
+                        duration: const Duration(milliseconds: 30),
                         opacity: _pokemonDetailsStore.opacityTitleAppbar,
                         child: Visibility(
-                          child: AppBarNavigationWidget(),
                           visible: _pokemonDetailsStore.opacityTitleAppbar > 0,
+                          child: AppBarNavigationWidget(),
                         )),
                     backgroundColor: Colors.transparent,
                     shadowColor: Colors.transparent,
@@ -157,6 +157,7 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage>
                           icon: Icon(Icons.favorite_border,
                               color: AppTheme.getColors(context).pokemonDetailsTitleColor),
                           onPressed: () {
+                            //! ADD FAVOURITE FUNCTION
                             _pokemonStore.addFavoritePokemon(_pokemonStore.pokemon!.number);
                             BotToast.showText(text: "${_pokemonStore.pokemon!.name} was favorited");
                           },
@@ -214,7 +215,7 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage>
                                 alignment: Alignment.bottomCenter,
                                 child: Container(
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.only(
+                                    borderRadius: const BorderRadius.only(
                                       topLeft: Radius.circular(30),
                                       topRight: Radius.circular(30),
                                     ),
@@ -229,7 +230,7 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage>
                                   child: Padding(
                                     padding: const EdgeInsets.only(bottom: 20),
                                     child: AnimatedOpacity(
-                                      duration: Duration(milliseconds: 30),
+                                      duration: const Duration(milliseconds: 30),
                                       opacity: _pokemonDetailsStore.opacityPokemon,
                                       child: SizedBox(
                                         height: 223,
@@ -261,7 +262,7 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage>
                                 builder: (_) => Align(
                                   alignment: Alignment.bottomCenter,
                                   child: AnimatedOpacity(
-                                    duration: Duration(milliseconds: 300),
+                                    duration: const Duration(milliseconds: 300),
                                     opacity: _pokemonDetailsStore.opacityPokemon,
                                     child: Padding(
                                       padding: const EdgeInsets.only(bottom: 30),
@@ -297,12 +298,13 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage>
                                                       ),
                                                       onTap: () {
                                                         _pageController.previousPage(
-                                                            duration: Duration(milliseconds: 300),
+                                                            duration:
+                                                                const Duration(milliseconds: 300),
                                                             curve: Curves.fastLinearToSlowEaseIn);
                                                       },
                                                     ),
                                                   ),
-                                                  SizedBox(
+                                                  const SizedBox(
                                                     width: 280,
                                                   ),
                                                   Padding(
@@ -317,7 +319,8 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage>
                                                       ),
                                                       onTap: () {
                                                         _pageController.nextPage(
-                                                            duration: Duration(milliseconds: 300),
+                                                            duration:
+                                                                const Duration(milliseconds: 300),
                                                             curve: Curves.fastLinearToSlowEaseIn);
                                                       },
                                                     ),
@@ -333,7 +336,7 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage>
                               ),
                               Observer(
                                 builder: (_) => AnimatedOpacity(
-                                  duration: Duration(milliseconds: 30),
+                                  duration: const Duration(milliseconds: 30),
                                   opacity: _pokemonDetailsStore.opacityPokemon,
                                   child: PokemonTitleInfoWidget(),
                                 ),

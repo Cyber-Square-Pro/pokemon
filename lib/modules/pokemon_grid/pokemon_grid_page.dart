@@ -37,7 +37,7 @@ class _PokemonGridPageState extends State<PokemonGridPage> {
     return Observer(
       builder: (_) {
         if (_pokemonStore.pokemonsSummary == null) {
-          return SliverFillRemaining(
+          return const SliverFillRemaining(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [CircularProgressIndicator()],
@@ -74,7 +74,7 @@ class _PokemonGridPageState extends State<PokemonGridPage> {
           }
 
           return SliverPadding(
-            padding: EdgeInsets.symmetric(horizontal: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             sliver: PokemonGridWidget(pokemonStore: _pokemonStore),
           );
         }

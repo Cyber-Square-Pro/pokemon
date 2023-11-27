@@ -55,6 +55,11 @@ class PokemonTitleInfoWidget extends StatelessWidget {
                       .map((type) => Padding(
                             padding: const EdgeInsets.only(right: 8),
                             child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(38),
+                                  color: AppTheme.getColors(context)
+                                      .pokemonDetailsTitleColor
+                                      .withOpacity(0.2)),
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                                 child: Text(type,
@@ -63,11 +68,6 @@ class PokemonTitleInfoWidget extends StatelessWidget {
                                       color: AppTheme.getColors(context).pokemonDetailsTitleColor,
                                     )),
                               ),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(38),
-                                  color: AppTheme.getColors(context)
-                                      .pokemonDetailsTitleColor
-                                      .withOpacity(0.2)),
                             ),
                           ))
                       .toList(),

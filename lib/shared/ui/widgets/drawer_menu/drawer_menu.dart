@@ -171,6 +171,8 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget> with TickerProvider
                     final SharedPreferences prefs = await SharedPreferences.getInstance();
                     await prefs.remove('accessToken');
                     await prefs.remove('refreshToken');
+                    // final String user = Provider.of<UserProvider>().username;
+                    // await prefs.remove('${user}-favourites-pokemon');
                     if (context.mounted) {
                       Navigator.pushReplacementNamed(context, '/login');
                     }

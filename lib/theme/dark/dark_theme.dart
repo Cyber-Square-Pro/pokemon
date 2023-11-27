@@ -18,7 +18,8 @@ ThemeData darkTheme = ThemeData(
       },
     ),
   ),
-  fontFamily: 'CircularStd-Book',
+  fontFamilyFallback: const ['Circular'],
+  fontFamily: 'Circular',
   brightness: Brightness.dark,
   backgroundColor: const Color(0xFF121212),
   textTheme: const TextTheme(

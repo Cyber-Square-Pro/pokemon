@@ -38,6 +38,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
   Widget build(BuildContext context) {
     return SliverAppBar(
       // systemOverlayStyle: isDark ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.light,
+      systemOverlayStyle: SystemUiOverlayStyle.dark,
       automaticallyImplyLeading: widget.showBackButton,
       stretch: true,
       pinned: true,

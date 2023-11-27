@@ -128,7 +128,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     hSpace(15),
                     Container(
-                      width: 150,
+                      width: 120,
                       decoration: BoxDecoration(boxShadow: [
                         BoxShadow(
                           blurRadius: 12,

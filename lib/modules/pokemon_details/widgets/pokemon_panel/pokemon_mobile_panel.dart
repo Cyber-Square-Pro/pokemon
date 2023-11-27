@@ -36,14 +36,11 @@ class PokemonMobilePanelWidget extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _PokemonMobilePanelWidgetState createState() =>
-      _PokemonMobilePanelWidgetState();
+  _PokemonMobilePanelWidgetState createState() => _PokemonMobilePanelWidgetState();
 }
 
 class _PokemonMobilePanelWidgetState extends State<PokemonMobilePanelWidget>
-    with
-        TickerProviderStateMixin,
-        AutomaticKeepAliveClientMixin<PokemonMobilePanelWidget> {
+    with TickerProviderStateMixin, AutomaticKeepAliveClientMixin<PokemonMobilePanelWidget> {
   late TabController _tabController;
   late PanelController _panelController;
   late ScrollController _aboutScrollController;
@@ -74,10 +71,7 @@ class _PokemonMobilePanelWidgetState extends State<PokemonMobilePanelWidget>
   }
 
   void onScroll(UserScrollNotification scrollInfo) {
-    if (kIsWeb ||
-        io.Platform.isWindows ||
-        io.Platform.isLinux ||
-        io.Platform.isMacOS) {
+    if (kIsWeb || io.Platform.isWindows || io.Platform.isLinux || io.Platform.isMacOS) {
       if (scrollInfo.metrics.pixels > 0) {
         if (!_panelController.isPanelOpen) {
           _panelController.open();
@@ -94,8 +88,7 @@ class _PokemonMobilePanelWidgetState extends State<PokemonMobilePanelWidget>
 
   ScrollController? setScrollControllerByPlatform(
       BuildContext context, ScrollController scrollController) {
-    return (kIsWeb &&
-                getDeviceScreenType(context) != DeviceScreenType.CELLPHONE) ||
+    return (kIsWeb && getDeviceScreenType(context) != DeviceScreenType.CELLPHONE) ||
             (!kIsWeb && !io.Platform.isAndroid && !io.Platform.isIOS)
         ? scrollController
         : null;
@@ -146,46 +139,39 @@ class _PokemonMobilePanelWidgetState extends State<PokemonMobilePanelWidget>
                             ),
                           ),
                           child: TabBar(
-                            unselectedLabelColor:
-                                AppTheme.getColors(context).pokemonTabTitle,
-                            labelColor: AppTheme.getColors(context)
-                                .selectPokemonTabTitle,
-                            unselectedLabelStyle: textTheme.bodyText1
-                                ?.copyWith(fontWeight: FontWeight.bold),
+                            unselectedLabelColor: AppTheme.getColors(context).pokemonTabTitle,
+                            labelColor: AppTheme.getColors(context).selectPokemonTabTitle,
+                            unselectedLabelStyle:
+                                textTheme.bodyText1?.copyWith(fontWeight: FontWeight.bold),
                             labelStyle: textTheme.bodyText1?.copyWith(
                               fontWeight: FontWeight.bold,
                               color: null,
                             ),
-                            indicatorColor:
-                                AppTheme.getColors(context).tabIndicator,
+                            indicatorColor: AppTheme.getColors(context).tabIndicator,
                             controller: _tabController,
                             tabs: [
                               Tab(
                                 child: FittedBox(
                                   fit: BoxFit.fitWidth,
-                                  child:
-                                      Text("About", style: textTheme.bodyText1),
+                                  child: Text("About", style: textTheme.bodyText1),
                                 ),
                               ),
                               Tab(
                                 child: FittedBox(
                                   fit: BoxFit.fitWidth,
-                                  child: Text("Base Stats",
-                                      style: textTheme.bodyText1),
+                                  child: Text("Base Stats", style: textTheme.bodyText1),
                                 ),
                               ),
                               Tab(
                                 child: FittedBox(
                                   fit: BoxFit.fitWidth,
-                                  child: Text("Evolution",
-                                      style: textTheme.bodyText1),
+                                  child: Text("Evolution", style: textTheme.bodyText1),
                                 ),
                               ),
                               Tab(
                                 child: FittedBox(
                                   fit: BoxFit.fitWidth,
-                                  child:
-                                      Text("Moves", style: textTheme.bodyText1),
+                                  child: Text("Moves", style: textTheme.bodyText1),
                                 ),
                               ),
                             ],
@@ -203,8 +189,7 @@ class _PokemonMobilePanelWidgetState extends State<PokemonMobilePanelWidget>
                   children: [
                     NotificationListener<UserScrollNotification>(
                       child: SingleChildScrollView(
-                        controller: setScrollControllerByPlatform(
-                            context, _aboutScrollController),
+                        controller: setScrollControllerByPlatform(context, _aboutScrollController),
                         child: const AboutPage(),
                       ),
                       onNotification: (UserScrollNotification scrollInfo) {
@@ -216,8 +201,7 @@ class _PokemonMobilePanelWidgetState extends State<PokemonMobilePanelWidget>
                     NotificationListener<UserScrollNotification>(
                       child: SingleChildScrollView(
                         child: const BaseStatsPage(),
-                        controller: setScrollControllerByPlatform(
-                            context, _baseStatsController),
+                        controller: setScrollControllerByPlatform(context, _baseStatsController),
                       ),
                       onNotification: (UserScrollNotification scrollInfo) {
                         onScroll(scrollInfo);
@@ -228,8 +212,7 @@ class _PokemonMobilePanelWidgetState extends State<PokemonMobilePanelWidget>
                     NotificationListener<UserScrollNotification>(
                       child: SingleChildScrollView(
                         child: const EvolutionPage(),
-                        controller: setScrollControllerByPlatform(
-                            context, _evolutionController),
+                        controller: setScrollControllerByPlatform(context, _evolutionController),
                       ),
                       onNotification: (UserScrollNotification scrollInfo) {
                         onScroll(scrollInfo);
@@ -240,8 +223,7 @@ class _PokemonMobilePanelWidgetState extends State<PokemonMobilePanelWidget>
                     NotificationListener<UserScrollNotification>(
                       child: SingleChildScrollView(
                         child: const MovesPage(),
-                        controller: setScrollControllerByPlatform(
-                            context, _movesController),
+                        controller: setScrollControllerByPlatform(context, _movesController),
                       ),
                       onNotification: (UserScrollNotification scrollInfo) {
                         onScroll(scrollInfo);

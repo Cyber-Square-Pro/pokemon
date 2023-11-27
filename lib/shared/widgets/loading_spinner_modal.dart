@@ -8,23 +8,26 @@ Future<dynamic> showLoadingSpinnerModal(BuildContext context, String? message) {
     builder: (context) => Center(
       child: Container(
         padding: const EdgeInsets.all(5),
-        height: 100,
+        height: 250,
+        width: 250,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const AnimatedPokeballWidget(color: Colors.white, size: 40),
             hSpace(15),
-            (message == null || message == '')
-                ? const SizedBox()
-                : Text(
-                    message,
-                    style: const TextStyle(
-                      fontFamily: 'Circular',
-                      color: Colors.white,
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+            if (message == null || message == '')
+              const SizedBox()
+            else
+              Text(
+                message,
+                style: const TextStyle(
+                    fontFamily: 'Circular',
+                    color: Colors.white,
+                    decoration: TextDecoration.none,
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    overflow: TextOverflow.ellipsis),
+              ),
           ],
         ),
       ),

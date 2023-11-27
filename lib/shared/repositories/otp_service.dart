@@ -12,7 +12,11 @@ class OtpService {
   Future<bool> sendOTP(String email) async {
     final uri = '${ApiConstants.baseURL}/users/send-verification-email';
     try {
-      final Response response = await _dio.post(uri, data: {'email': email});
+      final Response response = await _dio.post(
+        uri,
+        data: {'email': email},
+        options: Options(headers: {'Connection': 'keep-alive'}),
+      );
 
       if (response.statusCode == 201) {
         print(response.data);
@@ -63,16 +67,21 @@ class OtpService {
   Future<bool> resetPassword(String email, String password) async {
     try {
       final uri = '${ApiConstants.baseURL}/users/reset-password';
-      final Response response = await _dio.patch(uri, data: {
-        'email': email,
-        'password': password,
-      });
+      final Response response = await _dio.patch(
+        uri,
+        data: {
+          'email': email,
+          'password': password,
+        },
+        options: Options(headers: {'Connection': 'keep-alive'}),
+      );
 
       if (response.statusCode == 201 || response.statusCode == 200) {
         return true;
       }
       return false;
     } catch (e) {
+      return false;
       throw Exception(e);
     }
   }

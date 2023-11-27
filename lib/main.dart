@@ -3,6 +3,7 @@ import 'package:app/shared/getit/getit.dart';
 import 'package:app/shared/providers/auth_state_provider.dart';
 import 'package:app/shared/providers/otp_provider.dart';
 import 'package:app/shared/providers/signup_provider.dart';
+import 'package:app/shared/providers/timer_provider.dart';
 import 'package:app/shared_preferences_provider.dart';
 import 'package:app/theme/dark/dark_theme.dart';
 import 'package:app/theme/light/light_theme.dart';
@@ -47,6 +48,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => AuthProvider()),
           ChangeNotifierProvider(create: (context) => SignupProvider()),
           ChangeNotifierProvider(create: (context) => OtpProvider()),
+          ChangeNotifierProvider(create: (context) => TimerProvider()),
         ],
         child: MaterialApp(
           title: 'Pokedex',

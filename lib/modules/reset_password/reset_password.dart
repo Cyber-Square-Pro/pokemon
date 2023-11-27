@@ -99,7 +99,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                       controller: _confirmpasswordcontroller,
                       isPassword: true,
                       validator: (value) {
-                        if (value == '' || value != _confirmpasswordcontroller.text) {
+                        if (value == '' || value != _newpasswordcontroller.text) {
                           return 'Confirmed password does not match!!!';
                         }
                         return null;

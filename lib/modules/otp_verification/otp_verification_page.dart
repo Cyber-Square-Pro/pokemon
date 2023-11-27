@@ -1,7 +1,9 @@
 import 'package:app/shared/providers/otp_provider.dart';
 import 'package:app/shared/providers/signup_provider.dart';
+import 'package:app/shared/providers/timer_provider.dart';
 import 'package:app/shared/repositories/auth_service.dart';
 import 'package:app/shared/repositories/otp_service.dart';
+import 'package:app/shared/ui/widgets/timer_text.dart';
 import 'package:app/shared/utils/app_constants.dart';
 import 'package:app/shared/utils/snackbars.dart';
 import 'package:app/shared/utils/spacer.dart';
@@ -22,6 +24,7 @@ class OtpVerificationPage extends StatefulWidget {
 
 class _OtpVerificationPageState extends State<OtpVerificationPage> {
   late SignupProvider signupProv;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -35,7 +38,9 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
   @override
   Widget build(BuildContext context) {
     final signupProv = Provider.of<SignupProvider>(context, listen: false);
-    final _otpProvider = Provider.of<OtpProvider>(context, listen: false);
+    final otpProvider = Provider.of<OtpProvider>(context, listen: false);
+    TimerProvider();
+
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
@@ -106,14 +111,43 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                       },
                     ),
                     //
-                    hSpace(15),
-                    CustomTextButton(
-                      onPressed: () async {
-                        // Navigator.pushNamed(context, '/');
-                        //! Timer provider
+                    hSpace(25),
+                    StreamBuilder<int>(
+                      stream: context.read<TimerProvider>().timerStream,
+                      initialData: context.read<TimerProvider>().initialTimeInSeconds,
+                      builder: (context, snapshot) {
+                        int remainingSeconds = snapshot.data!;
+                        return !(remainingSeconds > 0)
+                            ? CustomTextButton(
+                                onPressed: () async {
+                                  showLoadingSpinnerModal(context, 'Sending OTP...');
+                                  if (await OtpService().sendOTP(otpProvider.email)) {
+                                    if (context.mounted) {
+                                      Navigator.pop(context);
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        MySnackbars.success('A new OTP has been sent'),
+                                      );
+                                      context.read<TimerProvider>().restartTimer();
+                                    }
+                                  } else {
+                                    if (context.mounted) {
+                                      Navigator.pop(context);
+
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        MySnackbars.error('Failed to send OTP'),
+                                      );
+                                    }
+                                  }
+                                },
+                                label: 'Resend OTP',
+                              )
+                            : timerText(
+                                _formatDuration(Duration(seconds: remainingSeconds)),
+                              );
                       },
-                      label: 'Resend OTP',
                     ),
+                    //
+
                     hSpace(15),
                     Container(
                       decoration: BoxDecoration(
@@ -132,14 +166,14 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                             showLoadingSpinnerModal(context, 'Verifying...');
                             final data = signupProv.getSignupData;
                             final email =
-                                (data['email'] != null) ? data['email'] : _otpProvider.email;
+                                (data['email'] != null) ? data['email'] : otpProvider.email;
                             if (await OtpService().verifyEmail(
                               context,
                               email,
                               int.parse(_otpController.text),
                             )) {
                               print('OTP Verified');
-                              if (_otpProvider.getIntent() == OtpIntent.SIGN_UP) {
+                              if (otpProvider.getIntent() == OtpIntent.SIGN_UP) {
                                 if (await AuthService().signup(
                                   username: data['username'],
                                   email: data['email'],
@@ -168,8 +202,8 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                                     );
                                   }
                                 } // ELSE BLOCK TO FINALIZE SIGNUP AFTER OTP VERIFICATION
-                              } else if (_otpProvider.getIntent() == OtpIntent.RESET_PASS) {
-                                _otpProvider.setIntent(OtpIntent.RESET_PASS);
+                              } else if (otpProvider.getIntent() == OtpIntent.RESET_PASS) {
+                                otpProvider.setIntent(OtpIntent.RESET_PASS);
                                 if (context.mounted) {
                                   Navigator.pop(context);
                                   Navigator.pushReplacementNamed(context, '/resetPass');
@@ -198,5 +232,12 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
         ),
       ),
     );
+  }
+
+  String _formatDuration(Duration duration) {
+    String twoDigits(int n) => n.toString().padLeft(2, '0');
+    String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
+    String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
+    return '$twoDigitMinutes:$twoDigitSeconds';
   }
 }

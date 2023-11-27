@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:app/theme/light/app_colors_light.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'dark/app_colors_dark.dart';
 
@@ -104,9 +105,9 @@ class AppTheme {
         : const AppColorsDark();
   }
 
-  static double get globalBorderRadius => 10;
+  static double get globalBorderRadius => 10.h;
   static EdgeInsetsGeometry get homePadding =>
-      const EdgeInsets.symmetric(horizontal: 10, vertical: 10);
+      EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h);
 }
 
 const Color mediumBlue = Color.fromRGBO(69, 105, 234, 1);

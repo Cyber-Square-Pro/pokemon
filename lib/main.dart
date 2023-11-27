@@ -11,6 +11,7 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:app/shared/routes/router.dart' as router;
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -50,17 +51,22 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => OtpProvider()),
           ChangeNotifierProvider(create: (context) => TimerProvider()),
         ],
-        child: MaterialApp(
-          title: 'Pokedex',
-          builder: (context, child) {
-            child = botToastBuilder(context, child);
-            return child;
-          },
-          theme: lightTheme,
-          navigatorObservers: [BotToastNavigatorObserver()],
-          debugShowCheckedModeBanner: false,
-          initialRoute: "/",
-          routes: router.Router.getRoutes(context),
+        child: ScreenUtilInit(
+          ensureScreenSize: true,
+          designSize: const Size(400, 800),
+          minTextAdapt: true,
+          builder: (context, child) => MaterialApp(
+            title: 'Pokedex',
+            builder: (context, child) {
+              child = botToastBuilder(context, child);
+              return child;
+            },
+            theme: lightTheme,
+            navigatorObservers: [BotToastNavigatorObserver()],
+            debugShowCheckedModeBanner: false,
+            initialRoute: "/",
+            routes: router.Router.getRoutes(context),
+          ),
         ),
       ),
     );

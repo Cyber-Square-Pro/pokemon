@@ -1,9 +1,11 @@
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
+import 'package:app/shared/utils/spacer.dart';
 import 'package:app/theme/dark/dark_theme.dart';
 import 'package:app/theme/light/light_theme.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:app/shared/ui/widgets/animated_pokeball.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -47,8 +49,8 @@ class _AppBarWidgetState extends State<AppBarWidget> {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(15)),
       ),
-      expandedHeight: 170.0,
-      collapsedHeight: 100,
+      expandedHeight: 170.h,
+      collapsedHeight: 100.h,
       elevation: 0,
       foregroundColor: Colors.white,
       backgroundColor: Colors.blue.shade800,
@@ -80,8 +82,8 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                   right: 0,
                   child: Lottie.asset(
                     widget.lottiePath!,
-                    height: 140,
-                    width: 140,
+                    height: 140.h,
+                    width: 140.w,
                   ),
                 )
               else
@@ -98,16 +100,15 @@ class _AppBarWidgetState extends State<AppBarWidget> {
         titlePadding: const EdgeInsets.only(left: 15, bottom: 10),
         title: Row(
           children: [
-            const AnimatedPokeballWidget(
-              size: 21,
+            AnimatedPokeballWidget(
+              size: 21.h,
               color: Colors.white,
             ),
-            const SizedBox(
-              width: 7,
-            ),
+            wSpace(10),
             Text(
               widget.title,
-              style: const TextStyle(
+              style: TextStyle(
+                fontSize: 20.sp,
                 fontWeight: FontWeight.w900,
                 fontFamily: 'Circular',
                 letterSpacing: -0.5,

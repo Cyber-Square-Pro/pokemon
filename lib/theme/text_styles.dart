@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-const TextStyle pageTitle = TextStyle(
+TextStyle pageTitle = TextStyle(
   color: Colors.white,
   fontFamily: 'Circular',
   letterSpacing: 0,
   fontWeight: FontWeight.bold,
-  fontSize: 30,
+  fontSize: 30.sp,
 );
 final TextStyle pageTitleWithShadow = TextStyle(
   color: Colors.white,
   fontFamily: 'Circular',
   letterSpacing: 0,
   fontWeight: FontWeight.bold,
-  fontSize: 30,
+  fontSize: 30.sp,
   shadows: [
     BoxShadow(
       blurRadius: 10,

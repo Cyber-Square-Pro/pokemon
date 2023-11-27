@@ -1,5 +1,6 @@
 import 'package:app/shared/providers/otp_provider.dart';
 import 'package:app/shared/repositories/otp_service.dart';
+import 'package:app/shared/utils/app_constants.dart';
 import 'package:app/shared/utils/snackbars.dart';
 import 'package:app/shared/utils/spacer.dart';
 import 'package:app/shared/widgets/custom_text_form_field.dart';
@@ -7,6 +8,7 @@ import 'package:app/shared/widgets/loading_spinner_modal.dart';
 import 'package:app/shared/widgets/primary_elevated_button.dart';
 import 'package:app/theme/text_styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 class ResetPasswordPage extends StatefulWidget {
@@ -25,138 +27,141 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
   Widget build(BuildContext context) {
     final _otpProvider = Provider.of<OtpProvider>(context, listen: false);
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('assets/images/bg/login_bg.png'),
-          fit: BoxFit.fill,
+          image: AssetImage(AppConstants.backgroundImage),
+          fit: BoxFit.cover,
         ),
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        body: ListView(
-          physics: const BouncingScrollPhysics(),
-          // crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            hSpace(150),
-            Container(
-              height: 60,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  fit: BoxFit.fitHeight,
-                  image: AssetImage(
-                    'assets/images/pokemon_logo.png',
+        body: Center(
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  height: 60.h,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      fit: BoxFit.fitHeight,
+                      image: AssetImage(
+                        AppConstants.pokemonLogo,
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-            hSpace(40),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Image.asset(
-                  'assets/images/pokeball.png',
-                  width: 40,
+                hSpace(40),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Image.asset(
+                      'assets/images/pokeball.png',
+                      width: 40,
+                    ),
+                    wSpace(5),
+                    Text(
+                      'Reset Password',
+                      style: pageTitleWithShadow,
+                    ),
+                  ],
                 ),
-                wSpace(5),
-                Text(
-                  'Reset Password',
-                  style: pageTitleWithShadow,
+                //Form
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 40,
+                  ),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        hSpace(20),
+                        Text(
+                          'Please create a new password for your account.',
+                          style: pageSubtitle,
+                          maxLines: 2,
+                          textAlign: TextAlign.center,
+                        ),
+                        hSpace(10),
+                        CustomTextFormField(
+                          controller: _newpasswordcontroller,
+                          isPassword: true,
+                          validator: (value) {
+                            if (value == '') {
+                              return 'Please enter a valid password';
+                            }
+                            return null;
+                          },
+                          prefixIcon: Icons.lock_reset,
+                          labelText: 'New Password',
+                        ),
+                        hSpace(20),
+                        CustomTextFormField(
+                          controller: _confirmpasswordcontroller,
+                          isPassword: true,
+                          validator: (value) {
+                            if (value == '' || value != _newpasswordcontroller.text) {
+                              return 'Confirmed password does not match!!!';
+                            }
+                            return null;
+                          },
+                          prefixIcon: Icons.lock_reset,
+                          labelText: 'Confirm Password',
+                        ),
+                        hSpace(20),
+                        Container(
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                blurRadius: 15,
+                                color: Colors.black.withOpacity(0.25),
+                              )
+                            ],
+                          ),
+                          child: CustomElevatedButton(
+                            label: 'Reset',
+                            onPressed: () async {
+                              if (_formKey.currentState!.validate()) {
+                                showLoadingSpinnerModal(context, 'Resetting password...');
+                                final email = _otpProvider.email;
+                                if (await OtpService()
+                                    .resetPassword(email, _newpasswordcontroller.text.trim())) {
+                                  (context.mounted)
+                                      ? Navigator.popAndPushNamed(
+                                          context,
+                                          '/login',
+                                          arguments: [
+                                            ScaffoldMessenger.of(context).showSnackBar(
+                                              MySnackbars.success(
+                                                  'Password has been reset, login to continue'),
+                                            ),
+                                          ],
+                                        )
+                                      : null;
+                                } else {
+                                  if (context.mounted) {
+                                    Navigator.pop(context);
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        MySnackbars.error('Failed To Reset Password'));
+                                  }
+                                }
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(MySnackbars.error(
+                                    'Passwords do not match / Invalid passwords'));
+                              }
+                            },
+                          ),
+                        ),
+                        hSpace(20),
+                      ],
+                    ),
+                  ),
                 ),
               ],
             ),
-            //Form
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 40,
-              ),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    hSpace(20),
-                    Text(
-                      'Please create a new password for your account.',
-                      style: pageSubtitle,
-                      maxLines: 2,
-                      textAlign: TextAlign.center,
-                    ),
-                    hSpace(10),
-                    CustomTextFormField(
-                      controller: _newpasswordcontroller,
-                      isPassword: true,
-                      validator: (value) {
-                        if (value == '') {
-                          return 'Please enter a valid password';
-                        }
-                        return null;
-                      },
-                      prefixIcon: Icons.lock_reset,
-                      labelText: 'New Password',
-                    ),
-                    hSpace(20),
-                    CustomTextFormField(
-                      controller: _confirmpasswordcontroller,
-                      isPassword: true,
-                      validator: (value) {
-                        if (value == '' || value != _newpasswordcontroller.text) {
-                          return 'Confirmed password does not match!!!';
-                        }
-                        return null;
-                      },
-                      prefixIcon: Icons.lock_reset,
-                      labelText: 'Confirm Password',
-                    ),
-                    hSpace(20),
-                    Container(
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            blurRadius: 15,
-                            color: Colors.black.withOpacity(0.25),
-                          )
-                        ],
-                      ),
-                      child: CustomElevatedButton(
-                        label: 'Reset',
-                        onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
-                            showLoadingSpinnerModal(context, 'Resetting password...');
-                            final email = _otpProvider.email;
-                            if (await OtpService()
-                                .resetPassword(email, _newpasswordcontroller.text.trim())) {
-                              (context.mounted)
-                                  ? Navigator.popAndPushNamed(
-                                      context,
-                                      '/login',
-                                      arguments: [
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          MySnackbars.success(
-                                              'Password has been reset, login to continue'),
-                                        ),
-                                      ],
-                                    )
-                                  : null;
-                            } else {
-                              if (context.mounted) {
-                                Navigator.pop(context);
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(MySnackbars.error('Failed To Reset Password'));
-                              }
-                            }
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                MySnackbars.error('Passwords do not match / Invalid passwords'));
-                          }
-                        },
-                      ),
-                    ),
-                    hSpace(15),
-                  ],
-                ),
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );

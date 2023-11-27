@@ -2,6 +2,7 @@ import 'package:app/shared/widgets/custom_progress_spinner.dart';
 import 'package:app/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:mobx/mobx.dart';
@@ -100,11 +101,11 @@ class _ItemsPageState extends State<ItemsPage> {
               ),
         title: Text(
           item.name,
-          style: const TextStyle(
+          style: TextStyle(
             fontFamily: 'Circular',
             fontWeight: FontWeight.bold,
             letterSpacing: -0.5,
-            fontSize: 15,
+            fontSize: 15.sp,
           ),
         ),
         trailing: Text(
@@ -112,6 +113,7 @@ class _ItemsPageState extends State<ItemsPage> {
           style: textTheme.bodyText1!.copyWith(
             fontFamily: 'Circular',
             fontWeight: FontWeight.normal,
+            fontSize: 13.sp,
           ),
         ),
         subtitle: item.effect.trim().length > 0
@@ -120,6 +122,7 @@ class _ItemsPageState extends State<ItemsPage> {
                 style: textTheme.subtitle1!.copyWith(
                   fontFamily: 'Circular',
                   height: 1.3,
+                  fontSize: 13.sp,
                   fontWeight: FontWeight.w500,
                 ),
               )
@@ -135,8 +138,12 @@ class _ItemsPageState extends State<ItemsPage> {
     return Observer(builder: (_) {
       if (_itemStore.items.isEmpty) {
         return SliverFillRemaining(
-          child: Center(
-            child: loadingSpinner(context),
+          child: Column(
+            children: [
+              Center(
+                child: loadingSpinner(context),
+              ),
+            ],
           ),
         );
       } else {

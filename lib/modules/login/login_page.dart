@@ -9,6 +9,7 @@ import 'package:app/shared/widgets/loading_spinner_modal.dart';
 import 'package:app/shared/widgets/primary_elevated_button.dart';
 import 'package:app/theme/text_styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
@@ -42,7 +43,7 @@ class _LoginPageState extends State<LoginPage> {
       decoration: BoxDecoration(
         image: DecorationImage(
           image: AssetImage(AppConstants.backgroundImage),
-          fit: BoxFit.fill,
+          fit: BoxFit.cover,
         ),
       ),
       child: Scaffold(
@@ -70,12 +71,12 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 Image.asset(
                   'assets/images/pokeball.png',
-                  width: 40,
+                  width: 40.w,
                 ),
                 wSpace(5),
-                const Text(
+                Text(
                   'Log In',
-                  style: pageTitle,
+                  style: pageTitleWithShadow,
                 ),
                 hSpace(20),
               ],

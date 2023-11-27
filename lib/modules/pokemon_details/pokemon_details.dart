@@ -2,12 +2,14 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
+import 'package:app/shared/utils/spacer.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
 import 'package:app/modules/pokemon_details/pokemon_details_store.dart';
 import 'package:app/modules/pokemon_details/widgets/app_bar_navigation.dart';
@@ -221,14 +223,14 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage>
                                     ),
                                     color: Theme.of(context).backgroundColor,
                                   ),
-                                  height: 80,
+                                  height: 80.h,
                                 ),
                               ),
                               Observer(
                                 builder: (_) => Align(
                                   alignment: Alignment.bottomCenter,
                                   child: Padding(
-                                    padding: const EdgeInsets.only(bottom: 20),
+                                    padding: EdgeInsets.only(bottom: 20.h),
                                     child: AnimatedOpacity(
                                       duration: const Duration(milliseconds: 30),
                                       opacity: _pokemonDetailsStore.opacityPokemon,
@@ -244,8 +246,8 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage>
                                               );
                                             },
                                             child: CustomPaint(
-                                              size:
-                                                  Size(200, (200 * 1.0040160642570282).toDouble()),
+                                              size: Size(
+                                                  200.h, (200.h * 1.0040160642570282).toDouble()),
                                               painter: PokeballLogoPainter(
                                                   color: Theme.of(context)
                                                       .backgroundColor
@@ -265,9 +267,9 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage>
                                     duration: const Duration(milliseconds: 300),
                                     opacity: _pokemonDetailsStore.opacityPokemon,
                                     child: Padding(
-                                      padding: const EdgeInsets.only(bottom: 30),
+                                      padding: EdgeInsets.only(bottom: 35),
                                       child: Container(
-                                        height: 220,
+                                        height: 220.h,
                                         child: Stack(
                                           children: [
                                             PokemonPagerWidget(
@@ -294,7 +296,7 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage>
                                                         color: Theme.of(context)
                                                             .backgroundColor
                                                             .withOpacity(0.3),
-                                                        size: 70,
+                                                        size: 70.h,
                                                       ),
                                                       onTap: () {
                                                         _pageController.previousPage(
@@ -304,9 +306,7 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage>
                                                       },
                                                     ),
                                                   ),
-                                                  const SizedBox(
-                                                    width: 280,
-                                                  ),
+                                                  wSpace(280),
                                                   Padding(
                                                     padding: const EdgeInsets.only(top: 70),
                                                     child: InkWell(

@@ -1,5 +1,6 @@
 import 'package:app/theme/app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomElevatedButton extends StatelessWidget {
   const CustomElevatedButton({
@@ -20,7 +21,7 @@ class CustomElevatedButton extends StatelessWidget {
         elevation: 0,
         shadowColor: Colors.transparent,
         backgroundColor: Colors.white.withOpacity(0.95),
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppTheme.globalBorderRadius),
         ),

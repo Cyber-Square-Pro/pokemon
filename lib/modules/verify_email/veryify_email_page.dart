@@ -8,6 +8,7 @@ import 'package:app/shared/widgets/loading_spinner_modal.dart';
 import 'package:app/shared/widgets/primary_elevated_button.dart';
 import 'package:app/theme/text_styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 class VerifyEmailPage extends StatefulWidget {
@@ -28,7 +29,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
       decoration: BoxDecoration(
         image: DecorationImage(
           image: AssetImage(AppConstants.backgroundImage),
-          fit: BoxFit.fill,
+          fit: BoxFit.cover,
         ),
       ),
       child: Scaffold(
@@ -39,7 +40,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
           children: [
             hSpace(150),
             Container(
-              height: 60,
+              height: 60.h,
               decoration: BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.fitHeight,
@@ -113,21 +114,25 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                             _otpProvider.setIntent(OtpIntent.RESET_PASS);
                             if (await OtpService().sendOTP(_emailController.text.trim())) {
                               _otpProvider.setEmail(_emailController.text.trim());
-                              Navigator.pop(context);
-                              Navigator.popAndPushNamed(
-                                context,
-                                '/otp',
-                                arguments: [
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    MySnackbars.success('OTP Has been sent succesfully'),
-                                  ),
-                                ],
-                              );
+                              if (context.mounted) {
+                                Navigator.pop(context);
+                                Navigator.popAndPushNamed(
+                                  context,
+                                  '/otp',
+                                  arguments: [
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      MySnackbars.success('OTP Has been sent succesfully'),
+                                    ),
+                                  ],
+                                );
+                              }
                             } else {
-                              Navigator.pop(context);
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                MySnackbars.error('Failed to send OTP'),
-                              );
+                              if (context.mounted) {
+                                Navigator.pop(context);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  MySnackbars.error('Failed to send OTP'),
+                                );
+                              }
                             }
                           } else {
                             // Navigator.pop(context);

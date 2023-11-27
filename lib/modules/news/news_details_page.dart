@@ -4,6 +4,7 @@ import 'package:app/shared/utils/back_button.dart';
 import 'package:app/shared/utils/spacer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
 class NewsDetailsPage extends StatefulWidget {
@@ -23,7 +24,7 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
       child: Builder(builder: (context) {
         final TextStyle _titleStyle = Theme.of(context).textTheme.headline1!.copyWith(
           fontFamily: 'Circular',
-          fontSize: 16,
+          fontSize: 16.sp,
           height: 1.0,
           color: Colors.white,
           shadows: [
@@ -35,13 +36,13 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
         );
         final TextStyle _contentDetailsStyle = Theme.of(context).textTheme.bodyText1!.copyWith(
               fontFamily: 'Circular',
-              fontSize: 16,
+              fontSize: 16.sp,
               fontWeight: FontWeight.bold,
               height: 1.0,
             );
         final TextStyle _contentStyle = Theme.of(context).textTheme.bodyText1!.copyWith(
               fontFamily: 'Circular',
-              fontSize: 17,
+              fontSize: 17.sp,
               height: 1.3,
               fontWeight: FontWeight.w300,
               color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.8),
@@ -57,12 +58,12 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
                 systemOverlayStyle: SystemUiOverlayStyle.light,
                 elevation: 0,
                 scrolledUnderElevation: 0,
-                collapsedHeight: 160,
-                toolbarHeight: 70,
+                collapsedHeight: 160.h,
+                toolbarHeight: 70.h,
                 pinned: true,
                 stretch: true,
                 backgroundColor: Colors.blue.shade900,
-                expandedHeight: 300,
+                expandedHeight: 300.h,
                 titleSpacing: 0,
                 // title: Text(
                 //   widget.news.title,

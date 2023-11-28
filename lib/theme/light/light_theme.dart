@@ -19,6 +19,16 @@ ThemeData lightTheme = ThemeData(
         return Colors.white.withOpacity(0.5);
       },
     ),
+    suffixIconColor: MaterialStateColor.resolveWith(
+      (states) {
+        if (states.contains(MaterialState.focused)) {
+          return Colors.white;
+        } else if (states.contains(MaterialState.error)) {
+          return Colors.red;
+        }
+        return Colors.white.withOpacity(0.5);
+      },
+    ),
   ),
   brightness: Brightness.light,
   backgroundColor: Colors.white,

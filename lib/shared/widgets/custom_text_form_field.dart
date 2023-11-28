@@ -10,6 +10,8 @@ class CustomTextFormField extends StatefulWidget {
     required this.controller,
     required this.validator,
     this.keyboardType,
+    this.isPasswordField,
+    this.suffixIcon,
   });
 
   final String labelText;
@@ -18,6 +20,8 @@ class CustomTextFormField extends StatefulWidget {
   final TextEditingController controller;
   final String? Function(String? value) validator;
   final TextInputType? keyboardType;
+  final bool? isPasswordField;
+  final Widget? suffixIcon;
 
   @override
   State<CustomTextFormField> createState() => _CustomTextFormFieldState();
@@ -83,7 +87,6 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
           fontSize: 15,
           color: Colors.white.withOpacity(0.5),
         ),
-
         errorStyle: TextStyle(color: Colors.white, height: 1, shadows: [
           BoxShadow(
             color: Colors.black.withOpacity(0.5),
@@ -93,6 +96,9 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
 
         // Prefix Icon
         prefixIcon: SizedBox(width: 50, child: Icon(widget.prefixIcon)),
+
+        // Suffix icon for password field
+        suffixIcon: widget.suffixIcon,
       ),
     );
   }

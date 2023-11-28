@@ -137,12 +137,12 @@ class _ItemsPageState extends State<ItemsPage> {
 
     return Observer(builder: (_) {
       if (_itemStore.items.isEmpty) {
-        return SliverFillRemaining(
+        return SliverToBoxAdapter(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Center(
-                child: loadingSpinner(context),
-              ),
+              loadingSpinner(context),
             ],
           ),
         );

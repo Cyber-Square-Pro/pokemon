@@ -6,7 +6,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 Widget loadingSpinner(BuildContext context, [EdgeInsetsGeometry? padding, String? message]) {
   return Padding(
     padding: padding ?? EdgeInsets.zero,
-    child: Column(
+    child: Flex(
+      direction: Axis.vertical,
       children: [
         AnimatedPokeballWidget(
           color: Theme.of(context).textTheme.bodyText1!.color!,

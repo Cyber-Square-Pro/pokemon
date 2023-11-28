@@ -1,3 +1,4 @@
+import 'package:app/shared/providers/password_obscure_provider.dart';
 import 'package:app/shared/providers/signup_provider.dart';
 import 'package:app/shared/repositories/otp_service.dart';
 import 'package:app/shared/utils/app_constants.dart';
@@ -8,6 +9,7 @@ import 'package:app/shared/widgets/custom_text_form_field.dart';
 import 'package:app/shared/widgets/loading_spinner_modal.dart';
 import 'package:app/shared/widgets/primary_elevated_button.dart';
 import 'package:app/theme/text_styles.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -124,34 +126,60 @@ class _SignUpPageState extends State<SignUpPage> {
                           labelText: 'Email Address',
                         ),
                         hSpace(20),
-                        CustomTextFormField(
-                          controller: _passwordcontroller,
-                          isPassword: true,
-                          validator: (value) {
-                            if (value == '') {
-                              return 'Enter a valid password';
-                            } else {
-                              return null;
-                            }
-                          },
-                          prefixIcon: Icons.lock_outline,
-                          labelText: 'Enter Password',
-                        ),
-                        hSpace(20),
-                        CustomTextFormField(
-                          controller: _confirmpasswordcontroller,
-                          isPassword: true,
-                          validator: (value) {
-                            if (value == '') {
-                              return 'Enter a valid name';
-                            } else if (value != _passwordcontroller.text) {
-                              return 'Passwords do not match';
-                            } else {
-                              return null;
-                            }
-                          },
-                          prefixIcon: Icons.lock,
-                          labelText: 'Confirm Password',
+                        Consumer<ObscureProvider>(
+                          builder: (context, provider, _) => Column(
+                            children: [
+                              CustomTextFormField(
+                                controller: _passwordcontroller,
+                                isPassword: provider.obscureSignupPassword,
+                                validator: (value) {
+                                  if (value == '') {
+                                    return 'Enter a valid password';
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                                suffixIcon: IconButton(
+                                  icon: Icon(
+                                    provider.obscureSignupPassword
+                                        ? CupertinoIcons.eye_slash
+                                        : CupertinoIcons.eye,
+                                  ),
+                                  onPressed: () {
+                                    provider.toggleSignupPasswordHidden();
+                                  },
+                                ),
+                                prefixIcon: Icons.lock_outline,
+                                labelText: 'Enter Password',
+                              ),
+                              hSpace(20),
+                              CustomTextFormField(
+                                controller: _confirmpasswordcontroller,
+                                validator: (value) {
+                                  if (value == '') {
+                                    return 'Enter a valid name';
+                                  } else if (value != _passwordcontroller.text) {
+                                    return 'Passwords do not match';
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                                isPassword: provider.obscureSignupConfirmPassword,
+                                prefixIcon: Icons.lock,
+                                suffixIcon: IconButton(
+                                  icon: Icon(
+                                    provider.obscureSignupConfirmPassword
+                                        ? CupertinoIcons.eye_slash
+                                        : CupertinoIcons.eye,
+                                  ),
+                                  onPressed: () {
+                                    provider.toggleSignupPasswordConfirmHidden();
+                                  },
+                                ),
+                                labelText: 'Confirm Password',
+                              ),
+                            ],
+                          ),
                         ),
                         hSpace(20),
                         Container(
@@ -187,9 +215,11 @@ class _SignUpPageState extends State<SignUpPage> {
                                   _passwordcontroller.clear();
                                   _confirmpasswordcontroller.clear();
 
-                                  (context.mounted)
-                                      ? Navigator.popAndPushNamed(context, '/otp')
-                                      : null;
+                                  if (context.mounted) {
+                                    Navigator.popAndPushNamed(context, '/otp');
+                                    Provider.of<ObscureProvider>(context, listen: false)
+                                        .resetSettings();
+                                  }
                                 } else {
                                   if (context.mounted) {
                                     Navigator.pop(context);
@@ -208,6 +238,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         hSpace(15),
                         CustomTextButton(
                           onPressed: () {
+                            Provider.of<ObscureProvider>(context, listen: false).resetSettings();
                             Navigator.pushNamed(context, '/login');
                           },
                           label: 'Already have an account? Login Here.',

@@ -1,4 +1,5 @@
 import 'package:app/shared/providers/otp_provider.dart';
+import 'package:app/shared/providers/password_obscure_provider.dart';
 import 'package:app/shared/repositories/otp_service.dart';
 import 'package:app/shared/utils/app_constants.dart';
 import 'package:app/shared/utils/snackbars.dart';
@@ -7,6 +8,7 @@ import 'package:app/shared/widgets/custom_text_form_field.dart';
 import 'package:app/shared/widgets/loading_spinner_modal.dart';
 import 'package:app/shared/widgets/primary_elevated_button.dart';
 import 'package:app/theme/text_styles.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -25,7 +27,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
 
   @override
   Widget build(BuildContext context) {
-    final _otpProvider = Provider.of<OtpProvider>(context, listen: false);
+    final otpProvider = Provider.of<OtpProvider>(context, listen: false);
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
@@ -85,30 +87,56 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                           textAlign: TextAlign.center,
                         ),
                         hSpace(10),
-                        CustomTextFormField(
-                          controller: _newpasswordcontroller,
-                          isPassword: true,
-                          validator: (value) {
-                            if (value == '') {
-                              return 'Please enter a valid password';
-                            }
-                            return null;
-                          },
-                          prefixIcon: Icons.lock_reset,
-                          labelText: 'New Password',
-                        ),
-                        hSpace(20),
-                        CustomTextFormField(
-                          controller: _confirmpasswordcontroller,
-                          isPassword: true,
-                          validator: (value) {
-                            if (value == '' || value != _newpasswordcontroller.text) {
-                              return 'Confirmed password does not match!!!';
-                            }
-                            return null;
-                          },
-                          prefixIcon: Icons.lock_reset,
-                          labelText: 'Confirm Password',
+                        Consumer<ObscureProvider>(
+                          builder: (context, provider, _) => Column(
+                            children: [
+                              CustomTextFormField(
+                                controller: _newpasswordcontroller,
+                                validator: (value) {
+                                  if (value == '') {
+                                    return 'Please enter a valid password';
+                                  }
+                                  return null;
+                                },
+                                isPassword: provider.obscureResetPassword,
+                                suffixIcon: IconButton(
+                                  icon: Icon(
+                                    provider.obscureResetPassword
+                                        ? CupertinoIcons.eye_slash
+                                        : CupertinoIcons.eye,
+                                  ),
+                                  onPressed: () {
+                                    provider.toggleResetPasswordHidden();
+                                  },
+                                ),
+                                prefixIcon: Icons.lock_reset,
+                                labelText: 'New Password',
+                              ),
+                              hSpace(20),
+                              CustomTextFormField(
+                                controller: _confirmpasswordcontroller,
+                                validator: (value) {
+                                  if (value == '' || value != _newpasswordcontroller.text) {
+                                    return 'Confirmed password does not match!!!';
+                                  }
+                                  return null;
+                                },
+                                isPassword: provider.obscureResetConfirmPassword,
+                                suffixIcon: IconButton(
+                                  icon: Icon(
+                                    provider.obscureResetConfirmPassword
+                                        ? CupertinoIcons.eye_slash
+                                        : CupertinoIcons.eye,
+                                  ),
+                                  onPressed: () {
+                                    provider.toggleResetPasswordConfirmHidden();
+                                  },
+                                ),
+                                prefixIcon: Icons.lock_reset,
+                                labelText: 'Confirm Password',
+                              ),
+                            ],
+                          ),
                         ),
                         hSpace(20),
                         Container(
@@ -125,21 +153,23 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
                                 showLoadingSpinnerModal(context, 'Resetting password...');
-                                final email = _otpProvider.email;
+                                final email = otpProvider.email;
                                 if (await OtpService()
                                     .resetPassword(email, _newpasswordcontroller.text.trim())) {
-                                  (context.mounted)
-                                      ? Navigator.popAndPushNamed(
-                                          context,
-                                          '/login',
-                                          arguments: [
-                                            ScaffoldMessenger.of(context).showSnackBar(
-                                              MySnackbars.success(
-                                                  'Password has been reset, login to continue'),
-                                            ),
-                                          ],
-                                        )
-                                      : null;
+                                  if (context.mounted) {
+                                    Provider.of<ObscureProvider>(context, listen: false)
+                                        .resetSettings();
+                                    Navigator.popAndPushNamed(
+                                      context,
+                                      '/login',
+                                      arguments: [
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          MySnackbars.success(
+                                              'Password has been reset, login to continue'),
+                                        ),
+                                      ],
+                                    );
+                                  }
                                 } else {
                                   if (context.mounted) {
                                     Navigator.pop(context);

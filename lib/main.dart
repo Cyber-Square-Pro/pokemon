@@ -2,6 +2,7 @@ import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:app/shared/getit/getit.dart';
 import 'package:app/shared/providers/auth_state_provider.dart';
 import 'package:app/shared/providers/otp_provider.dart';
+import 'package:app/shared/providers/password_obscure_provider.dart';
 import 'package:app/shared/providers/signup_provider.dart';
 import 'package:app/shared/providers/timer_provider.dart';
 import 'package:app/shared_preferences_provider.dart';
@@ -50,6 +51,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => SignupProvider()),
           ChangeNotifierProvider(create: (context) => OtpProvider()),
           ChangeNotifierProvider(create: (context) => TimerProvider()),
+          ChangeNotifierProvider(create: (context) => ObscureProvider()),
         ],
         child: ScreenUtilInit(
           ensureScreenSize: true,

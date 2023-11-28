@@ -5,16 +5,19 @@ import 'package:app/shared/utils/api_constants.dart';
 import 'package:dio/dio.dart';
 
 class NewsService {
-  static final dio = Dio();
+  static final _dio = Dio();
 
   Dio getDioInstance() {
-    return dio;
+    return _dio;
   }
 
-  Future<List<News>> fetchAllArticles() async {
+  Future<List<News>> fetchAllArticles(int page, {int pageSize = 10}) async {
     try {
-      Response response = await dio.get(
-        '${ApiConstants.baseURL}/news',
+      Response response = await _dio.get(
+        '${ApiConstants.baseURL}/news?page=$page&pageSize=$pageSize',
+        options: Options(
+          headers: {'Connection': 'keep-alive'},
+        ),
       );
 
       if (response.statusCode == 200) {
@@ -32,3 +35,14 @@ class NewsService {
     }
   }
 }
+
+// // Inside your NewsService class
+// Future<List<News>> fetchAllArticles({int page = 1, int pageSize = 10}) async {
+//   try {
+//     final response = await _dio.get('http://your-api-url/news?page=$page&pageSize=$pageSize');
+//     final List<News> newsList = response.data; // Adjust based on your API response structure
+//     return newsList;
+//   } catch (error) {
+//     throw Exception('Failed to fetch news: $error');
+//   }
+// }

@@ -1,4 +1,4 @@
-import 'package:app/shared/widgets/custom_progress_spinner.dart';
+import 'package:app/shared/widgets/loading_spinner.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';

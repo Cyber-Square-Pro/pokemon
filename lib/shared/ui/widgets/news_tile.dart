@@ -2,13 +2,14 @@ import 'package:app/shared/models/news_model.dart';
 import 'package:app/shared/utils/spacer.dart';
 import 'package:app/theme/app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
-Widget newsTitle(BuildContext context, News article, void Function() onTap) {
-  const double tileHeight = 160;
+Widget newsTitle(BuildContext context, {required News news, required void Function() onTap}) {
+  final double tileHeight = 160.h;
   final newsTitleStyle = TextStyle(
     fontFamily: 'Circular',
-    fontSize: 25,
+    fontSize: 25.sp,
     fontWeight: FontWeight.bold,
     letterSpacing: -1,
     height: 1.0,
@@ -35,9 +36,9 @@ Widget newsTitle(BuildContext context, News article, void Function() onTap) {
     ],
   );
   return Padding(
-    padding: const EdgeInsets.only(bottom: 5, top: 5),
+    padding: const EdgeInsets.symmetric(vertical: 7),
     child: InkWell(
-      borderRadius: BorderRadius.circular(15),
+      borderRadius: BorderRadius.circular(AppTheme.globalBorderRadius),
       onTap: onTap,
       child: Stack(
         clipBehavior: Clip.none,
@@ -47,29 +48,21 @@ Widget newsTitle(BuildContext context, News article, void Function() onTap) {
             height: tileHeight,
             width: double.infinity,
             decoration: BoxDecoration(
-              // boxShadow: [
-              //   BoxShadow(
-              //     color: tileColor.withOpacity(0.5),
-              //     blurRadius: 7,
-              //     // offset: const Offset(-2, 2),
-              //   )
-              // ],
-              borderRadius: BorderRadius.circular(15),
+              borderRadius: BorderRadius.circular(AppTheme.globalBorderRadius),
               image: DecorationImage(
                 fit: BoxFit.cover,
-                image: (article.urlToImage != null)
-                    ? Image.network(article.urlToImage!).image
+                image: (news.urlToImage != null)
+                    ? Image.network(news.urlToImage!).image
                     : const AssetImage('assets/images/bg/bg.png'),
               ),
             ),
           ),
           Container(
             height: tileHeight,
-            key: const Key('cont'),
             padding: const EdgeInsets.all(15),
             decoration: BoxDecoration(
               border: Border.all(
-                color: Colors.white.withOpacity(0.1),
+                color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.15),
                 width: 1,
               ),
               borderRadius: BorderRadius.circular(15),
@@ -77,50 +70,27 @@ Widget newsTitle(BuildContext context, News article, void Function() onTap) {
                 begin: Alignment.bottomCenter,
                 end: Alignment.topCenter,
                 stops: const [0.1, 0.8],
-                colors: [Colors.black.withOpacity(0.8), Colors.black.withOpacity(0.1)],
+                colors: [Colors.black.withOpacity(0.6), Colors.black.withOpacity(0.2)],
               ),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  // direction: Axis.horizontal,
-                  // mainAxisSize: MainAxisSize.min,
-                  // clipBehavior: Clip.none,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.35),
-                        borderRadius: BorderRadius.circular(AppTheme.globalBorderRadius),
-                      ),
-                      width: 150,
-                      child: Text(
-                        'By ${article.author}',
-                        style: newsSubTitleStyle,
-                        maxLines: 2,
-                        overflow: TextOverflow.fade,
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.35),
-                        borderRadius: BorderRadius.circular(AppTheme.globalBorderRadius),
-                      ),
-                      child: Text(
-                        DateFormat('yyyy-MM-dd').format(article.publishedAt),
-                        style: newsSubTitleStyle,
-                      ),
-                    ),
-                  ],
+                Container(
+                  padding: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withOpacity(0.35),
+                    borderRadius: BorderRadius.circular(AppTheme.globalBorderRadius),
+                  ),
+                  child: Text(
+                    DateFormat('yyyy-MM-dd').format(news.publishedAt),
+                    style: newsSubTitleStyle,
+                  ),
                 ),
                 hSpace(10),
                 Text(
-                  article.title,
+                  news.title,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   style: newsTitleStyle,

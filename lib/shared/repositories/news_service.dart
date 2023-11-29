@@ -14,6 +14,7 @@ class NewsService {
   Future<List<News>> fetchAllArticles(int page, {int pageSize = 10}) async {
     Response response = await _dio.get(
       '${ApiConstants.baseURL}/news?page=$page&pageSize=$pageSize',
+      options: Options(headers: {'Connection': 'keep-alive'}),
     );
 
     if (response.statusCode == 200) {

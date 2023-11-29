@@ -15,6 +15,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -32,8 +33,15 @@ class _LoginPageState extends State<LoginPage> {
   final authService = AuthService();
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    check();
+  }
+
+  Future<void> check() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (prefs.containsKey('refreshToken')) {
+      Navigator.pushReplacementNamed(context, '/home');
+    }
   }
 
   @override

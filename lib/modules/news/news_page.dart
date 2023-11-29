@@ -31,7 +31,6 @@ class _NewsPageState extends State<NewsPage> {
 
     // Fetch the initial page
     dio.interceptors.add(AuthInterceptor(dio: dio, context: context));
-    _fetchPage(1);
   }
 
   final NewsService newsService = NewsService();
@@ -39,6 +38,7 @@ class _NewsPageState extends State<NewsPage> {
 
   @override
   Widget build(BuildContext context) {
+    _fetchPage(1);
     // UI
     return SliverFillRemaining(
       fillOverscroll: false,
@@ -147,6 +147,7 @@ class _NewsPageState extends State<NewsPage> {
   @override
   void dispose() {
     _pagingController.dispose();
+    dio.interceptors.clear();
     super.dispose();
   }
 }

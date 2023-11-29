@@ -2,6 +2,7 @@ import 'package:app/shared/providers/otp_provider.dart';
 import 'package:app/shared/providers/password_obscure_provider.dart';
 import 'package:app/shared/repositories/auth_service.dart';
 import 'package:app/shared/utils/app_constants.dart';
+
 import 'package:app/shared/utils/snackbars.dart';
 import 'package:app/shared/utils/spacer.dart';
 import 'package:app/shared/widgets/custom_text_button.dart';
@@ -22,21 +23,20 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
   final _formKey = GlobalKey<FormState>();
   final _passwordController = TextEditingController();
   final _usernameController = TextEditingController();
 
   // Auth
   final authService = AuthService();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    AuthService().apiTest();
     final otpProvider = Provider.of<OtpProvider>(context, listen: false);
 
     return Container(
@@ -54,6 +54,8 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                //
+
                 Container(
                   height: 60,
                   decoration: BoxDecoration(
@@ -211,3 +213,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
+/* 
+WidgetsBinding.instance.addPostFrameCallback((_) {
+          showNoConnectionDialog(context, title: 'title', content: 'content');
+        }); */

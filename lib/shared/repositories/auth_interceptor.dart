@@ -18,7 +18,6 @@ class AuthInterceptor extends Interceptor {
 
   @override
   Future onError(DioException err, ErrorInterceptorHandler handler) async {
-    print('Interceptor onError() called with error: $err');
     if (err.response?.statusCode == 401) {
       print('Access Token expired');
       final refreshed = await regenerateToken();
@@ -42,6 +41,8 @@ class AuthInterceptor extends Interceptor {
           return await dio.request(retryOptions.path, options: opts);
         } catch (retryError) {
           print('Retry error occured');
+          // Set authstate to NotAuthenticated
+
           return handler.reject(retryError as DioException); // Propagate the retry error
         }
       }

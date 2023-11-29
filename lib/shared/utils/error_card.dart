@@ -1,31 +1,55 @@
 import 'package:app/shared/utils/app_constants.dart';
 import 'package:app/shared/utils/spacer.dart';
+import 'package:app/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-Widget errorCard(BuildContext context, String message, [double size = 30]) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 5),
+Widget errorCard(BuildContext context, String title, String message,
+    [Color color = Colors.red, double size = 75, Widget? child]) {
+  return Container(
+    padding: const EdgeInsets.all(10),
+    decoration: BoxDecoration(
+      color: color,
+      borderRadius: BorderRadius.circular(AppTheme.globalBorderRadius),
+    ),
     child: Row(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Image.asset(
-          AppConstants.pikachuSadImage,
+          AppConstants.ashShockedImage,
           height: size,
           width: size,
           fit: BoxFit.fitHeight,
         ),
-        wSpace(10),
-        Text(
-          message,
-          style: TextStyle(
-            fontFamily: 'Circular',
-            fontSize: 16.sp,
-            fontWeight: FontWeight.w500,
-            letterSpacing: -0.25,
-            color: Theme.of(context).textTheme.bodyText1!.color,
-          ),
+        wSpace(15),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              title,
+              style: TextStyle(
+                fontFamily: 'Circular',
+                fontSize: 18.sp,
+                fontWeight: FontWeight.bold,
+                letterSpacing: -0.25,
+                color: Colors.white,
+                height: 0,
+              ),
+            ),
+            Text(
+              message,
+              style: TextStyle(
+                fontFamily: 'Circular',
+                fontSize: 15.sp,
+                fontWeight: FontWeight.w500,
+                letterSpacing: -0.25,
+                color: Colors.white.withOpacity(0.75),
+              ),
+            ),
+            child ?? const SizedBox(),
+          ],
         ),
       ],
     ),

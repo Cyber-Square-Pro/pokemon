@@ -42,15 +42,13 @@ class _AppBarWidgetState extends State<AppBarWidget> {
       // systemOverlayStyle: isDark ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.light,
       systemOverlayStyle: SystemUiOverlayStyle.dark,
       automaticallyImplyLeading: widget.showBackButton,
-      stretch: true,
       pinned: true,
-      snap: false,
       floating: false,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(15)),
       ),
-      expandedHeight: 170.h,
-      collapsedHeight: 100.h,
+      expandedHeight: 150.h,
+      collapsedHeight: 90.h,
       elevation: 0,
       foregroundColor: Colors.white,
       backgroundColor: Colors.blue.shade800,
@@ -82,8 +80,8 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                   right: 0,
                   child: Lottie.asset(
                     widget.lottiePath!,
-                    height: 140.h,
-                    width: 140.w,
+                    height: 120.h,
+                    width: 120.w,
                   ),
                 )
               else

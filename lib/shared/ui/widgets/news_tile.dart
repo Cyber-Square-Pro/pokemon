@@ -62,15 +62,15 @@ Widget newsTitle(BuildContext context, {required News news, required void Functi
             padding: const EdgeInsets.all(15),
             decoration: BoxDecoration(
               border: Border.all(
-                color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.15),
+                color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.2),
                 width: 1,
               ),
-              borderRadius: BorderRadius.circular(15),
+              borderRadius: BorderRadius.circular(AppTheme.globalBorderRadius),
               gradient: LinearGradient(
                 begin: Alignment.bottomCenter,
                 end: Alignment.topCenter,
                 stops: const [0.1, 0.8],
-                colors: [Colors.black.withOpacity(0.6), Colors.black.withOpacity(0.2)],
+                colors: [Colors.black.withOpacity(0.7), Colors.black.withOpacity(0.25)],
               ),
             ),
             child: Column(

@@ -7,6 +7,7 @@ import 'package:app/shared/ui/widgets/news_tile.dart';
 import 'package:app/shared/utils/error_card.dart';
 import 'package:app/shared/widgets/loading_spinner.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -21,16 +22,16 @@ class NewsPage extends StatefulWidget {
 }
 
 class _NewsPageState extends State<NewsPage> {
-  late Dio _dio;
+  late Dio dio = newsService.getDioInstance();
+  bool _isLoading = false;
 
   @override
   void initState() {
     super.initState();
-    _dio = newsService.getDioInstance();
 
     // Fetch the initial page
+    dio.interceptors.add(AuthInterceptor(dio: dio, context: context));
     _fetchPage(1);
-    _dio.interceptors.add(AuthInterceptor(dio: _dio, context: context));
   }
 
   final NewsService newsService = NewsService();
@@ -40,10 +41,14 @@ class _NewsPageState extends State<NewsPage> {
   Widget build(BuildContext context) {
     // UI
     return SliverFillRemaining(
+      fillOverscroll: false,
       child: NotificationListener<ScrollNotification>(
         onNotification: (ScrollNotification scrollInfo) {
-          if (scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
-            _fetchPage(_pagingController.nextPageKey ?? 1);
+          if (scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent &&
+              !_isLoading &&
+              _pagingController.nextPageKey != null) {
+            _fetchPage(_pagingController.nextPageKey as int);
+            _isLoading = true;
           }
           return false;
         },
@@ -74,9 +79,10 @@ class _NewsPageState extends State<NewsPage> {
               );
             },
             firstPageProgressIndicatorBuilder: (context) => Center(
-              child: Column(children: [
-                loadingSpinner(context),
-              ]),
+              child: Padding(
+                padding: EdgeInsets.only(top: 200.h),
+                child: loadingSpinner(context),
+              ),
             ),
             newPageProgressIndicatorBuilder: (context) => Column(
               children: [
@@ -84,23 +90,36 @@ class _NewsPageState extends State<NewsPage> {
               ],
             ),
             noMoreItemsIndicatorBuilder: (context) => Center(
-              child: errorCard(context, 'Ran out of news'),
+              child: errorCard(context, 'Notice', 'You have reached the end'),
             ),
             noItemsFoundIndicatorBuilder: (context) => Column(
               children: [
                 Center(
-                  child: errorCard(context, 'No news available'),
+                  child: errorCard(context, 'Notice', 'No news available'),
                 ),
               ],
             ),
-            animateTransitions: true,
             firstPageErrorIndicatorBuilder: (context) => Center(
               child: Column(
                 children: [
-                  errorCard(context, 'Unable to fetch news!'),
+                  errorCard(
+                    context,
+                    'Error!',
+                    'Unable to fetch news',
+                    Colors.red,
+                    75,
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        _fetchPage(1);
+                      },
+                      icon: const Icon(CupertinoIcons.repeat),
+                      label: const Text('Retry'),
+                    ),
+                  ),
                 ],
               ),
             ),
+            animateTransitions: true,
           ),
         ),
       ),
@@ -110,15 +129,18 @@ class _NewsPageState extends State<NewsPage> {
   Future<void> _fetchPage(int pageKey) async {
     try {
       final List<News> newsList = await newsService.fetchAllArticles(pageKey);
-      final isLastPage = newsList.isEmpty;
-      if (isLastPage) {
-        _pagingController.appendLastPage(newsList);
+      if (newsList.isEmpty) {
+        // If the fetched newsList is empty, consider it as the last page
+        _pagingController.appendLastPage([]);
       } else {
+        // Append the fetched newsList and increment the page key
         final nextPageKey = pageKey + 1;
         _pagingController.appendPage(newsList, nextPageKey);
       }
     } catch (error) {
       _pagingController.error = error;
+    } finally {
+      _isLoading = false;
     }
   }
 

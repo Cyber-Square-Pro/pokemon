@@ -11,25 +11,20 @@ class NewsService {
     return _dio;
   }
 
-  Future<List<News>> fetchAllArticles(int page, {int pageSize = 5}) async {
-    try {
-      Response response = await _dio.get(
-        '${ApiConstants.baseURL}/news?page=$page&pageSize=$pageSize',
-      );
+  Future<List<News>> fetchAllArticles(int page, {int pageSize = 10}) async {
+    Response response = await _dio.get(
+      '${ApiConstants.baseURL}/news?page=$page&pageSize=$pageSize',
+    );
 
-      if (response.statusCode == 200) {
-        await Future.delayed(const Duration(milliseconds: 200));
-        final List<dynamic> responseData = response.data;
-        final List<News> result = newsFromJson(json.encode(responseData));
-        print('$result.length, $page');
-        return result;
-      } else {
-        print('Failed to fetch articles. Status code: ${response.statusCode}');
-        return [];
-      }
-    } catch (error) {
-      print('Error fetching articles: $error');
-      throw Exception(error);
+    if (response.statusCode == 200) {
+      await Future.delayed(const Duration(milliseconds: 200));
+      final List<dynamic> responseData = response.data;
+      final List<News> result = newsFromJson(json.encode(responseData));
+
+      return result;
+    } else {
+      print('Failed to fetch articles. Status code: ${response.statusCode}');
+      return [];
     }
   }
 }

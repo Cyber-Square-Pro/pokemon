@@ -27,8 +27,10 @@ class _NewsPageState extends State<NewsPage> {
   void initState() {
     super.initState();
     _dio = newsService.getDioInstance();
-    _dio.interceptors.add(AuthInterceptor(dio: _dio));
-    newsService.fetchAllArticles(1);
+
+    // Fetch the initial page
+    _fetchPage(1);
+    _dio.interceptors.add(AuthInterceptor(dio: _dio, context: context));
   }
 
   final NewsService newsService = NewsService();
@@ -36,18 +38,18 @@ class _NewsPageState extends State<NewsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SliverToBoxAdapter(
+    // UI
+    return SliverFillRemaining(
       child: NotificationListener<ScrollNotification>(
         onNotification: (ScrollNotification scrollInfo) {
           if (scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
-            _pagingController.addPageRequestListener((pageKey) {
-              _fetchPage(pageKey);
-            });
+            _fetchPage(_pagingController.nextPageKey ?? 1);
           }
           return false;
         },
         child: PagedListView(
           pagingController: _pagingController,
+          scrollDirection: Axis.vertical,
           physics: const BouncingScrollPhysics(),
           shrinkWrap: true,
           builderDelegate: PagedChildBuilderDelegate(
@@ -72,10 +74,15 @@ class _NewsPageState extends State<NewsPage> {
               );
             },
             firstPageProgressIndicatorBuilder: (context) => Center(
-              child: Column(children: [loadingSpinner(context)]),
+              child: Column(children: [
+                loadingSpinner(context),
+              ]),
             ),
-            newPageProgressIndicatorBuilder: (context) =>
+            newPageProgressIndicatorBuilder: (context) => Column(
+              children: [
                 Center(child: loadingSpinner(context, EdgeInsets.symmetric(vertical: 30.h))),
+              ],
+            ),
             noMoreItemsIndicatorBuilder: (context) => Center(
               child: errorCard(context, 'Ran out of news'),
             ),
@@ -100,14 +107,6 @@ class _NewsPageState extends State<NewsPage> {
     );
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _pagingController.addPageRequestListener((pageKey) {
-      _fetchPage(pageKey);
-    });
-  }
-
   Future<void> _fetchPage(int pageKey) async {
     try {
       final List<News> newsList = await newsService.fetchAllArticles(pageKey);
@@ -121,5 +120,11 @@ class _NewsPageState extends State<NewsPage> {
     } catch (error) {
       _pagingController.error = error;
     }
+  }
+
+  @override
+  void dispose() {
+    _pagingController.dispose();
+    super.dispose();
   }
 }

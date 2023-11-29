@@ -53,6 +53,7 @@ class _ConnectivityWrapperState extends State<ConnectivityWrapper> {
           return const Directionality(textDirection: TextDirection.ltr, child: NoInternetPage());
         } else {
           // Internet connection available, navigate to the child route
+        
           return widget.child;
         }
       },

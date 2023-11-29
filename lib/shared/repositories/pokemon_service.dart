@@ -1,8 +1,9 @@
 import 'package:app/shared/models/pokemon.dart';
 import 'package:app/shared/utils/api_constants.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 
-class FavouritesService {
+class PokemonService extends ChangeNotifier {
   final _dio = Dio();
   Dio getDioInstance() => _dio;
 
@@ -48,10 +49,13 @@ class FavouritesService {
     }
   }
 
-  Future<bool> getFavourites(String username) async {
+  Future<bool> getFavourites(String username, String favourite) async {
     final uri = '${ApiConstants.baseURL}/favourites/add';
     try {
-      final Response response = await _dio.post(uri, data: {'user': username});
+      final Response response = await _dio.post(uri, data: {
+        'user': username,
+        'favourite': favourite,
+      });
 
       if (response.statusCode == 201) {
         return true;

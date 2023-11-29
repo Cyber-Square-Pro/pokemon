@@ -4,6 +4,7 @@ import 'package:app/shared/utils/snackbars.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class FavouritesPage extends StatefulWidget {
   const FavouritesPage({
@@ -15,19 +16,20 @@ class FavouritesPage extends StatefulWidget {
 }
 
 class _FavouritesPageState extends State<FavouritesPage> {
+  late Dio dio;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    final _dio = favService.getDioInstance();
-    _dio.interceptors.add(AuthInterceptor(dio: _dio));
   }
 
   final FavouritesService favService = FavouritesService();
-  late Dio _dio;
 
   @override
   Widget build(BuildContext context) {
+    final dio = favService.getDioInstance();
+    dio.interceptors.add(AuthInterceptor(dio: dio, context: context));
+    // UI
     return SliverFillRemaining(
       child: Column(
         children: [
@@ -35,14 +37,10 @@ class _FavouritesPageState extends State<FavouritesPage> {
             child: ElevatedButton(
               child: const Text('Call Protected Route'),
               onPressed: () async {
-                try {
-                  await favService.getProtectedRoute();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    MySnackbars.success('Success!'),
-                  );
-                } catch (e) {
-                  throw Exception(e);
-                }
+                final prefs = await SharedPreferences.getInstance();
+                final username = prefs.getString('username')!;
+
+                if (await favService.getFavourites(username)) {}
               },
             ),
           ),

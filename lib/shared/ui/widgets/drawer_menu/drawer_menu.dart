@@ -1,3 +1,4 @@
+import 'package:app/shared/providers/auth_state_provider.dart';
 import 'package:app/shared/utils/spacer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:app/modules/home/home_page_store.dart';
 import 'package:app/shared/ui/widgets/animated_pokeball.dart';
 import 'package:app/shared/ui/widgets/drawer_menu/widgets/drawer_menu_item.dart';
 import 'package:app/shared/utils/app_constants.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DrawerMenuWidget extends StatefulWidget {
@@ -167,15 +169,8 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget> with TickerProvider
                   icon: CupertinoIcons.return_icon,
                   text: "Logout",
                   contentAlignment: MainAxisAlignment.center,
-                  onTap: () async {
-                    final SharedPreferences prefs = await SharedPreferences.getInstance();
-                    await prefs.remove('accessToken');
-                    await prefs.remove('refreshToken');
-                    // final String user = Provider.of<UserProvider>().username;
-                    // await prefs.remove('${user}-favourites-pokemon');
-                    if (context.mounted) {
-                      Navigator.pushReplacementNamed(context, '/login');
-                    }
+                  onTap: () {
+                    Provider.of<AuthProvider>(context, listen: false).logout(context);
                   },
                 ),
               ),

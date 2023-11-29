@@ -141,6 +141,7 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage>
                       },
                     ),
                     actions: [
+                      //! Function that checks whether a pokemon was favourited or not
                       if (_pokemonStore.isFavorite(_pokemonStore.pokemon!.number))
                         IconButton(
                           icon: Icon(

@@ -1,3 +1,4 @@
+import 'package:app/shared/providers/auth_state_provider.dart';
 import 'package:app/shared/providers/otp_provider.dart';
 import 'package:app/shared/providers/password_obscure_provider.dart';
 import 'package:app/shared/repositories/auth_service.dart';
@@ -38,6 +39,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final otpProvider = Provider.of<OtpProvider>(context, listen: false);
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
 
     return Container(
       decoration: BoxDecoration(
@@ -167,6 +169,7 @@ class _LoginPageState extends State<LoginPage> {
                                     Navigator.pop(context);
                                     Provider.of<ObscureProvider>(context, listen: false)
                                         .resetSettings();
+                                    authProvider.setAuthenticated(true);
                                     Navigator.pushReplacementNamed(
                                       context,
                                       '/home',

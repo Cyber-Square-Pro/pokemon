@@ -58,24 +58,25 @@ class MyApp extends StatelessWidget {
           ensureScreenSize: true,
           designSize: const Size(400, 800),
           minTextAdapt: true,
-          builder: (context, child) => Builder(builder: (context) {
-            return ConnectivityWrapper(
-              child: MaterialApp(
-                title: 'Pokedex By Team B',
-                builder: (context, child) {
-                  child = botToastBuilder(context, child);
+          builder: (context, child) => Builder(
+            builder: (context) {
+              return ConnectivityWrapper(
+                child: MaterialApp(
+                  title: 'Pokedex By Team B',
+                  builder: (context, child) {
+                    child = botToastBuilder(context, child);
 
-                  return child;
-                },
-                theme: lightTheme,
-                navigatorObservers: [BotToastNavigatorObserver()],
-                debugShowCheckedModeBanner: false,
-                initialRoute: '/',
-                routes: router.Router.getRoutes(context),
-                // onGenerateInitialRoutes: (settings) {},
-              ),
-            );
-          }),
+                    return child;
+                  },
+                  theme: lightTheme,
+                  navigatorObservers: [BotToastNavigatorObserver()],
+                  debugShowCheckedModeBanner: false,
+                  initialRoute: '/',
+                  routes: router.Router.getRoutes(context),
+                ),
+              );
+            },
+          ),
         ),
       ),
     );

@@ -1,16 +1,21 @@
+import 'package:app/shared/providers/auth_state_provider.dart';
 import 'package:app/shared/repositories/auth_service.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthInterceptor extends Interceptor {
   AuthInterceptor({
     required this.dio,
+    required this.context,
   });
   final Dio dio;
+  final BuildContext context;
 
   @override
   Future onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
-    print('Interceptor onRequest called');
+    print('Original Request');
     final accessToken = await getAccessToken();
     options.headers['Authorization'] = 'Bearer $accessToken';
     return handler.next(options);
@@ -41,9 +46,9 @@ class AuthInterceptor extends Interceptor {
           return await dio.request(retryOptions.path, options: opts);
         } catch (retryError) {
           print('Retry error occured');
-          // Set authstate to NotAuthenticated
-
-          return handler.reject(retryError as DioException); // Propagate the retry error
+          // Logout immediately
+          logout(context);
+          return handler.reject(retryError as DioException);
         }
       }
     }
@@ -51,13 +56,9 @@ class AuthInterceptor extends Interceptor {
     return handler.next(err);
   }
 
-  // @override
-  // Future onResponse(Response response, ResponseInterceptorHandler handler) async {
-  //   print('Interceptor onResponse() called');
-  //   if (response.statusCode == 200) {
-  //     print('Re-call successful');
-  //   }
-  // }
+  void logout(BuildContext context) {
+    Provider.of<AuthProvider>(context, listen: false).logout(context);
+  }
 }
 
 Future<String?> getAccessToken() async {

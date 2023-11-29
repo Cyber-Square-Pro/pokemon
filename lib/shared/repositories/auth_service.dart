@@ -1,25 +1,16 @@
-import 'dart:developer';
-
 import 'package:app/shared/utils/api_constants.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
-  static final dio = Dio();
-  Dio getDioInstance() {
-    return dio;
-  }
+  static final _dio = Dio();
+  Dio getDioInstance() => _dio;
 
-  Future<void> apiTest() async {
-    final response = await dio.get(ApiConstants.baseURL);
-    log(response.data);
-  }
-
-  Future<bool> login(String email, String password) async {
+  Future<bool> login(String username, String password) async {
     try {
-      Response response = await dio.post(
+      Response response = await _dio.post(
         '${ApiConstants.baseURL}/auth/login',
-        data: {'username': email, 'password': password},
+        data: {'username': username, 'password': password},
       );
 
       if (response.statusCode == 201) {
@@ -33,6 +24,7 @@ class AuthService {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString('accessToken', accessToken);
         prefs.setString('refreshToken', refreshToken);
+        prefs.setString('username', username);
         return true;
       } else if (response.statusCode == 404) {
         return false;
@@ -49,7 +41,7 @@ class AuthService {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       final refreshToken = prefs.getString('refreshToken');
 
-      Response response = await dio.post(
+      Response response = await _dio.post(
         '${ApiConstants.baseURL}/auth/refresh-token',
         data: {'refreshToken': refreshToken},
       );
@@ -95,7 +87,7 @@ class AuthService {
 
     final uri = '${ApiConstants.baseURL}/auth/register';
     try {
-      final Response response = await dio.post(uri, data: {
+      final Response response = await _dio.post(uri, data: {
         'username': username,
         'email': email,
         'phone_number': phoneNumber,
@@ -110,4 +102,6 @@ class AuthService {
       throw Exception('Failed ot signup: $e');
     }
   }
+
+
 }

@@ -2,12 +2,9 @@ import 'dart:io';
 import 'dart:math';
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:app/shared/providers/favourites_provider.dart';
-import 'package:app/shared/repositories/auth_interceptor.dart';
-import 'package:app/shared/repositories/favourites_service.dart';
 import 'package:app/shared/utils/spacer.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:bot_toast/bot_toast.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -47,7 +44,6 @@ class PokemonDetailsPageState extends State<PokemonDetailsPage>
   late AnimationController _animationController;
   late PageController _pageController;
   late AudioPlayer player;
-  late Dio dio;
 
   @override
   void initState() {
@@ -60,9 +56,6 @@ class PokemonDetailsPageState extends State<PokemonDetailsPage>
 
     _animationController = AnimationController(vsync: this, duration: const Duration(seconds: 2))
       ..repeat();
-
-    Provider.of<FavouritesProvider>(context, listen: false)
-        .isAlreadyFavourite(context, _pokemonStore.pokemon!.number);
   }
 
   @override
@@ -75,6 +68,9 @@ class PokemonDetailsPageState extends State<PokemonDetailsPage>
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<FavouritesProvider>(context, listen: false)
+        .isAlreadyFavourite(context, _pokemonStore.pokemon!.number);
+
     if (getDeviceScreenType(context) == DeviceScreenType.CELLPHONE) {
       SystemChrome.setPreferredOrientations([
         DeviceOrientation.portraitUp,

@@ -2,8 +2,10 @@ import 'package:app/modules/favourites/remove_button.dart';
 import 'package:app/modules/pokemon_grid/widgets/poke_item.dart';
 import 'package:app/shared/models/pokemon_summary.dart';
 import 'package:app/shared/providers/favourites_provider.dart';
+import 'package:app/shared/utils/error_card.dart';
 import 'package:app/shared/utils/snackbars.dart';
 import 'package:app/shared/widgets/loading_spinner_modal.dart';
+import 'package:app/theme/app_theme.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -42,19 +44,26 @@ class _FavouritesPageState extends State<FavouritesPage> {
                 crossAxisCount: 2,
                 mainAxisSpacing: 10,
                 crossAxisSpacing: 10,
-                childAspectRatio: 1.4,
+                childAspectRatio: 1.35,
               ),
               itemCount: provider.favourites.length,
               itemBuilder: (context, index) {
                 final PokemonSummary pokemon = provider.favourites[index];
-                return Stack(clipBehavior: Clip.none, fit: StackFit.loose, children: [
-                  PokeItemWidget(
-                    pokemon: pokemon,
-                  ),
-                  Positioned(
-                    right: -10,
-                    top: -10,
-                    child: ClipRRect(
+                if (provider.favourites.isEmpty) {
+                  return errorCard(
+                    context,
+                    'Notice',
+                    'Nothing has been added to your favourites',
+                    AppTheme.getColors(context).panelBackground,
+                  );
+                } else {
+                  return Stack(clipBehavior: Clip.none, fit: StackFit.loose, children: [
+                    PokeItemWidget(
+                      pokemon: pokemon,
+                    ),
+                    Positioned(
+                      right: -2,
+                      bottom: -2,
                       child: removeButton(context, onTap: () async {
                         showLoadingSpinnerModal(context, 'Removing...');
                         if (await context
@@ -70,8 +79,8 @@ class _FavouritesPageState extends State<FavouritesPage> {
                         }
                       }),
                     ),
-                  ),
-                ]);
+                  ]);
+                }
               },
             );
           },

@@ -7,9 +7,15 @@ import 'package:flutter/cupertino.dart';
 class FavouritesProvider extends ChangeNotifier {
   late bool _isFav = false;
   late int _favouritesCount = 0;
+  late String _selectedPokemon;
   late List<PokemonSummary> _favourites = [];
 
   FavouritesService favService = FavouritesService();
+
+  void setCurrentPokemon(String number) {
+    _selectedPokemon = number;
+    notifyListeners();
+  }
 
   Future<void> isAlreadyFavourite(
     BuildContext context,
@@ -56,7 +62,12 @@ class FavouritesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<PokemonSummary> get favourites => _favourites;
+  List<PokemonSummary> get favourites {
+    _favourites.sort((a, b) => int.parse(a.number).compareTo(int.parse(b.number)));
+    return _favourites;
+  }
+
   int get favouritesCount => _favouritesCount;
   bool get isFavourite => _isFav;
+  String get selectedPokemon => _selectedPokemon;
 }

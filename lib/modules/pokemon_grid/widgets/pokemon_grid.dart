@@ -1,3 +1,4 @@
+import 'package:app/shared/providers/favourites_provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:app/modules/pokemon_details/pokemon_details.dart';
 import 'package:app/modules/pokemon_grid/widgets/poke_item.dart';
 import 'package:app/shared/models/pokemon_summary.dart';
 import 'package:app/shared/stores/pokemon_store/pokemon_store.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PokemonGridWidget extends StatefulWidget {
@@ -101,6 +103,8 @@ class _PokemonGridWidgetState extends State<PokemonGridWidget> {
     return InkWell(
       onTap: () async {
         await widget.pokemonStore.setPokemon(index);
+        print(index);
+        context.read<FavouritesProvider>().setCurrentPokemon(pokemon.number);
 
         Navigator.push(
           context,

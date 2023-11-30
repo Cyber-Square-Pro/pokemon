@@ -9,8 +9,11 @@ class PokeItemWidget extends StatelessWidget {
   final PokemonSummary pokemon;
   final bool isFavorite;
 
-  const PokeItemWidget({Key? key, required this.pokemon, this.isFavorite = false})
-      : super(key: key);
+  const PokeItemWidget({
+    Key? key,
+    required this.pokemon,
+    this.isFavorite = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +53,7 @@ class PokeItemWidget extends StatelessWidget {
             Align(
               alignment: Alignment.bottomRight,
               child: Padding(
-                padding: const EdgeInsets.only(right: 7, bottom: 3),
+                padding: const EdgeInsets.only(right: 7, bottom: 10),
                 child: Container(
                   height: 76,
                   width: 76,

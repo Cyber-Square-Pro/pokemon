@@ -26,7 +26,7 @@ class PokemonService extends ChangeNotifier {
     }
   }
 
-  Future<List<Pokemon>> addFavourite(String username, String favourite) async {
+  Future<bool> addFavourite(String username, String favourite) async {
     final uri = '${ApiConstants.baseURL}/favourites/add';
     try {
       final Response response = await _dio.post(uri, data: {
@@ -35,13 +35,9 @@ class PokemonService extends ChangeNotifier {
       });
 
       if (response.statusCode == 201) {
-        final List<dynamic> responseData = response.data;
-        final List<Pokemon> pokemonList =
-            responseData.map((pokemon) => Pokemon.fromJson(pokemon)).toList();
-        print(pokemonList);
-        return pokemonList;
+        return true;
       } else {
-        return [];
+        return false;
       }
     } catch (e) {
       print('Failed to add favourite');
@@ -65,6 +61,23 @@ class PokemonService extends ChangeNotifier {
     } catch (e) {
       print('Failed to add favourite');
       throw Exception(e);
+    }
+  }
+
+  Future<List<Pokemon>> getAllFavourites(List<String> favourites) async {
+    final List<Pokemon> pokeList = [];
+    try {
+      for (final String id in favourites) {
+        final Response response = await _dio.get(ApiConstants.pokemonDetails(id));
+        if (response.statusCode == 200) {
+          final Pokemon pokemon = Pokemon.fromJson(response.data);
+          pokeList.add(pokemon);
+        }
+      }
+      return pokeList;
+    } catch (error) {
+      print(error);
+      return [];
     }
   }
 }

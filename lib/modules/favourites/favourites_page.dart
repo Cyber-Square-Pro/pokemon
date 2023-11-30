@@ -1,10 +1,12 @@
-import 'package:app/shared/repositories/auth_interceptor.dart';
-import 'package:app/shared/repositories/favourites_service.dart';
+import 'package:app/modules/favourites/remove_button.dart';
+import 'package:app/modules/pokemon_grid/widgets/poke_item.dart';
+import 'package:app/shared/models/pokemon_summary.dart';
+import 'package:app/shared/providers/favourites_provider.dart';
 import 'package:app/shared/utils/snackbars.dart';
+import 'package:app/shared/widgets/loading_spinner_modal.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 
 class FavouritesPage extends StatefulWidget {
   const FavouritesPage({
@@ -21,31 +23,79 @@ class _FavouritesPageState extends State<FavouritesPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    context.read<FavouritesProvider>().getFavourites(context);
   }
-
-  final FavouritesService favService = FavouritesService();
 
   @override
   Widget build(BuildContext context) {
-    final dio = favService.getDioInstance();
-    dio.interceptors.add(AuthInterceptor(dio: dio, context: context));
     // UI
-    return SliverFillRemaining(
-      child: Column(
-        children: [
-          Center(
-            child: ElevatedButton(
-              child: const Text('Call Protected Route'),
-              onPressed: () async {
-                final prefs = await SharedPreferences.getInstance();
-                final username = prefs.getString('username')!;
-
-                if (await favService.getFavourites(username)) {}
+    return SliverPadding(
+      padding: EdgeInsets.zero,
+      sliver: SliverFillRemaining(
+        child: Consumer<FavouritesProvider>(
+          builder: (context, provider, _) {
+            // provider.getFavourites(context);
+            return GridView.builder(
+              padding: const EdgeInsets.all(10),
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: 10,
+                crossAxisSpacing: 10,
+                childAspectRatio: 1.4,
+              ),
+              itemCount: provider.favourites.length,
+              itemBuilder: (context, index) {
+                final PokemonSummary pokemon = provider.favourites[index];
+                return Stack(clipBehavior: Clip.none, fit: StackFit.loose, children: [
+                  PokeItemWidget(
+                    pokemon: pokemon,
+                  ),
+                  Positioned(
+                    right: -10,
+                    top: -10,
+                    child: ClipRRect(
+                      child: removeButton(context, onTap: () async {
+                        showLoadingSpinnerModal(context, 'Removing...');
+                        if (await context
+                            .read<FavouritesProvider>()
+                            .removeFavourite(context, pokemon.number)) {
+                          Navigator.pop(context);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              MySnackbars.success('Removed ${pokemon.name} from your favourites'));
+                        } else {
+                          Navigator.pop(context);
+                          ScaffoldMessenger.of(context).showSnackBar(MySnackbars.error(
+                              'Failed to remove ${pokemon.name} from your favourites'));
+                        }
+                      }),
+                    ),
+                  ),
+                ]);
               },
-            ),
-          ),
-        ],
+            );
+          },
+        ),
       ),
     );
+
+    // return SliverFillRemaining(
+    //   child: Column(
+    //     children: [
+    //       Center(
+    //         child: ElevatedButton(
+    //           child: const Text('Call Protected Route'),
+    //           onPressed: () async {
+    //             final prefs = await SharedPreferences.getInstance();
+    //             final username = prefs.getString('username')!;
+
+    //             final pokemons = await favService.getFavourites(username);
+    //             print(pokemons);
+    //           },
+    //         ),
+    //       ),
+    //     ],
+    //   ),
+    // );
   }
 }

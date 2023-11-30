@@ -11,8 +11,10 @@ class AuthProvider extends ChangeNotifier {
     setAuthenticated(false);
     showLoadingSpinnerModal(context, 'Logging out');
     final prefs = await SharedPreferences.getInstance();
+    final username = prefs.getString('username');
     prefs.remove('accessToken');
     prefs.remove('refreshToken');
+    prefs.remove('$username-favourites-pokemons');
     prefs.remove('username');
     Navigator.pop(context);
     Navigator.pushReplacementNamed(context, '/login');

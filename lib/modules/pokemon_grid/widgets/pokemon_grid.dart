@@ -7,6 +7,7 @@ import 'package:app/modules/pokemon_details/pokemon_details.dart';
 import 'package:app/modules/pokemon_grid/widgets/poke_item.dart';
 import 'package:app/shared/models/pokemon_summary.dart';
 import 'package:app/shared/stores/pokemon_store/pokemon_store.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PokemonGridWidget extends StatefulWidget {
   final PokemonStore pokemonStore;

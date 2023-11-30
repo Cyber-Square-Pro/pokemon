@@ -40,8 +40,9 @@ class PokemonRepository {
   void saveFavoritePokemonSummary(List<String> favorites) async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.setStringList('favorites-pokemons', favorites);
-      // await prefs.setStringList('${user}-favorites-pokemons', favorites);
+      final username = prefs.getString('username');
+      // await prefs.setStringList('favorites-pokemons', favorites);
+      await prefs.setStringList('$username-favorites-pokemons', favorites);
     } catch (e) {
       throw e;
     }

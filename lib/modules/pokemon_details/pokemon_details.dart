@@ -1,10 +1,13 @@
 import 'dart:io';
 import 'dart:math';
-
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
+import 'package:app/shared/providers/favourites_provider.dart';
+import 'package:app/shared/repositories/auth_interceptor.dart';
+import 'package:app/shared/repositories/favourites_service.dart';
 import 'package:app/shared/utils/spacer.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:bot_toast/bot_toast.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -22,6 +25,7 @@ import 'package:app/shared/ui/canvas/white_pokeball_canvas.dart';
 import 'package:app/shared/ui/enums/device_screen_type.dart';
 import 'package:app/shared/utils/converters.dart';
 import 'package:app/theme/app_theme.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../theme/dark/dark_theme.dart';
@@ -33,16 +37,17 @@ class PokemonDetailsPage extends StatefulWidget {
   const PokemonDetailsPage({Key? key, this.isFavoritePokemon = false}) : super(key: key);
 
   @override
-  _PokemonDetailsPageState createState() => _PokemonDetailsPageState();
+  PokemonDetailsPageState createState() => PokemonDetailsPageState();
 }
 
-class _PokemonDetailsPageState extends State<PokemonDetailsPage>
+class PokemonDetailsPageState extends State<PokemonDetailsPage>
     with SingleTickerProviderStateMixin {
   late PokemonStore _pokemonStore;
   late PokemonDetailsStore _pokemonDetailsStore;
   late AnimationController _animationController;
   late PageController _pageController;
   late AudioPlayer player;
+  late Dio dio;
 
   @override
   void initState() {
@@ -55,6 +60,9 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage>
 
     _animationController = AnimationController(vsync: this, duration: const Duration(seconds: 2))
       ..repeat();
+
+    Provider.of<FavouritesProvider>(context, listen: false)
+        .isAlreadyFavourite(context, _pokemonStore.pokemon!.number);
   }
 
   @override
@@ -141,30 +149,77 @@ class _PokemonDetailsPageState extends State<PokemonDetailsPage>
                       },
                     ),
                     actions: [
-                      //! Function that checks whether a pokemon was favourited or not
-                      if (_pokemonStore.isFavorite(_pokemonStore.pokemon!.number))
-                        IconButton(
-                          icon: Icon(
-                            Icons.favorite,
-                            color: AppTheme.getColors(context).pokemonDetailsTitleColor,
-                          ),
-                          onPressed: () {
-                            _pokemonStore.removeFavoritePokemon(_pokemonStore.pokemon!.number);
+                      Consumer<FavouritesProvider>(
+                        builder: (context, provider, _) => (provider.isFavourite)
+                            ? IconButton(
+                                icon: Icon(
+                                  Icons.favorite,
+                                  color: AppTheme.getColors(context).pokemonDetailsTitleColor,
+                                ),
+                                onPressed: () async {
+                                  _pokemonStore
+                                      .removeFavoritePokemon(_pokemonStore.pokemon!.number);
+                                  await provider.removeFavourite(
+                                      context, _pokemonStore.pokemon!.number);
 
-                            BotToast.showText(
-                                text: "${_pokemonStore.pokemon!.name} was removed from favorites");
-                          },
-                        ),
-                      if (!_pokemonStore.isFavorite(_pokemonStore.pokemon!.number))
-                        IconButton(
-                          icon: Icon(Icons.favorite_border,
-                              color: AppTheme.getColors(context).pokemonDetailsTitleColor),
-                          onPressed: () {
-                            //! ADD FAVOURITE FUNCTION
-                            _pokemonStore.addFavoritePokemon(_pokemonStore.pokemon!.number);
-                            BotToast.showText(text: "${_pokemonStore.pokemon!.name} was favorited");
-                          },
-                        ),
+                                  BotToast.showText(
+                                      text:
+                                          "${_pokemonStore.pokemon!.name} was removed from favorites");
+                                },
+                              )
+                            : IconButton(
+                                icon: Icon(Icons.favorite_border,
+                                    color: AppTheme.getColors(context).pokemonDetailsTitleColor),
+                                onPressed: () async {
+                                  if (await provider.addFavourite(
+                                      context, _pokemonStore.pokemon!.number)) {
+                                    BotToast.showText(
+                                        text: "${_pokemonStore.pokemon!.name} was favorited");
+                                  } else {
+                                    BotToast.showText(
+                                        text: "Failed to favourite ${_pokemonStore.pokemon!.name}");
+                                  }
+                                  _pokemonStore.addFavoritePokemon(_pokemonStore.pokemon!.number);
+                                  BotToast.showText(
+                                      text: "${_pokemonStore.pokemon!.name} was favorited");
+                                },
+                              ),
+                      ),
+                      // if (_pokemonStore.isFavorite(_pokemonStore.pokemon!.number))
+                      // if (context.read<FavouritesProvider>().isFavourite)
+                      //   IconButton(
+                      //     icon: Icon(
+                      //       Icons.favorite,
+                      //       color: AppTheme.getColors(context).pokemonDetailsTitleColor,
+                      //     ),
+                      //     onPressed: () async {
+                      //       _pokemonStore.removeFavoritePokemon(_pokemonStore.pokemon!.number);
+                      //       await favService.removeFavourite(_pokemonStore.pokemon!.number);
+
+                      //       BotToast.showText(
+                      //           text: "${_pokemonStore.pokemon!.name} was removed from favorites");
+                      //     },
+                      //   ),
+                      // // if (!_pokemonStore.isFavorite(_pokemonStore.pokemon!.number))
+                      // if (!context.read<FavouritesProvider>().isFavourite)
+                      //   IconButton(
+                      //     icon: Icon(Icons.favorite_border,
+                      //         color: AppTheme.getColors(context).pokemonDetailsTitleColor),
+                      //     onPressed: () async {
+                      //       // final SharedPreferences prefs = await SharedPreferences.getInstance();
+                      //       // final username = prefs.getString('username')!;
+
+                      //       //! ADD FAVOURITE FUNCTION
+                      //       if (await favService.addFavourite(
+                      //           username, _pokemonStore.pokemon!.number)) {
+                      //         BotToast.showText(text: 'Added favourite to mongo!');
+                      //       } else {
+                      //         BotToast.showText(text: 'Error/already exists!');
+                      //       }
+                      //       _pokemonStore.addFavoritePokemon(_pokemonStore.pokemon!.number);
+                      //       BotToast.showText(text: "${_pokemonStore.pokemon!.name} was favorited");
+                      //     },
+                      //   ),
                       IconButton(
                         onPressed: () {
                           Scaffold.of(context).openEndDrawer();

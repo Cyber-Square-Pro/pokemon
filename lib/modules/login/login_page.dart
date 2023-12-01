@@ -44,14 +44,10 @@ class _LoginPageState extends State<LoginPage> {
       final username = prefs.getString('username')!;
       final password = prefs.getString('password')!;
       if (await AuthService().login(username, password)) {
-        Navigator.pop(context);
         Navigator.pushReplacementNamed(context, '/home');
       } else {
         Navigator.pop(context);
-        context.read<AuthProvider>().logout(context);
-        ScaffoldMessenger.of(context).showSnackBar(
-          MySnackbars.error('Auto login failed'),
-        );
+        return;
       }
     }
   }
@@ -76,8 +72,6 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                //
-
                 Container(
                   height: 60,
                   decoration: BoxDecoration(
@@ -137,7 +131,7 @@ class _LoginPageState extends State<LoginPage> {
                             controller: _passwordController,
                             keyboardType: TextInputType.text,
                             validator: (value) {
-                              if (value == '') {
+                              if (value == '' || value == null) {
                                 return 'Please enter a valid password';
                               } else {
                                 return null;

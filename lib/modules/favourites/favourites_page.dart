@@ -5,10 +5,8 @@ import 'package:app/shared/providers/favourites_provider.dart';
 import 'package:app/shared/utils/error_card.dart';
 import 'package:app/shared/utils/snackbars.dart';
 import 'package:app/shared/widgets/loading_spinner_modal.dart';
-import 'package:app/theme/app_theme.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 class FavouritesPage extends StatefulWidget {
@@ -39,15 +37,18 @@ class _FavouritesPageState extends State<FavouritesPage> {
           builder: (context, provider, _) {
             // provider.getFavourites(context);
             if (provider.favourites.isEmpty) {
-              return Column(
-                children: [
-                  errorCard(
-                    context,
-                    'Notice',
-                    'You have no favourites added.',
-                    Colors.grey.shade800,
-                  ),
-                ],
+              return SizedBox(
+                height: 100,
+                child: Column(
+                  children: [
+                    errorCard(
+                      context,
+                      'Notice',
+                      'You have no favourites added.',
+                      Colors.grey.shade800,
+                    ),
+                  ],
+                ),
               );
             }
             return Expanded(

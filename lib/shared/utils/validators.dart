@@ -27,4 +27,15 @@ class FormValidators {
     }
     return null;
   }
+
+  String? validatePhoneNumber(String? value) {
+    if (value == '' || value == null) {
+      return 'Phone number cannot be blank';
+    } else if (value.contains(' ') || value.contains('.') || value.contains('#')) {
+      return 'Invalid phone number';
+    } else if (value.length != 10) {
+      return 'Invalid phone number';
+    }
+    return null;
+  }
 }

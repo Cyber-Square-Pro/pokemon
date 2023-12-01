@@ -184,9 +184,8 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget> with TickerProvider
                   text: "Logout",
                   contentAlignment: MainAxisAlignment.center,
                   onTap: () {
-                    showLoadingSpinnerModal(context, 'Logging out...');
-                    Provider.of<AuthProvider>(context, listen: false).logout(context);
                     _homeStore.setPage(HomePageType.POKEMON_GRID);
+                    Provider.of<AuthProvider>(context, listen: false).logout(context);
                   },
                 ),
               ),

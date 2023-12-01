@@ -4,6 +4,7 @@ import 'package:app/shared/repositories/otp_service.dart';
 import 'package:app/shared/utils/app_constants.dart';
 import 'package:app/shared/utils/snackbars.dart';
 import 'package:app/shared/utils/spacer.dart';
+import 'package:app/shared/utils/validators.dart';
 import 'package:app/shared/widgets/custom_text_button.dart';
 import 'package:app/shared/widgets/custom_text_form_field.dart';
 import 'package:app/shared/widgets/loading_spinner_modal.dart';
@@ -101,13 +102,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         CustomTextFormField(
                           controller: _phonenumbercontroller,
                           keyboardType: TextInputType.phone,
-                          validator: (value) {
-                            if (value == '') {
-                              return 'Enter a valid phone number';
-                            } else {
-                              return null;
-                            }
-                          },
+                          validator: (value) => FormValidators().validatePhoneNumber(value),
                           prefixIcon: Icons.phone_android,
                           labelText: 'Phone Number',
                         ),
@@ -132,13 +127,7 @@ class _SignUpPageState extends State<SignUpPage> {
                               CustomTextFormField(
                                 controller: _passwordcontroller,
                                 isPassword: provider.obscureSignupPassword,
-                                validator: (value) {
-                                  if (value == '') {
-                                    return 'Enter a valid password';
-                                  } else {
-                                    return null;
-                                  }
-                                },
+                                validator: (value) => FormValidators().validatePassword(value),
                                 suffixIcon: IconButton(
                                   icon: Icon(
                                     provider.obscureSignupPassword
@@ -155,15 +144,8 @@ class _SignUpPageState extends State<SignUpPage> {
                               hSpace(20),
                               CustomTextFormField(
                                 controller: _confirmpasswordcontroller,
-                                validator: (value) {
-                                  if (value == '') {
-                                    return 'Enter a valid name';
-                                  } else if (value != _passwordcontroller.text) {
-                                    return 'Passwords do not match';
-                                  } else {
-                                    return null;
-                                  }
-                                },
+                                validator: (value) => FormValidators()
+                                    .validateConfirmPassword(value, _passwordcontroller.text),
                                 isPassword: provider.obscureSignupConfirmPassword,
                                 prefixIcon: Icons.lock,
                                 suffixIcon: IconButton(

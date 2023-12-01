@@ -37,6 +37,7 @@ class FavouritesProvider extends ChangeNotifier {
     final bool result = await favService.addFavourite(favourite);
     _isFav = result;
     notifyListeners();
+    dio.interceptors.clear();
     return result;
   }
 
@@ -50,15 +51,23 @@ class FavouritesProvider extends ChangeNotifier {
     _isFav = !result;
     _favourites.removeWhere((element) => element.number == favourite);
     notifyListeners();
+    dio.interceptors.clear();
     return result;
   }
 
-  void getFavourites(BuildContext context) async {
+  Future<List<PokemonSummary>> getFavourites(BuildContext context) async {
     final Dio dio = favService.getDioInstance();
     dio.interceptors.add(AuthInterceptor(dio: dio, context: context));
     final List<PokemonSummary> result = await favService.getFavourites();
     _favourites = result;
     _favouritesCount = result.length;
+    notifyListeners();
+    dio.interceptors.clear();
+    return _favourites;
+  }
+
+  void clearFavourites() {
+    _favourites.clear();
     notifyListeners();
   }
 

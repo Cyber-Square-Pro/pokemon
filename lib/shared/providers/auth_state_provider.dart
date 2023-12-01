@@ -26,7 +26,7 @@ class AuthProvider extends ChangeNotifier {
     prefs.remove('username');
     prefs.remove('password');
     Navigator.pop(context);
-    Navigator.pushReplacementNamed(context, '/login');
+    Navigator.pushReplacementNamed(context, '/');
   }
 
   void setAuthenticated(bool value) {

@@ -28,28 +28,10 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
 
-    checkIfCredentialsExistOnDevice();
+
     changeScreen();
   }
 
-  Future<void> checkIfCredentialsExistOnDevice() async {
-    final prefs = await SharedPreferences.getInstance();
-    if (prefs.containsKey('username') && prefs.containsKey('password')) {
-      showLoadingSpinnerModal(context, 'Auto logging in...');
-      final username = prefs.getString('username')!;
-      final password = prefs.getString('password')!;
-      if (await AuthService().login(username, password)) {
-        Navigator.pop(context);
-        Navigator.pushReplacementNamed(context, '/home');
-      } else {
-        Navigator.pop(context);
-        context.read<AuthProvider>().logout(context);
-        ScaffoldMessenger.of(context).showSnackBar(
-          MySnackbars.error('Auto login failed'),
-        );
-      }
-    }
-  }
 
   @override
   Widget build(BuildContext context) {

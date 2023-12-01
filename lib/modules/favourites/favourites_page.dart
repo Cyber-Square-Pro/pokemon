@@ -51,45 +51,42 @@ class _FavouritesPageState extends State<FavouritesPage> {
                 ),
               );
             }
-            return Expanded(
-              child: GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 10,
-                  crossAxisSpacing: 10,
-                  childAspectRatio: 1.35,
-                ),
-                itemCount: provider.favourites.length,
-                itemBuilder: (context, index) {
-                  final PokemonSummary pokemon = provider.favourites[index];
-
-                  return Stack(clipBehavior: Clip.none, fit: StackFit.loose, children: [
-                    PokeItemWidget(
-                      pokemon: pokemon,
-                    ),
-                    Positioned(
-                      right: -2,
-                      bottom: -2,
-                      child: removeButton(context, onTap: () async {
-                        showLoadingSpinnerModal(context, 'Removing...');
-                        if (await context
-                            .read<FavouritesProvider>()
-                            .removeFavourite(context, pokemon.number)) {
-                          Navigator.pop(context);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              MySnackbars.success('Removed ${pokemon.name} from your favourites'));
-                        } else {
-                          Navigator.pop(context);
-                          ScaffoldMessenger.of(context).showSnackBar(MySnackbars.error(
-                              'Failed to remove ${pokemon.name} from your favourites'));
-                        }
-                      }),
-                    ),
-                  ]);
-                },
+            return GridView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: 10,
+                crossAxisSpacing: 10,
+                childAspectRatio: 1.35,
               ),
+              itemCount: provider.favourites.length,
+              itemBuilder: (context, index) {
+                final PokemonSummary pokemon = provider.favourites[index];
+
+                return Stack(clipBehavior: Clip.none, fit: StackFit.loose, children: [
+                  PokeItemWidget(
+                    pokemon: pokemon,
+                  ),
+                  Positioned(
+                    right: -2,
+                    bottom: -2,
+                    child: removeButton(context, onTap: () async {
+                      showLoadingSpinnerModal(context, 'Removing...');
+                      if (await context
+                          .read<FavouritesProvider>()
+                          .removeFavourite(context, pokemon.number)) {
+                        Navigator.pop(context);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            MySnackbars.success('Removed ${pokemon.name} from your favourites'));
+                      } else {
+                        Navigator.pop(context);
+                        ScaffoldMessenger.of(context).showSnackBar(MySnackbars.error(
+                            'Failed to remove ${pokemon.name} from your favourites'));
+                      }
+                    }),
+                  ),
+                ]);
+              },
             );
           },
         ),

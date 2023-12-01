@@ -1,5 +1,6 @@
 import 'package:app/shared/providers/password_obscure_provider.dart';
 import 'package:app/shared/providers/signup_provider.dart';
+import 'package:app/shared/providers/timer_provider.dart';
 import 'package:app/shared/repositories/otp_service.dart';
 import 'package:app/shared/utils/app_constants.dart';
 import 'package:app/shared/utils/snackbars.dart';
@@ -201,6 +202,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
                                   if (context.mounted) {
                                     Navigator.popAndPushNamed(context, '/otp');
+                                    context.read<TimerProvider>().restartTimer();
                                     Provider.of<ObscureProvider>(context, listen: false)
                                         .resetSettings();
                                   }

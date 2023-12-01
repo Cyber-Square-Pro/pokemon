@@ -1,4 +1,5 @@
 import 'package:app/shared/providers/otp_provider.dart';
+import 'package:app/shared/providers/timer_provider.dart';
 import 'package:app/shared/repositories/otp_service.dart';
 import 'package:app/shared/utils/app_constants.dart';
 import 'package:app/shared/utils/snackbars.dart';
@@ -116,15 +117,12 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                               _otpProvider.setEmail(_emailController.text.trim());
                               if (context.mounted) {
                                 Navigator.pop(context);
-                                Navigator.popAndPushNamed(
-                                  context,
-                                  '/otp',
-                                  arguments: [
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      MySnackbars.success('OTP Has been sent succesfully'),
-                                    ),
-                                  ],
-                                );
+                                context.read<TimerProvider>().restartTimer();
+                                Navigator.popAndPushNamed(context, '/otp', arguments: [
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    MySnackbars.success('OTP Has been sent succesfully'),
+                                  )
+                                ]);
                               }
                             } else {
                               if (context.mounted) {

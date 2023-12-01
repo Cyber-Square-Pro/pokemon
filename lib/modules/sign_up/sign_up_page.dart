@@ -197,6 +197,8 @@ class _SignUpPageState extends State<SignUpPage> {
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
                                 showLoadingSpinnerModal(context, 'Signing up...');
+                                // Check if username, phone or email already exists
+
                                 final signupProvider =
                                     Provider.of<SignupProvider>(context, listen: false);
 

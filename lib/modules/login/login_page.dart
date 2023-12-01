@@ -34,13 +34,25 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    check();
+    checkIfCredentialsExistOnDevice();
   }
 
-  Future<void> check() async {
+  Future<void> checkIfCredentialsExistOnDevice() async {
     final prefs = await SharedPreferences.getInstance();
-    if (prefs.containsKey('refreshToken')) {
-      Navigator.pushReplacementNamed(context, '/home');
+    if (prefs.containsKey('username') && prefs.containsKey('password')) {
+      showLoadingSpinnerModal(context, 'Auto logging in...');
+      final username = prefs.getString('username')!;
+      final password = prefs.getString('password')!;
+      if (await AuthService().login(username, password)) {
+        Navigator.pop(context);
+        Navigator.pushReplacementNamed(context, '/home');
+      } else {
+        Navigator.pop(context);
+        context.read<AuthProvider>().logout(context);
+        ScaffoldMessenger.of(context).showSnackBar(
+          MySnackbars.error('Auto login failed'),
+        );
+      }
     }
   }
 
@@ -178,6 +190,7 @@ class _LoginPageState extends State<LoginPage> {
                                     Provider.of<ObscureProvider>(context, listen: false)
                                         .resetSettings();
                                     authProvider.setAuthenticated(true);
+                                    authProvider.getUserInfo();
                                     Navigator.pushReplacementNamed(
                                       context,
                                       '/home',

@@ -4,18 +4,27 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthProvider extends ChangeNotifier {
   bool _authenticated = false;
+  late String _username;
 
+  String get username => _username;
   bool get isAuthenticated => _authenticated;
+
+  getUserInfo() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String username = prefs.getString('username')!;
+
+    _username = username;
+    notifyListeners();
+  }
 
   logout(context) async {
     setAuthenticated(false);
     showLoadingSpinnerModal(context, 'Logging out');
     final prefs = await SharedPreferences.getInstance();
-    final username = prefs.getString('username');
     prefs.remove('accessToken');
     prefs.remove('refreshToken');
-    prefs.remove('$username-favourites-pokemons');
     prefs.remove('username');
+    prefs.remove('password');
     Navigator.pop(context);
     Navigator.pushReplacementNamed(context, '/login');
   }

@@ -25,6 +25,7 @@ class AuthService {
         prefs.setString('accessToken', accessToken);
         prefs.setString('refreshToken', refreshToken);
         prefs.setString('username', username);
+        prefs.setString('password', password);
         return true;
       } else if (response.statusCode == 404) {
         return false;
@@ -102,6 +103,4 @@ class AuthService {
       throw Exception('Failed ot signup: $e');
     }
   }
-
-
 }

@@ -12,43 +12,49 @@ Widget errorCard(BuildContext context, String title, String message,
       color: color,
       borderRadius: BorderRadius.circular(AppTheme.globalBorderRadius),
     ),
-    child: Row(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
+    child: Column(
       children: [
-        Image.asset(
-          AppConstants.ashShockedImage,
-          height: size,
-          width: size,
-          fit: BoxFit.fitHeight,
-        ),
-        wSpace(15),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        Row(
+          mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              title,
-              style: TextStyle(
-                fontFamily: 'Circular',
-                fontSize: 18.sp,
-                fontWeight: FontWeight.bold,
-                letterSpacing: -0.25,
-                color: Colors.white,
-                height: 0,
-              ),
+            Image.asset(
+              AppConstants.ashShockedImage,
+              height: size,
+              width: size,
+              fit: BoxFit.fitHeight,
             ),
-            Text(
-              message,
-              style: TextStyle(
-                fontFamily: 'Circular',
-                fontSize: 15.sp,
-                fontWeight: FontWeight.w500,
-                letterSpacing: -0.25,
-                color: Colors.white.withOpacity(0.75),
-              ),
+            wSpace(15),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontFamily: 'Circular',
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: -0.25,
+                    color: Colors.white,
+                    height: 0,
+                  ),
+                ),
+                Text(
+                  message,
+                  maxLines: 2,
+                  style: TextStyle(
+                    fontFamily: 'Circular',
+                    fontSize: 15.sp,
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: -0.25,
+                    color: Colors.white.withOpacity(0.75),
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+                child ?? const SizedBox(),
+              ],
             ),
-            child ?? const SizedBox(),
           ],
         ),
       ],

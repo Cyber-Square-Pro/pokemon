@@ -8,6 +8,7 @@ import 'package:app/shared/widgets/loading_spinner_modal.dart';
 import 'package:app/theme/app_theme.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 class FavouritesPage extends StatefulWidget {
@@ -32,31 +33,37 @@ class _FavouritesPageState extends State<FavouritesPage> {
   Widget build(BuildContext context) {
     // UI
     return SliverPadding(
-      padding: EdgeInsets.zero,
+      padding: const EdgeInsets.all(10),
       sliver: SliverFillRemaining(
         child: Consumer<FavouritesProvider>(
           builder: (context, provider, _) {
             // provider.getFavourites(context);
-            return GridView.builder(
-              padding: const EdgeInsets.all(10),
-              physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: 10,
-                crossAxisSpacing: 10,
-                childAspectRatio: 1.35,
-              ),
-              itemCount: provider.favourites.length,
-              itemBuilder: (context, index) {
-                final PokemonSummary pokemon = provider.favourites[index];
-                if (provider.favourites.isEmpty) {
-                  return errorCard(
+            if (provider.favourites.isEmpty) {
+              return Column(
+                children: [
+                  errorCard(
                     context,
                     'Notice',
-                    'Nothing has been added to your favourites',
-                    AppTheme.getColors(context).panelBackground,
-                  );
-                } else {
+                    'You have no favourites added.',
+                    Colors.grey.shade800,
+                  ),
+                ],
+              );
+            }
+            return Expanded(
+              child: GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 10,
+                  crossAxisSpacing: 10,
+                  childAspectRatio: 1.35,
+                ),
+                itemCount: provider.favourites.length,
+                itemBuilder: (context, index) {
+                  final PokemonSummary pokemon = provider.favourites[index];
+
                   return Stack(clipBehavior: Clip.none, fit: StackFit.loose, children: [
                     PokeItemWidget(
                       pokemon: pokemon,
@@ -80,8 +87,8 @@ class _FavouritesPageState extends State<FavouritesPage> {
                       }),
                     ),
                   ]);
-                }
-              },
+                },
+              ),
             );
           },
         ),

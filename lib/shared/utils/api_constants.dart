@@ -6,5 +6,5 @@ class ApiConstants {
 
   static String get pokemonItems => "https://pokedex.alansantos.dev/api/items.json";
 
-  static String baseURL = 'https://18fe-2405-201-f00c-3016-d4bb-4dce-d0a3-4c26.ngrok-free.app';
+  static String baseURL = 'https://eaad-2405-201-f00c-3016-85e4-6e0a-ee0f-ae34.ngrok-free.app';
 }

@@ -123,8 +123,12 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                             return !(remainingSeconds > 0)
                                 ? CustomTextButton(
                                     onPressed: () async {
+                                      final email = (otpProvider.email != '')
+                                          ? otpProvider.email
+                                          : signupProv.getSignupData['email'];
+
                                       showLoadingSpinnerModal(context, 'Sending OTP...');
-                                      if (await OtpService().sendOTP(otpProvider.email)) {
+                                      if (await OtpService().sendOTP(email)) {
                                         if (context.mounted) {
                                           Navigator.pop(context);
                                           ScaffoldMessenger.of(context).showSnackBar(
@@ -145,8 +149,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                                     label: 'Resend OTP',
                                   )
                                 : timerText(
-                                    _formatDuration(Duration(seconds: remainingSeconds)),
-                                  );
+                                    'OTP Expires in ${_formatDuration(Duration(seconds: remainingSeconds))}');
                           },
                         ),
                         //

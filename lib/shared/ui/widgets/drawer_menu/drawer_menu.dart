@@ -1,7 +1,9 @@
 import 'package:app/shared/providers/auth_state_provider.dart';
 import 'package:app/shared/utils/spacer.dart';
+import 'package:app/shared/widgets/loading_spinner_modal.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
 import 'package:lottie/lottie.dart';
 import 'package:app/modules/home/home_page_store.dart';
@@ -9,7 +11,6 @@ import 'package:app/shared/ui/widgets/animated_pokeball.dart';
 import 'package:app/shared/ui/widgets/drawer_menu/widgets/drawer_menu_item.dart';
 import 'package:app/shared/utils/app_constants.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class DrawerMenuWidget extends StatefulWidget {
   const DrawerMenuWidget({Key? key}) : super(key: key);
@@ -56,11 +57,24 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget> with TickerProvider
             children: [
               Column(
                 children: [
-                  // Image.asset(
-                  //   AppConstants.pokedexIcon,
-                  //   width: 100,
-                  //   height: 100,
-                  // ),
+                  Text(
+                    "Logged in as",
+                    style: textTheme.bodyMedium!.copyWith(
+                      color: Colors.white.withOpacity(0.75),
+                      fontFamily: 'Circular',
+                    ),
+                  ),
+                  Text(
+                    context.read<AuthProvider>().username,
+                    style: textTheme.bodyMedium!.copyWith(
+                      fontSize: 25.sp,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      fontFamily: 'Circular',
+                    ),
+                  ),
+                  Divider(color: Colors.white.withOpacity(0.25)),
+                  hSpace(25),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -170,7 +184,9 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget> with TickerProvider
                   text: "Logout",
                   contentAlignment: MainAxisAlignment.center,
                   onTap: () {
+                    showLoadingSpinnerModal(context, 'Logging out...');
                     Provider.of<AuthProvider>(context, listen: false).logout(context);
+                    _homeStore.setPage(HomePageType.POKEMON_GRID);
                   },
                 ),
               ),

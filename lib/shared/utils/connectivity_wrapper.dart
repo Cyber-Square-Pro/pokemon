@@ -50,10 +50,13 @@ class _ConnectivityWrapperState extends State<ConnectivityWrapper> {
       builder: (context, snapshot) {
         if (snapshot.data == ConnectivityResult.none) {
           // No internet connection
-          return const Directionality(textDirection: TextDirection.ltr, child: NoInternetPage());
+          return const Directionality(
+            textDirection: TextDirection.ltr,
+            child: NoInternetPage(),
+          );
         } else {
           // Internet connection available, navigate to the child route
-        
+
           return widget.child;
         }
       },

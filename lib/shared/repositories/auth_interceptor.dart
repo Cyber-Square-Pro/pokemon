@@ -15,7 +15,7 @@ class AuthInterceptor extends Interceptor {
 
   @override
   Future onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
-    print('Original Request');
+    print('Requesting with accessToken in header');
     final accessToken = await getAccessToken();
     options.headers['Authorization'] = 'Bearer $accessToken';
     return handler.next(options);
@@ -35,7 +35,6 @@ class AuthInterceptor extends Interceptor {
             headers: options.headers,
             contentType: options.contentType,
             path: options.path,
-            // Add other necessary properties
           );
           final Options opts = Options(
             method: options.method,
@@ -45,8 +44,6 @@ class AuthInterceptor extends Interceptor {
           retryOptions.headers['Authorization'] = 'Bearer ${await getAccessToken()}';
           return await dio.request(retryOptions.path, options: opts);
         } catch (retryError) {
-          print('Retry error occured');
-          // Logout immediately
           logout(context);
           return handler.reject(retryError as DioException);
         }
@@ -68,10 +65,11 @@ Future<String?> getAccessToken() async {
 }
 
 Future<bool> regenerateToken() async {
-  print('regenerate token called');
+  print('Regenerating access token...');
   try {
     final authService = AuthService();
     await authService.requestNewAccessToken();
+    print('Token re-generated succesfully');
     return true; // Token regenerated successfully
   } catch (error) {
     print('Token regeneration failed: $error');

@@ -103,8 +103,6 @@ class _PokemonGridWidgetState extends State<PokemonGridWidget> {
     return InkWell(
       onTap: () async {
         await widget.pokemonStore.setPokemon(index);
-        print(index);
-        context.read<FavouritesProvider>().setCurrentPokemon(pokemon.number);
 
         Navigator.push(
           context,

@@ -90,20 +90,24 @@ class FavouritesService {
 
   Future<bool> removeFavourite(String number) async {
     final uri = '${ApiConstants.baseURL}/favourites/remove';
-    final prefs = await SharedPreferences.getInstance();
-    final username = prefs.getString('username');
-    final Response response = await _dio.delete(
-      uri,
-      data: {
-        'username': username,
-        'favourite': number,
-      },
-      options: Options(headers: {'Connection': 'keep-alive'}),
-    );
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final username = prefs.getString('username');
+      final Response response = await _dio.delete(
+        uri,
+        data: {
+          'username': username,
+          'favourite': number,
+        },
+        options: Options(headers: {'Connection': 'keep-alive'}),
+      );
 
-    if (response.statusCode == 201 || response.statusCode == 200) {
-      return true;
+      if (response.statusCode == 201 || response.statusCode == 200) {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      throw Exception(e);
     }
-    return false;
   }
 }

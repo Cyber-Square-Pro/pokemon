@@ -1,14 +1,15 @@
 import 'package:app/shared/models/pokemon.dart';
+import 'package:equatable/equatable.dart';
 
-class PokemonSummary {
-  late String number;
-  late String name;
-  late String imageUrl;
-  late String thumbnailUrl;
-  late Sprites sprites;
-  late List<String> types;
-  late String specie;
-  late Generation generation;
+class PokemonSummary extends Equatable {
+  late final String number;
+  late final String name;
+  late final String imageUrl;
+  late final String thumbnailUrl;
+  late final Sprites sprites;
+  late final List<String> types;
+  late final String specie;
+  late final Generation generation;
 
   PokemonSummary(
       {required this.number,
@@ -28,8 +29,10 @@ class PokemonSummary {
     sprites = Sprites.fromJson(json['sprites']);
     types = json['types'].cast<String>();
     specie = json['specie'];
-    generation = Generation.values
-        .where((it) => it.toString().endsWith(json['generation']))
-        .first;
+    generation = Generation.values.where((it) => it.toString().endsWith(json['generation'])).first;
   }
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [name, number];
 }

@@ -56,6 +56,10 @@ class PokemonDetailsPageState extends State<PokemonDetailsPage>
 
     _animationController = AnimationController(vsync: this, duration: const Duration(seconds: 2))
       ..repeat();
+
+    //
+    Provider.of<FavouritesProvider>(context, listen: false)
+        .checkIfCurrentIsFavourite(context, _pokemonStore.pokemonSummary!);
   }
 
   @override
@@ -68,9 +72,6 @@ class PokemonDetailsPageState extends State<PokemonDetailsPage>
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<FavouritesProvider>(context, listen: false)
-        .isAlreadyFavourite(context, _pokemonStore.pokemon!.number);
-
     if (getDeviceScreenType(context) == DeviceScreenType.CELLPHONE) {
       SystemChrome.setPreferredOrientations([
         DeviceOrientation.portraitUp,

@@ -17,6 +17,11 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  setUserInfo(String value) {
+    _username = value;
+    notifyListeners();
+  }
+
   logout(context) async {
     setAuthenticated(false);
     showLoadingSpinnerModal(context, 'Logging out');

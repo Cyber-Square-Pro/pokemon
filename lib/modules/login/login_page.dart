@@ -44,6 +44,7 @@ class _LoginPageState extends State<LoginPage> {
       final username = prefs.getString('username')!;
       final password = prefs.getString('password')!;
       if (await AuthService().login(username, password)) {
+        context.read<AuthProvider>().getUserInfo();
         Navigator.pushReplacementNamed(context, '/home');
       } else {
         Navigator.pop(context);

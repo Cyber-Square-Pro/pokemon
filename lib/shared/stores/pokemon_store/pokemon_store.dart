@@ -4,6 +4,7 @@ import 'package:app/shared/models/pokemon_summary.dart';
 import 'package:app/shared/repositories/pokemon_repository.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
+import 'package:provider/provider.dart';
 
 part 'pokemon_store.g.dart';
 

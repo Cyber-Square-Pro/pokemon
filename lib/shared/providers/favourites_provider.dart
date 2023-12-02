@@ -6,26 +6,19 @@ import 'package:flutter/cupertino.dart';
 
 class FavouritesProvider extends ChangeNotifier {
   late bool _isFav = false;
-  late int _favouritesCount = 0;
-  late String _selectedPokemon;
   late List<PokemonSummary> _favourites = [];
 
   FavouritesService favService = FavouritesService();
 
-  void setCurrentPokemon(String number) {
-    _selectedPokemon = number;
-    notifyListeners();
-  }
-
-  Future<void> isAlreadyFavourite(
-    BuildContext context,
-    String favourite,
-  ) async {
-    final Dio dio = favService.getDioInstance();
-    dio.interceptors.add(AuthInterceptor(dio: dio, context: context));
-    final bool result = await favService.isFavourite(favourite);
-    _isFav = result;
-    notifyListeners();
+  void checkIfCurrentIsFavourite(BuildContext context, PokemonSummary currentPokemon) async {
+    final favouritesList = await fetchFavourites(context);
+    if (favouritesList.contains(currentPokemon)) {
+      _isFav = true;
+      notifyListeners();
+    } else {
+      _isFav = false;
+      notifyListeners();
+    }
   }
 
   Future<bool> addFavourite(
@@ -55,12 +48,11 @@ class FavouritesProvider extends ChangeNotifier {
     return result;
   }
 
-  Future<List<PokemonSummary>> getFavourites(BuildContext context) async {
+  Future<List<PokemonSummary>> fetchFavourites(BuildContext context) async {
     final Dio dio = favService.getDioInstance();
     dio.interceptors.add(AuthInterceptor(dio: dio, context: context));
     final List<PokemonSummary> result = await favService.getFavourites();
     _favourites = result;
-    _favouritesCount = result.length;
     notifyListeners();
     dio.interceptors.clear();
     return _favourites;
@@ -76,7 +68,5 @@ class FavouritesProvider extends ChangeNotifier {
     return _favourites;
   }
 
-  int get favouritesCount => _favouritesCount;
   bool get isFavourite => _isFav;
-  String get selectedPokemon => _selectedPokemon;
 }

@@ -1,3 +1,4 @@
+import 'package:app/modules/favourites/confirm_dialog.dart';
 import 'package:app/modules/favourites/remove_button.dart';
 import 'package:app/modules/pokemon_grid/widgets/poke_item.dart';
 import 'package:app/shared/models/pokemon_summary.dart';
@@ -24,7 +25,7 @@ class _FavouritesPageState extends State<FavouritesPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    context.read<FavouritesProvider>().getFavourites(context);
+    context.read<FavouritesProvider>().fetchFavourites(context);
   }
 
   @override
@@ -71,18 +72,27 @@ class _FavouritesPageState extends State<FavouritesPage> {
                     right: -2,
                     bottom: -2,
                     child: removeButton(context, onTap: () async {
-                      showLoadingSpinnerModal(context, 'Removing...');
-                      if (await context
-                          .read<FavouritesProvider>()
-                          .removeFavourite(context, pokemon.number)) {
-                        Navigator.pop(context);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            MySnackbars.success('Removed ${pokemon.name} from your favourites'));
-                      } else {
-                        Navigator.pop(context);
-                        ScaffoldMessenger.of(context).showSnackBar(MySnackbars.error(
-                            'Failed to remove ${pokemon.name} from your favourites'));
-                      }
+                      showDialog(
+                          context: context,
+                          builder: (context) => confirmDialog(
+                                title: 'Remove Favourite',
+                                message:
+                                    'Are you sure you want to remove ${pokemon.name} from your favourites?',
+                                onConfirm: () async {
+                                  if (await context
+                                      .read<FavouritesProvider>()
+                                      .removeFavourite(context, pokemon.number)) {
+                                    Navigator.pop(context);
+                                    ScaffoldMessenger.of(context).showSnackBar(MySnackbars.success(
+                                        'Removed ${pokemon.name} from your favourites'));
+                                  } else {
+                                    Navigator.pop(context);
+                                    ScaffoldMessenger.of(context).showSnackBar(MySnackbars.error(
+                                        'Failed to remove ${pokemon.name} from your favourites'));
+                                  }
+                                },
+                                onDeny: () => Navigator.pop(context),
+                              ));
                     }),
                   ),
                 ]);

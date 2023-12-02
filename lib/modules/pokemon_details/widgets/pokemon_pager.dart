@@ -1,3 +1,4 @@
+import 'package:app/shared/providers/favourites_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
@@ -5,6 +6,7 @@ import 'package:mobx/mobx.dart';
 import 'package:app/modules/pokemon_details/pokemon_details_store.dart';
 import 'package:app/shared/stores/pokemon_store/pokemon_store.dart';
 import 'package:app/shared/utils/image_utils.dart';
+import 'package:provider/provider.dart';
 
 class PokemonPagerWidget extends StatefulWidget {
   final PageController pageController;
@@ -40,8 +42,7 @@ class _PokemonPagerState extends State<PokemonPagerWidget> {
               _pokemonStore.index != pageController)
             {
               await pageController.animateToPage(_pokemonStore.index,
-                  duration: Duration(microseconds: 300),
-                  curve: Curves.bounceIn),
+                  duration: Duration(microseconds: 300), curve: Curves.bounceIn),
             }
         });
   }
@@ -59,7 +60,12 @@ class _PokemonPagerState extends State<PokemonPagerWidget> {
       child: PageView.builder(
         controller: pageController,
         itemCount: _pokemonStore.pokemonsSummary!.length,
-        onPageChanged: _pokemonStore.setPokemon,
+        onPageChanged: (index) {
+          _pokemonStore.setPokemon(index);
+          context
+              .read<FavouritesProvider>()
+              .checkIfCurrentIsFavourite(context, _pokemonStore.pokemonSummary!);
+        },
         allowImplicitScrolling: true,
         itemBuilder: (context, index) {
           final listPokemon = _pokemonStore.pokemonsSummary![index];
@@ -68,34 +74,29 @@ class _PokemonPagerState extends State<PokemonPagerWidget> {
             builder: (_) {
               return AnimatedPadding(
                 padding: EdgeInsets.all(
-                    _pokemonStore.pokemonSummary!.number == listPokemon.number
-                        ? 0
-                        : 40),
+                    _pokemonStore.pokemonSummary!.number == listPokemon.number ? 0 : 40),
                 duration: Duration(milliseconds: 300),
                 child: Container(
-                  child:
-                      _pokemonStore.pokemonSummary!.number == listPokemon.number
-                          ? Hero(
-                              tag: widget.isFavorite
-                                  ? "favorite-pokemon-image-${listPokemon.number}"
-                                  : "pokemon-image-${listPokemon.number}",
-                              child: ImageUtils.networkImage(
-                                url: listPokemon.imageUrl,
-                                height: 300,
-                                color: _pokemonStore.pokemonSummary!.number ==
-                                        listPokemon.number
-                                    ? null
-                                    : Colors.black.withOpacity(0.2),
-                              ),
-                            )
-                          : ImageUtils.networkImage(
-                              url: listPokemon.imageUrl,
-                              height: 300,
-                              color: _pokemonStore.pokemonSummary!.number ==
-                                      listPokemon.number
-                                  ? null
-                                  : Colors.black.withOpacity(0.2),
-                            ),
+                  child: _pokemonStore.pokemonSummary!.number == listPokemon.number
+                      ? Hero(
+                          tag: widget.isFavorite
+                              ? "favorite-pokemon-image-${listPokemon.number}"
+                              : "pokemon-image-${listPokemon.number}",
+                          child: ImageUtils.networkImage(
+                            url: listPokemon.imageUrl,
+                            height: 300,
+                            color: _pokemonStore.pokemonSummary!.number == listPokemon.number
+                                ? null
+                                : Colors.black.withOpacity(0.2),
+                          ),
+                        )
+                      : ImageUtils.networkImage(
+                          url: listPokemon.imageUrl,
+                          height: 300,
+                          color: _pokemonStore.pokemonSummary!.number == listPokemon.number
+                              ? null
+                              : Colors.black.withOpacity(0.2),
+                        ),
                 ),
               );
             },

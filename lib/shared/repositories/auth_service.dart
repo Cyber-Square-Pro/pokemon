@@ -26,6 +26,7 @@ class AuthService {
         prefs.setString('refreshToken', refreshToken);
         prefs.setString('username', username);
         prefs.setString('password', password);
+        Future.delayed(const Duration(milliseconds: 100));
         return true;
       } else if (response.statusCode == 404) {
         return false;
@@ -100,7 +101,7 @@ class AuthService {
       }
       return false;
     } catch (e) {
-      throw Exception('Failed ot signup: $e');
+      throw Exception('Failed to signup: $e');
     }
   }
 }

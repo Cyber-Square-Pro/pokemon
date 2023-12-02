@@ -9,12 +9,15 @@ class OtpService {
     return _dio;
   }
 
-  Future<bool> sendOTP(String email) async {
-    final uri = '${ApiConstants.baseURL}/users/send-verification-email';
+  Future<bool> sendOTP(String email, String intent) async {
+    final uri = '${ApiConstants.baseURL}/users/send-otp';
     try {
       final Response response = await _dio.post(
         uri,
-        data: {'email': email},
+        data: {
+          'email': email,
+          'intent': intent,
+        },
         options: Options(headers: {'Connection': 'keep-alive'}),
       );
 
@@ -29,14 +32,16 @@ class OtpService {
     }
   }
 
-  Future<bool> verifyEmail(BuildContext context, String email, int otp) async {
+  Future<bool> verifyEmail(BuildContext context, String email, int otp, String intent) async {
     final uri = '${ApiConstants.baseURL}/users/verify-email';
 
     try {
       final Response response = await _dio.post(uri, data: {
         'email': email,
         'otp': otp,
+        'intent': intent,
       });
+      print(response.statusMessage);
 
       if (response.statusCode == 201) {
         return true;
@@ -82,7 +87,6 @@ class OtpService {
       return false;
     } catch (e) {
       return false;
-      throw Exception(e);
     }
   }
 }

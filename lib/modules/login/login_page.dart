@@ -3,7 +3,6 @@ import 'package:app/shared/providers/otp_provider.dart';
 import 'package:app/shared/providers/password_obscure_provider.dart';
 import 'package:app/shared/repositories/auth_service.dart';
 import 'package:app/shared/utils/app_constants.dart';
-
 import 'package:app/shared/utils/snackbars.dart';
 import 'package:app/shared/utils/spacer.dart';
 import 'package:app/shared/widgets/custom_text_button.dart';
@@ -43,7 +42,8 @@ class _LoginPageState extends State<LoginPage> {
       showLoadingSpinnerModal(context, 'Auto logging in...');
       final username = prefs.getString('username')!;
       final password = prefs.getString('password')!;
-      if (await AuthService().login(username, password)) {
+      final AuthState loginResult = await AuthService().login(username, password);
+      if (loginResult == AuthState.LOGIN_SUCCESS) {
         context.read<AuthProvider>().getUserInfo();
         Navigator.pushReplacementNamed(context, '/home');
       } else {
@@ -176,25 +176,30 @@ class _LoginPageState extends State<LoginPage> {
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
                                 showLoadingSpinnerModal(context, 'Logging In');
-                                if (await authService.login(
-                                  _usernameController.text.trim(),
-                                  _passwordController.text.trim(),
-                                )) {
+                                final AuthState loginResult = await authService.login(
+                                    _usernameController.text.trim(),
+                                    _passwordController.text.trim());
+                                print(loginResult);
+                                if (loginResult == AuthState.LOGIN_SUCCESS) {
                                   if (context.mounted) {
                                     Navigator.pop(context);
                                     Provider.of<ObscureProvider>(context, listen: false)
                                         .resetSettings();
                                     authProvider.setAuthenticated(true);
                                     authProvider.getUserInfo();
-                                    Navigator.pushReplacementNamed(
-                                      context,
-                                      '/home',
-                                      arguments: [
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                            MySnackbars.success('Welcome to Pokedex')),
-                                      ],
-                                    );
+                                    Navigator.pushReplacementNamed(context, '/home', arguments: [
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(MySnackbars.success('Welcome to Pokedex')),
+                                    ]);
                                   }
+                                } else if (loginResult == AuthState.EMAIL_NOT_VERIFIED) {
+                                  otpProvider.setIntent(OtpIntent.SIGN_UP);
+
+                                  Navigator.pop(context);
+                                  Navigator.pushNamed(context, '/verifyEmail', arguments: [
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        MySnackbars.error('Please verify your email first')),
+                                  ]);
                                 } else {
                                   if (context.mounted) {
                                     Navigator.pop(context);
@@ -232,7 +237,3 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
-/* 
-WidgetsBinding.instance.addPostFrameCallback((_) {
-          showNoConnectionDialog(context, title: 'title', content: 'content');
-        }); */

@@ -62,7 +62,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                 ),
                 wSpace(5),
                 Text(
-                  'Verify via Email',
+                  'Enter your email',
                   style: pageTitleWithShadow,
                 ),
               ],
@@ -112,9 +112,10 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             showLoadingSpinnerModal(context, 'Loading...');
-                            _otpProvider.setIntent(OtpIntent.RESET_PASS);
-                            if (await OtpService().sendOTP(_emailController.text.trim())) {
-                              _otpProvider.setEmail(_emailController.text.trim());
+                            _otpProvider.setEmail(_emailController.text.trim());
+                            print(_otpProvider.email);
+                            if (await OtpService()
+                                .sendOTP(_emailController.text.trim(), _otpProvider.intent.name)) {
                               if (context.mounted) {
                                 Navigator.pop(context);
                                 context.read<TimerProvider>().restartTimer();

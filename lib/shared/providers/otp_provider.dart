@@ -6,10 +6,9 @@ enum OtpIntent { SIGN_UP, RESET_PASS, OTHER }
 class OtpProvider with ChangeNotifier {
   late String _destination = '';
   late String _email = '';
-  late OtpIntent _intent;
-  OtpIntent getIntent() {
-    return _intent;
-  }
+  late OtpIntent _intent = OtpIntent.OTHER;
+
+  OtpIntent get intent => _intent;
 
   void setEmail(String email) {
     _email = email;

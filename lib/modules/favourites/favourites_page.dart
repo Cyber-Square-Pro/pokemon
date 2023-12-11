@@ -5,7 +5,6 @@ import 'package:app/shared/models/pokemon_summary.dart';
 import 'package:app/shared/providers/favourites_provider.dart';
 import 'package:app/shared/utils/error_card.dart';
 import 'package:app/shared/utils/snackbars.dart';
-import 'package:app/shared/widgets/loading_spinner_modal.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -23,7 +22,6 @@ class _FavouritesPageState extends State<FavouritesPage> {
   late Dio dio;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     context.read<FavouritesProvider>().fetchFavourites(context);
   }
@@ -64,62 +62,49 @@ class _FavouritesPageState extends State<FavouritesPage> {
               itemBuilder: (context, index) {
                 final PokemonSummary pokemon = provider.favourites[index];
 
-                return Stack(clipBehavior: Clip.none, fit: StackFit.loose, children: [
-                  PokeItemWidget(
-                    pokemon: pokemon,
-                  ),
-                  Positioned(
-                    right: -2,
-                    bottom: -2,
-                    child: removeButton(context, onTap: () async {
-                      showDialog(
-                          context: context,
-                          builder: (context) => confirmDialog(
-                                title: 'Remove Favourite',
-                                message:
-                                    'Are you sure you want to remove ${pokemon.name} from your favourites?',
-                                onConfirm: () async {
-                                  if (await context
-                                      .read<FavouritesProvider>()
-                                      .removeFavourite(context, pokemon.number)) {
-                                    Navigator.pop(context);
-                                    ScaffoldMessenger.of(context).showSnackBar(MySnackbars.success(
-                                        'Removed ${pokemon.name} from your favourites'));
-                                  } else {
-                                    Navigator.pop(context);
-                                    ScaffoldMessenger.of(context).showSnackBar(MySnackbars.error(
-                                        'Failed to remove ${pokemon.name} from your favourites'));
-                                  }
-                                },
-                                onDeny: () => Navigator.pop(context),
-                              ));
-                    }),
-                  ),
-                ]);
+                return Stack(
+                    clipBehavior: Clip.none,
+                    fit: StackFit.loose,
+                    children: [
+                      PokeItemWidget(
+                        pokemon: pokemon,
+                      ),
+                      Positioned(
+                        right: -2,
+                        bottom: -2,
+                        child: removeButton(context, onTap: () async {
+                          showDialog(
+                              context: context,
+                              builder: (context) => confirmDialog(
+                                    title: 'Remove Favourite',
+                                    message:
+                                        'Are you sure you want to remove ${pokemon.name} from your favourites?',
+                                    onConfirm: () async {
+                                      if (await context
+                                          .read<FavouritesProvider>()
+                                          .removeFavourite(
+                                              context, pokemon.number)) {
+                                        Navigator.pop(context);
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(MySnackbars.success(
+                                                'Removed ${pokemon.name} from your favourites'));
+                                      } else {
+                                        Navigator.pop(context);
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(MySnackbars.error(
+                                                'Failed to remove ${pokemon.name} from your favourites'));
+                                      }
+                                    },
+                                    onDeny: () => Navigator.pop(context),
+                                  ));
+                        }),
+                      ),
+                    ]);
               },
             );
           },
         ),
       ),
     );
-
-    // return SliverFillRemaining(
-    //   child: Column(
-    //     children: [
-    //       Center(
-    //         child: ElevatedButton(
-    //           child: const Text('Call Protected Route'),
-    //           onPressed: () async {
-    //             final prefs = await SharedPreferences.getInstance();
-    //             final username = prefs.getString('username')!;
-
-    //             final pokemons = await favService.getFavourites(username);
-    //             print(pokemons);
-    //           },
-    //         ),
-    //       ),
-    //     ],
-    //   ),
-    // );
   }
 }

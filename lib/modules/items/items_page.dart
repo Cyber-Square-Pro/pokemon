@@ -143,6 +143,7 @@ class _ItemsPageState extends State<ItemsPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               loadingSpinner(context),
+              ListView.builder(itemBuilder: )
             ],
           ),
         );

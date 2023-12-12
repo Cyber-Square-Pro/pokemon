@@ -7,9 +7,7 @@ import 'package:dio/dio.dart';
 class NewsService {
   static final _dio = Dio();
 
-  Dio getDioInstance() {
-    return _dio;
-  }
+  Dio getDioInstance() => _dio;
 
   Future<List<News>> fetchAllArticles(int page, {int pageSize = 10}) async {
     Response response = await _dio.get(
@@ -29,14 +27,3 @@ class NewsService {
     }
   }
 }
-
-// // Inside your NewsService class
-// Future<List<News>> fetchAllArticles({int page = 1, int pageSize = 10}) async {
-//   try {
-//     final response = await _dio.get('http://your-api-url/news?page=$page&pageSize=$pageSize');
-//     final List<News> newsList = response.data; // Adjust based on your API response structure
-//     return newsList;
-//   } catch (error) {
-//     throw Exception('Failed to fetch news: $error');
-//   }
-// }

@@ -31,6 +31,7 @@ class _NewsPageState extends State<NewsPage> {
 
     // Fetch the initial page
     dio.interceptors.add(AuthInterceptor(dio: dio, context: context));
+    _fetchPage(1);
   }
 
   final NewsService newsService = NewsService();
@@ -38,13 +39,13 @@ class _NewsPageState extends State<NewsPage> {
 
   @override
   Widget build(BuildContext context) {
-    _fetchPage(1);
     // UI
     return SliverFillRemaining(
-      fillOverscroll: false,
+      hasScrollBody: true,
+      fillOverscroll: true,
       child: NotificationListener<ScrollNotification>(
         onNotification: (ScrollNotification scrollInfo) {
-          if (scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent &&
+          if (scrollInfo.metrics.pixels >= scrollInfo.metrics.maxScrollExtent &&
               !_isLoading &&
               _pagingController.nextPageKey != null) {
             _fetchPage(_pagingController.nextPageKey as int);

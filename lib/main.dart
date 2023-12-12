@@ -17,6 +17,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+Future<void> loadDotenv() async {
+  await dotenv.load();
+}
 
 void main() {
   // Making the statusbar transparent
@@ -30,6 +35,10 @@ void main() {
 
     final initializer = MyAppInitializer();
     final prefs = await initializer.initialize();
+
+    // .env service
+    loadDotenv();
+
     runApp(MyApp(prefs));
   });
 }

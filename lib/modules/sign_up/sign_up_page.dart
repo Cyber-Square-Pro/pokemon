@@ -16,7 +16,6 @@ import 'package:app/theme/text_styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:provider/provider.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -112,7 +111,6 @@ class _SignUpPageState extends State<SignUpPage> {
                         PhoneNumberFormField(
                           controller: _phonenumbercontroller,
                           onChanged: (value) {
-                            // _phonenumbercontroller.text = value.completeNumber;
                             print(value.completeNumber);
                             print(_phonenumbercontroller.value);
                           },

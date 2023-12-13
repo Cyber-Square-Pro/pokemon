@@ -60,8 +60,7 @@ class _ItemsPageState extends State<ItemsPage> {
   void _fetchPage(int pageKey) async {
     final maxRange = _itemStore.items.length;
     final initialRange = pageKey * _pageSize;
-    final finalRange =
-        (pageKey * _pageSize) + _pageSize > maxRange ? maxRange : (pageKey * _pageSize) + _pageSize;
+    final finalRange = (pageKey * _pageSize) + _pageSize > maxRange ? maxRange : (pageKey * _pageSize) + _pageSize;
 
     List<Widget> items = [];
 
@@ -143,7 +142,6 @@ class _ItemsPageState extends State<ItemsPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               loadingSpinner(context),
-              ListView.builder(itemBuilder: )
             ],
           ),
         );

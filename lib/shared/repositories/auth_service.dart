@@ -95,7 +95,7 @@ class AuthService {
   Future<bool> register({
     required String username,
     required String email,
-    required int phoneNumber,
+    required String phoneNumber,
     required String password,
   }) async {
     print('$username $email $phoneNumber $password');

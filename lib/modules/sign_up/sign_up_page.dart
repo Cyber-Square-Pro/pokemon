@@ -10,11 +10,13 @@ import 'package:app/shared/utils/validators.dart';
 import 'package:app/shared/widgets/custom_text_button.dart';
 import 'package:app/shared/widgets/custom_text_form_field.dart';
 import 'package:app/shared/widgets/loading_spinner_modal.dart';
+import 'package:app/shared/widgets/phone_form_field.dart';
 import 'package:app/shared/widgets/primary_elevated_button.dart';
 import 'package:app/theme/text_styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:provider/provider.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -107,24 +109,28 @@ class _SignUpPageState extends State<SignUpPage> {
                           labelText: 'Username',
                         ),
                         hSpace(20),
-                        CustomTextFormField(
+                        PhoneNumberFormField(
                           controller: _phonenumbercontroller,
-                          keyboardType: TextInputType.phone,
-                          validator: (value) => FormValidators().validatePhoneNumber(value),
-                          prefixIcon: Icons.phone_android,
-                          labelText: 'Phone Number',
+                          onChanged: (value) {
+                            // _phonenumbercontroller.text = value.completeNumber;
+                            print(value.completeNumber);
+                            print(_phonenumbercontroller.value);
+                          },
+                          validator: (value) => FormValidators().validatePhoneField(value),
                         ),
+                        // hSpace(20),
+                        // CustomTextFormField(
+                        //   controller: _phonenumbercontroller,
+                        //   keyboardType: TextInputType.phone,
+                        //   validator: (value) => FormValidators().validatePhoneNumber(value),
+                        //   prefixIcon: Icons.phone_android,
+                        //   labelText: 'Phone Number',
+                        // ),
                         hSpace(20),
                         CustomTextFormField(
                           controller: _emailController,
                           keyboardType: TextInputType.emailAddress,
-                          validator: (value) {
-                            if (value == '') {
-                              return 'Enter a valid email';
-                            } else {
-                              return null;
-                            }
-                          },
+                          validator: (value) => FormValidators().validateEmail(value),
                           prefixIcon: Icons.email,
                           labelText: 'Email Address',
                         ),
@@ -138,9 +144,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 validator: (value) => FormValidators().validatePassword(value),
                                 suffixIcon: IconButton(
                                   icon: Icon(
-                                    provider.obscureSignupPassword
-                                        ? CupertinoIcons.eye_slash
-                                        : CupertinoIcons.eye,
+                                    provider.obscureSignupPassword ? CupertinoIcons.eye_slash : CupertinoIcons.eye,
                                   ),
                                   onPressed: () {
                                     provider.toggleSignupPasswordHidden();
@@ -152,8 +156,8 @@ class _SignUpPageState extends State<SignUpPage> {
                               hSpace(20),
                               CustomTextFormField(
                                 controller: _confirmpasswordcontroller,
-                                validator: (value) => FormValidators()
-                                    .validateConfirmPassword(value, _passwordcontroller.text),
+                                validator: (value) =>
+                                    FormValidators().validateConfirmPassword(value, _passwordcontroller.text),
                                 isPassword: provider.obscureSignupConfirmPassword,
                                 prefixIcon: Icons.lock,
                                 suffixIcon: IconButton(
@@ -186,14 +190,13 @@ class _SignUpPageState extends State<SignUpPage> {
                             label: 'Sign Up',
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
-                                final otpProvider =
-                                    Provider.of<OtpProvider>(context, listen: false);
+                                final otpProvider = Provider.of<OtpProvider>(context, listen: false);
                                 showLoadingSpinnerModal(context, 'Signing up...');
 
                                 if (await AuthService().register(
                                   username: _namecontroller.text.trim(),
                                   email: _emailController.text.trim(),
-                                  phoneNumber: int.parse(_phonenumbercontroller.text.trim()),
+                                  phoneNumber: _phonenumbercontroller.text.trim(),
                                   password: _passwordcontroller.text.trim(),
                                 )) {
                                   otpProvider.setIntent(OtpIntent.SIGN_UP);
@@ -211,28 +214,24 @@ class _SignUpPageState extends State<SignUpPage> {
                                     if (context.mounted) {
                                       Navigator.popAndPushNamed(context, '/otp');
                                       context.read<TimerProvider>().restartTimer();
-                                      Provider.of<ObscureProvider>(context, listen: false)
-                                          .resetSettings();
+                                      Provider.of<ObscureProvider>(context, listen: false).resetSettings();
                                     }
                                   } else {
                                     if (context.mounted) {
                                       Navigator.pop(context);
                                       ScaffoldMessenger.of(context).showSnackBar(
-                                        MySnackbars.error(
-                                            'A User with these credentials already exists'),
+                                        MySnackbars.error('A User with these credentials already exists'),
                                       );
                                     }
                                   }
                                 } else {
                                   if (context.mounted) {
                                     Navigator.pop(context);
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(MySnackbars.error('Failed to send OTP'));
+                                    ScaffoldMessenger.of(context).showSnackBar(MySnackbars.error('Failed to send OTP'));
                                   }
                                 }
                               } else {
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(MySnackbars.error('Invalid Submission!'));
+                                ScaffoldMessenger.of(context).showSnackBar(MySnackbars.error('Invalid Submission!'));
                               }
                             },
                           ),

@@ -20,10 +20,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<void> loadDotenv() async {
-  await dotenv.load();
+  try {
+    await dotenv.load(fileName: '.env');
+  } catch (e) {
+    print(e);
+  }
 }
 
-void main() {
+void main() async {
   // Making the statusbar transparent
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
@@ -37,7 +41,7 @@ void main() {
     final prefs = await initializer.initialize();
 
     // .env service
-    loadDotenv();
+    await loadDotenv();
 
     runApp(MyApp(prefs));
   });

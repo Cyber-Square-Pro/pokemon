@@ -103,8 +103,7 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget> with TickerProvider
               GridView(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, mainAxisExtent: 70),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, mainAxisExtent: 70),
                 children: [
                   DrawerMenuItemWidget(
                     icon: Icons.grid_4x4,
@@ -144,10 +143,10 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget> with TickerProvider
                   DrawerMenuItemWidget(
                     icon: Icons.play_arrow,
                     text: "Videos",
-                    // onTap: () {
-                    //   Navigator.pop(context);
-                    //   _homeStore.setPage(HomePageType.FAVOURITES);
-                    // },
+                    onTap: () {
+                      Navigator.pop(context);
+                      _homeStore.setPage(HomePageType.VIDEOS);
+                    },
                   ),
                   DrawerMenuItemWidget(
                     icon: Icons.chat_bubble,

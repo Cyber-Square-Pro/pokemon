@@ -10,6 +10,7 @@ import 'package:app/shared/stores/pokemon_store/pokemon_store.dart';
 import 'package:app/shared/ui/widgets/app_bar.dart';
 import 'package:app/shared/ui/widgets/drawer_menu/drawer_menu.dart';
 import 'package:app/shared/utils/app_constants.dart';
+import 'package:app/videos/videos_page.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -54,8 +55,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       vsync: this,
       duration: Duration(milliseconds: 250),
     );
-    _blackBackgroundOpacityAnimation =
-        Tween(begin: 0.0, end: 1.0).animate(_backgroundAnimationController);
+    _blackBackgroundOpacityAnimation = Tween(begin: 0.0, end: 1.0).animate(_backgroundAnimationController);
 
     _fabAnimationRotationController = AnimationController(
       vsync: this,
@@ -150,6 +150,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           return const FavouritesPage();
                         case HomePageType.NEWS:
                           return const NewsPage();
+                        case HomePageType.VIDEOS:
+                          return const VideosPage();
                         default:
                           return PokemonGridPage();
                       }

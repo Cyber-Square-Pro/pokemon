@@ -5,10 +5,10 @@ class VideoPage extends StatefulWidget {
   const VideoPage({super.key});
 
   @override
-  State<VideoPage> createState() => _PlayVideoState();
+  State<VideoPage> createState() => _VideoPageState();
 }
 
-class _PlayVideoState extends State<VideoPage> {
+class _VideoPageState extends State<VideoPage> {
   @override
   Widget build(BuildContext context) {
     return SliverFillRemaining(
@@ -17,6 +17,7 @@ class _PlayVideoState extends State<VideoPage> {
       shrinkWrap: true,
         itemCount: 2,
         padding: EdgeInsets.zero,
+        physics: BouncingScrollPhysics(),
        
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
@@ -29,7 +30,8 @@ class _PlayVideoState extends State<VideoPage> {
             videoTitle: 'Pokemon Adventure', 
             imageurl: '', 
             subtitle: '', 
-            onTap: () {  },
+            onTap: () {  }, 
+            index:index,
             
 
           );

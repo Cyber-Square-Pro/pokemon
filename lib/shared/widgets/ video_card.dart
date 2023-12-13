@@ -9,12 +9,14 @@ class VideoCard extends StatelessWidget {
     required this.videoTitle,
     required this.subtitle,
     required this.imageurl, 
-    required this.onTap
+    required this.onTap,
+    required this.index,
    });
    final void Function() onTap;
     final String videoTitle;
     final String subtitle;
     final String imageurl;
+    final int index;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,9 @@ class VideoCard extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 15.h, vertical: 10.w),
         child: Column(
           children: [
-            Image.network(imageurl, width: double.infinity, height: 100.h, fit: BoxFit.cover,),
+            Hero(
+              tag: '$index',
+              child: Image.network(imageurl, width: double.infinity, height: 100.h, fit: BoxFit.cover,)),
             hSpace(10),
             Text(
               videoTitle,

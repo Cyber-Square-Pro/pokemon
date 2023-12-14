@@ -39,7 +39,6 @@ class _AppBarWidgetState extends State<AppBarWidget> {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
-      // systemOverlayStyle: isDark ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.light,
       systemOverlayStyle: SystemUiOverlayStyle.dark,
       automaticallyImplyLeading: widget.showBackButton,
       pinned: true,
@@ -54,14 +53,11 @@ class _AppBarWidgetState extends State<AppBarWidget> {
       foregroundColor: Colors.white,
       backgroundColor: Colors.blue.shade800,
       actions: [
-        Padding(
-          padding: const EdgeInsets.only(top: 0),
-          child: IconButton(
-            onPressed: () {
-              Scaffold.of(context).openEndDrawer();
-            },
-            icon: const Icon(Icons.menu, color: Colors.white),
-          ),
+        IconButton(
+          onPressed: () {
+            Scaffold.of(context).openEndDrawer();
+          },
+          icon: const Icon(Icons.menu, color: Colors.white),
         )
       ],
       flexibleSpace: FlexibleSpaceBar(
@@ -77,8 +73,8 @@ class _AppBarWidgetState extends State<AppBarWidget> {
               ),
               if (widget.lottiePath != null)
                 Positioned(
-                  bottom: 12,
-                  right: 0,
+                  bottom: 5,
+                  right: 20,
                   child: Lottie.asset(
                     widget.lottiePath!,
                     height: 120.h,
@@ -86,7 +82,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                   ),
                 )
               else
-                SizedBox(),
+                const SizedBox(),
             ],
           ),
         ),

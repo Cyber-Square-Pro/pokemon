@@ -15,10 +15,11 @@ class YoutubeService {
       final Response response = await _dio.get(
         _baseURL,
         queryParameters: {
-          'part': 'snippet',
           'chart': 'mostPopular',
+          'part': 'snippet',
           'type': 'video',
-          'q': 'Pokemon',
+          'q': 'Pokemon News',
+          'maxResults': '10',
           'key': key,
         },
       );

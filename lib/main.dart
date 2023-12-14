@@ -40,7 +40,6 @@ void main() async {
 
     // .env service
     await loadEnv();
-    print(dotenv.env);
     runApp(MyApp(prefs));
   });
 }

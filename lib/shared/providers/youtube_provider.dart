@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 enum YoutubeSearchState { INIT, LOADING, LOADED, ERROR }
 
-class YoutubeProvider extends ChangeNotifier {
+class YoutubeProvider with ChangeNotifier {
   late YoutubeSearchState _state = YoutubeSearchState.INIT;
 
   late List<VideoItem> _searchResults = [];
@@ -29,12 +29,12 @@ class YoutubeProvider extends ChangeNotifier {
     }
   }
 
-  List<VideoItem> get videoList => _searchResults;
-  YoutubeSearchState get state => _state;
-
   @override
   void dispose() {
-    _state = YoutubeSearchState.INIT;
+    changeState(YoutubeSearchState.INIT);
     super.dispose();
   }
+
+  List<VideoItem> get videoList => _searchResults;
+  YoutubeSearchState get state => _state;
 }

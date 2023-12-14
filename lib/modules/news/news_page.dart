@@ -41,6 +41,7 @@ class _NewsPageState extends State<NewsPage> {
   Widget build(BuildContext context) {
     // UI
     return SliverFillRemaining(
+      key: const Key('news_page'),
       hasScrollBody: true,
       fillOverscroll: true,
       child: NotificationListener<ScrollNotification>(

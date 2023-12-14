@@ -13,6 +13,7 @@ import 'package:app/shared/utils/app_constants.dart';
 import 'package:app/videos/video_page.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
@@ -116,6 +117,16 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return ThemeSwitchingArea(
       child: Builder(builder: (context) {
+        // final bool isDarkMode = Theme.of(context).colorScheme.brightness == Brightness.dark;
+        // SystemChrome.setSystemUIOverlayStyle(
+        //   (isDarkMode)
+        //       ? const SystemUiOverlayStyle(
+        //           statusBarIconBrightness: Brightness.light,
+        //         )
+        //       : const SystemUiOverlayStyle(
+        //           statusBarIconBrightness: Brightness.dark,
+        //         ),
+        // );
         return Scaffold(
           key: const Key('home_page'),
           backgroundColor: Theme.of(context).colorScheme.background,

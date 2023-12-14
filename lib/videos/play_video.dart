@@ -4,6 +4,7 @@ import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:app/shared/models/youtube_search_result_model.dart';
 import 'package:app/shared/ui/widgets/animated_pokeball.dart';
 import 'package:app/shared/utils/spacer.dart';
+import 'package:app/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
@@ -67,10 +68,10 @@ class _PlayVideoState extends State<PlayVideo> {
                       titleSpacing: 0,
                       toolbarHeight: 50.h,
                       title: Text(
-                        widget.video.title,
+                        'Now Playing:  ${widget.video.title}',
                         style: TextStyle(
                           fontSize: 16.sp,
-                          overflow: TextOverflow.ellipsis,
+                          overflow: TextOverflow.fade,
                         ),
                       ),
                     ),
@@ -106,59 +107,70 @@ class _PlayVideoState extends State<PlayVideo> {
                       Expanded(
                         flex: 5,
                         child: Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 15.w,
-                            vertical: 10.h,
-                          ),
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               // Title
-                              Text(
-                                widget.video.title,
-                                style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                                      fontSize: 20.sp,
-                                      fontWeight: FontWeight.bold,
-                                      letterSpacing: 0,
-                                      height: 1.1,
-                                      overflow: TextOverflow.ellipsis,
+                              Container(
+                                padding: EdgeInsets.all(10.w),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(AppTheme.globalBorderRadius),
+                                  color: mediumBlue.withOpacity(0.5),
+                                ),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      widget.video.title,
+                                      style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                            fontSize: 20.sp,
+                                            fontWeight: FontWeight.bold,
+                                            letterSpacing: 0,
+                                            height: 1.1,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                      maxLines: 3,
                                     ),
-                                maxLines: 3,
-                              ),
-                              hSpace(5),
-                              // Uploader and date
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    widget.video.channelTitle,
-                                    style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                                          fontSize: 15.sp,
-                                          fontWeight: FontWeight.normal,
-                                          letterSpacing: 0,
+                                    hSpace(5),
+                                    // Uploader and date
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          widget.video.channelTitle,
+                                          style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                                fontSize: 15.sp,
+                                                fontWeight: FontWeight.normal,
+                                                letterSpacing: 0,
+                                              ),
                                         ),
-                                  ),
-                                  Text(
-                                    DateFormat('dd-MM-yyyy').format(widget.video.publishedAt),
-                                    style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                                          fontSize: 15.sp,
-                                          fontWeight: FontWeight.normal,
-                                          letterSpacing: 0,
+                                        Text(
+                                          DateFormat('dd-MM-yyyy').format(widget.video.publishedAt),
+                                          style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                                fontSize: 15.sp,
+                                                fontWeight: FontWeight.normal,
+                                                letterSpacing: 0,
+                                              ),
                                         ),
-                                  ),
-                                ],
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                               // Description
-                              const Divider(),
-                              Text(
-                                widget.video.description,
-                                style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                                      fontSize: 15.sp,
-                                      fontWeight: FontWeight.normal,
-                                      letterSpacing: 0,
-                                      color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.5),
-                                    ),
-                                maxLines: 10,
+                              hSpace(10),
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 10.w),
+                                child: Text(
+                                  widget.video.description,
+                                  style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                        fontSize: 15.sp,
+                                        fontWeight: FontWeight.normal,
+                                        letterSpacing: 0,
+                                        color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.5),
+                                      ),
+                                  maxLines: 10,
+                                ),
                               ),
                               // Additional info
                             ],

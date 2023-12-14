@@ -5,6 +5,7 @@ import 'package:app/shared/ui/widgets/animated_pokeball.dart';
 import 'package:app/shared/utils/error_card.dart';
 import 'package:app/shared/utils/spacer.dart';
 import 'package:app/shared/widgets/%20video_card.dart';
+import 'package:app/theme/app_theme.dart';
 import 'package:app/videos/play_video.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -30,7 +31,10 @@ class _VideoPageState extends State<VideoPage> {
   @override
   Widget build(BuildContext context) {
     return SliverPadding(
-      padding: EdgeInsets.zero,
+      padding: EdgeInsets.symmetric(
+        vertical: 0,
+        horizontal: AppTheme.homePadding.horizontal - 5,
+      ),
       sliver: SliverList(
         key: const Key('videos_page'),
         delegate: SliverChildListDelegate(
@@ -69,11 +73,7 @@ class _VideoPageState extends State<VideoPage> {
                 return GridView.builder(
                   shrinkWrap: true,
                   itemCount: provider.videoList.length,
-                  padding: EdgeInsets.only(
-                    left: 7.5.w,
-                    right: 7.5.w,
-                    bottom: 10.h,
-                  ),
+                  padding: EdgeInsets.only(bottom: 20.h),
                   physics: const BouncingScrollPhysics(),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
@@ -85,8 +85,9 @@ class _VideoPageState extends State<VideoPage> {
                     final video = provider.videoList[index];
 
                     return VideoCard(
-                      videoTitle: HtmlEscape().convert(video.snippet.title),
+                      videoTitle: video.snippet.title,
                       description: video.snippet.description,
+                      index: index,
                       imageurl: video.snippet.thumbnails.medium.url,
                       onTap: () {
                         Navigator.push(
@@ -100,7 +101,6 @@ class _VideoPageState extends State<VideoPage> {
                           ),
                         );
                       },
-                      index: index,
                     );
                   },
                 );

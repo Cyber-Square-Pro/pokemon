@@ -16,7 +16,7 @@ class YoutubeService {
           'chart': 'mostPopular',
           'part': 'snippet',
           'type': 'video',
-          'q': 'Pokemon News',
+          'q': 'Pokemon Episodes',
           'maxResults': '25',
           'key': key,
         },

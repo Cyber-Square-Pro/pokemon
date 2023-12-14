@@ -1,12 +1,10 @@
-import 'dart:convert';
-
 import 'package:app/shared/providers/youtube_provider.dart';
 import 'package:app/shared/ui/widgets/animated_pokeball.dart';
 import 'package:app/shared/utils/error_card.dart';
 import 'package:app/shared/utils/spacer.dart';
 import 'package:app/shared/widgets/%20video_card.dart';
 import 'package:app/theme/app_theme.dart';
-import 'package:app/videos/play_video.dart';
+import 'package:app/modules/videos/play_video.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

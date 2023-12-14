@@ -10,7 +10,7 @@ import 'package:app/shared/stores/pokemon_store/pokemon_store.dart';
 import 'package:app/shared/ui/widgets/app_bar.dart';
 import 'package:app/shared/ui/widgets/drawer_menu/drawer_menu.dart';
 import 'package:app/shared/utils/app_constants.dart';
-import 'package:app/videos/video_page.dart';
+import 'package:app/modules/videos/video_page.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

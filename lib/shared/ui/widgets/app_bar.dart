@@ -49,6 +49,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
       ),
       expandedHeight: 150.h,
       collapsedHeight: 90.h,
+      toolbarHeight: 90.h,
       elevation: 0,
       foregroundColor: Colors.white,
       backgroundColor: Colors.blue.shade800,

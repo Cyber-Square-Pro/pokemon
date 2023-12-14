@@ -5,10 +5,11 @@ import 'package:app/modules/reset_password/reset_password.dart';
 import 'package:app/modules/screens/splash_screen.dart';
 import 'package:app/modules/sign_up/sign_up_page.dart';
 import 'package:app/modules/verify_email/veryify_email_page.dart';
+import 'package:app/videos/play_video.dart';
+import 'package:app/videos/video_page.dart';
 import 'package:flutter/material.dart';
 import 'package:app/modules/home/home_page.dart';
 import 'package:app/modules/items/items_page.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class Router {
   static String login = "/login";
@@ -20,6 +21,8 @@ abstract class Router {
   static String enterOTP = "/otp";
   static String resetPass = "/resetPass";
   static String noInternet = "/noInternet";
+  static String videos = "/videos";
+  static String playVideo = "/playVideo";
 
   static Map<String, WidgetBuilder> getRoutes(context) {
     return {
@@ -32,6 +35,7 @@ abstract class Router {
       enterOTP: (context) => OtpVerificationPage(),
       resetPass: (context) => ResetPasswordPage(),
       noInternet: (context) => NoInternetPage(),
+      videos: (context) => VideoPage(),
     };
   }
 }

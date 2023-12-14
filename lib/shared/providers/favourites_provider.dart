@@ -4,15 +4,33 @@ import 'package:app/shared/repositories/favourites_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 
+enum FavouritesState { INIT, LOADING, LOADED, ERROR }
+
 class FavouritesProvider extends ChangeNotifier {
   late bool _isFav = false;
   late List<PokemonSummary> _favourites = [];
+  late FavouritesState _state = FavouritesState.INIT;
 
   FavouritesService favService = FavouritesService();
 
+  void changeState(FavouritesState newState) {
+    _state = newState;
+    notifyListeners();
+  }
+
+  // void checkIfCurrentIsFavourite(BuildContext context, PokemonSummary currentPokemon) async {
+  //   final favouritesList = await fetchFavourites(context);
+  //   if (favouritesList.contains(currentPokemon)) {
+  //     _isFav = true;
+  //     notifyListeners();
+  //   } else {
+  //     _isFav = false;
+  //     notifyListeners();
+  //   }
+  // }
+
   void checkIfCurrentIsFavourite(BuildContext context, PokemonSummary currentPokemon) async {
-    final favouritesList = await fetchFavourites(context);
-    if (favouritesList.contains(currentPokemon)) {
+    if (_favourites.contains(currentPokemon)) {
       _isFav = true;
       notifyListeners();
     } else {
@@ -26,9 +44,11 @@ class FavouritesProvider extends ChangeNotifier {
     String favourite,
   ) async {
     final Dio dio = favService.getDioInstance();
+    changeState(FavouritesState.LOADING);
     dio.interceptors.add(AuthInterceptor(dio: dio, context: context));
     final bool result = await favService.addFavourite(favourite);
     _isFav = result;
+    changeState(FavouritesState.LOADED);
     notifyListeners();
     dio.interceptors.clear();
     return result;
@@ -39,10 +59,14 @@ class FavouritesProvider extends ChangeNotifier {
     String favourite,
   ) async {
     final Dio dio = favService.getDioInstance();
+    changeState(FavouritesState.LOADING);
+
     dio.interceptors.add(AuthInterceptor(dio: dio, context: context));
     final bool result = await favService.removeFavourite(favourite);
     _isFav = !result;
     _favourites.removeWhere((element) => element.number == favourite);
+
+    changeState(FavouritesState.LOADED);
     notifyListeners();
     dio.interceptors.clear();
     return result;
@@ -50,16 +74,25 @@ class FavouritesProvider extends ChangeNotifier {
 
   Future<List<PokemonSummary>> fetchFavourites(BuildContext context) async {
     final Dio dio = favService.getDioInstance();
+    changeState(FavouritesState.LOADING);
     dio.interceptors.add(AuthInterceptor(dio: dio, context: context));
-    final List<PokemonSummary> result = await favService.getFavourites();
-    _favourites = result;
-    notifyListeners();
-    dio.interceptors.clear();
-    return _favourites;
+    try {
+      final List<PokemonSummary> result = await favService.getFavourites();
+      _favourites = result;
+      notifyListeners();
+      dio.interceptors.clear();
+      changeState(FavouritesState.LOADED);
+      return _favourites;
+    } catch (e) {
+      changeState(FavouritesState.ERROR);
+      return [];
+    }
   }
 
   void clearFavourites() {
     _favourites.clear();
+    changeState(FavouritesState.INIT);
+    changeState(FavouritesState.LOADING);
     notifyListeners();
   }
 
@@ -68,5 +101,6 @@ class FavouritesProvider extends ChangeNotifier {
     return _favourites;
   }
 
+  FavouritesState get state => _state;
   bool get isFavourite => _isFav;
 }

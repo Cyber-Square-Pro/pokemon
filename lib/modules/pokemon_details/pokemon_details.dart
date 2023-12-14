@@ -37,8 +37,7 @@ class PokemonDetailsPage extends StatefulWidget {
   PokemonDetailsPageState createState() => PokemonDetailsPageState();
 }
 
-class PokemonDetailsPageState extends State<PokemonDetailsPage>
-    with SingleTickerProviderStateMixin {
+class PokemonDetailsPageState extends State<PokemonDetailsPage> with SingleTickerProviderStateMixin {
   late PokemonStore _pokemonStore;
   late PokemonDetailsStore _pokemonDetailsStore;
   late AnimationController _animationController;
@@ -54,8 +53,7 @@ class PokemonDetailsPageState extends State<PokemonDetailsPage>
 
     player = AudioPlayer();
 
-    _animationController = AnimationController(vsync: this, duration: const Duration(seconds: 2))
-      ..repeat();
+    _animationController = AnimationController(vsync: this, duration: const Duration(seconds: 2))..repeat();
 
     //
     Provider.of<FavouritesProvider>(context, listen: false)
@@ -139,48 +137,53 @@ class PokemonDetailsPageState extends State<PokemonDetailsPage>
                     backgroundColor: Colors.transparent,
                     shadowColor: Colors.transparent,
                     leading: IconButton(
-                      icon: Icon(Icons.arrow_back,
-                          color: AppTheme.getColors(context).pokemonDetailsTitleColor),
+                      icon: Icon(
+                        Icons.arrow_back,
+                        color: AppTheme.getColors(context).pokemonDetailsTitleColor,
+                      ),
                       onPressed: () {
                         Navigator.pop(context);
                       },
                     ),
                     actions: [
                       Consumer<FavouritesProvider>(
-                        builder: (context, provider, _) => (provider.isFavourite)
-                            ? IconButton(
-                                icon: Icon(
-                                  Icons.favorite,
-                                  color: AppTheme.getColors(context).pokemonDetailsTitleColor,
-                                ),
-                                onPressed: () async {
-                                  _pokemonStore
-                                      .removeFavoritePokemon(_pokemonStore.pokemon!.number);
-                                  await provider.removeFavourite(
-                                      context, _pokemonStore.pokemon!.number);
-
-                                  BotToast.showText(
-                                      text:
-                                          "${_pokemonStore.pokemon!.name} was removed from favorites");
-                                },
-                              )
-                            : IconButton(
-                                icon: Icon(Icons.favorite_border,
-                                    color: AppTheme.getColors(context).pokemonDetailsTitleColor),
-                                onPressed: () async {
-                                  if (await provider.addFavourite(
-                                      context, _pokemonStore.pokemon!.number)) {
-                                    BotToast.showText(
-                                        text: "${_pokemonStore.pokemon!.name} was favorited");
-                                  } else {
-                                    BotToast.showText(
-                                        text: "Failed to favourite ${_pokemonStore.pokemon!.name}");
-                                  }
-                                  _pokemonStore.addFavoritePokemon(_pokemonStore.pokemon!.number);
-                                  BotToast.showText(
-                                      text: "${_pokemonStore.pokemon!.name} was favorited");
-                                },
+                        builder: (context, provider, _) {
+                          if (provider.state == FavouritesState.LOADING) {
+                            return Container(
+                              margin: EdgeInsets.symmetric(horizontal: 10.w),
+                              height: 21.sp,
+                              width: 21.sp,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 4,
+                                color: Theme.of(context).colorScheme.background,
                               ),
+                            );
+                          } else if (provider.state == FavouritesState.LOADED) {
+                            return (provider.isFavourite)
+                                ? IconButton(
+                                    icon: Icon(
+                                      Icons.favorite,
+                                      color: AppTheme.getColors(context).pokemonDetailsTitleColor,
+                                    ),
+                                    onPressed: () async {
+                                      await provider.removeFavourite(context, _pokemonStore.pokemon!.number);
+                                      _pokemonStore.removeFavoritePokemon(_pokemonStore.pokemon!.number);
+
+                                      BotToast.showText(
+                                          text: "${_pokemonStore.pokemon!.name} was removed from favorites");
+                                    },
+                                  )
+                                : IconButton(
+                                    icon: Icon(Icons.favorite_border,
+                                        color: AppTheme.getColors(context).pokemonDetailsTitleColor),
+                                    onPressed: () async {
+                                      await provider.addFavourite(context, _pokemonStore.pokemon!.number);
+                                      BotToast.showText(text: "${_pokemonStore.pokemon!.name} was favorited");
+                                    },
+                                  );
+                          }
+                          return const SizedBox();
+                        },
                       ),
                       // if (_pokemonStore.isFavorite(_pokemonStore.pokemon!.number))
                       // if (context.read<FavouritesProvider>().isFavourite)
@@ -225,18 +228,13 @@ class PokemonDetailsPageState extends State<PokemonDetailsPage>
                           return InkWell(
                             onTap: () async {
                               ThemeSwitcher.of(context)?.changeTheme(
-                                  theme: Theme.of(context).brightness == Brightness.light
-                                      ? darkTheme
-                                      : lightTheme);
+                                  theme: Theme.of(context).brightness == Brightness.light ? darkTheme : lightTheme);
 
                               SharedPreferences prefs = await SharedPreferences.getInstance();
-                              prefs.setBool(
-                                  "darkTheme", !(Theme.of(context).brightness == Brightness.dark));
+                              prefs.setBool("darkTheme", !(Theme.of(context).brightness == Brightness.dark));
                             },
                             child: Icon(
-                                Theme.of(context).brightness == Brightness.light
-                                    ? Icons.dark_mode
-                                    : Icons.light_mode,
+                                Theme.of(context).brightness == Brightness.light ? Icons.dark_mode : Icons.light_mode,
                                 color: AppTheme.getColors(context).pokemonDetailsTitleColor),
                           );
                         }),
@@ -262,8 +260,7 @@ class PokemonDetailsPageState extends State<PokemonDetailsPage>
                             children: [
                               Observer(builder: (_) {
                                 return Container(
-                                  color:
-                                      AppTheme.colors.pokemonItem(_pokemonStore.pokemon!.types[0]),
+                                  color: AppTheme.colors.pokemonItem(_pokemonStore.pokemon!.types[0]),
                                 );
                               }),
                               Align(
@@ -299,12 +296,9 @@ class PokemonDetailsPageState extends State<PokemonDetailsPage>
                                               );
                                             },
                                             child: CustomPaint(
-                                              size: Size(
-                                                  200.h, (200.h * 1.0040160642570282).toDouble()),
+                                              size: Size(200.h, (200.h * 1.0040160642570282).toDouble()),
                                               painter: PokeballLogoPainter(
-                                                  color: Theme.of(context)
-                                                      .backgroundColor
-                                                      .withOpacity(0.3)),
+                                                  color: Theme.of(context).backgroundColor.withOpacity(0.3)),
                                             ),
                                           ),
                                         ),
@@ -331,12 +325,9 @@ class PokemonDetailsPageState extends State<PokemonDetailsPage>
                                               isFavorite: widget.isFavoritePokemon,
                                             ),
                                             if ((kIsWeb &&
-                                                    getDeviceScreenType(context) !=
-                                                        DeviceScreenType.CELLPHONE) ||
+                                                    getDeviceScreenType(context) != DeviceScreenType.CELLPHONE) ||
                                                 (!kIsWeb &&
-                                                    (Platform.isWindows ||
-                                                        Platform.isLinux ||
-                                                        Platform.isMacOS)))
+                                                    (Platform.isWindows || Platform.isLinux || Platform.isMacOS)))
                                               Row(
                                                 mainAxisAlignment: MainAxisAlignment.center,
                                                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -346,15 +337,12 @@ class PokemonDetailsPageState extends State<PokemonDetailsPage>
                                                     child: InkWell(
                                                       child: Icon(
                                                         Icons.arrow_back_ios,
-                                                        color: Theme.of(context)
-                                                            .backgroundColor
-                                                            .withOpacity(0.3),
+                                                        color: Theme.of(context).backgroundColor.withOpacity(0.3),
                                                         size: 70.h,
                                                       ),
                                                       onTap: () {
                                                         _pageController.previousPage(
-                                                            duration:
-                                                                const Duration(milliseconds: 300),
+                                                            duration: const Duration(milliseconds: 300),
                                                             curve: Curves.fastLinearToSlowEaseIn);
                                                       },
                                                     ),
@@ -365,15 +353,12 @@ class PokemonDetailsPageState extends State<PokemonDetailsPage>
                                                     child: InkWell(
                                                       child: Icon(
                                                         Icons.arrow_forward_ios,
-                                                        color: Theme.of(context)
-                                                            .backgroundColor
-                                                            .withOpacity(0.3),
+                                                        color: Theme.of(context).backgroundColor.withOpacity(0.3),
                                                         size: 60,
                                                       ),
                                                       onTap: () {
                                                         _pageController.nextPage(
-                                                            duration:
-                                                                const Duration(milliseconds: 300),
+                                                            duration: const Duration(milliseconds: 300),
                                                             curve: Curves.fastLinearToSlowEaseIn);
                                                       },
                                                     ),

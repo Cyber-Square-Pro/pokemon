@@ -14,10 +14,7 @@ class PokemonPagerWidget extends StatefulWidget {
   final bool isFavorite;
 
   PokemonPagerWidget(
-      {Key? key,
-      required this.pageController,
-      required this.pokemonDetailStore,
-      this.isFavorite = false})
+      {Key? key, required this.pageController, required this.pokemonDetailStore, this.isFavorite = false})
       : super(key: key);
 
   @override
@@ -38,8 +35,7 @@ class _PokemonPagerState extends State<PokemonPagerWidget> {
     _pokemonStore = GetIt.instance<PokemonStore>();
 
     _updatePagerReaction = autorun((_) async => {
-          if (widget.pokemonDetailStore.opacityTitleAppbar == 1 &&
-              _pokemonStore.index != pageController)
+          if (widget.pokemonDetailStore.opacityTitleAppbar == 1 && _pokemonStore.index != pageController)
             {
               await pageController.animateToPage(_pokemonStore.index,
                   duration: Duration(microseconds: 300), curve: Curves.bounceIn),
@@ -62,9 +58,11 @@ class _PokemonPagerState extends State<PokemonPagerWidget> {
         itemCount: _pokemonStore.pokemonsSummary!.length,
         onPageChanged: (index) {
           _pokemonStore.setPokemon(index);
-          context
-              .read<FavouritesProvider>()
-              .checkIfCurrentIsFavourite(context, _pokemonStore.pokemonSummary!);
+          context.read<FavouritesProvider>().checkIfCurrentIsFavourite(
+                context,
+                _pokemonStore.pokemonSummary!,
+              );
+          context.read<FavouritesProvider>().fetchFavourites(context);
         },
         allowImplicitScrolling: true,
         itemBuilder: (context, index) {
@@ -73,8 +71,7 @@ class _PokemonPagerState extends State<PokemonPagerWidget> {
           return Observer(
             builder: (_) {
               return AnimatedPadding(
-                padding: EdgeInsets.all(
-                    _pokemonStore.pokemonSummary!.number == listPokemon.number ? 0 : 40),
+                padding: EdgeInsets.all(_pokemonStore.pokemonSummary!.number == listPokemon.number ? 0 : 40),
                 duration: Duration(milliseconds: 300),
                 child: Container(
                   child: _pokemonStore.pokemonSummary!.number == listPokemon.number

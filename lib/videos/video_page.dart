@@ -42,7 +42,11 @@ class _VideoPageState extends State<VideoPage> {
           return GridView.builder(
             shrinkWrap: true,
             itemCount: provider.videoList.length,
-            padding: EdgeInsets.symmetric(vertical: 0, horizontal: 15.w),
+            padding: EdgeInsets.only(
+              left: 7.5.w,
+              right: 7.5.w,
+              bottom: 10.h,
+            ),
             physics: const BouncingScrollPhysics(),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,

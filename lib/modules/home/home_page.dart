@@ -4,19 +4,19 @@ import 'package:app/modules/home/home_page_store.dart';
 import 'package:app/modules/items/items_page.dart';
 import 'package:app/modules/news/news_page.dart';
 import 'package:app/modules/pokemon_grid/pokemon_grid_page.dart';
-import 'package:app/shared/repositories/auth_service.dart';
+
 import 'package:app/shared/stores/item_store/item_store.dart';
 import 'package:app/shared/stores/pokemon_store/pokemon_store.dart';
 import 'package:app/shared/ui/widgets/app_bar.dart';
 import 'package:app/shared/ui/widgets/drawer_menu/drawer_menu.dart';
 import 'package:app/shared/utils/app_constants.dart';
-import 'package:app/videos/videos_page.dart';
-import 'package:dio/dio.dart';
+import 'package:app/videos/video_page.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class HomePage extends StatefulWidget {
@@ -151,7 +151,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         case HomePageType.NEWS:
                           return const NewsPage();
                         case HomePageType.VIDEOS:
-                          return const VideosPage();
+                          return const VideoPage();
                         default:
                           return PokemonGridPage();
                       }

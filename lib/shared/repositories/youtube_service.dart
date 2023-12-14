@@ -5,13 +5,12 @@ import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class YoutubeService {
-  final key = dotenv.env['YT_API_KEY'];
   final Dio _dio = Dio();
 
   final String _baseURL = 'https://www.googleapis.com/youtube/v3/search';
 
   // Fetch list of video search results
-  Future<dynamic> getVideoList() async {
+  Future<dynamic> getVideoList(String key) async {
     try {
       final Response response = await _dio.get(
         _baseURL,
@@ -34,29 +33,4 @@ class YoutubeService {
       throw Exception(e);
     }
   }
-  // Fetch video itself by id
-  Future<dynamic> getVideo() async {
-    try {
-      final Response response = await _dio.get(
-        _baseURL,
-        queryParameters: {
-          'part': 'id',
-          'chart': 'mostPopular',
-          'type': 'video',
-          'q': 'Pokemon',
-          'key': key,
-        },
-      );
-
-      if (response.statusCode == 200) {
-        final YoutubeSearchResult result = youtubeSearchResultFromJson(
-          jsonEncode(response.data),
-        );
-        return result;
-      }
-    } on DioException catch (e) {
-      throw Exception(e);
-    }
-  }
-
 }

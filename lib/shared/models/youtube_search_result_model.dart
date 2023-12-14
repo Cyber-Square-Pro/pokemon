@@ -4,17 +4,19 @@
 
 import 'dart:convert';
 
+import 'package:equatable/equatable.dart';
+
 YoutubeSearchResult youtubeSearchResultFromJson(String str) => YoutubeSearchResult.fromJson(json.decode(str));
 
 String youtubeSearchResultToJson(YoutubeSearchResult data) => json.encode(data.toJson());
 
-class YoutubeSearchResult {
+class YoutubeSearchResult extends Equatable {
   String kind;
   String etag;
   String nextPageToken;
   String regionCode;
   PageInfo pageInfo;
-  List<Item> items;
+  List<VideoItem> items;
 
   YoutubeSearchResult({
     required this.kind,
@@ -31,7 +33,7 @@ class YoutubeSearchResult {
         nextPageToken: json["nextPageToken"],
         regionCode: json["regionCode"],
         pageInfo: PageInfo.fromJson(json["pageInfo"]),
-        items: List<Item>.from(json["items"].map((x) => Item.fromJson(x))),
+        items: List<VideoItem>.from(json["items"].map((x) => VideoItem.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -42,22 +44,26 @@ class YoutubeSearchResult {
         "pageInfo": pageInfo.toJson(),
         "items": List<dynamic>.from(items.map((x) => x.toJson())),
       };
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [pageInfo, nextPageToken, items];
 }
 
-class Item {
+class VideoItem {
   String kind;
   String etag;
   Id id;
   Snippet snippet;
 
-  Item({
+  VideoItem({
     required this.kind,
     required this.etag,
     required this.id,
     required this.snippet,
   });
 
-  factory Item.fromJson(Map<String, dynamic> json) => Item(
+  factory VideoItem.fromJson(Map<String, dynamic> json) => VideoItem(
         kind: json["kind"],
         etag: json["etag"],
         id: Id.fromJson(json["id"]),

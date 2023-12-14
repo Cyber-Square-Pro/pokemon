@@ -68,6 +68,9 @@ flutter:
     - assets/lotties/
     - assets/images/pokemons_types/20/water.png
 
+    #env
+    - .env
+
   fonts:
     - family: Circular
       fonts:

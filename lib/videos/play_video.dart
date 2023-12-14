@@ -11,11 +11,13 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class PlayVideo extends StatefulWidget {
   const PlayVideo({
-    Key? key,
     required this.index,
-  }) : super(key: key);
+    required this.id,
+    super.key,
+  });
 
   final int index;
+  final String id;
   @override
   State<PlayVideo> createState() => _PlayVideoState();
 }
@@ -26,8 +28,8 @@ class _PlayVideoState extends State<PlayVideo> {
   void initState() {
     super.initState();
     _controller = YoutubePlayerController(
-      initialVideoId: 'rg6CiPI6h2g',
-      flags: YoutubePlayerFlags(
+      initialVideoId: widget.id,
+      flags: const YoutubePlayerFlags(
         controlsVisibleAtStart: true,
         autoPlay: true,
         mute: false,
@@ -120,6 +122,7 @@ class _PlayVideoState extends State<PlayVideo> {
                           ],
                         ),
                         // Description
+                        const Divider(),
                         Text(
                           'Video description',
                           style: Theme.of(context).textTheme.bodyText1!.copyWith(

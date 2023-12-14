@@ -6,6 +6,7 @@ import 'package:app/shared/providers/otp_provider.dart';
 import 'package:app/shared/providers/password_obscure_provider.dart';
 import 'package:app/shared/providers/signup_provider.dart';
 import 'package:app/shared/providers/timer_provider.dart';
+import 'package:app/shared/providers/youtube_provider.dart';
 import 'package:app/shared/utils/connectivity_wrapper.dart';
 import 'package:app/shared_preferences_provider.dart';
 import 'package:app/theme/dark/dark_theme.dart';
@@ -19,12 +20,8 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-Future<void> loadDotenv() async {
-  try {
-    await dotenv.load(fileName: '.env');
-  } catch (e) {
-    print(e);
-  }
+Future<void> loadEnv() async {
+  await dotenv.load();
 }
 
 void main() async {
@@ -33,6 +30,7 @@ void main() async {
     const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
   );
 
+  //
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences.getInstance().then((instance) async {
     WidgetsFlutterBinding.ensureInitialized();
@@ -41,8 +39,8 @@ void main() async {
     final prefs = await initializer.initialize();
 
     // .env service
-    await loadDotenv();
-
+    await loadEnv();
+    print(dotenv.env);
     runApp(MyApp(prefs));
   });
 }
@@ -68,6 +66,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => TimerProvider()),
           ChangeNotifierProvider(create: (context) => ObscureProvider()),
           ChangeNotifierProvider(create: (context) => FavouritesProvider()),
+          ChangeNotifierProvider(create: (context) => YoutubeProvider()),
         ],
         child: ScreenUtilInit(
           ensureScreenSize: true,

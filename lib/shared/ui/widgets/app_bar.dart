@@ -47,7 +47,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(15)),
       ),
-      expandedHeight: 150.h,
+      expandedHeight: 130.h,
       collapsedHeight: 90.h,
       toolbarHeight: 90.h,
       elevation: 0,

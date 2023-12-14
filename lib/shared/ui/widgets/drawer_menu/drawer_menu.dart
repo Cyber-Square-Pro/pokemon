@@ -1,6 +1,5 @@
 import 'package:app/shared/providers/auth_state_provider.dart';
 import 'package:app/shared/utils/spacer.dart';
-import 'package:app/shared/widgets/loading_spinner_modal.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,14 +18,17 @@ class DrawerMenuWidget extends StatefulWidget {
   State<DrawerMenuWidget> createState() => _DrawerMenuWidgetState();
 }
 
-class _DrawerMenuWidgetState extends State<DrawerMenuWidget> with TickerProviderStateMixin {
+class _DrawerMenuWidgetState extends State<DrawerMenuWidget>
+    with TickerProviderStateMixin {
   final HomePageStore _homeStore = GetIt.instance<HomePageStore>();
 
   late AnimationController _controller;
 
   @override
   void initState() {
-    _controller = AnimationController(vsync: this, duration: Duration(seconds: 2))..repeat();
+    _controller =
+        AnimationController(vsync: this, duration: Duration(seconds: 2))
+          ..repeat();
 
     super.initState();
   }
@@ -78,13 +80,14 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget> with TickerProvider
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const AnimatedPokeballWidget(color: Colors.white, size: 26),
+                      const AnimatedPokeballWidget(
+                          color: Colors.white, size: 26),
                       const SizedBox(
                         width: 5,
                       ),
                       Text(
                         "Pokedex",
-                        style: textTheme.headline1!.copyWith(
+                        style: textTheme.titleSmall!.copyWith(
                           color: Colors.white,
                           fontFamily: 'Circular',
                         ),
@@ -93,7 +96,7 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget> with TickerProvider
                   ),
                   Text(
                     "Pokemon Project By Team B",
-                    style: textTheme.bodyMedium!.copyWith(
+                    style: textTheme.bodySmall!.copyWith(
                       color: Colors.white.withOpacity(0.75),
                       fontFamily: 'Circular',
                     ),
@@ -103,7 +106,8 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget> with TickerProvider
               GridView(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, mainAxisExtent: 70),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2, mainAxisExtent: 70),
                 children: [
                   DrawerMenuItemWidget(
                     icon: Icons.grid_4x4,
@@ -148,7 +152,7 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget> with TickerProvider
                       _homeStore.setPage(HomePageType.VIDEOS);
                     },
                   ),
-                  DrawerMenuItemWidget(
+                  const DrawerMenuItemWidget(
                     icon: Icons.chat_bubble,
                     text: "Live Chat",
                     // onTap: () {
@@ -184,7 +188,8 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget> with TickerProvider
                   contentAlignment: MainAxisAlignment.center,
                   onTap: () {
                     _homeStore.setPage(HomePageType.POKEMON_GRID);
-                    Provider.of<AuthProvider>(context, listen: false).logout(context);
+                    Provider.of<AuthProvider>(context, listen: false)
+                        .logout(context);
                   },
                 ),
               ),

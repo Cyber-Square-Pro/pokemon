@@ -1,8 +1,5 @@
-import 'dart:convert';
-
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:app/shared/models/youtube_search_result_model.dart';
-import 'package:app/shared/ui/widgets/animated_pokeball.dart';
 import 'package:app/shared/utils/spacer.dart';
 import 'package:app/theme/app_theme.dart';
 import 'package:flutter/material.dart';
@@ -41,12 +38,9 @@ class _PlayVideoState extends State<PlayVideo> {
     );
   }
 
-  late bool canPop = true;
-
   @override
   void initState() {
     super.initState();
-    canPop = true;
   }
 
   @override
@@ -66,12 +60,18 @@ class _PlayVideoState extends State<PlayVideo> {
                   ? null
                   : AppBar(
                       titleSpacing: 0,
-                      toolbarHeight: 50.h,
-                      title: Text(
-                        'Now Playing:  ${widget.video.title}',
-                        style: TextStyle(
-                          fontSize: 16.sp,
-                          overflow: TextOverflow.fade,
+                      toolbarHeight: 45.h,
+                      title: Padding(
+                        padding: EdgeInsets.only(right: 15.w),
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Text(
+                            'Now Playing:  ${widget.video.title}',
+                            style: TextStyle(
+                              fontSize: 16.sp,
+                              overflow: TextOverflow.fade,
+                            ),
+                          ),
                         ),
                       ),
                     ),
@@ -83,20 +83,32 @@ class _PlayVideoState extends State<PlayVideo> {
                   children: [
                     // Youtube Player
                     Expanded(
-                      flex: 2,
-                      child: Hero(
-                        tag: '${widget.index}',
-                        child: GestureDetector(
-                          onVerticalDragDown: (details) {
-                            if (details.localPosition > details.globalPosition) {
-                              if (_controller.value.isFullScreen) {
-                                _controller.toggleFullScreenMode();
+                      flex: _controller.value.isFullScreen ? 1 : 0,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal:
+                              !_controller.value.isFullScreen ? 10.w : 0,
+                        ),
+                        child: Hero(
+                          tag: '${widget.index}',
+                          child: GestureDetector(
+                            onVerticalDragDown: (details) {
+                              if (details.localPosition >
+                                  details.globalPosition) {
+                                if (_controller.value.isFullScreen) {
+                                  _controller.toggleFullScreenMode();
+                                }
                               }
-                            }
-                          },
-                          child: YoutubePlayer(
-                            controller: _controller,
-                            actionsPadding: const EdgeInsets.symmetric(vertical: 5),
+                            },
+                            child: ClipRRect(
+                              clipBehavior: _controller.value.isFullScreen
+                                  ? Clip.none
+                                  : Clip.antiAlias,
+                              borderRadius: BorderRadius.circular(15),
+                              child: YoutubePlayer(
+                                controller: _controller,
+                              ),
+                            ),
                           ),
                         ),
                       ),
@@ -104,77 +116,92 @@ class _PlayVideoState extends State<PlayVideo> {
                     hSpace(10),
 
                     if (orientation == Orientation.portrait)
-                      Expanded(
-                        flex: 5,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              // Title
-                              Container(
-                                padding: EdgeInsets.all(10.w),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(AppTheme.globalBorderRadius),
-                                  color: mediumBlue.withOpacity(0.5),
-                                ),
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      widget.video.title,
-                                      style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                                            fontSize: 20.sp,
-                                            fontWeight: FontWeight.bold,
-                                            letterSpacing: 0,
-                                            height: 1.1,
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                      maxLines: 3,
-                                    ),
-                                    hSpace(5),
-                                    // Uploader and date
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          widget.video.channelTitle,
-                                          style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                                                fontSize: 15.sp,
-                                                fontWeight: FontWeight.normal,
-                                                letterSpacing: 0,
-                                              ),
-                                        ),
-                                        Text(
-                                          DateFormat('dd-MM-yyyy').format(widget.video.publishedAt),
-                                          style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                                                fontSize: 15.sp,
-                                                fontWeight: FontWeight.normal,
-                                                letterSpacing: 0,
-                                              ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Title
+                            Container(
+                              padding: EdgeInsets.all(12.5.w),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(
+                                    AppTheme.globalBorderRadius),
+                                color: mediumBlue.withOpacity(0.25),
                               ),
-                              // Description
-                              hSpace(10),
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 10.w),
-                                child: Text(
-                                  widget.video.description,
-                                  style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                                        fontSize: 15.sp,
-                                        fontWeight: FontWeight.normal,
-                                        letterSpacing: 0,
-                                        color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.5),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    widget.video.title,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleSmall!
+                                        .copyWith(
+                                          fontSize: 20.sp,
+                                          fontWeight: FontWeight.bold,
+                                          letterSpacing: 0,
+                                          height: 1.1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                    maxLines: 3,
+                                  ),
+                                  hSpace(5),
+                                  // Uploader and date
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        widget.video.channelTitle,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleSmall!
+                                            .copyWith(
+                                              fontSize: 15.sp,
+                                              fontWeight: FontWeight.normal,
+                                              letterSpacing: 0,
+                                            ),
                                       ),
-                                  maxLines: 10,
-                                ),
+                                      Text(
+                                        DateFormat('dd-MM-yyyy')
+                                            .format(widget.video.publishedAt),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleSmall!
+                                            .copyWith(
+                                              fontSize: 15.sp,
+                                              fontWeight: FontWeight.normal,
+                                              letterSpacing: 0,
+                                            ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
-                              // Additional info
-                            ],
-                          ),
+                            ),
+                            // Description
+                            hSpace(10),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 10.w),
+                              child: Text(
+                                widget.video.description,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall!
+                                    .copyWith(
+                                      fontSize: 15.sp,
+                                      fontWeight: FontWeight.normal,
+                                      letterSpacing: 0,
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .color!,
+                                    ),
+                                maxLines: 10,
+                              ),
+                            ),
+                            // Additional info
+                          ],
                         ),
                       ),
                   ],

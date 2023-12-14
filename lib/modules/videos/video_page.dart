@@ -22,8 +22,10 @@ class _VideoPageState extends State<VideoPage> {
   void initState() {
     super.initState();
 
-    final key = dotenv.env['YT_API_KEY']!;
-    context.read<YoutubeProvider>().fetchVideoList(key);
+    if (context.read<YoutubeProvider>().videoList.isEmpty) {
+      final key = dotenv.env['YT_API_KEY']!;
+      context.read<YoutubeProvider>().fetchVideoList(key);
+    }
   }
 
   @override
@@ -44,7 +46,7 @@ class _VideoPageState extends State<VideoPage> {
                     child: Column(
                       children: [
                         AnimatedPokeballWidget(
-                          color: Theme.of(context).textTheme.bodyText1!.color!,
+                          color: Theme.of(context).textTheme.titleSmall!.color!,
                           size: 40.h,
                         ),
                         hSpace(10),
@@ -57,7 +59,7 @@ class _VideoPageState extends State<VideoPage> {
                 if (provider.videoList.isEmpty) {
                   return Center(
                     child: SizedBox(
-                      height: 75.h,
+                      height: 100.h,
                       child: errorCard(
                         context,
                         'Notice',
@@ -69,6 +71,7 @@ class _VideoPageState extends State<VideoPage> {
                 }
                 // If Videos List is not empty
                 return GridView.builder(
+                  clipBehavior: Clip.none,
                   shrinkWrap: true,
                   itemCount: provider.videoList.length,
                   padding: EdgeInsets.only(bottom: 20.h),
@@ -76,7 +79,7 @@ class _VideoPageState extends State<VideoPage> {
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     mainAxisSpacing: 10,
-                    crossAxisSpacing: 10,
+                    crossAxisSpacing: 12,
                     childAspectRatio: 0.75,
                   ),
                   itemBuilder: (context, index) {

@@ -14,7 +14,10 @@ class PokemonPagerWidget extends StatefulWidget {
   final bool isFavorite;
 
   PokemonPagerWidget(
-      {Key? key, required this.pageController, required this.pokemonDetailStore, this.isFavorite = false})
+      {Key? key,
+      required this.pageController,
+      required this.pokemonDetailStore,
+      this.isFavorite = false})
       : super(key: key);
 
   @override
@@ -35,10 +38,12 @@ class _PokemonPagerState extends State<PokemonPagerWidget> {
     _pokemonStore = GetIt.instance<PokemonStore>();
 
     _updatePagerReaction = autorun((_) async => {
-          if (widget.pokemonDetailStore.opacityTitleAppbar == 1 && _pokemonStore.index != pageController)
+          if (widget.pokemonDetailStore.opacityTitleAppbar == 1 &&
+              _pokemonStore.index != pageController)
             {
               await pageController.animateToPage(_pokemonStore.index,
-                  duration: Duration(microseconds: 300), curve: Curves.bounceIn),
+                  duration: const Duration(microseconds: 300),
+                  curve: Curves.bounceIn),
             }
         });
   }
@@ -71,29 +76,35 @@ class _PokemonPagerState extends State<PokemonPagerWidget> {
           return Observer(
             builder: (_) {
               return AnimatedPadding(
-                padding: EdgeInsets.all(_pokemonStore.pokemonSummary!.number == listPokemon.number ? 0 : 40),
-                duration: Duration(milliseconds: 300),
+                padding: EdgeInsets.all(
+                    _pokemonStore.pokemonSummary!.number == listPokemon.number
+                        ? 0
+                        : 40),
+                duration: const Duration(milliseconds: 300),
                 child: Container(
-                  child: _pokemonStore.pokemonSummary!.number == listPokemon.number
-                      ? Hero(
-                          tag: widget.isFavorite
-                              ? "favorite-pokemon-image-${listPokemon.number}"
-                              : "pokemon-image-${listPokemon.number}",
-                          child: ImageUtils.networkImage(
-                            url: listPokemon.imageUrl,
-                            height: 300,
-                            color: _pokemonStore.pokemonSummary!.number == listPokemon.number
-                                ? null
-                                : Colors.black.withOpacity(0.2),
-                          ),
-                        )
-                      : ImageUtils.networkImage(
-                          url: listPokemon.imageUrl,
-                          height: 300,
-                          color: _pokemonStore.pokemonSummary!.number == listPokemon.number
-                              ? null
-                              : Colors.black.withOpacity(0.2),
-                        ),
+                  child:
+                      _pokemonStore.pokemonSummary!.number == listPokemon.number
+                          ? Hero(
+                              tag: widget.isFavorite
+                                  ? "favorite-pokemon-image-${listPokemon.number}"
+                                  : "pokemon-image-${listPokemon.number}",
+                              child: ImageUtils.networkImage(
+                                url: listPokemon.imageUrl,
+                                height: 300,
+                                color: _pokemonStore.pokemonSummary!.number ==
+                                        listPokemon.number
+                                    ? null
+                                    : Colors.black.withOpacity(0.2),
+                              ),
+                            )
+                          : ImageUtils.networkImage(
+                              url: listPokemon.imageUrl,
+                              height: 300,
+                              color: _pokemonStore.pokemonSummary!.number ==
+                                      listPokemon.number
+                                  ? null
+                                  : Colors.black.withOpacity(0.2),
+                            ),
                 ),
               );
             },

@@ -56,7 +56,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       vsync: this,
       duration: Duration(milliseconds: 250),
     );
-    _blackBackgroundOpacityAnimation = Tween(begin: 0.0, end: 1.0).animate(_backgroundAnimationController);
+    _blackBackgroundOpacityAnimation =
+        Tween(begin: 0.0, end: 1.0).animate(_backgroundAnimationController);
 
     _fabAnimationRotationController = AnimationController(
       vsync: this,
@@ -68,8 +69,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       duration: Duration(milliseconds: 250),
     );
 
-    _fabRotateAnimation = Tween(begin: 180.0, end: 0.0)
-        .animate(CurvedAnimation(curve: Curves.easeOut, parent: _fabAnimationRotationController));
+    _fabRotateAnimation = Tween(begin: 180.0, end: 0.0).animate(CurvedAnimation(
+        curve: Curves.easeOut, parent: _fabAnimationRotationController));
 
     _fabSizeAnimation = TweenSequence([
       TweenSequenceItem(tween: Tween(begin: 0.0, end: 1.4), weight: 80.0),
@@ -114,66 +115,70 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    SystemChrome.setSystemUIOverlayStyle(
+      (Theme.of(context).brightness == Brightness.light)
+          ? SystemUiOverlayStyle.light
+          : SystemUiOverlayStyle.dark,
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ThemeSwitchingArea(
-      child: Builder(builder: (context) {
-        // final bool isDarkMode = Theme.of(context).colorScheme.brightness == Brightness.dark;
-        // SystemChrome.setSystemUIOverlayStyle(
-        //   (isDarkMode)
-        //       ? const SystemUiOverlayStyle(
-        //           statusBarIconBrightness: Brightness.light,
-        //         )
-        //       : const SystemUiOverlayStyle(
-        //           statusBarIconBrightness: Brightness.dark,
-        //         ),
-        // );
-        return Scaffold(
-          key: const Key('home_page'),
-          backgroundColor: Theme.of(context).colorScheme.background,
-          endDrawer: const Drawer(
-            child: DrawerMenuWidget(),
-          ),
-          body: Stack(children: [
-            SafeArea(
-              bottom: false,
-              child: CustomScrollView(
-                slivers: [
-                  SliverPadding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 10,
-                    ),
-                    sliver: Observer(
-                      builder: (_) => AppBarWidget(
-                        title: _homeStore.page.description,
-                        lottiePath: AppConstants.pikachuTurnLottie,
-                      ),
-                    ),
-                  ),
-                  Observer(
-                    builder: (_) {
-                      switch (_homeStore.page) {
-                        case HomePageType.POKEMON_GRID:
-                          return PokemonGridPage();
-                        case HomePageType.ITEMS:
-                          return const ItemsPage();
-                        case HomePageType.FAVOURITES:
-                          return const FavouritesPage();
-                        case HomePageType.NEWS:
-                          return const NewsPage();
-                        case HomePageType.VIDEOS:
-                          return const VideoPage();
-                        default:
-                          return PokemonGridPage();
-                      }
-                    },
-                  ),
-                ],
-              ),
+      child: Builder(
+        builder: (context) {
+          return Scaffold(
+            key: const Key('home_page'),
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            endDrawer: const Drawer(
+              child: DrawerMenuWidget(),
             ),
-          ]),
-        );
-      }),
+            body: Stack(
+              children: [
+                SafeArea(
+                  bottom: false,
+                  child: CustomScrollView(
+                    slivers: [
+                      SliverPadding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 10,
+                        ),
+                        sliver: Observer(
+                          builder: (_) => AppBarWidget(
+                            title: _homeStore.page.description,
+                            lottiePath: AppConstants.pikachuTurnLottie,
+                          ),
+                        ),
+                      ),
+                      Observer(
+                        builder: (_) {
+                          switch (_homeStore.page) {
+                            case HomePageType.POKEMON_GRID:
+                              return PokemonGridPage();
+                            case HomePageType.ITEMS:
+                              return const ItemsPage();
+                            case HomePageType.FAVOURITES:
+                              return const FavouritesPage();
+                            case HomePageType.NEWS:
+                              return const NewsPage();
+                            case HomePageType.VIDEOS:
+                              return const VideoPage();
+                            default:
+                              return PokemonGridPage();
+                          }
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 }

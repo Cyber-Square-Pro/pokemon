@@ -21,18 +21,31 @@ class VideoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
+      clipBehavior: Clip.antiAlias,
       borderRadius: BorderRadius.circular(15),
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(15),
         child: Ink(
           decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Theme.of(context)
+                    .colorScheme
+                    .onBackground
+                    .withOpacity(0.25),
+                offset: const Offset(-1, 1),
+                blurRadius: 10,
+              ),
+            ],
             borderRadius: BorderRadius.circular(15),
             color: AppTheme.getColors(context).panelBackground,
           ),
           child: Column(
             children: [
               Stack(
+                clipBehavior: Clip.none,
+                alignment: Alignment.center,
                 children: [
                   Hero(
                     tag: '$index',
@@ -48,13 +61,14 @@ class VideoCard extends StatelessWidget {
                             fit: BoxFit.cover,
                           ),
                   ),
-                  const Positioned(
-                    bottom: 5,
-                    right: 5,
-                    child: Icon(
-                      Icons.play_arrow,
-                      color: Colors.white,
-                    ),
+                  Container(
+                    color: Colors.black.withOpacity(0.3),
+                    height: 120.h,
+                  ),
+                  Icon(
+                    Icons.play_arrow_rounded,
+                    color: Colors.white,
+                    size: 75.sp,
                   ),
                 ],
               ),
@@ -67,7 +81,7 @@ class VideoCard extends StatelessWidget {
                   children: [
                     Text(
                       videoTitle,
-                      style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                      style: Theme.of(context).textTheme.titleSmall!.copyWith(
                             fontSize: 15.sp,
                             fontWeight: FontWeight.bold,
                             height: 1,
@@ -78,10 +92,14 @@ class VideoCard extends StatelessWidget {
                     hSpace(5),
                     Text(
                       description,
-                      style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                            color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.75),
+                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
                             fontSize: 13.sp,
                             height: 1,
+                            color: Theme.of(context)
+                                .textTheme
+                                .titleSmall
+                                ?.color
+                                ?.withOpacity(0.5),
                           ),
                       maxLines: 3,
                     ),

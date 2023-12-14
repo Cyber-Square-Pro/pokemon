@@ -1,3 +1,4 @@
+import 'package:app/shared/utils/spacer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
@@ -17,7 +18,7 @@ class HeightWeightInfoWidget extends StatelessWidget {
       height: 72,
       decoration: BoxDecoration(
         color: Theme.of(context).brightness == Brightness.light
-            ? Theme.of(context).backgroundColor
+            ? Theme.of(context).scaffoldBackgroundColor
             : AppTheme.getColors(context).panelBackground,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
@@ -27,7 +28,7 @@ class HeightWeightInfoWidget extends StatelessWidget {
                 : Colors.black.withOpacity(0.3),
             spreadRadius: 3,
             blurRadius: 15,
-            offset: Offset(0, 8),
+            offset: const Offset(0, 8),
           ),
         ],
       ),
@@ -42,18 +43,16 @@ class HeightWeightInfoWidget extends StatelessWidget {
                 opacity: 0.7,
                 child: Text(
                   "Weight",
-                  style: textTheme.bodyText1!.copyWith(
+                  style: textTheme.titleSmall!.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
-              SizedBox(
-                height: 11,
-              ),
+              hSpace(2),
               Observer(
                 builder: (_) => Text(
                   _pokemonStore.pokemon!.height,
-                  style: textTheme.bodyText1,
+                  style: textTheme.bodySmall,
                 ),
               )
             ],
@@ -66,18 +65,16 @@ class HeightWeightInfoWidget extends StatelessWidget {
                 opacity: 0.7,
                 child: Text(
                   "Height",
-                  style: textTheme.bodyText1!.copyWith(
+                  style: textTheme.titleSmall!.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
-              SizedBox(
-                height: 11,
-              ),
+              hSpace(2),
               Observer(
                 builder: (_) => Text(
                   _pokemonStore.pokemon!.weight,
-                  style: textTheme.bodyText1,
+                  style: textTheme.bodySmall,
                 ),
               )
             ],

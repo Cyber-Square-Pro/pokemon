@@ -5,7 +5,6 @@ import 'package:app/modules/reset_password/reset_password.dart';
 import 'package:app/modules/screens/splash_screen.dart';
 import 'package:app/modules/sign_up/sign_up_page.dart';
 import 'package:app/modules/verify_email/veryify_email_page.dart';
-import 'package:app/modules/videos/play_video.dart';
 import 'package:app/modules/videos/video_page.dart';
 import 'package:flutter/material.dart';
 import 'package:app/modules/home/home_page.dart';
@@ -22,20 +21,19 @@ abstract class Router {
   static String resetPass = "/resetPass";
   static String noInternet = "/noInternet";
   static String videos = "/videos";
-  static String playVideo = "/playVideo";
 
   static Map<String, WidgetBuilder> getRoutes(context) {
     return {
-      splash: (context) => SplashScreen(),
-      login: (context) => LoginPage(),
+      splash: (context) => const SplashScreen(),
+      login: (context) => const LoginPage(),
       home: (context) => HomePage(),
-      items: (context) => ItemsPage(),
-      signup: (context) => SignUpPage(),
-      verifyEmail: (context) => VerifyEmailPage(),
-      enterOTP: (context) => OtpVerificationPage(),
-      resetPass: (context) => ResetPasswordPage(),
-      noInternet: (context) => NoInternetPage(),
-      videos: (context) => VideoPage(),
+      items: (context) => const ItemsPage(),
+      signup: (context) => const SignUpPage(),
+      verifyEmail: (context) => const VerifyEmailPage(),
+      enterOTP: (context) => const OtpVerificationPage(),
+      resetPass: (context) => const ResetPasswordPage(),
+      noInternet: (context) => const NoInternetPage(),
+      videos: (context) => const VideoPage(),
     };
   }
 }

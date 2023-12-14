@@ -1,24 +1,21 @@
-// To parse this JSON data, do
-//
-//     final youtubeSearchResult = youtubeSearchResultFromJson(jsonString);
-
 import 'dart:convert';
-
 import 'package:equatable/equatable.dart';
 
-YoutubeSearchResult youtubeSearchResultFromJson(String str) => YoutubeSearchResult.fromJson(json.decode(str));
+YoutubeSearchResult youtubeSearchResultFromJson(String str) =>
+    YoutubeSearchResult.fromJson(json.decode(str));
 
-String youtubeSearchResultToJson(YoutubeSearchResult data) => json.encode(data.toJson());
+String youtubeSearchResultToJson(YoutubeSearchResult data) =>
+    json.encode(data.toJson());
 
 class YoutubeSearchResult extends Equatable {
-  String kind;
-  String etag;
-  String nextPageToken;
-  String regionCode;
-  PageInfo pageInfo;
-  List<VideoItem> items;
+  final String kind;
+  final String etag;
+  final String nextPageToken;
+  final String regionCode;
+  final PageInfo pageInfo;
+  final List<VideoItem> items;
 
-  YoutubeSearchResult({
+  const YoutubeSearchResult({
     required this.kind,
     required this.etag,
     required this.nextPageToken,
@@ -27,13 +24,15 @@ class YoutubeSearchResult extends Equatable {
     required this.items,
   });
 
-  factory YoutubeSearchResult.fromJson(Map<String, dynamic> json) => YoutubeSearchResult(
+  factory YoutubeSearchResult.fromJson(Map<String, dynamic> json) =>
+      YoutubeSearchResult(
         kind: json["kind"],
         etag: json["etag"],
         nextPageToken: json["nextPageToken"],
         regionCode: json["regionCode"],
         pageInfo: PageInfo.fromJson(json["pageInfo"]),
-        items: List<VideoItem>.from(json["items"].map((x) => VideoItem.fromJson(x))),
+        items: List<VideoItem>.from(
+            json["items"].map((x) => VideoItem.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -46,7 +45,6 @@ class YoutubeSearchResult extends Equatable {
       };
 
   @override
-  // TODO: implement props
   List<Object?> get props => [pageInfo, nextPageToken, items];
 }
 

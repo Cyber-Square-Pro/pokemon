@@ -9,12 +9,14 @@ import 'package:app/modules/pokemon_grid/widgets/poke_item.dart';
 import 'package:app/shared/models/pokemon_summary.dart';
 import 'package:app/shared/stores/pokemon_store/pokemon_store.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class PokemonGridWidget extends StatefulWidget {
   final PokemonStore pokemonStore;
 
-  PokemonGridWidget({Key? key, required this.pokemonStore}) : super(key: key);
+  const PokemonGridWidget({
+    required this.pokemonStore,
+    super.key,
+  });
 
   @override
   _PokemonGridWidgetState createState() => _PokemonGridWidgetState();
@@ -23,7 +25,8 @@ class PokemonGridWidget extends StatefulWidget {
 class _PokemonGridWidgetState extends State<PokemonGridWidget> {
   static const _pageSize = 20;
 
-  final PagingController<int, Widget> _pagingController = PagingController(firstPageKey: 0);
+  final PagingController<int, Widget> _pagingController =
+      PagingController(firstPageKey: 0);
 
   late ReactionDisposer filterReactionDisposer;
 
@@ -34,7 +37,8 @@ class _PokemonGridWidgetState extends State<PokemonGridWidget> {
       _cacheNextPageImages(pageKey);
     });
 
-    filterReactionDisposer = reaction((_) => widget.pokemonStore.pokemonFilter, (_) {
+    filterReactionDisposer =
+        reaction((_) => widget.pokemonStore.pokemonFilter, (_) {
       _pagingController.refresh();
     });
 
@@ -51,7 +55,9 @@ class _PokemonGridWidgetState extends State<PokemonGridWidget> {
   void _fetchPage(int pageKey) async {
     final maxRange = widget.pokemonStore.pokemonsSummary!.length;
     final initialRange = pageKey * _pageSize;
-    final finalRange = (pageKey * _pageSize) + _pageSize > maxRange ? maxRange : (pageKey * _pageSize) + _pageSize;
+    final finalRange = (pageKey * _pageSize) + _pageSize > maxRange
+        ? maxRange
+        : (pageKey * _pageSize) + _pageSize;
 
     List<Widget> items = [];
 
@@ -79,7 +85,9 @@ class _PokemonGridWidgetState extends State<PokemonGridWidget> {
 
     final maxRange = widget.pokemonStore.pokemonsSummary!.length;
     final initialRange = nextPage * _pageSize;
-    final finalRange = (nextPage * _pageSize) + _pageSize > maxRange ? maxRange : (nextPage * _pageSize) + _pageSize;
+    final finalRange = (nextPage * _pageSize) + _pageSize > maxRange
+        ? maxRange
+        : (nextPage * _pageSize) + _pageSize;
 
     for (int index = initialRange; index < finalRange; index++) {
       final _pokemon = widget.pokemonStore.getPokemon(index);
@@ -96,18 +104,21 @@ class _PokemonGridWidgetState extends State<PokemonGridWidget> {
     }
   }
 
-  Widget _buildPokemonItem({required int index, required PokemonSummary pokemon}) {
+  Widget _buildPokemonItem(
+      {required int index, required PokemonSummary pokemon}) {
     return InkWell(
       onTap: () async {
         context.read<FavouritesProvider>().fetchFavourites(context);
         await widget.pokemonStore.setPokemon(index);
 
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) {
-            return PokemonDetailsPage();
-          }),
-        );
+        if (context.mounted) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) {
+              return const PokemonDetailsPage();
+            }),
+          );
+        }
       },
       child: Ink(
         child: PokeItemWidget(

@@ -6,29 +6,30 @@ class AppColorsLight extends AppColors {
   const AppColorsLight();
 
   @override
-  Color get pokemonTabTitle => Color(0xFF303943).withOpacity(0.4);
+  Color get pokemonTabTitle => const Color(0xFF303943).withOpacity(0.4);
 
   @override
-  Color get selectPokemonTabTitle => Color(0xFF303943);
+  Color get selectPokemonTabTitle => const Color(0xFF303943);
 
   @override
-  Color get selectedGenerationFilter => Color(0xFF666666).withOpacity(0.4);
+  Color get selectedGenerationFilter =>
+      const Color(0xFF666666).withOpacity(0.4);
 
   @override
-  Color get pokeballLogoBlack => Color(0xFF303943);
+  Color get pokeballLogoBlack => const Color(0xFF303943);
 
   @override
-  Color get pokeballLogoGray => Color(0xFF303943).withOpacity(0.1);
+  Color get pokeballLogoGray => const Color(0xFF303943).withOpacity(0.1);
 
   @override
-  Color get generationFilter => Color(0xFFFFFFFF);
+  Color get generationFilter => const Color(0xFFFFFFFF);
 
   @override
-  Color get panelBackground => Color(0xFFE9E9E9);
+  Color get panelBackground => const Color.fromARGB(255, 213, 213, 213);
 
   @override
-  Color get pokemonDetailsTitleColor => Color(0xFFFFFFFF);
+  Color get pokemonDetailsTitleColor => const Color(0xFFFFFFFF);
 
   @override
-  Color get appBarButtons => Color(0xFF000000);
+  Color get appBarButtons => const Color(0xFF000000);
 }

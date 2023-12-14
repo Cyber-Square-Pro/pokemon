@@ -1,6 +1,5 @@
 import 'package:app/shared/utils/app_constants.dart';
 import 'package:app/shared/utils/spacer.dart';
-import 'package:app/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -10,7 +9,7 @@ Widget errorCard(BuildContext context, String title, String message,
     padding: const EdgeInsets.all(10),
     decoration: BoxDecoration(
       color: color,
-      borderRadius: BorderRadius.circular(AppTheme.globalBorderRadius),
+      borderRadius: BorderRadius.circular(15),
     ),
     child: Column(
       children: [

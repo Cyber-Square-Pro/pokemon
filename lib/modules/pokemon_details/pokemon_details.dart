@@ -31,13 +31,15 @@ import '../../theme/light/light_theme.dart';
 class PokemonDetailsPage extends StatefulWidget {
   final bool isFavoritePokemon;
 
-  const PokemonDetailsPage({Key? key, this.isFavoritePokemon = false}) : super(key: key);
+  const PokemonDetailsPage({Key? key, this.isFavoritePokemon = false})
+      : super(key: key);
 
   @override
   PokemonDetailsPageState createState() => PokemonDetailsPageState();
 }
 
-class PokemonDetailsPageState extends State<PokemonDetailsPage> with SingleTickerProviderStateMixin {
+class PokemonDetailsPageState extends State<PokemonDetailsPage>
+    with SingleTickerProviderStateMixin {
   late PokemonStore _pokemonStore;
   late PokemonDetailsStore _pokemonDetailsStore;
   late AnimationController _animationController;
@@ -49,11 +51,14 @@ class PokemonDetailsPageState extends State<PokemonDetailsPage> with SingleTicke
     super.initState();
     _pokemonStore = GetIt.instance<PokemonStore>();
     _pokemonDetailsStore = PokemonDetailsStore();
-    _pageController = PageController(initialPage: _pokemonStore.index, viewportFraction: 0.4);
+    _pageController =
+        PageController(initialPage: _pokemonStore.index, viewportFraction: 0.4);
 
     player = AudioPlayer();
 
-    _animationController = AnimationController(vsync: this, duration: const Duration(seconds: 2))..repeat();
+    _animationController =
+        AnimationController(vsync: this, duration: const Duration(seconds: 2))
+          ..repeat();
 
     //
     Provider.of<FavouritesProvider>(context, listen: false)
@@ -84,7 +89,7 @@ class PokemonDetailsPageState extends State<PokemonDetailsPage> with SingleTicke
       child: Builder(builder: (context) {
         return Scaffold(
           appBar: PreferredSize(
-            preferredSize: const Size.fromHeight(70),
+            preferredSize: const Size.fromHeight(50),
             child: Stack(
               children: [
                 Observer(
@@ -92,7 +97,8 @@ class PokemonDetailsPageState extends State<PokemonDetailsPage> with SingleTicke
                     return Container(
                       height: size.height,
                       width: size.width,
-                      color: AppTheme.colors.pokemonItem(_pokemonStore.pokemon!.types[0]),
+                      color: AppTheme.colors
+                          .pokemonItem(_pokemonStore.pokemon!.types[0]),
                     );
                   },
                 ),
@@ -107,7 +113,7 @@ class PokemonDetailsPageState extends State<PokemonDetailsPage> with SingleTicke
                         height: 144,
                         width: 144,
                         decoration: BoxDecoration(
-                          color: Theme.of(context).backgroundColor,
+                          color: Theme.of(context).scaffoldBackgroundColor,
                           borderRadius: BorderRadius.circular(24),
                         ),
                       ),
@@ -128,18 +134,20 @@ class PokemonDetailsPageState extends State<PokemonDetailsPage> with SingleTicke
                 Observer(builder: (_) {
                   return AppBar(
                     title: AnimatedOpacity(
-                        duration: const Duration(milliseconds: 30),
-                        opacity: _pokemonDetailsStore.opacityTitleAppbar,
-                        child: Visibility(
-                          visible: _pokemonDetailsStore.opacityTitleAppbar > 0,
-                          child: AppBarNavigationWidget(),
-                        )),
+                      duration: const Duration(milliseconds: 30),
+                      opacity: _pokemonDetailsStore.opacityTitleAppbar,
+                      child: Visibility(
+                        visible: _pokemonDetailsStore.opacityTitleAppbar > 0,
+                        child: AppBarNavigationWidget(),
+                      ),
+                    ),
                     backgroundColor: Colors.transparent,
                     shadowColor: Colors.transparent,
                     leading: IconButton(
                       icon: Icon(
                         Icons.arrow_back,
-                        color: AppTheme.getColors(context).pokemonDetailsTitleColor,
+                        color: AppTheme.getColors(context)
+                            .pokemonDetailsTitleColor,
                       ),
                       onPressed: () {
                         Navigator.pop(context);
@@ -163,22 +171,30 @@ class PokemonDetailsPageState extends State<PokemonDetailsPage> with SingleTicke
                                 ? IconButton(
                                     icon: Icon(
                                       Icons.favorite,
-                                      color: AppTheme.getColors(context).pokemonDetailsTitleColor,
+                                      color: AppTheme.getColors(context)
+                                          .pokemonDetailsTitleColor,
                                     ),
                                     onPressed: () async {
-                                      await provider.removeFavourite(context, _pokemonStore.pokemon!.number);
-                                      _pokemonStore.removeFavoritePokemon(_pokemonStore.pokemon!.number);
+                                      await provider.removeFavourite(context,
+                                          _pokemonStore.pokemon!.number);
+                                      _pokemonStore.removeFavoritePokemon(
+                                          _pokemonStore.pokemon!.number);
 
                                       BotToast.showText(
-                                          text: "${_pokemonStore.pokemon!.name} was removed from favorites");
+                                          text:
+                                              "${_pokemonStore.pokemon!.name} was removed from favorites");
                                     },
                                   )
                                 : IconButton(
                                     icon: Icon(Icons.favorite_border,
-                                        color: AppTheme.getColors(context).pokemonDetailsTitleColor),
+                                        color: AppTheme.getColors(context)
+                                            .pokemonDetailsTitleColor),
                                     onPressed: () async {
-                                      await provider.addFavourite(context, _pokemonStore.pokemon!.number);
-                                      BotToast.showText(text: "${_pokemonStore.pokemon!.name} was favorited");
+                                      await provider.addFavourite(context,
+                                          _pokemonStore.pokemon!.number);
+                                      BotToast.showText(
+                                          text:
+                                              "${_pokemonStore.pokemon!.name} was favorited");
                                     },
                                   );
                           }
@@ -228,14 +244,25 @@ class PokemonDetailsPageState extends State<PokemonDetailsPage> with SingleTicke
                           return InkWell(
                             onTap: () async {
                               ThemeSwitcher.of(context)?.changeTheme(
-                                  theme: Theme.of(context).brightness == Brightness.light ? darkTheme : lightTheme);
+                                  theme: Theme.of(context).brightness ==
+                                          Brightness.light
+                                      ? darkTheme
+                                      : lightTheme);
 
-                              SharedPreferences prefs = await SharedPreferences.getInstance();
-                              prefs.setBool("darkTheme", !(Theme.of(context).brightness == Brightness.dark));
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              prefs.setBool(
+                                  "darkTheme",
+                                  !(Theme.of(context).brightness ==
+                                      Brightness.dark));
                             },
                             child: Icon(
-                                Theme.of(context).brightness == Brightness.light ? Icons.dark_mode : Icons.light_mode,
-                                color: AppTheme.getColors(context).pokemonDetailsTitleColor),
+                              Theme.of(context).brightness == Brightness.light
+                                  ? Icons.dark_mode
+                                  : Icons.light_mode,
+                              color: AppTheme.getColors(context)
+                                  .pokemonDetailsTitleColor,
+                            ),
                           );
                         }),
                       ),
@@ -260,7 +287,8 @@ class PokemonDetailsPageState extends State<PokemonDetailsPage> with SingleTicke
                             children: [
                               Observer(builder: (_) {
                                 return Container(
-                                  color: AppTheme.colors.pokemonItem(_pokemonStore.pokemon!.types[0]),
+                                  color: AppTheme.colors.pokemonItem(
+                                      _pokemonStore.pokemon!.types[0]),
                                 );
                               }),
                               Align(
@@ -271,7 +299,8 @@ class PokemonDetailsPageState extends State<PokemonDetailsPage> with SingleTicke
                                       topLeft: Radius.circular(30),
                                       topRight: Radius.circular(30),
                                     ),
-                                    color: Theme.of(context).backgroundColor,
+                                    color: Theme.of(context)
+                                        .scaffoldBackgroundColor,
                                   ),
                                   height: 80.h,
                                 ),
@@ -282,8 +311,10 @@ class PokemonDetailsPageState extends State<PokemonDetailsPage> with SingleTicke
                                   child: Padding(
                                     padding: EdgeInsets.only(bottom: 20.h),
                                     child: AnimatedOpacity(
-                                      duration: const Duration(milliseconds: 30),
-                                      opacity: _pokemonDetailsStore.opacityPokemon,
+                                      duration:
+                                          const Duration(milliseconds: 30),
+                                      opacity:
+                                          _pokemonDetailsStore.opacityPokemon,
                                       child: SizedBox(
                                         height: 223,
                                         child: Center(
@@ -291,14 +322,22 @@ class PokemonDetailsPageState extends State<PokemonDetailsPage> with SingleTicke
                                             animation: _animationController,
                                             builder: (_, child) {
                                               return Transform.rotate(
-                                                angle: _animationController.value * 2 * pi,
+                                                angle:
+                                                    _animationController.value *
+                                                        2 *
+                                                        pi,
                                                 child: child,
                                               );
                                             },
                                             child: CustomPaint(
-                                              size: Size(200.h, (200.h * 1.0040160642570282).toDouble()),
+                                              size: Size(
+                                                  200.h,
+                                                  (200.h * 1.0040160642570282)
+                                                      .toDouble()),
                                               painter: PokeballLogoPainter(
-                                                  color: Theme.of(context).backgroundColor.withOpacity(0.3)),
+                                                  color: Theme.of(context)
+                                                      .scaffoldBackgroundColor
+                                                      .withOpacity(0.3)),
                                             ),
                                           ),
                                         ),
@@ -312,7 +351,8 @@ class PokemonDetailsPageState extends State<PokemonDetailsPage> with SingleTicke
                                   alignment: Alignment.bottomCenter,
                                   child: AnimatedOpacity(
                                     duration: const Duration(milliseconds: 300),
-                                    opacity: _pokemonDetailsStore.opacityPokemon,
+                                    opacity:
+                                        _pokemonDetailsStore.opacityPokemon,
                                     child: Padding(
                                       padding: EdgeInsets.only(bottom: 35),
                                       child: Container(
@@ -321,45 +361,70 @@ class PokemonDetailsPageState extends State<PokemonDetailsPage> with SingleTicke
                                           children: [
                                             PokemonPagerWidget(
                                               pageController: _pageController,
-                                              pokemonDetailStore: _pokemonDetailsStore,
-                                              isFavorite: widget.isFavoritePokemon,
+                                              pokemonDetailStore:
+                                                  _pokemonDetailsStore,
+                                              isFavorite:
+                                                  widget.isFavoritePokemon,
                                             ),
                                             if ((kIsWeb &&
-                                                    getDeviceScreenType(context) != DeviceScreenType.CELLPHONE) ||
+                                                    getDeviceScreenType(
+                                                            context) !=
+                                                        DeviceScreenType
+                                                            .CELLPHONE) ||
                                                 (!kIsWeb &&
-                                                    (Platform.isWindows || Platform.isLinux || Platform.isMacOS)))
+                                                    (Platform.isWindows ||
+                                                        Platform.isLinux ||
+                                                        Platform.isMacOS)))
                                               Row(
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
                                                 children: [
                                                   Padding(
-                                                    padding: const EdgeInsets.only(top: 60),
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 60),
                                                     child: InkWell(
                                                       child: Icon(
                                                         Icons.arrow_back_ios,
-                                                        color: Theme.of(context).backgroundColor.withOpacity(0.3),
+                                                        color: Theme.of(context)
+                                                            .scaffoldBackgroundColor
+                                                            .withOpacity(0.3),
                                                         size: 70.h,
                                                       ),
                                                       onTap: () {
                                                         _pageController.previousPage(
-                                                            duration: const Duration(milliseconds: 300),
-                                                            curve: Curves.fastLinearToSlowEaseIn);
+                                                            duration:
+                                                                const Duration(
+                                                                    milliseconds:
+                                                                        300),
+                                                            curve: Curves
+                                                                .fastLinearToSlowEaseIn);
                                                       },
                                                     ),
                                                   ),
                                                   wSpace(280),
                                                   Padding(
-                                                    padding: const EdgeInsets.only(top: 70),
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 70),
                                                     child: InkWell(
                                                       child: Icon(
                                                         Icons.arrow_forward_ios,
-                                                        color: Theme.of(context).backgroundColor.withOpacity(0.3),
+                                                        color: Theme.of(context)
+                                                            .scaffoldBackgroundColor
+                                                            .withOpacity(0.3),
                                                         size: 60,
                                                       ),
                                                       onTap: () {
                                                         _pageController.nextPage(
-                                                            duration: const Duration(milliseconds: 300),
-                                                            curve: Curves.fastLinearToSlowEaseIn);
+                                                            duration:
+                                                                const Duration(
+                                                                    milliseconds:
+                                                                        300),
+                                                            curve: Curves
+                                                                .fastLinearToSlowEaseIn);
                                                       },
                                                     ),
                                                   ),

@@ -70,7 +70,6 @@ class MyApp extends StatelessWidget {
         child: ScreenUtilInit(
           ensureScreenSize: true,
           designSize: const Size(400, 800),
-          minTextAdapt: true,
           builder: (context, child) => Builder(
             builder: (context) {
               return ConnectivityWrapper(

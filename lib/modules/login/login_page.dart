@@ -187,10 +187,14 @@ class _LoginPageState extends State<LoginPage> {
                                         .resetSettings();
                                     authProvider.setAuthenticated(true);
                                     authProvider.getUserInfo();
-                                    Navigator.pushReplacementNamed(context, '/home', arguments: [
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(MySnackbars.success('Welcome to Pokedex')),
-                                    ]);
+                                    Navigator.pushReplacementNamed(
+                                      context,
+                                      '/home',
+                                      arguments: [
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                            MySnackbars.success('Welcome to Pokedex')),
+                                      ],
+                                    );
                                   }
                                 } else if (loginResult == AuthState.EMAIL_NOT_VERIFIED) {
                                   otpProvider.setIntent(OtpIntent.SIGN_UP);

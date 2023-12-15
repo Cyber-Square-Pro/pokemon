@@ -7,14 +7,14 @@ class VideoCard extends StatelessWidget {
   const VideoCard({
     super.key,
     required this.videoTitle,
-    required this.description,
+    required this.uploader,
     required this.imageurl,
     required this.onTap,
     required this.index,
   });
   final void Function() onTap;
   final String videoTitle;
-  final String description;
+  final String uploader;
   final String imageurl;
   final int index;
 
@@ -78,6 +78,7 @@ class VideoCard extends StatelessWidget {
                   vertical: 10.h,
                 ),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       videoTitle,
@@ -91,7 +92,7 @@ class VideoCard extends StatelessWidget {
                     ),
                     hSpace(5),
                     Text(
-                      description,
+                      uploader,
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(
                             fontSize: 13.sp,
                             height: 1,
@@ -100,8 +101,9 @@ class VideoCard extends StatelessWidget {
                                 .titleSmall
                                 ?.color
                                 ?.withOpacity(0.5),
+                            overflow: TextOverflow.clip,
                           ),
-                      maxLines: 3,
+                      maxLines: 2,
                     ),
                   ],
                 ),

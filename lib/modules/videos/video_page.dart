@@ -80,14 +80,14 @@ class _VideoPageState extends State<VideoPage> {
                     crossAxisCount: 2,
                     mainAxisSpacing: 10,
                     crossAxisSpacing: 12,
-                    childAspectRatio: 0.75,
+                    childAspectRatio: 0.8,
                   ),
                   itemBuilder: (context, index) {
                     final video = provider.videoList[index];
 
                     return VideoCard(
                       videoTitle: video.snippet.title,
-                      description: video.snippet.description,
+                      uploader: video.snippet.channelTitle,
                       index: index,
                       imageurl: video.snippet.thumbnails.medium.url,
                       onTap: () {

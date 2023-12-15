@@ -4,6 +4,11 @@ import 'package:app/shared/models/youtube_search_result_model.dart';
 import 'package:dio/dio.dart';
 
 class YoutubeService {
+  YoutubeService._privateInstance();
+
+  static final YoutubeService _instance = YoutubeService._privateInstance();
+  static YoutubeService getInstance() => _instance;
+
   final Dio _dio = Dio();
   final String _baseURL = 'https://www.googleapis.com/youtube/v3/search';
 

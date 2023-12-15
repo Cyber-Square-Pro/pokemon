@@ -1,14 +1,10 @@
-import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:app/shared/utils/spacer.dart';
-import 'package:app/theme/dark/dark_theme.dart';
-import 'package:app/theme/light/light_theme.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:app/shared/ui/widgets/animated_pokeball.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../utils/app_constants.dart';
 import '../enums/device_screen_type.dart';
@@ -39,16 +35,17 @@ class _AppBarWidgetState extends State<AppBarWidget> {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
-      systemOverlayStyle: SystemUiOverlayStyle.dark,
       automaticallyImplyLeading: widget.showBackButton,
       pinned: true,
       floating: false,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(15)),
+        borderRadius: BorderRadius.all(
+          Radius.circular(15),
+        ),
       ),
-      expandedHeight: 130.h,
-      collapsedHeight: 90.h,
-      toolbarHeight: 90.h,
+      expandedHeight: 140.h,
+      collapsedHeight: 80.h,
+      toolbarHeight: 75.h,
       elevation: 0,
       foregroundColor: Colors.white,
       backgroundColor: Colors.blue.shade800,
@@ -57,10 +54,16 @@ class _AppBarWidgetState extends State<AppBarWidget> {
           onPressed: () {
             Scaffold.of(context).openEndDrawer();
           },
-          icon: const Icon(Icons.menu, color: Colors.white),
+          icon: Icon(
+            Icons.menu,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.black
+                : Colors.white,
+          ),
         )
       ],
       flexibleSpace: FlexibleSpaceBar(
+        collapseMode: CollapseMode.pin,
         centerTitle: false,
         background: ClipRRect(
           borderRadius: BorderRadius.circular(15),
@@ -73,8 +76,8 @@ class _AppBarWidgetState extends State<AppBarWidget> {
               ),
               if (widget.lottiePath != null)
                 Positioned(
-                  bottom: 5,
-                  right: 20,
+                  bottom: 7,
+                  right: 30,
                   child: Lottie.asset(
                     widget.lottiePath!,
                     height: 120.h,
@@ -86,34 +89,37 @@ class _AppBarWidgetState extends State<AppBarWidget> {
             ],
           ),
         ),
-        // background: widget.lottiePath != null
-        //     ? Align(
-        //         alignment: Alignment.bottomRight,
-        //         child: Lottie.asset(widget.lottiePath!, height: 140.0),
-        //       )
-        //     : Container(),
-        titlePadding: const EdgeInsets.only(left: 15, bottom: 10),
+        titlePadding: const EdgeInsets.only(
+          left: 15,
+          bottom: 10,
+          top: 10,
+        ),
         title: Row(
           children: [
             AnimatedPokeballWidget(
-              size: 21.h,
-              color: Colors.white,
+              size: 18.h,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.black
+                  : Colors.white,
             ),
             wSpace(10),
             Text(
               widget.title,
-              style: TextStyle(
-                fontSize: 20.sp,
-                fontWeight: FontWeight.w900,
-                fontFamily: 'Circular',
-                letterSpacing: -0.5,
-              ),
+              style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20.sp,
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.black
+                        : Colors.white,
+                  ),
             ),
-            if (kIsWeb && getDeviceScreenType(context) != DeviceScreenType.CELLPHONE)
+            if (kIsWeb &&
+                getDeviceScreenType(context) != DeviceScreenType.CELLPHONE)
               const SizedBox(
                 width: 5,
               ),
-            if (kIsWeb && getDeviceScreenType(context) != DeviceScreenType.CELLPHONE)
+            if (kIsWeb &&
+                getDeviceScreenType(context) != DeviceScreenType.CELLPHONE)
               Image.network(
                 AppConstants.getRandomPokemonGif(),
                 height: 32,

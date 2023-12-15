@@ -1,4 +1,6 @@
-import 'package:flutter/foundation.dart';
+import 'package:app/modules/favourites/favourites_page.dart';
+import 'package:app/shared/providers/favourites_provider.dart';
+import 'package:app/shared/utils/spacer.dart';
 import 'package:flutter/material.dart';
 import 'package:app/shared/models/pokemon_summary.dart';
 import 'package:app/shared/ui/canvas/white_pokeball_canvas.dart';
@@ -24,7 +26,9 @@ class PokeItemWidget extends StatelessWidget {
         color: AppTheme.getColors(context).pokemonItem(pokemon.types[0]),
         boxShadow: [
           BoxShadow(
-            color: AppTheme.getColors(context).pokemonItem(pokemon.types[0]).withOpacity(0.5),
+            color: AppTheme.getColors(context)
+                .pokemonItem(pokemon.types[0])
+                .withOpacity(0.5),
             blurRadius: 10,
             offset: const Offset(-1, 1),
           ),
@@ -79,25 +83,31 @@ class PokeItemWidget extends StatelessWidget {
                     fontSize: 20,
                     letterSpacing: -0.5,
                     fontWeight: FontWeight.bold,
-                    color: AppTheme.getColors(context).pokemonDetailsTitleColor.withOpacity(0.5),
+                    color: AppTheme.getColors(context)
+                        .pokemonDetailsTitleColor
+                        .withOpacity(0.5),
                   ),
                 ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 15, top: 10),
+              padding: const EdgeInsets.only(
+                left: 15,
+                top: 10,
+              ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     pokemon.name,
-                    style: textTheme.bodyText1?.copyWith(
+                    style: textTheme.bodySmall!.copyWith(
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Circular',
                         fontSize: 15,
                         letterSpacing: 0,
-                        color: AppTheme.getColors(context).pokemonDetailsTitleColor),
+                        color: AppTheme.getColors(context)
+                            .pokemonDetailsTitleColor),
                   ),
                   // const SizedBox(
                   //   height: 10,
@@ -111,19 +121,24 @@ class PokeItemWidget extends StatelessWidget {
                               ),
                               child: Container(
                                 decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(38),
-                                    color: AppTheme.getColors(context)
-                                        .pokemonDetailsTitleColor
-                                        .withOpacity(0.2)),
+                                  borderRadius: BorderRadius.circular(38),
+                                  color: AppTheme.getColors(context)
+                                      .pokemonDetailsTitleColor
+                                      .withOpacity(0.2),
+                                ),
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 15,
+                                    vertical: 5,
+                                  ),
                                   child: Text(
                                     type,
-                                    style: textTheme.bodyText1?.copyWith(
-                                      fontSize: 11,
+                                    style: textTheme.bodySmall!.copyWith(
+                                      fontSize: 12,
                                       fontFamily: 'Circular',
                                       fontWeight: FontWeight.normal,
-                                      color: AppTheme.getColors(context).pokemonDetailsTitleColor,
+                                      color: AppTheme.getColors(context)
+                                          .pokemonDetailsTitleColor,
                                     ),
                                   ),
                                 ),
@@ -131,7 +146,7 @@ class PokeItemWidget extends StatelessWidget {
                             ))
                         .toList(),
                   ),
-                  const SizedBox(height: 2),
+                  hSpace(5),
                 ],
               ),
             ),

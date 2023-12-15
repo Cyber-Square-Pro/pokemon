@@ -61,7 +61,7 @@ class _PokemonPagerState extends State<PokemonPagerWidget> {
       child: PageView.builder(
         controller: pageController,
         itemCount: _pokemonStore.pokemonsSummary!.length,
-        onPageChanged: (index) {
+        onPageChanged: (index) async {
           _pokemonStore.setPokemon(index);
           context.read<FavouritesProvider>().checkIfCurrentIsFavourite(
                 context,

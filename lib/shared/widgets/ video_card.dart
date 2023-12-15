@@ -26,25 +26,14 @@ class VideoCard extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(15),
-        child: Ink(
+        child: Container(
           decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Theme.of(context)
-                    .colorScheme
-                    .onBackground
-                    .withOpacity(0.25),
-                offset: const Offset(-1, 1),
-                blurRadius: 10,
-              ),
-            ],
             borderRadius: BorderRadius.circular(15),
             color: AppTheme.getColors(context).panelBackground,
           ),
           child: Column(
             children: [
               Stack(
-                clipBehavior: Clip.none,
                 alignment: Alignment.center,
                 children: [
                   Hero(
@@ -93,7 +82,7 @@ class VideoCard extends StatelessWidget {
                     hSpace(5),
                     Text(
                       uploader,
-                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                      style: Theme.of(context).textTheme.titleSmall!.copyWith(
                             fontSize: 13.sp,
                             height: 1,
                             color: Theme.of(context)

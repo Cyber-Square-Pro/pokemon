@@ -28,62 +28,69 @@ class _FavouritesPageState extends State<FavouritesPage> {
     super.initState();
 
     //
-    context.read<FavouritesProvider>().fetchFavourites(context);
+    Future.delayed(
+      Duration.zero,
+      () => context.read<FavouritesProvider>().fetchFavourites(context),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     // UI
-    return SliverPadding(
-      padding: const EdgeInsets.all(10),
-      sliver: SliverFillRemaining(
-        child: Consumer<FavouritesProvider>(
-          builder: (context, provider, _) {
-            if (provider.state == FavouritesState.LOADING) {
-              return Center(
-                child: AnimatedPokeballWidget(
-                  color: Theme.of(context).textTheme.bodyText1!.color!,
-                  size: 40.h,
-                ),
-              );
-            } else if (provider.state == FavouritesState.ERROR) {
-              return Center(
-                child: errorCard(
-                  context,
-                  'Error',
-                  'Failed to get favourites',
-                  Colors.red.shade600,
-                  75,
-                ),
-              );
-            } else if (provider.state == FavouritesState.LOADED && provider.favourites.isEmpty) {
-              return SizedBox(
-                height: 100,
-                child: Column(
-                  children: [
-                    errorCard(
-                      context,
-                      'Notice',
-                      'You have no favourites added.',
-                      Colors.grey.shade800,
-                    ),
-                  ],
-                ),
-              );
-            }
-            return GridView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: 10,
-                crossAxisSpacing: 10,
-                childAspectRatio: 1.35,
+    return SliverFillRemaining(
+      child: Consumer<FavouritesProvider>(
+        builder: (context, provider, _) {
+          if (provider.state == FavouritesState.LOADING) {
+            return Center(
+              child: AnimatedPokeballWidget(
+                color: Theme.of(context).textTheme.bodySmall!.color!,
+                size: 40.h,
               ),
-              itemCount: provider.favourites.length,
-              itemBuilder: (context, index) {
-                final PokemonSummary pokemon = provider.favourites[index];
+            );
+          } else if (provider.state == FavouritesState.ERROR) {
+            return Center(
+              child: errorCard(
+                context,
+                'Error',
+                'Failed to get favourites',
+                Colors.red.shade600,
+                75,
+              ),
+            );
+          } else if (provider.state == FavouritesState.LOADED &&
+              provider.favourites.isEmpty) {
+            return SizedBox(
+              height: 100,
+              child: Column(
+                children: [
+                  errorCard(
+                    context,
+                    'Notice',
+                    'You have no favourites added.',
+                    Colors.grey.shade800,
+                  ),
+                ],
+              ),
+            );
+          }
+          return GridView.builder(
+            shrinkWrap: true,
+            padding: EdgeInsets.only(bottom: 20.h),
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              mainAxisSpacing: 10,
+              crossAxisSpacing: 10,
+              childAspectRatio: 1.35,
+            ),
+            itemCount: provider.favourites.length,
+            itemBuilder: (context, index) {
+              final PokemonSummary pokemon = provider.favourites[index];
 
-                return Stack(clipBehavior: Clip.none, fit: StackFit.loose, children: [
+              return Stack(
+                clipBehavior: Clip.none,
+                fit: StackFit.loose,
+                children: [
                   PokeItemWidget(
                     pokemon: pokemon,
                   ),
@@ -95,18 +102,27 @@ class _FavouritesPageState extends State<FavouritesPage> {
                         context: context,
                         builder: (context) => confirmDialog(
                           title: 'Remove Favourite',
-                          message: 'Are you sure you want to remove ${pokemon.name} from your favourites?',
+                          message:
+                              'Are you sure you want to remove ${pokemon.name} from your favourites?',
                           onConfirm: () async {
-                            showLoadingSpinnerModal(context, 'Removing favourite...');
-                            if (await context.read<FavouritesProvider>().removeFavourite(context, pokemon.number)) {
+                            showLoadingSpinnerModal(
+                                context, 'Removing favourite...');
+                            if (await context
+                                .read<FavouritesProvider>()
+                                .removeFavourite(
+                                  context,
+                                  pokemon.number,
+                                )) {
                               Navigator.pop(context);
                               Navigator.pop(context);
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(MySnackbars.success('Removed ${pokemon.name} from your favourites'));
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  MySnackbars.success(
+                                      'Removed ${pokemon.name} from your favourites'));
                             } else {
                               Navigator.pop(context);
                               ScaffoldMessenger.of(context).showSnackBar(
-                                  MySnackbars.error('Failed to remove ${pokemon.name} from your favourites'));
+                                  MySnackbars.error(
+                                      'Failed to remove ${pokemon.name} from your favourites'));
                             }
                           },
                           onDeny: () => Navigator.pop(context),
@@ -114,11 +130,11 @@ class _FavouritesPageState extends State<FavouritesPage> {
                       );
                     }),
                   ),
-                ]);
-              },
-            );
-          },
-        ),
+                ],
+              );
+            },
+          );
+        },
       ),
     );
   }

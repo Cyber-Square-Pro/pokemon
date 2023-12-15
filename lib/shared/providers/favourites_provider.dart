@@ -29,14 +29,14 @@ class FavouritesProvider extends ChangeNotifier {
   //   }
   // }
 
-  void checkIfCurrentIsFavourite(BuildContext context, PokemonSummary currentPokemon) async {
+  void checkIfCurrentIsFavourite(
+      BuildContext context, PokemonSummary currentPokemon) {
     if (_favourites.contains(currentPokemon)) {
       _isFav = true;
-      notifyListeners();
     } else {
       _isFav = false;
-      notifyListeners();
     }
+    notifyListeners();
   }
 
   Future<bool> addFavourite(
@@ -48,8 +48,8 @@ class FavouritesProvider extends ChangeNotifier {
     dio.interceptors.add(AuthInterceptor(dio: dio, context: context));
     final bool result = await favService.addFavourite(favourite);
     _isFav = result;
-    changeState(FavouritesState.LOADED);
     notifyListeners();
+    changeState(FavouritesState.LOADED);
     dio.interceptors.clear();
     return result;
   }
@@ -79,12 +79,13 @@ class FavouritesProvider extends ChangeNotifier {
     try {
       final List<PokemonSummary> result = await favService.getFavourites();
       _favourites = result;
-      notifyListeners();
       dio.interceptors.clear();
       changeState(FavouritesState.LOADED);
+      notifyListeners();
       return _favourites;
     } catch (e) {
       changeState(FavouritesState.ERROR);
+      notifyListeners();
       return [];
     }
   }
@@ -97,7 +98,8 @@ class FavouritesProvider extends ChangeNotifier {
   }
 
   List<PokemonSummary> get favourites {
-    _favourites.sort((a, b) => int.parse(a.number).compareTo(int.parse(b.number)));
+    _favourites
+        .sort((a, b) => int.parse(a.number).compareTo(int.parse(b.number)));
     return _favourites;
   }
 

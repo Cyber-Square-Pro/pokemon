@@ -1,6 +1,7 @@
 import 'package:app/shared/providers/youtube_provider.dart';
 import 'package:app/shared/ui/widgets/animated_pokeball.dart';
 import 'package:app/shared/utils/error_card.dart';
+import 'package:app/shared/utils/page_transitions.dart';
 import 'package:app/shared/utils/spacer.dart';
 import 'package:app/shared/widgets/%20video_card.dart';
 import 'package:app/theme/app_theme.dart';
@@ -33,7 +34,7 @@ class _VideoPageState extends State<VideoPage> {
     return SliverPadding(
       padding: EdgeInsets.symmetric(
         vertical: 0,
-        horizontal: AppTheme.homePadding.horizontal - 5,
+        horizontal: AppTheme.homePadding.horizontal - 7,
       ),
       sliver: SliverList(
         key: const Key('videos_page'),
@@ -80,7 +81,7 @@ class _VideoPageState extends State<VideoPage> {
                     crossAxisCount: 2,
                     mainAxisSpacing: 10,
                     crossAxisSpacing: 12,
-                    childAspectRatio: 0.8,
+                    childAspectRatio: 0.9,
                   ),
                   itemBuilder: (context, index) {
                     final video = provider.videoList[index];
@@ -91,14 +92,27 @@ class _VideoPageState extends State<VideoPage> {
                       index: index,
                       imageurl: video.snippet.thumbnails.medium.url,
                       onTap: () {
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => PlayVideo(
+                        //       index: index,
+                        //       video: video.snippet,
+                        //       id: video.id.videoId,
+                        //     ),
+                        //   ),
+                        // );
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                            builder: (context) => PlayVideo(
+                          PageTransitionWrapper(
+                            duration: const Duration(milliseconds: 500),
+                            page: PlayVideo(
                               index: index,
-                              video: video.snippet,
                               id: video.id.videoId,
+                              video: video.snippet,
                             ),
+                            transitionType: PageTransitionType.other,
+                            curve: Curves.ease,
                           ),
                         );
                       },

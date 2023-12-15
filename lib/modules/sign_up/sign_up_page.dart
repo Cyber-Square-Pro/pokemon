@@ -114,7 +114,8 @@ class _SignUpPageState extends State<SignUpPage> {
                             print(value.completeNumber);
                             print(_phonenumbercontroller.value);
                           },
-                          validator: (value) => FormValidators().validatePhoneField(value),
+                          validator: (value) =>
+                              FormValidators().validatePhoneField(value),
                         ),
                         // hSpace(20),
                         // CustomTextFormField(
@@ -128,7 +129,8 @@ class _SignUpPageState extends State<SignUpPage> {
                         CustomTextFormField(
                           controller: _emailController,
                           keyboardType: TextInputType.emailAddress,
-                          validator: (value) => FormValidators().validateEmail(value),
+                          validator: (value) =>
+                              FormValidators().validateEmail(value),
                           prefixIcon: Icons.email,
                           labelText: 'Email Address',
                         ),
@@ -139,10 +141,13 @@ class _SignUpPageState extends State<SignUpPage> {
                               CustomTextFormField(
                                 controller: _passwordcontroller,
                                 isPassword: provider.obscureSignupPassword,
-                                validator: (value) => FormValidators().validatePassword(value),
+                                validator: (value) =>
+                                    FormValidators().validatePassword(value),
                                 suffixIcon: IconButton(
                                   icon: Icon(
-                                    provider.obscureSignupPassword ? CupertinoIcons.eye_slash : CupertinoIcons.eye,
+                                    provider.obscureSignupPassword
+                                        ? CupertinoIcons.eye_slash
+                                        : CupertinoIcons.eye,
                                   ),
                                   onPressed: () {
                                     provider.toggleSignupPasswordHidden();
@@ -154,9 +159,11 @@ class _SignUpPageState extends State<SignUpPage> {
                               hSpace(20),
                               CustomTextFormField(
                                 controller: _confirmpasswordcontroller,
-                                validator: (value) =>
-                                    FormValidators().validateConfirmPassword(value, _passwordcontroller.text),
-                                isPassword: provider.obscureSignupConfirmPassword,
+                                validator: (value) => FormValidators()
+                                    .validateConfirmPassword(
+                                        value, _passwordcontroller.text),
+                                isPassword:
+                                    provider.obscureSignupConfirmPassword,
                                 prefixIcon: Icons.lock,
                                 suffixIcon: IconButton(
                                   icon: Icon(
@@ -165,7 +172,8 @@ class _SignUpPageState extends State<SignUpPage> {
                                         : CupertinoIcons.eye,
                                   ),
                                   onPressed: () {
-                                    provider.toggleSignupPasswordConfirmHidden();
+                                    provider
+                                        .toggleSignupPasswordConfirmHidden();
                                   },
                                 ),
                                 labelText: 'Confirm Password',
@@ -188,13 +196,18 @@ class _SignUpPageState extends State<SignUpPage> {
                             label: 'Sign Up',
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
-                                final otpProvider = Provider.of<OtpProvider>(context, listen: false);
-                                showLoadingSpinnerModal(context, 'Signing up...');
+                                final otpProvider = Provider.of<OtpProvider>(
+                                  context,
+                                  listen: false,
+                                );
+                                showLoadingSpinnerModal(
+                                    context, 'Signing up...');
 
                                 if (await AuthService().register(
                                   username: _namecontroller.text.trim(),
                                   email: _emailController.text.trim(),
-                                  phoneNumber: _phonenumbercontroller.text.trim(),
+                                  phoneNumber:
+                                      _phonenumbercontroller.text.trim(),
                                   password: _passwordcontroller.text.trim(),
                                 )) {
                                   otpProvider.setIntent(OtpIntent.SIGN_UP);
@@ -202,7 +215,8 @@ class _SignUpPageState extends State<SignUpPage> {
                                     _emailController.text.trim(),
                                     otpProvider.intent.name,
                                   )) {
-                                    otpProvider.setEmail(_emailController.text.trim());
+                                    otpProvider
+                                        .setEmail(_emailController.text.trim());
                                     _namecontroller.clear();
                                     _emailController.clear();
                                     _phonenumbercontroller.clear();
@@ -210,26 +224,36 @@ class _SignUpPageState extends State<SignUpPage> {
                                     _confirmpasswordcontroller.clear();
 
                                     if (context.mounted) {
-                                      Navigator.popAndPushNamed(context, '/otp');
-                                      context.read<TimerProvider>().restartTimer();
-                                      Provider.of<ObscureProvider>(context, listen: false).resetSettings();
+                                      Navigator.popAndPushNamed(
+                                          context, '/otp');
+                                      context
+                                          .read<TimerProvider>()
+                                          .restartTimer();
+                                      Provider.of<ObscureProvider>(context,
+                                              listen: false)
+                                          .resetSettings();
                                     }
                                   } else {
                                     if (context.mounted) {
                                       Navigator.pop(context);
-                                      ScaffoldMessenger.of(context).showSnackBar(
-                                        MySnackbars.error('A User with these credentials already exists'),
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        MySnackbars.error(
+                                            'A User with these credentials already exists'),
                                       );
                                     }
                                   }
                                 } else {
                                   if (context.mounted) {
                                     Navigator.pop(context);
-                                    ScaffoldMessenger.of(context).showSnackBar(MySnackbars.error('Failed to send OTP'));
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        MySnackbars.error(
+                                            'Failed to send OTP'));
                                   }
                                 }
                               } else {
-                                ScaffoldMessenger.of(context).showSnackBar(MySnackbars.error('Invalid Submission!'));
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    MySnackbars.error('Invalid Submission!'));
                               }
                             },
                           ),
@@ -237,7 +261,8 @@ class _SignUpPageState extends State<SignUpPage> {
                         hSpace(15),
                         CustomTextButton(
                           onPressed: () {
-                            Provider.of<ObscureProvider>(context, listen: false).resetSettings();
+                            Provider.of<ObscureProvider>(context, listen: false)
+                                .resetSettings();
                             Navigator.pushNamed(context, '/login');
                           },
                           label: 'Already have an account? Login Here.',

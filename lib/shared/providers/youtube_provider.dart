@@ -9,17 +9,16 @@ class YoutubeProvider with ChangeNotifier {
 
   late List<VideoItem> _searchResults = [];
 
-  void changeState(YoutubeSearchState newState) {
+  void changeState(YoutubeSearchState newState) async {
     _state = newState;
-    notifyListeners();
   }
 
-  Future<void> fetchVideoList(String key) async {
-    final dataProvider = YoutubeService();
+  Future<void> fetchVideoList(String apiKey) async {
+    final dataProvider = YoutubeService.getInstance();
     changeState(YoutubeSearchState.LOADING);
 
     try {
-      final YoutubeSearchResult data = await dataProvider.getVideoList(key);
+      final YoutubeSearchResult data = await dataProvider.getVideoList(apiKey);
 
       _searchResults = data.items;
       changeState(YoutubeSearchState.LOADED);

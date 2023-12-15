@@ -66,7 +66,7 @@ class _PokemonGridPageState extends State<PokemonGridPage> {
                         padding: const EdgeInsets.only(bottom: 30),
                         child: Text(
                           "${_pokemonStore.pokemonFilter.pokemonNameNumberFilter} was not found",
-                          style: textTheme.bodyText1,
+                          style: textTheme.bodySmall!,
                         ),
                       ),
                     )

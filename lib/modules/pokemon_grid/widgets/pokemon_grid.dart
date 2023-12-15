@@ -1,4 +1,5 @@
 import 'package:app/shared/providers/favourites_provider.dart';
+import 'package:app/shared/utils/page_transitions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -114,9 +115,15 @@ class _PokemonGridWidgetState extends State<PokemonGridWidget> {
         if (context.mounted) {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (_) {
-              return const PokemonDetailsPage();
-            }),
+            // MaterialPageRoute(builder: (_) {
+            //   return const PokemonDetailsPage();
+            // }),
+            PageTransitionWrapper(
+              duration: const Duration(milliseconds: 600),
+              page: const PokemonDetailsPage(),
+              transitionType: PageTransitionType.other,
+              curve: Curves.easeIn,
+            ),
           );
         }
       },

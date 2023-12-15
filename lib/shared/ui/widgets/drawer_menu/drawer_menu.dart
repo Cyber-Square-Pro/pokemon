@@ -1,5 +1,9 @@
+import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:app/shared/providers/auth_state_provider.dart';
 import 'package:app/shared/utils/spacer.dart';
+import 'package:app/theme/app_theme.dart';
+import 'package:app/theme/dark/dark_theme.dart';
+import 'package:app/theme/light/light_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,6 +14,7 @@ import 'package:app/shared/ui/widgets/animated_pokeball.dart';
 import 'package:app/shared/ui/widgets/drawer_menu/widgets/drawer_menu_item.dart';
 import 'package:app/shared/utils/app_constants.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DrawerMenuWidget extends StatefulWidget {
   const DrawerMenuWidget({Key? key}) : super(key: key);
@@ -26,9 +31,10 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget>
 
   @override
   void initState() {
-    _controller =
-        AnimationController(vsync: this, duration: Duration(seconds: 2))
-          ..repeat();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    )..repeat();
 
     super.initState();
   }
@@ -61,15 +67,16 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget>
                 children: [
                   Text(
                     "Logged in as",
-                    style: textTheme.bodyMedium!.copyWith(
+                    style: textTheme.bodySmall!.copyWith(
                       color: Colors.white.withOpacity(0.75),
                       fontFamily: 'Circular',
                     ),
                   ),
                   Text(
-                    context.read<AuthProvider>().username,
-                    style: textTheme.bodyMedium!.copyWith(
-                      fontSize: 25.sp,
+                    '@${context.read<AuthProvider>().username}',
+                    style: textTheme.bodySmall!.copyWith(
+                      fontSize: 30.sp,
+                      height: 0,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                       fontFamily: 'Circular',
@@ -81,7 +88,9 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget>
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const AnimatedPokeballWidget(
-                          color: Colors.white, size: 26),
+                        color: Colors.white,
+                        size: 20,
+                      ),
                       const SizedBox(
                         width: 5,
                       ),
@@ -94,6 +103,7 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget>
                       ),
                     ],
                   ),
+                  hSpace(5),
                   Text(
                     "Pokemon Project By Team B",
                     style: textTheme.bodySmall!.copyWith(
@@ -107,7 +117,9 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget>
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, mainAxisExtent: 70),
+                  crossAxisCount: 2,
+                  childAspectRatio: 2.25,
+                ),
                 children: [
                   DrawerMenuItemWidget(
                     icon: Icons.grid_4x4,
@@ -153,8 +165,8 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget>
                     },
                   ),
                   const DrawerMenuItemWidget(
-                    icon: Icons.chat_bubble,
-                    text: "Live Chat",
+                    icon: Icons.more_horiz,
+                    text: "...",
                     // onTap: () {
                     //   Navigator.pop(context);
                     //   _homeStore.setPage(HomePageType.FAVOURITES);
@@ -174,10 +186,57 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget>
                 ],
               ),
               hSpace(10),
-              Divider(
-                indent: 10,
-                endIndent: 10,
-                color: Colors.white.withOpacity(0.25),
+              Container(
+                padding: EdgeInsets.symmetric(
+                  vertical: 10.h,
+                  horizontal: 15.w,
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  border: Border.all(
+                    width: 2,
+                    color: Colors.white.withOpacity(0.75),
+                  ),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'App Theme',
+                      style: textTheme.bodySmall!.copyWith(
+                        fontSize: 16.sp,
+                        color: Colors.white,
+                      ),
+                    ),
+                    wSpace(10),
+                    ThemeSwitcher(builder: (context) {
+                      return InkWell(
+                        onTap: () async {
+                          ThemeSwitcher.of(context).changeTheme(
+                            theme:
+                                Theme.of(context).brightness == Brightness.light
+                                    ? darkTheme
+                                    : lightTheme,
+                          );
+
+                          SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+                          prefs.setBool(
+                            "darkTheme",
+                            !(Theme.of(context).brightness == Brightness.dark),
+                          );
+                        },
+                        child: Icon(
+                          Theme.of(context).brightness == Brightness.light
+                              ? Icons.dark_mode
+                              : Icons.light_mode,
+                          color: Colors.white,
+                        ),
+                      );
+                    }),
+                  ],
+                ),
               ),
               hSpace(10),
               SizedBox(

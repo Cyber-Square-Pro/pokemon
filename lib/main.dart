@@ -30,7 +30,6 @@ void main() async {
     const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
   );
 
-  //
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences.getInstance().then((instance) async {
     WidgetsFlutterBinding.ensureInitialized();
@@ -68,8 +67,8 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => YoutubeProvider()),
         ],
         child: ScreenUtilInit(
-          ensureScreenSize: true,
-          designSize: const Size(400, 800),
+          minTextAdapt: false,
+          designSize: const Size(414, 896),
           builder: (context, child) => Builder(
             builder: (context) {
               return ConnectivityWrapper(
@@ -77,10 +76,10 @@ class MyApp extends StatelessWidget {
                   title: 'Pokedex By Team B',
                   builder: (context, child) {
                     child = botToastBuilder(context, child);
-
                     return child;
                   },
                   theme: lightTheme,
+                  darkTheme: darkTheme,
                   navigatorObservers: [BotToastNavigatorObserver()],
                   debugShowCheckedModeBanner: false,
                   initialRoute: '/',

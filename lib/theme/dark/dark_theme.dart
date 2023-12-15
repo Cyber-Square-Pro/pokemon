@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 ThemeData darkTheme = ThemeData(
   useMaterial3: true,
-  appBarTheme: AppBarTheme(
+  appBarTheme: const AppBarTheme(
     foregroundColor: Colors.white,
-    backgroundColor: const Color(0xFF121212),
+    backgroundColor: Color(0xFF121212),
     titleSpacing: 0,
     titleTextStyle: TextStyle(
       fontFamily: 'Circular',
-      fontSize: 21.sp,
+      fontSize: 21,
       fontWeight: FontWeight.bold,
       letterSpacing: -0.5,
       height: 0,
@@ -43,19 +42,19 @@ ThemeData darkTheme = ThemeData(
   brightness: Brightness.dark,
 
   scaffoldBackgroundColor: const Color(0xFF121212),
-  textTheme: TextTheme(
+  textTheme: const TextTheme(
     // Body
     bodySmall: TextStyle(
-      fontSize: 14.sp,
+      fontSize: 14,
       fontWeight: FontWeight.normal,
-      color: const Color(0xFFA4A4A4),
+      color: Color(0xFFA4A4A4),
       height: 0,
       letterSpacing: 0,
     ),
     titleSmall: TextStyle(
-      fontSize: 14.sp,
+      fontSize: 14,
       fontWeight: FontWeight.normal,
-      color: const Color(0xFFE0E0E0),
+      color: Color(0xFFE0E0E0),
       height: 0,
       letterSpacing: 0,
     ),

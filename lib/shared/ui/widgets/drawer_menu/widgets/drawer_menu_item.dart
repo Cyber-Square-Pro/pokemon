@@ -27,8 +27,6 @@ class DrawerMenuItemWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(5),
       child: InkWell(
-        highlightColor: Colors.white,
-        splashColor: Colors.white,
         onTap: onTap ??
             () {
               BotToast.showText(text: "Not implemented yet");
@@ -44,7 +42,9 @@ class DrawerMenuItemWidget extends StatelessWidget {
               ),
               color: onTap != null
                   ? Colors.transparent
-                  : AppTheme.getColors(context).drawerDisabled.withOpacity(0.15),
+                  : AppTheme.getColors(context)
+                      .drawerDisabled
+                      .withOpacity(0.15),
               borderRadius: BorderRadius.circular(15),
             ),
             child: ClipRRect(
@@ -71,17 +71,22 @@ class DrawerMenuItemWidget extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(10),
                     child: Row(
-                      mainAxisAlignment: contentAlignment ?? MainAxisAlignment.start,
+                      mainAxisAlignment:
+                          contentAlignment ?? MainAxisAlignment.start,
                       children: [
                         Icon(
                           icon,
-                          color: (onTap != null) ? Colors.white : Colors.white.withOpacity(0.25),
+                          color: (onTap != null)
+                              ? Colors.white
+                              : Colors.white.withOpacity(0.25),
                         ),
                         wSpace(10),
                         Text(
                           text,
                           style: TextStyle(
-                            color: (onTap != null) ? Colors.white : Colors.white.withOpacity(0.5),
+                            color: (onTap != null)
+                                ? Colors.white
+                                : Colors.white.withOpacity(0.5),
                             fontFamily: 'Circular',
                           ),
                         ),

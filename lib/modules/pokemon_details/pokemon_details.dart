@@ -23,10 +23,6 @@ import 'package:app/shared/ui/enums/device_screen_type.dart';
 import 'package:app/shared/utils/converters.dart';
 import 'package:app/theme/app_theme.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../theme/dark/dark_theme.dart';
-import '../../theme/light/light_theme.dart';
 
 class PokemonDetailsPage extends StatefulWidget {
   final bool isFavoritePokemon;
@@ -56,13 +52,12 @@ class PokemonDetailsPageState extends State<PokemonDetailsPage>
 
     player = AudioPlayer();
 
-    _animationController =
-        AnimationController(vsync: this, duration: const Duration(seconds: 2))
-          ..repeat();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    )..repeat();
 
     //
-    Provider.of<FavouritesProvider>(context, listen: false)
-        .checkIfCurrentIsFavourite(context, _pokemonStore.pokemonSummary!);
   }
 
   @override
@@ -87,6 +82,10 @@ class PokemonDetailsPageState extends State<PokemonDetailsPage>
 
     return ThemeSwitchingArea(
       child: Builder(builder: (context) {
+        Future.delayed(
+            Duration.zero,
+            () => context.read<FavouritesProvider>().checkIfCurrentIsFavourite(
+                context, _pokemonStore.pokemonSummary!));
         return Scaffold(
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(50),
@@ -131,144 +130,119 @@ class PokemonDetailsPageState extends State<PokemonDetailsPage>
                     ),
                   ),
                 ),
-                Observer(builder: (_) {
-                  return AppBar(
-                    title: AnimatedOpacity(
-                      duration: const Duration(milliseconds: 30),
-                      opacity: _pokemonDetailsStore.opacityTitleAppbar,
-                      child: Visibility(
-                        visible: _pokemonDetailsStore.opacityTitleAppbar > 0,
-                        child: AppBarNavigationWidget(),
+                Observer(
+                  builder: (_) {
+                    return AppBar(
+                      title: AnimatedOpacity(
+                        duration: const Duration(milliseconds: 30),
+                        opacity: _pokemonDetailsStore.opacityTitleAppbar,
+                        child: Visibility(
+                          visible: _pokemonDetailsStore.opacityTitleAppbar > 0,
+                          child: AppBarNavigationWidget(),
+                        ),
                       ),
-                    ),
-                    backgroundColor: Colors.transparent,
-                    shadowColor: Colors.transparent,
-                    leading: IconButton(
-                      icon: Icon(
-                        Icons.arrow_back,
-                        color: AppTheme.getColors(context)
-                            .pokemonDetailsTitleColor,
-                      ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                    actions: [
-                      Consumer<FavouritesProvider>(
-                        builder: (context, provider, _) {
-                          if (provider.state == FavouritesState.LOADING) {
-                            return Container(
-                              margin: EdgeInsets.symmetric(horizontal: 10.w),
-                              height: 21.sp,
-                              width: 21.sp,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 4,
-                                color: Theme.of(context).colorScheme.background,
-                              ),
-                            );
-                          } else if (provider.state == FavouritesState.LOADED) {
-                            return (provider.isFavourite)
-                                ? IconButton(
-                                    icon: Icon(
-                                      Icons.favorite,
-                                      color: AppTheme.getColors(context)
-                                          .pokemonDetailsTitleColor,
-                                    ),
-                                    onPressed: () async {
-                                      await provider.removeFavourite(context,
-                                          _pokemonStore.pokemon!.number);
-                                      _pokemonStore.removeFavoritePokemon(
-                                          _pokemonStore.pokemon!.number);
-
-                                      BotToast.showText(
-                                          text:
-                                              "${_pokemonStore.pokemon!.name} was removed from favorites");
-                                    },
-                                  )
-                                : IconButton(
-                                    icon: Icon(Icons.favorite_border,
-                                        color: AppTheme.getColors(context)
-                                            .pokemonDetailsTitleColor),
-                                    onPressed: () async {
-                                      await provider.addFavourite(context,
-                                          _pokemonStore.pokemon!.number);
-                                      BotToast.showText(
-                                          text:
-                                              "${_pokemonStore.pokemon!.name} was favorited");
-                                    },
-                                  );
-                          }
-                          return const SizedBox();
-                        },
-                      ),
-                      // if (_pokemonStore.isFavorite(_pokemonStore.pokemon!.number))
-                      // if (context.read<FavouritesProvider>().isFavourite)
-                      //   IconButton(
-                      //     icon: Icon(
-                      //       Icons.favorite,
-                      //       color: AppTheme.getColors(context).pokemonDetailsTitleColor,
-                      //     ),
-                      //     onPressed: () async {
-                      //       _pokemonStore.removeFavoritePokemon(_pokemonStore.pokemon!.number);
-                      //       await favService.removeFavourite(_pokemonStore.pokemon!.number);
-
-                      //       BotToast.showText(
-                      //           text: "${_pokemonStore.pokemon!.name} was removed from favorites");
-                      //     },
-                      //   ),
-                      // // if (!_pokemonStore.isFavorite(_pokemonStore.pokemon!.number))
-                      // if (!context.read<FavouritesProvider>().isFavourite)
-                      //   IconButton(
-                      //     icon: Icon(Icons.favorite_border,
-                      //         color: AppTheme.getColors(context).pokemonDetailsTitleColor),
-                      //     onPressed: () async {
-                      //       // final SharedPreferences prefs = await SharedPreferences.getInstance();
-                      //       // final username = prefs.getString('username')!;
-
-                      //       //! ADD FAVOURITE FUNCTION
-                      //       if (await favService.addFavourite(
-                      //           username, _pokemonStore.pokemon!.number)) {
-                      //         BotToast.showText(text: 'Added favourite to mongo!');
-                      //       } else {
-                      //         BotToast.showText(text: 'Error/already exists!');
-                      //       }
-                      //       _pokemonStore.addFavoritePokemon(_pokemonStore.pokemon!.number);
-                      //       BotToast.showText(text: "${_pokemonStore.pokemon!.name} was favorited");
-                      //     },
-                      //   ),
-                      IconButton(
+                      backgroundColor: Colors.transparent,
+                      shadowColor: Colors.transparent,
+                      leading: IconButton(
+                        icon: Icon(
+                          Icons.arrow_back,
+                          color: AppTheme.getColors(context)
+                              .pokemonDetailsTitleColor,
+                        ),
                         onPressed: () {
-                          Scaffold.of(context).openEndDrawer();
+                          Navigator.pop(context);
                         },
-                        icon: ThemeSwitcher(builder: (context) {
-                          return InkWell(
-                            onTap: () async {
-                              ThemeSwitcher.of(context)?.changeTheme(
-                                  theme: Theme.of(context).brightness ==
-                                          Brightness.light
-                                      ? darkTheme
-                                      : lightTheme);
-
-                              SharedPreferences prefs =
-                                  await SharedPreferences.getInstance();
-                              prefs.setBool(
-                                  "darkTheme",
-                                  !(Theme.of(context).brightness ==
-                                      Brightness.dark));
-                            },
-                            child: Icon(
-                              Theme.of(context).brightness == Brightness.light
-                                  ? Icons.dark_mode
-                                  : Icons.light_mode,
-                              color: AppTheme.getColors(context)
-                                  .pokemonDetailsTitleColor,
-                            ),
-                          );
-                        }),
                       ),
-                    ],
-                  );
-                }),
+                      actions: [
+                        Consumer<FavouritesProvider>(
+                          builder: (context, provider, _) {
+                            if (provider.state == FavouritesState.LOADING) {
+                              return Container(
+                                margin: EdgeInsets.symmetric(horizontal: 10.w),
+                                height: 21.sp,
+                                width: 21.sp,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 4,
+                                  color:
+                                      Theme.of(context).colorScheme.background,
+                                ),
+                              );
+                            } else if (provider.state ==
+                                FavouritesState.LOADED) {
+                              return (provider.isFavourite)
+                                  ? IconButton(
+                                      icon: Icon(
+                                        Icons.favorite,
+                                        color: AppTheme.getColors(context)
+                                            .pokemonDetailsTitleColor,
+                                      ),
+                                      onPressed: () async {
+                                        await provider.removeFavourite(context,
+                                            _pokemonStore.pokemon!.number);
+                                        _pokemonStore.removeFavoritePokemon(
+                                            _pokemonStore.pokemon!.number);
+
+                                        BotToast.showText(
+                                            text:
+                                                "${_pokemonStore.pokemon!.name} was removed from favorites");
+                                      },
+                                    )
+                                  : IconButton(
+                                      icon: Icon(Icons.favorite_border,
+                                          color: AppTheme.getColors(context)
+                                              .pokemonDetailsTitleColor),
+                                      onPressed: () async {
+                                        await provider.addFavourite(context,
+                                            _pokemonStore.pokemon!.number);
+                                        BotToast.showText(
+                                            text:
+                                                "${_pokemonStore.pokemon!.name} was favorited");
+                                      },
+                                    );
+                            }
+                            return const SizedBox();
+                          },
+                        ),
+                        wSpace(10),
+                        // if (_pokemonStore.isFavorite(_pokemonStore.pokemon!.number))
+                        // if (context.read<FavouritesProvider>().isFavourite)
+                        //   IconButton(
+                        //     icon: Icon(
+                        //       Icons.favorite,
+                        //       color: AppTheme.getColors(context).pokemonDetailsTitleColor,
+                        //     ),
+                        //     onPressed: () async {
+                        //       _pokemonStore.removeFavoritePokemon(_pokemonStore.pokemon!.number);
+                        //       await favService.removeFavourite(_pokemonStore.pokemon!.number);
+
+                        //       BotToast.showText(
+                        //           text: "${_pokemonStore.pokemon!.name} was removed from favorites");
+                        //     },
+                        //   ),
+                        // // if (!_pokemonStore.isFavorite(_pokemonStore.pokemon!.number))
+                        // if (!context.read<FavouritesProvider>().isFavourite)
+                        //   IconButton(
+                        //     icon: Icon(Icons.favorite_border,
+                        //         color: AppTheme.getColors(context).pokemonDetailsTitleColor),
+                        //     onPressed: () async {
+                        //       // final SharedPreferences prefs = await SharedPreferences.getInstance();
+                        //       // final username = prefs.getString('username')!;
+
+                        //       //! ADD FAVOURITE FUNCTION
+                        //       if (await favService.addFavourite(
+                        //           username, _pokemonStore.pokemon!.number)) {
+                        //         BotToast.showText(text: 'Added favourite to mongo!');
+                        //       } else {
+                        //         BotToast.showText(text: 'Error/already exists!');
+                        //       }
+                        //       _pokemonStore.addFavoritePokemon(_pokemonStore.pokemon!.number);
+                        //       BotToast.showText(text: "${_pokemonStore.pokemon!.name} was favorited");
+                        //     },
+                        //   ),
+                      ],
+                    );
+                  },
+                ),
               ],
             ),
           ),
@@ -354,7 +328,8 @@ class PokemonDetailsPageState extends State<PokemonDetailsPage>
                                     opacity:
                                         _pokemonDetailsStore.opacityPokemon,
                                     child: Padding(
-                                      padding: EdgeInsets.only(bottom: 35),
+                                      padding:
+                                          const EdgeInsets.only(bottom: 35),
                                       child: Container(
                                         height: 220.h,
                                         child: Stack(

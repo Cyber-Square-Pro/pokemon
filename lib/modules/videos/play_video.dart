@@ -38,10 +38,6 @@ class _PlayVideoState extends State<PlayVideo> {
     );
   }
 
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {

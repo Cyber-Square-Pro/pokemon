@@ -6,6 +6,7 @@ import 'package:app/shared/providers/favourites_provider.dart';
 import 'package:app/shared/ui/widgets/animated_pokeball.dart';
 import 'package:app/shared/utils/error_card.dart';
 import 'package:app/shared/utils/snackbars.dart';
+import 'package:app/shared/utils/spacer.dart';
 import 'package:app/shared/widgets/loading_spinner_modal.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +38,7 @@ class _FavouritesPageState extends State<FavouritesPage> {
   @override
   Widget build(BuildContext context) {
     // UI
-    return SliverFillRemaining(
+    return SliverToBoxAdapter(
       child: Consumer<FavouritesProvider>(
         builder: (context, provider, _) {
           if (provider.state == FavouritesState.LOADING) {
@@ -75,7 +76,11 @@ class _FavouritesPageState extends State<FavouritesPage> {
           }
           return GridView.builder(
             shrinkWrap: true,
-            padding: EdgeInsets.only(bottom: 20.h),
+            padding: EdgeInsets.only(
+              bottom: 20,
+              right: 10.w,
+              left: 10.w,
+            ),
             physics: const NeverScrollableScrollPhysics(),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,

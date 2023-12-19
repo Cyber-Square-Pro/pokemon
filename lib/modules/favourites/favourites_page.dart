@@ -6,7 +6,6 @@ import 'package:app/shared/providers/favourites_provider.dart';
 import 'package:app/shared/ui/widgets/animated_pokeball.dart';
 import 'package:app/shared/utils/error_card.dart';
 import 'package:app/shared/utils/snackbars.dart';
-import 'package:app/shared/utils/spacer.dart';
 import 'package:app/shared/widgets/loading_spinner_modal.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';

@@ -15,7 +15,7 @@ class DrawerMenuItemWidget extends StatelessWidget {
   const DrawerMenuItemWidget({
     Key? key,
     required this.text,
-    this.height = 55,
+    this.height = 50,
     this.width = 155,
     this.onTap,
     required this.icon,

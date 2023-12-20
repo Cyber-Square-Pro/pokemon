@@ -1,4 +1,5 @@
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
+import 'package:app/modules/daily_checkin/daily_checkin_page.dart';
 import 'package:app/modules/favourites/favourites_page.dart';
 import 'package:app/modules/home/home_page_store.dart';
 import 'package:app/modules/items/items_page.dart';
@@ -166,6 +167,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                               return const NewsPage();
                             case HomePageType.VIDEOS:
                               return const VideoPage();
+                            case HomePageType.CHECK_IN:
+                              return const DailyCheckinPage();
                             default:
                               return PokemonGridPage();
                           }

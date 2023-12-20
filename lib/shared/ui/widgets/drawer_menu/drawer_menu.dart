@@ -113,7 +113,9 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget>
                   ),
                 ],
               ),
+              hSpace(10),
               GridView(
+                padding: EdgeInsets.zero,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -164,14 +166,15 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget>
                       _homeStore.setPage(HomePageType.VIDEOS);
                     },
                   ),
-                  const DrawerMenuItemWidget(
+                  DrawerMenuItemWidget(
                     icon: Icons.more_horiz,
-                    text: "...",
-                    // onTap: () {
-                    //   Navigator.pop(context);
-                    //   _homeStore.setPage(HomePageType.FAVOURITES);
-                    // },
+                    text: "Check In",
+                    onTap: () {
+                      Navigator.pop(context);
+                      _homeStore.setPage(HomePageType.CHECK_IN);
+                    },
                   ),
+
                   // DrawerMenuItemWidget(
                   //   color: AppTheme.getColors(context).pokemonItem('Fighting'),
                   //   text: "Moves",
@@ -239,19 +242,6 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget>
                 ),
               ),
               hSpace(10),
-              SizedBox(
-                width: 150,
-                child: DrawerMenuItemWidget(
-                  icon: CupertinoIcons.return_icon,
-                  text: "Logout",
-                  contentAlignment: MainAxisAlignment.center,
-                  onTap: () {
-                    _homeStore.setPage(HomePageType.POKEMON_GRID);
-                    Provider.of<AuthProvider>(context, listen: false)
-                        .logout(context);
-                  },
-                ),
-              ),
             ],
           ),
           Align(
@@ -259,6 +249,23 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget>
             child: Lottie.asset(
               AppConstants.diglettLottie,
               height: 200.0,
+            ),
+          ),
+          Positioned(
+            bottom: 10.h,
+            left: 0,
+            child: SizedBox(
+              width: 150,
+              child: DrawerMenuItemWidget(
+                icon: CupertinoIcons.return_icon,
+                text: "Logout",
+                contentAlignment: MainAxisAlignment.center,
+                onTap: () {
+                  _homeStore.setPage(HomePageType.POKEMON_GRID);
+                  Provider.of<AuthProvider>(context, listen: false)
+                      .logout(context);
+                },
+              ),
             ),
           ),
         ],

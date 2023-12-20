@@ -14,11 +14,21 @@ enum PanelType {
 
 extension PanelTypeExtension on PanelType {
   bool get isTextFilter {
-    return this == PanelType.FILTER_POKEMON_NAME_NUMBER || this == PanelType.FILTER_ITEMS;
+    return this == PanelType.FILTER_POKEMON_NAME_NUMBER ||
+        this == PanelType.FILTER_ITEMS;
   }
 }
 
-enum HomePageType { POKEMON_GRID, ITEMS, FAVOURITES, NEWS, VIDEOS }
+enum HomePageType {
+  POKEMON_GRID,
+  ITEMS,
+  FAVOURITES,
+  NEWS,
+  VIDEOS,
+  CHECK_IN,
+  MERCH,
+  CARD
+}
 
 extension HomePageTypeExtension on HomePageType {
   String get description {
@@ -33,6 +43,10 @@ extension HomePageTypeExtension on HomePageType {
         return "News";
       case HomePageType.VIDEOS:
         return "Videos";
+      case HomePageType.CHECK_IN:
+        return "Daily Check-In";
+      case HomePageType.MERCH:
+        return "Merchandise";
       default:
         throw "Home Page Type not found";
     }

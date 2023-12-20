@@ -105,7 +105,7 @@ class AppTheme {
         : const AppColorsDark();
   }
 
-  static double get globalBorderRadius => 10.h;
+  static double get globalBorderRadius => 10.r;
   static EdgeInsetsGeometry get homePadding =>
       EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h);
 }

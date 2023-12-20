@@ -57,4 +57,8 @@ ThemeData lightTheme = ThemeData(
       color: Color.fromARGB(255, 41, 49, 58),
     ),
   ),
+  colorScheme: ColorScheme.light(
+    primary: Colors.blue.shade600,
+    onPrimary: Colors.white,
+  ),
 );

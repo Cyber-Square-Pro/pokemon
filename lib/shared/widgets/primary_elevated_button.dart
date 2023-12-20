@@ -38,3 +38,66 @@ class CustomElevatedButton extends StatelessWidget {
     );
   }
 }
+
+class MainElevatedButton extends StatelessWidget {
+  const MainElevatedButton({
+    super.key,
+    required this.label,
+    this.icon,
+    required this.onPressed,
+  });
+
+  final String label;
+  final IconData? icon;
+  final void Function() onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    if (icon == null) {
+      return ElevatedButton(
+        onPressed: onPressed,
+        style: _mainButtonStyle(context),
+        child: Text(label),
+      );
+    } else {
+      return ElevatedButton.icon(
+        onPressed: onPressed,
+        icon: Icon(icon),
+        style: _mainButtonStyle(context),
+        label: Text(label),
+      );
+    }
+  }
+}
+
+ButtonStyle _mainButtonStyle(BuildContext context) {
+  final theme = Theme.of(context).colorScheme;
+  return ButtonStyle(
+    backgroundColor: MaterialStateProperty.resolveWith((states) {
+      if (states.contains(MaterialState.pressed)) {
+        return theme.primary.withOpacity(0.5);
+      } else {
+        return theme.primary;
+      }
+    }),
+    foregroundColor: MaterialStatePropertyAll(
+      theme.onPrimary,
+    ),
+    padding: const MaterialStatePropertyAll(
+      EdgeInsets.symmetric(horizontal: 15, vertical: 12.5),
+    ),
+    textStyle: MaterialStatePropertyAll(
+      TextStyle(
+        fontFamily: 'Circular',
+        fontWeight: FontWeight.bold,
+        fontSize: 15.sp,
+      ),
+    ),
+    shape: MaterialStatePropertyAll(
+      RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15.r),
+        side: BorderSide.none,
+      ),
+    ),
+  );
+}

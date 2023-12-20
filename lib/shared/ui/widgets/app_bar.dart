@@ -1,7 +1,6 @@
 import 'package:app/shared/utils/spacer.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:app/shared/ui/widgets/animated_pokeball.dart';
@@ -26,12 +25,6 @@ class AppBarWidget extends StatefulWidget {
 }
 
 class _AppBarWidgetState extends State<AppBarWidget> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
@@ -77,7 +70,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
               if (widget.lottiePath != null)
                 Positioned(
                   bottom: 7,
-                  right: 30,
+                  right: 20,
                   child: Lottie.asset(
                     widget.lottiePath!,
                     height: 120.h,
@@ -107,7 +100,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
               widget.title,
               style: Theme.of(context).textTheme.titleSmall!.copyWith(
                     fontWeight: FontWeight.bold,
-                    fontSize: 20.sp,
+                    fontSize: 18.sp,
                     color: Theme.of(context).brightness == Brightness.dark
                         ? Colors.black
                         : Colors.white,
@@ -123,7 +116,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
               Image.network(
                 AppConstants.getRandomPokemonGif(),
                 height: 32,
-              )
+              ),
           ],
         ),
       ),

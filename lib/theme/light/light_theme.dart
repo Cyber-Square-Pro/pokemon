@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 ThemeData lightTheme = ThemeData(
   useMaterial3: true,
-  fontFamilyFallback: const ['Circular'],
   fontFamily: 'Circular',
   appBarTheme: const AppBarTheme(
     foregroundColor: Color(0xFF303943),
@@ -47,7 +46,7 @@ ThemeData lightTheme = ThemeData(
       fontWeight: FontWeight.normal,
       height: 0,
       letterSpacing: 0,
-      color: Color(0xFFA4A4A4),
+      color: Color.fromARGB(255, 155, 155, 155),
     ),
     titleSmall: TextStyle(
       fontSize: 14,
@@ -57,8 +56,13 @@ ThemeData lightTheme = ThemeData(
       color: Color.fromARGB(255, 41, 49, 58),
     ),
   ),
+
+  //
   colorScheme: ColorScheme.light(
-    primary: Colors.blue.shade600,
+    primary: Colors.blue.shade700,
     onPrimary: Colors.white,
+    // Tertiary
+    tertiary: const Color.fromARGB(255, 122, 134, 159),
+    onTertiary: const Color.fromARGB(255, 49, 52, 59),
   ),
 );

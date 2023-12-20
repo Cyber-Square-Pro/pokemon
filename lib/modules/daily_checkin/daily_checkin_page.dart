@@ -1,3 +1,4 @@
+import 'package:app/modules/daily_checkin/widgets/checkin_calendar.dart';
 import 'package:app/shared/utils/spacer.dart';
 import 'package:app/shared/widgets/primary_elevated_button.dart';
 import 'package:flutter/cupertino.dart';
@@ -25,13 +26,10 @@ class _DailyCheckinPageState extends State<DailyCheckinPage> {
         child: Column(
           children: [
             // Calendar Widget
-            TableCalendar(
-              calendarStyle: _calStyle(context),
-              headerStyle: _headerStyle(context),
-              weekNumbersVisible: false,
-              focusedDay: DateTime.now(),
+            CheckinCalendar(
               firstDay: DateTime.now(),
-              lastDay: DateTime(2030),
+              lastDay: DateTime(2100, 12, 30),
+              focusedDay: DateTime.now(),
             ),
             // Reward counter
             const Spacer(),
@@ -51,56 +49,4 @@ class _DailyCheckinPageState extends State<DailyCheckinPage> {
       ),
     );
   }
-}
-
-CalendarStyle _calStyle(BuildContext context) {
-  final theme = Theme.of(context).colorScheme;
-  return CalendarStyle(
-    tablePadding: EdgeInsets.only(
-      top: 10.h,
-    ),
-    selectedDecoration: BoxDecoration(
-      color: theme.primary,
-    ),
-    todayDecoration: BoxDecoration(
-      color: theme.primary,
-      borderRadius: BorderRadius.circular(10.r),
-    ),
-    markerDecoration: BoxDecoration(
-      color: theme.primary.withOpacity(0.25),
-      borderRadius: BorderRadius.circular(10.r),
-    ),
-    todayTextStyle: TextStyle(
-      color: theme.onPrimary,
-      fontSize: 16.sp,
-      fontWeight: FontWeight.bold,
-    ),
-  );
-}
-
-HeaderStyle _headerStyle(BuildContext context) {
-  final theme = Theme.of(context).colorScheme;
-  return HeaderStyle(
-    decoration: BoxDecoration(
-      color: theme.primary,
-      borderRadius: BorderRadius.circular(15.r),
-    ),
-    titleCentered: true,
-    titleTextStyle: TextStyle(
-      color: theme.onPrimary,
-      fontSize: 18.sp,
-      fontWeight: FontWeight.bold,
-      letterSpacing: 0,
-      height: 1,
-    ),
-    headerPadding: EdgeInsets.zero,
-    leftChevronIcon: Icon(
-      CupertinoIcons.left_chevron,
-      color: theme.onPrimary,
-    ),
-    rightChevronIcon: Icon(
-      CupertinoIcons.right_chevron,
-      color: theme.onPrimary,
-    ),
-  );
 }

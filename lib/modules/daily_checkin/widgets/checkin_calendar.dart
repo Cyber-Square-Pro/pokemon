@@ -1,28 +1,13 @@
+import 'package:app/shared/models/daily_checkin_model.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class CheckinData {
-  CheckinData({
-    required this.date,
-    required this.isChecked,
-  });
-  final DateTime date;
-  final bool isChecked;
-}
-
-final List<CheckinData> data = [
-  CheckinData(date: DateTime(2023, 12, 20), isChecked: true),
-  CheckinData(date: DateTime(2023, 12, 21), isChecked: true),
-  CheckinData(date: DateTime(2023, 12, 22), isChecked: false),
-  CheckinData(date: DateTime(2023, 12, 23), isChecked: true),
-  CheckinData(date: DateTime(2023, 12, 25), isChecked: true),
-];
-
-class CheckinCalendar extends StatefulWidget {
-  const CheckinCalendar({
+class CheckinCalendar extends StatelessWidget {
+  const CheckinCalendar(
+    this.data, {
     super.key,
     required this.firstDay,
     required this.lastDay,
@@ -32,12 +17,8 @@ class CheckinCalendar extends StatefulWidget {
   final DateTime firstDay;
   final DateTime lastDay;
   final DateTime focusedDay;
+  final List<History> data;
 
-  @override
-  State<CheckinCalendar> createState() => _CheckinCalendarState();
-}
-
-class _CheckinCalendarState extends State<CheckinCalendar> {
   @override
   Widget build(BuildContext context) {
     // final theme = Theme.of(context).colorScheme;
@@ -45,18 +26,18 @@ class _CheckinCalendarState extends State<CheckinCalendar> {
       calendarStyle: _calStyle(context),
       headerStyle: _headerStyle(context),
       weekNumbersVisible: false,
-      focusedDay: widget.focusedDay,
-      firstDay: widget.firstDay,
-      lastDay: widget.lastDay,
+      focusedDay: focusedDay,
+      firstDay: firstDay,
+      lastDay: lastDay,
 
       // Builders
       calendarBuilders: CalendarBuilders(
         markerBuilder: (context, currentDate, events) {
-          final CheckinData? status = data.firstWhereOrNull(
-            (element) => isSameDay(element.date, currentDate),
+          final History? status = data.firstWhereOrNull(
+            (element) => element.createdAt.day == currentDate.day,
           );
           if (status != null) {
-            return status.isChecked
+            return status.isCheckedIn == true
                 ? Container(
                     width: 30.w,
                     height: 5.h,
@@ -68,7 +49,7 @@ class _CheckinCalendarState extends State<CheckinCalendar> {
                     color: Colors.red,
                   );
           } else {
-            return const SizedBox.shrink();
+            return const SizedBox();
           }
         },
       ),
@@ -86,7 +67,7 @@ CalendarStyle _calStyle(BuildContext context) {
       color: theme.primary,
     ),
     todayDecoration: BoxDecoration(
-      color: theme.primary.withOpacity(0.5),
+      color: theme.primary.withOpacity(0.75),
       borderRadius: BorderRadius.circular(10.r),
     ),
     markerDecoration: BoxDecoration(

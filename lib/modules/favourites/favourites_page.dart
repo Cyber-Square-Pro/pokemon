@@ -1,5 +1,5 @@
-import 'package:app/modules/favourites/confirm_dialog.dart';
-import 'package:app/modules/favourites/remove_button.dart';
+import 'package:app/modules/favourites/widgets/confirm_dialog.dart';
+import 'package:app/modules/favourites/widgets/remove_button.dart';
 import 'package:app/modules/pokemon_grid/widgets/poke_item.dart';
 import 'package:app/shared/models/pokemon_summary.dart';
 import 'package:app/shared/providers/favourites_provider.dart';

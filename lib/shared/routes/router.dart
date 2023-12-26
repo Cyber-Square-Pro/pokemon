@@ -2,7 +2,7 @@ import 'package:app/modules/login/login_page.dart';
 import 'package:app/modules/no_internet/no_internet_page.dart';
 import 'package:app/modules/otp_verification/otp_verification_page.dart';
 import 'package:app/modules/reset_password/reset_password.dart';
-import 'package:app/modules/screens/splash_screen.dart';
+import 'package:app/modules/splash/splash_screen.dart';
 import 'package:app/modules/sign_up/sign_up_page.dart';
 import 'package:app/modules/verify_email/veryify_email_page.dart';
 import 'package:app/modules/videos/video_page.dart';

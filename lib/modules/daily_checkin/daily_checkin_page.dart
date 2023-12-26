@@ -1,21 +1,23 @@
 import 'package:app/modules/daily_checkin/widgets/checkin_calendar.dart';
 import 'package:app/shared/utils/spacer.dart';
 import 'package:app/shared/widgets/primary_elevated_button.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:table_calendar/table_calendar.dart';
 
 class DailyCheckinPage extends StatefulWidget {
-  const DailyCheckinPage({
-    super.key,
-  });
+  const DailyCheckinPage({super.key});
 
   @override
   State<DailyCheckinPage> createState() => _DailyCheckinPageState();
 }
 
 class _DailyCheckinPageState extends State<DailyCheckinPage> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  // UI
   @override
   Widget build(BuildContext context) {
     return SliverFillRemaining(
@@ -27,7 +29,7 @@ class _DailyCheckinPageState extends State<DailyCheckinPage> {
           children: [
             // Calendar Widget
             CheckinCalendar(
-              firstDay: DateTime.now(),
+              firstDay: DateTime(2023, 12, 23),
               lastDay: DateTime(2100, 12, 30),
               focusedDay: DateTime.now(),
             ),

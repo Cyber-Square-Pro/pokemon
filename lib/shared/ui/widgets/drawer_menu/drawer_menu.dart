@@ -167,11 +167,19 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget>
                     },
                   ),
                   DrawerMenuItemWidget(
-                    icon: Icons.more_horiz,
+                    icon: Icons.check_box,
                     text: "Check In",
                     onTap: () {
                       Navigator.pop(context);
                       _homeStore.setPage(HomePageType.CHECK_IN);
+                    },
+                  ),
+                  DrawerMenuItemWidget(
+                    icon: Icons.shopping_cart,
+                    text: "Merch",
+                    onTap: () {
+                      Navigator.pop(context);
+                      _homeStore.setPage(HomePageType.MERCH);
                     },
                   ),
 

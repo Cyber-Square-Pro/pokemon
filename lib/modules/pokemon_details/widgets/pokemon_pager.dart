@@ -13,23 +13,24 @@ class PokemonPagerWidget extends StatefulWidget {
   final PokemonDetailsStore pokemonDetailStore;
   final bool isFavorite;
 
-  PokemonPagerWidget(
-      {Key? key,
-      required this.pageController,
-      required this.pokemonDetailStore,
-      this.isFavorite = false})
-      : super(key: key);
+  const PokemonPagerWidget({
+    super.key,
+    required this.pageController,
+    required this.pokemonDetailStore,
+    this.isFavorite = false,
+  });
 
   @override
-  _PokemonPagerState createState() => _PokemonPagerState(this.pageController);
+  // ignore: no_logic_in_create_state
+  PokemonPagerState createState() => PokemonPagerState(pageController);
 }
 
-class _PokemonPagerState extends State<PokemonPagerWidget> {
+class PokemonPagerState extends State<PokemonPagerWidget> {
   final PageController pageController;
   late PokemonStore _pokemonStore = GetIt.instance<PokemonStore>();
   late ReactionDisposer _updatePagerReaction;
 
-  _PokemonPagerState(this.pageController);
+  PokemonPagerState(this.pageController);
 
   @override
   void initState() {

@@ -28,7 +28,8 @@ class DailyCheckinService {
 
     if (response.statusCode == 201) {
       return dailyCheckinDataFromJson(jsonEncode(response.data));
+    } else {
+      throw Exception();
     }
-    return DailyCheckinData(joinDate: DateTime.now(), history: []);
   }
 }

@@ -98,28 +98,28 @@ class Pokemon {
     typesEffectiveness = Map<String, String>.from(json['typesEffectiveness']);
     abilities = <Abilities>[];
     json['abilities'].forEach((v) {
-      abilities.add(new Abilities.fromJson(v));
+      abilities.add(Abilities.fromJson(v));
     });
     evolutionChain = <EvolutionChain>[];
     json['evolutionChain'].forEach((v) {
-      evolutionChain.add(new EvolutionChain.fromJson(v));
+      evolutionChain.add(EvolutionChain.fromJson(v));
     });
     previousEvolutions = <EvolutionChain>[];
     json['previousEvolutions'].forEach((v) {
-      previousEvolutions.add(new EvolutionChain.fromJson(v));
+      previousEvolutions.add(EvolutionChain.fromJson(v));
     });
     nextEvolutions = <EvolutionChain>[];
     json['nextEvolutions'].forEach((v) {
-      nextEvolutions.add(new EvolutionChain.fromJson(v));
+      nextEvolutions.add(EvolutionChain.fromJson(v));
     });
     superEvolutions = <SuperEvolution>[];
     json['superEvolutions'].forEach((v) {
-      superEvolutions.add(new SuperEvolution.fromJson(v));
+      superEvolutions.add(SuperEvolution.fromJson(v));
     });
     baseStats = BaseStats.fromJson(json['baseStats']);
     cards = <Cards>[];
     json['cards'].forEach((v) {
-      cards.add(new Cards.fromJson(v));
+      cards.add(Cards.fromJson(v));
     });
     soundUrl = json['soundUrl'];
     moves = Moves.fromJson(json['moves']);
@@ -266,10 +266,10 @@ class Breeding {
   });
 
   Breeding.fromJson(Map<String, dynamic> json) {
-    egg = egg = json['egg'] != null ? new Egg.fromJson(json['egg']) : null;
+    egg = egg = json['egg'] != null ? Egg.fromJson(json['egg']) : null;
     genders = <Gender>[];
     json['genders'].forEach((v) {
-      genders.add(new Gender.fromJson(v));
+      genders.add(Gender.fromJson(v));
     });
   }
 }
@@ -326,7 +326,7 @@ class Abilities {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['name'] = this.name;
     data['description'] = this.description;
     return data;
@@ -469,31 +469,31 @@ class Moves {
   Moves.fromJson(Map<String, dynamic> json) {
     levelUp = <Move>[];
     json['levelUp'].forEach((v) {
-      levelUp.add(new Move.fromJson(v));
+      levelUp.add(Move.fromJson(v));
     });
     technicalMachine = <Move>[];
     json['technicalMachine'].forEach((v) {
-      technicalMachine.add(new Move.fromJson(v));
+      technicalMachine.add(Move.fromJson(v));
     });
     technicalRecords = <Move>[];
     json['technicalRecords'].forEach((v) {
-      technicalRecords.add(new Move.fromJson(v));
+      technicalRecords.add(Move.fromJson(v));
     });
     egg = <Move>[];
     json['egg'].forEach((v) {
-      egg.add(new Move.fromJson(v));
+      egg.add(Move.fromJson(v));
     });
     tutor = <Move>[];
     json['tutor'].forEach((v) {
-      tutor.add(new Move.fromJson(v));
+      tutor.add(Move.fromJson(v));
     });
     evolution = <Move>[];
     json['evolution'].forEach((v) {
-      evolution.add(new Move.fromJson(v));
+      evolution.add(Move.fromJson(v));
     });
     preEvolution = <Move>[];
     json['preEvolution'].forEach((v) {
-      preEvolution.add(new Move.fromJson(v));
+      preEvolution.add(Move.fromJson(v));
     });
   }
 }

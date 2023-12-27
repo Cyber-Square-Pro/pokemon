@@ -2,10 +2,10 @@ import 'package:app/shared/models/youtube_search_result_model.dart';
 import 'package:app/shared/repositories/youtube_service.dart';
 import 'package:flutter/material.dart';
 
-enum YoutubeSearchState { INIT, LOADING, LOADED, ERROR }
+enum YoutubeSearchState { init, loading, loaded, error }
 
 class YoutubeProvider with ChangeNotifier {
-  late YoutubeSearchState _state = YoutubeSearchState.INIT;
+  late YoutubeSearchState _state = YoutubeSearchState.init;
 
   late List<VideoItem> _searchResults = [];
 
@@ -15,22 +15,22 @@ class YoutubeProvider with ChangeNotifier {
 
   Future<void> fetchVideoList(String apiKey) async {
     final dataProvider = YoutubeService.getInstance();
-    changeState(YoutubeSearchState.LOADING);
+    changeState(YoutubeSearchState.loading);
 
     try {
       final YoutubeSearchResult data = await dataProvider.getVideoList(apiKey);
 
       _searchResults = data.items;
-      changeState(YoutubeSearchState.LOADED);
+      changeState(YoutubeSearchState.loaded);
       notifyListeners();
     } catch (e) {
-      changeState(YoutubeSearchState.ERROR);
+      changeState(YoutubeSearchState.error);
     }
   }
 
   @override
   void dispose() {
-    changeState(YoutubeSearchState.INIT);
+    changeState(YoutubeSearchState.init);
     super.dispose();
   }
 

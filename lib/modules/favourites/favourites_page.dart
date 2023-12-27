@@ -40,14 +40,14 @@ class _FavouritesPageState extends State<FavouritesPage> {
     return SliverToBoxAdapter(
       child: Consumer<FavouritesProvider>(
         builder: (context, provider, _) {
-          if (provider.state == FavouritesState.LOADING) {
+          if (provider.state == FavouritesState.loading) {
             return Center(
               child: AnimatedPokeballWidget(
                 color: Theme.of(context).textTheme.bodySmall!.color!,
                 size: 40.h,
               ),
             );
-          } else if (provider.state == FavouritesState.ERROR) {
+          } else if (provider.state == FavouritesState.error) {
             return Center(
               child: errorCard(
                 context,
@@ -57,7 +57,7 @@ class _FavouritesPageState extends State<FavouritesPage> {
                 75,
               ),
             );
-          } else if (provider.state == FavouritesState.LOADED &&
+          } else if (provider.state == FavouritesState.loaded &&
               provider.favourites.isEmpty) {
             return SizedBox(
               height: 100,

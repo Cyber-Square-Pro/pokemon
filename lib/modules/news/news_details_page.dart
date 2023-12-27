@@ -22,7 +22,8 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
   Widget build(BuildContext context) {
     return ThemeSwitchingArea(
       child: Builder(builder: (context) {
-        final TextStyle _titleStyle = Theme.of(context).textTheme.headline1!.copyWith(
+        final TextStyle titleStyle =
+            Theme.of(context).textTheme.bodyLarge!.copyWith(
           fontFamily: 'Circular',
           fontSize: 16.sp,
           height: 1.0,
@@ -34,19 +35,25 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
             ),
           ],
         );
-        final TextStyle _contentDetailsStyle = Theme.of(context).textTheme.bodyText1!.copyWith(
-              fontFamily: 'Circular',
-              fontSize: 16.sp,
-              fontWeight: FontWeight.bold,
-              height: 1.0,
-            );
-        final TextStyle _contentStyle = Theme.of(context).textTheme.bodyText1!.copyWith(
-              fontFamily: 'Circular',
-              fontSize: 17.sp,
-              height: 1.3,
-              fontWeight: FontWeight.w300,
-              color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.8),
-            );
+        final TextStyle contentDetailsStyle =
+            Theme.of(context).textTheme.bodyLarge!.copyWith(
+                  fontFamily: 'Circular',
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.bold,
+                  height: 1.0,
+                );
+        final TextStyle contentStyle =
+            Theme.of(context).textTheme.bodyLarge!.copyWith(
+                  fontFamily: 'Circular',
+                  fontSize: 17.sp,
+                  height: 1.3,
+                  fontWeight: FontWeight.w300,
+                  color: Theme.of(context)
+                      .textTheme
+                      .bodyLarge!
+                      .color!
+                      .withOpacity(0.8),
+                );
         return Scaffold(
           backgroundColor: Theme.of(context).colorScheme.background,
           body: CustomScrollView(
@@ -54,7 +61,6 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
               SliverAppBar.large(
                 automaticallyImplyLeading: false,
                 leading: backButton(context),
-                //
                 systemOverlayStyle: SystemUiOverlayStyle.light,
                 elevation: 0,
                 scrolledUnderElevation: 0,
@@ -65,11 +71,6 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
                 backgroundColor: Colors.blue.shade900,
                 expandedHeight: 300.h,
                 titleSpacing: 0,
-                // title: Text(
-                //   widget.news.title,
-                //   // style: _titleStyle,
-                //   overflow: TextOverflow.fade,
-                // ),
                 flexibleSpace: Container(
                   decoration: BoxDecoration(
                     boxShadow: [
@@ -81,7 +82,8 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
                     ],
                   ),
                   child: FlexibleSpaceBar(
-                    titlePadding: const EdgeInsets.only(left: 20, right: 20, bottom: 15, top: 0),
+                    titlePadding: const EdgeInsets.only(
+                        left: 20, right: 20, bottom: 15, top: 0),
                     // titlePadding: EdgeInsets.zero,
                     expandedTitleScale: 2,
                     collapseMode: CollapseMode.pin,
@@ -117,7 +119,7 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
                       padding: const EdgeInsets.only(top: 5),
                       child: Text(
                         widget.news.title,
-                        style: _titleStyle,
+                        style: titleStyle,
                         overflow: TextOverflow.fade,
                         maxLines: 5,
                       ),
@@ -129,23 +131,27 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
                 // hasScrollBody: true,
                 child: Container(
                   color: Colors.transparent,
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(widget.news.author!, style: _contentDetailsStyle),
-                      Text(DateFormat('yyyy-MM-dd').format(widget.news.publishedAt),
-                          style: _contentDetailsStyle.copyWith(fontWeight: FontWeight.w500)),
+                      Text(widget.news.author!, style: contentDetailsStyle),
+                      Text(
+                          DateFormat('yyyy-MM-dd')
+                              .format(widget.news.publishedAt),
+                          style: contentDetailsStyle.copyWith(
+                              fontWeight: FontWeight.w500)),
                       hSpace(20),
                       Text(
                         widget.news.description!,
-                        style: _contentStyle,
+                        style: contentStyle,
                         maxLines: 100,
                       ),
                       hSpace(10),
                       Text(
                         widget.news.content,
-                        style: _contentStyle,
+                        style: contentStyle,
                         maxLines: 100,
                       ),
                       hSpace(10),
@@ -156,12 +162,12 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
                         children: [
                           Text(
                             'Source:',
-                            style: _contentDetailsStyle,
+                            style: contentDetailsStyle,
                           ),
                           wSpace(5),
                           Text(
-                            '${widget.news.source.name}',
-                            style: _contentStyle,
+                            widget.news.source.name,
+                            style: contentStyle,
                           ),
                         ],
                       ),

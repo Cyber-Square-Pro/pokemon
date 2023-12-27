@@ -32,7 +32,8 @@ class OtpService {
     }
   }
 
-  Future<bool> verifyEmail(BuildContext context, String email, int otp, String intent) async {
+  Future<bool> verifyEmail(
+      BuildContext context, String email, int otp, String intent) async {
     final uri = '${ApiConstants.baseURL}/users/verify-email';
 
     try {
@@ -55,15 +56,19 @@ class OtpService {
           return false;
         } else {
           // Handle other DioError cases
+          if (context.mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              MySnackbars.error('An unexpected error occurred.'),
+            );
+          }
+        }
+      } else {
+        // Handle other exceptions
+        if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             MySnackbars.error('An unexpected error occurred.'),
           );
         }
-      } else {
-        // Handle other exceptions
-        ScaffoldMessenger.of(context).showSnackBar(
-          MySnackbars.error('An unexpected error occurred.'),
-        );
       }
       return false;
     }

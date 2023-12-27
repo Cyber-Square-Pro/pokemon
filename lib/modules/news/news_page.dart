@@ -6,6 +6,7 @@ import 'package:app/shared/repositories/news_service.dart';
 import 'package:app/shared/ui/widgets/news_tile.dart';
 import 'package:app/shared/utils/error_card.dart';
 import 'package:app/shared/widgets/loading_spinner.dart';
+import 'package:app/theme/app_layout.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +36,8 @@ class _NewsPageState extends State<NewsPage> {
   }
 
   final NewsService newsService = NewsService();
-  final PagingController<int, News> _pagingController = PagingController(firstPageKey: 1);
+  final PagingController<int, News> _pagingController =
+      PagingController(firstPageKey: 1);
 
   @override
   Widget build(BuildContext context) {
@@ -68,15 +70,22 @@ class _NewsPageState extends State<NewsPage> {
                 clipBehavior: Clip.none,
                 openElevation: 0,
                 closedElevation: 0,
-                openBuilder: (context, VoidCallback open) => NewsDetailsPage(news: news),
+                openBuilder: (context, VoidCallback open) =>
+                    NewsDetailsPage(news: news),
                 closedBuilder: (context, VoidCallback open) => Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: newsTitle(context, news: news, onTap: () {
-                    // Function to open and read each news article
-                    open();
-                    /*  Function to mark this news item as 'read' 
+                  padding: EdgeInsets.symmetric(
+                    horizontal: AppLayouts.horizontalPagePadding,
+                  ),
+                  child: newsTitle(
+                    context,
+                    news: news,
+                    onTap: () {
+                      // Function to open and read each news article
+                      open();
+                      /*  Function to mark this news item as 'read' 
                   when the user clicks on it*/
-                  }),
+                    },
+                  ),
                 ),
               );
             },
@@ -88,7 +97,9 @@ class _NewsPageState extends State<NewsPage> {
             ),
             newPageProgressIndicatorBuilder: (context) => Column(
               children: [
-                Center(child: loadingSpinner(context, EdgeInsets.symmetric(vertical: 30.h))),
+                Center(
+                    child: loadingSpinner(
+                        context, EdgeInsets.symmetric(vertical: 30.h))),
               ],
             ),
             noMoreItemsIndicatorBuilder: (context) => Center(

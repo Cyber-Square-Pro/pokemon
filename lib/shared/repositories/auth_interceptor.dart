@@ -93,7 +93,8 @@ class AuthInterceptor extends Interceptor {
   final BuildContext context;
 
   @override
-  Future onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
+  Future onRequest(
+      RequestOptions options, RequestInterceptorHandler handler) async {
     print('Requesting with accessToken in header');
     final accessToken = await getAccessToken();
     options.headers['Authorization'] = 'Bearer $accessToken';
@@ -120,10 +121,11 @@ class AuthInterceptor extends Interceptor {
             headers: options.headers,
             contentType: options.contentType,
           );
-          retryOptions.headers['Authorization'] = 'Bearer ${await getAccessToken()}';
+          retryOptions.headers['Authorization'] =
+              'Bearer ${await getAccessToken()}';
           return await dio.request(retryOptions.path, options: opts);
         } catch (retryError) {
-          logout(context);
+          context.mounted ? logout(context) : null;
           return handler.reject(retryError as DioException);
         }
       }

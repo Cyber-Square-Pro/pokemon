@@ -1,11 +1,5 @@
-import 'package:app/shared/providers/auth_state_provider.dart';
-import 'package:app/shared/repositories/auth_service.dart';
-import 'package:app/shared/utils/snackbars.dart';
-import 'package:app/shared/widgets/loading_spinner_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -28,10 +22,8 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
 
-
     changeScreen();
   }
-
 
   @override
   Widget build(BuildContext context) {

@@ -14,7 +14,7 @@ showNoConnectionDialog(
     barrierDismissible: false,
     context: context,
     builder: (context) {
-      TextStyle _textTheme = Theme.of(context).textTheme.bodyText1!;
+      TextStyle textTheme = Theme.of(context).textTheme.bodyMedium!;
       return AlertDialog(
         surfaceTintColor: Colors.transparent,
         contentPadding: EdgeInsets.zero,
@@ -38,7 +38,7 @@ showNoConnectionDialog(
                   // Altert title
                   Text(
                     title,
-                    style: _textTheme.copyWith(
+                    style: textTheme.copyWith(
                       fontWeight: FontWeight.bold,
                       fontSize: 16.sp,
                       letterSpacing: -0.15,
@@ -47,8 +47,8 @@ showNoConnectionDialog(
                   // Altert content
                   Text(
                     content,
-                    style: _textTheme.copyWith(
-                      color: _textTheme.color!.withOpacity(0.5),
+                    style: textTheme.copyWith(
+                      color: textTheme.color!.withOpacity(0.5),
                       fontSize: 12.sp,
                     ),
                   ),

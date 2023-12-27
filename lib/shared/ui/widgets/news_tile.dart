@@ -5,7 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
-Widget newsTitle(BuildContext context, {required News news, required void Function() onTap}) {
+Widget newsTitle(
+  BuildContext context, {
+  required News news,
+  required void Function() onTap,
+}) {
   final double tileHeight = 160.h;
   final newsTitleStyle = TextStyle(
     fontFamily: 'Circular',
@@ -62,7 +66,11 @@ Widget newsTitle(BuildContext context, {required News news, required void Functi
             padding: const EdgeInsets.all(15),
             decoration: BoxDecoration(
               border: Border.all(
-                color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.2),
+                color: Theme.of(context)
+                    .textTheme
+                    .bodySmall!
+                    .color!
+                    .withOpacity(0.2),
                 width: 1,
               ),
               borderRadius: BorderRadius.circular(AppTheme.globalBorderRadius),
@@ -70,7 +78,10 @@ Widget newsTitle(BuildContext context, {required News news, required void Functi
                 begin: Alignment.bottomCenter,
                 end: Alignment.topCenter,
                 stops: const [0.1, 0.8],
-                colors: [Colors.black.withOpacity(0.7), Colors.black.withOpacity(0.25)],
+                colors: [
+                  Colors.black.withOpacity(0.7),
+                  Colors.black.withOpacity(0.25)
+                ],
               ),
             ),
             child: Column(
@@ -81,7 +92,8 @@ Widget newsTitle(BuildContext context, {required News news, required void Functi
                   padding: const EdgeInsets.all(5),
                   decoration: BoxDecoration(
                     color: Colors.black.withOpacity(0.35),
-                    borderRadius: BorderRadius.circular(AppTheme.globalBorderRadius),
+                    borderRadius:
+                        BorderRadius.circular(AppTheme.globalBorderRadius),
                   ),
                   child: Text(
                     DateFormat('yyyy-MM-dd').format(news.publishedAt),

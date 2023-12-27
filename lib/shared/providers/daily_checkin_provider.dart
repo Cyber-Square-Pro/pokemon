@@ -1,73 +1,83 @@
 import 'package:app/shared/models/daily_checkin_model.dart';
 import 'package:app/shared/repositories/auth_interceptor.dart';
+
 import 'package:app/shared/repositories/daily_checkin_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+enum CheckinState { init, loading, loaded, error }
+
 class CheckinProvider extends ChangeNotifier {
-  late DailyCheckinData _dailyCheckins;
+  late CheckinState _state = CheckinState.init;
+  late DailyCheckinData _dailyCheckinData;
   late List<History> _checkinHistory = [];
   late bool _checkedInToday = false;
 
-  final _repository = DailyCheckinService.instance;
+  final _checkinRepository = DailyCheckinService.instance;
 
   Future<void> checkIn(BuildContext context) async {
-    _repository.getDioInstance().interceptors.add(
+    _checkinRepository.getDioInstance().interceptors.add(
           AuthInterceptor(
-            dio: _repository.getDioInstance(),
+            dio: _checkinRepository.getDioInstance(),
             context: context,
           ),
         );
-
+    _state = CheckinState.loading;
+    notifyListeners();
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       final String username = prefs.getString('username')!;
-      await _repository.checkIn(username);
-      context.mounted ? await getHistory(context) : () {};
+      await _checkinRepository.checkIn(username);
+      context.mounted ? await getHistory(context) : null;
+      _state = CheckinState.loaded;
       notifyListeners();
     } on DioException catch (e) {
+      _state = CheckinState.error;
+      notifyListeners();
       print(e.message);
-    } catch (e) {
-      return;
     }
   }
 
   Future<void> getHistory(BuildContext context) async {
-    _repository.getDioInstance().interceptors.add(
+    _checkinRepository.getDioInstance().interceptors.add(
           AuthInterceptor(
-            dio: _repository.getDioInstance(),
+            dio: _checkinRepository.getDioInstance(),
             context: context,
           ),
         );
+    _state = CheckinState.loading;
+    notifyListeners();
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       final String username = prefs.getString('username')!;
-      final DailyCheckinData result = await _repository.getHistory(username);
+      DailyCheckinData result = await _checkinRepository.getHistory(username);
 
-      print(result.history);
-      if (result.history.last.isCheckedIn == true &&
+      if (result.history.isNotEmpty &&
+          result.history.last.isCheckedIn == true &&
           result.history.last.createdAt.day == DateTime.now().day) {
         _checkedInToday = true;
       }
-      _dailyCheckins = result;
+      _dailyCheckinData = result;
       _checkinHistory = result.history;
+      _state = CheckinState.loaded;
       notifyListeners();
     } on DioException catch (e) {
       print(e.message);
-    } catch (e) {
-      return;
+      _state = CheckinState.error;
+      notifyListeners();
     }
   }
 
-  @override
-  void dispose() {
+  void clearCheckinProvider() {
     _checkedInToday = false;
     _checkinHistory = [];
-    super.dispose();
+    _state = CheckinState.init;
+    notifyListeners();
   }
 
-  DailyCheckinData get data => _dailyCheckins;
+  DailyCheckinData get data => _dailyCheckinData;
   List<History> get history => _checkinHistory;
   bool get checkedInToday => _checkedInToday;
+  CheckinState get state => _state;
 }

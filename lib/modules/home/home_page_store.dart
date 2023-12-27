@@ -5,47 +5,47 @@ part 'home_page_store.g.dart';
 class HomePageStore = _PokemonGridStoreBase with _$HomePageStore;
 
 enum PanelType {
-  FILTER_POKEMON_GENERATION,
-  FILTER_POKEMON_TYPE,
-  FILTER_POKEMON_NAME_NUMBER,
-  FILTER_ITEMS,
-  FAVORITES_POKEMONS
+  filterPokemonGeneration,
+  filterPokemonType,
+  filterPokemonNameNumber,
+  filterItems,
+  favouritesPokemons
 }
 
 extension PanelTypeExtension on PanelType {
   bool get isTextFilter {
-    return this == PanelType.FILTER_POKEMON_NAME_NUMBER ||
-        this == PanelType.FILTER_ITEMS;
+    return this == PanelType.filterPokemonNameNumber ||
+        this == PanelType.filterItems;
   }
 }
 
 enum HomePageType {
-  POKEMON_GRID,
-  ITEMS,
-  FAVOURITES,
-  NEWS,
-  VIDEOS,
-  CHECK_IN,
-  MERCH,
-  CARD
+  pokemonGrid,
+  items,
+  favourites,
+  news,
+  videos,
+  checkIn,
+  merchandise,
+  card
 }
 
 extension HomePageTypeExtension on HomePageType {
   String get description {
     switch (this) {
-      case HomePageType.POKEMON_GRID:
+      case HomePageType.pokemonGrid:
         return "Pokemon";
-      case HomePageType.ITEMS:
+      case HomePageType.items:
         return "Items";
-      case HomePageType.FAVOURITES:
+      case HomePageType.favourites:
         return "Favourites";
-      case HomePageType.NEWS:
+      case HomePageType.news:
         return "News";
-      case HomePageType.VIDEOS:
+      case HomePageType.videos:
         return "Videos";
-      case HomePageType.CHECK_IN:
+      case HomePageType.checkIn:
         return "Daily Check-In";
-      case HomePageType.MERCH:
+      case HomePageType.merchandise:
         return "Merchandise";
       default:
         throw "Home Page Type not found";
@@ -67,7 +67,7 @@ abstract class _PokemonGridStoreBase with Store {
   PanelType? _panelType;
 
   @observable
-  HomePageType _page = HomePageType.POKEMON_GRID;
+  HomePageType _page = HomePageType.pokemonGrid;
 
   @computed
   bool get isFilterOpen => _isFilterOpen;

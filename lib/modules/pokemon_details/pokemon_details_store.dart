@@ -1,9 +1,9 @@
 import 'package:mobx/mobx.dart';
 part 'pokemon_details_store.g.dart';
 
-class PokemonDetailsStore = _PokemonDetailsStoreBase with _$PokemonDetailsStore;
+class PokemonDetailsStore = PokemonDetailsStoreBase with _$PokemonDetailsStore;
 
-abstract class _PokemonDetailsStoreBase with Store {
+abstract class PokemonDetailsStoreBase with Store {
   @observable
   double _progress = 0;
 

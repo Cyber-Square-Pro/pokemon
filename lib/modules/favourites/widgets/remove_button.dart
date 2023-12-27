@@ -11,7 +11,8 @@ Widget removeButton(BuildContext context, {required void Function() onTap}) {
         shape: BoxShape.circle,
         boxShadow: [
           BoxShadow(
-            color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.5),
+            color:
+                Theme.of(context).textTheme.bodyMedium!.color!.withOpacity(0.5),
             blurRadius: 10,
           ),
         ],

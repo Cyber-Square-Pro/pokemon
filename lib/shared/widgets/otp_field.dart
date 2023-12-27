@@ -77,7 +77,7 @@ class _CustomOtpFieldState extends State<CustomOtpField> {
           borderRadius: BorderRadius.all(Radius.circular(AppTheme.globalBorderRadius)),
         ),
       ),
-      errorTextStyle: TextStyle(
+      errorTextStyle: const TextStyle(
         color: Colors.white,
         fontSize: 12,
         fontWeight: FontWeight.bold,

@@ -10,10 +10,10 @@ class ConnectivityWrapper extends StatefulWidget {
   const ConnectivityWrapper({Key? key, required this.child}) : super(key: key);
 
   @override
-  _ConnectivityWrapperState createState() => _ConnectivityWrapperState();
+  ConnectivityWrapperState createState() => ConnectivityWrapperState();
 }
 
-class _ConnectivityWrapperState extends State<ConnectivityWrapper> {
+class ConnectivityWrapperState extends State<ConnectivityWrapper> {
   StreamController<ConnectivityResult> connectivityController =
       StreamController<ConnectivityResult>();
 

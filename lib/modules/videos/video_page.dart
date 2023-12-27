@@ -3,7 +3,8 @@ import 'package:app/shared/ui/widgets/animated_pokeball.dart';
 import 'package:app/shared/utils/error_card.dart';
 import 'package:app/shared/utils/page_transitions.dart';
 import 'package:app/shared/utils/spacer.dart';
-import 'package:app/shared/widgets/%20video_card.dart';
+import 'package:app/shared/widgets/video_card.dart';
+import 'package:app/theme/app_layout.dart';
 import 'package:app/theme/app_theme.dart';
 import 'package:app/modules/videos/play_video.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +35,7 @@ class _VideoPageState extends State<VideoPage> {
     return SliverPadding(
       padding: EdgeInsets.symmetric(
         vertical: 0,
-        horizontal: AppTheme.homePadding.horizontal - 7,
+        horizontal: AppLayouts.horizontalPagePadding,
       ),
       sliver: SliverList(
         key: const Key('videos_page'),
@@ -42,7 +43,7 @@ class _VideoPageState extends State<VideoPage> {
           [
             Consumer<YoutubeProvider>(
               builder: (context, provider, child) {
-                if (provider.state == YoutubeSearchState.LOADING) {
+                if (provider.state == YoutubeSearchState.loading) {
                   return Center(
                     child: Column(
                       children: [
@@ -81,7 +82,7 @@ class _VideoPageState extends State<VideoPage> {
                     crossAxisCount: 2,
                     mainAxisSpacing: 10,
                     crossAxisSpacing: 12,
-                    childAspectRatio: 0.9,
+                    childAspectRatio: 0.85,
                   ),
                   itemBuilder: (context, index) {
                     final video = provider.videoList[index];
@@ -92,7 +93,6 @@ class _VideoPageState extends State<VideoPage> {
                       index: index,
                       imageurl: video.snippet.thumbnails.medium.url,
                       onTap: () {
-
                         Navigator.push(
                           context,
                           PageTransitionWrapper(

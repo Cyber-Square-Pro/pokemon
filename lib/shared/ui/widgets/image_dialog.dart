@@ -15,13 +15,11 @@ class ImageDialogWidget extends StatelessWidget {
         Navigator.pop(context);
       },
       child: Center(
-        child: Container(
-          child: Hero(
-            tag: tag,
-            child: Container(
-              child: ImageUtils.networkImage(
-                url: imageUrl,
-              ),
+        child: Hero(
+          tag: tag,
+          child: Container(
+            child: ImageUtils.networkImage(
+              url: imageUrl,
             ),
           ),
         ),

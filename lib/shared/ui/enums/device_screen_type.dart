@@ -1,6 +1,10 @@
 import 'package:flutter/cupertino.dart';
 
-enum DeviceScreenType { DESKTOP, TABLET, CELLPHONE }
+enum DeviceScreenType {
+  desktop,
+  tablet,
+  cellphone,
+}
 
 DeviceScreenType getDeviceScreenType(BuildContext context) {
   final orientation = MediaQuery.of(context).orientation;
@@ -8,19 +12,19 @@ DeviceScreenType getDeviceScreenType(BuildContext context) {
 
   if (Orientation.portrait == orientation) {
     if (size.width >= 900) {
-      return DeviceScreenType.DESKTOP;
+      return DeviceScreenType.desktop;
     } else if (size.width >= 600) {
-      return DeviceScreenType.TABLET;
+      return DeviceScreenType.tablet;
     } else {
-      return DeviceScreenType.CELLPHONE;
+      return DeviceScreenType.cellphone;
     }
   } else {
     if (size.height >= 900) {
-      return DeviceScreenType.DESKTOP;
+      return DeviceScreenType.desktop;
     } else if (size.height >= 600) {
-      return DeviceScreenType.TABLET;
+      return DeviceScreenType.tablet;
     } else {
-      return DeviceScreenType.CELLPHONE;
+      return DeviceScreenType.cellphone;
     }
   }
 }

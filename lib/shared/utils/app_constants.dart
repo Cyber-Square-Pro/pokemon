@@ -26,8 +26,7 @@ class AppConstants {
   static String getRandomPokemonGif() {
     final pokemonGif = Random().nextInt(650).toString().padLeft(3, '0');
 
-    return "https://pokedex.alansantos.dev/assets/pokemons/sprites/" +
-        "${pokemonGif}/${pokemonGif}_front_animated.gif";
+    return "https://pokedex.alansantos.dev/assets/pokemons/sprites/$pokemonGif/${pokemonGif}_front_animated.gif";
   }
 
   static List<String> types = [

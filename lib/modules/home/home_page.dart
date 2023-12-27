@@ -13,6 +13,7 @@ import 'package:app/shared/ui/widgets/app_bar.dart';
 import 'package:app/shared/ui/widgets/drawer_menu/drawer_menu.dart';
 import 'package:app/shared/utils/app_constants.dart';
 import 'package:app/modules/videos/video_page.dart';
+import 'package:app/theme/app_layout.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -23,13 +24,13 @@ import 'package:mobx/mobx.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
-  _HomePageState createState() => _HomePageState();
+  HomePageState createState() => HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
+class HomePageState extends State<HomePage> with TickerProviderStateMixin {
   late AnimationController _backgroundAnimationController;
   late Animation<double> _blackBackgroundOpacityAnimation;
 
@@ -56,19 +57,19 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
     _backgroundAnimationController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 250),
+      duration: const Duration(milliseconds: 250),
     );
     _blackBackgroundOpacityAnimation =
         Tween(begin: 0.0, end: 1.0).animate(_backgroundAnimationController);
 
     _fabAnimationRotationController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 400),
+      duration: const Duration(milliseconds: 400),
     );
 
     _fabAnimationOpenController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 250),
+      duration: const Duration(milliseconds: 250),
     );
 
     _fabRotateAnimation = Tween(begin: 180.0, end: 0.0).animate(CurvedAnimation(
@@ -132,6 +133,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       child: Builder(
         builder: (context) {
           return Scaffold(
+            extendBodyBehindAppBar: false,
             key: const Key('home_page'),
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             endDrawer: const Drawer(
@@ -144,8 +146,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   child: CustomScrollView(
                     slivers: [
                       SliverPadding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 10,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: AppLayouts.horizontalPagePadding,
                           vertical: 10,
                         ),
                         sliver: Observer(
@@ -158,19 +160,19 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       Observer(
                         builder: (_) {
                           switch (_homeStore.page) {
-                            case HomePageType.POKEMON_GRID:
+                            case HomePageType.pokemonGrid:
                               return PokemonGridPage();
-                            case HomePageType.ITEMS:
+                            case HomePageType.items:
                               return const ItemsPage();
-                            case HomePageType.FAVOURITES:
+                            case HomePageType.favourites:
                               return const FavouritesPage();
-                            case HomePageType.NEWS:
+                            case HomePageType.news:
                               return const NewsPage();
-                            case HomePageType.VIDEOS:
+                            case HomePageType.videos:
                               return const VideoPage();
-                            case HomePageType.CHECK_IN:
+                            case HomePageType.checkIn:
                               return const DailyCheckinPage();
-                            case HomePageType.MERCH:
+                            case HomePageType.merchandise:
                               return const MerchandisePage();
                             default:
                               return PokemonGridPage();

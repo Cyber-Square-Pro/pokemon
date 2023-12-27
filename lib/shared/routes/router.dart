@@ -26,7 +26,7 @@ abstract class Router {
     return {
       splash: (context) => const SplashScreen(),
       login: (context) => const LoginPage(),
-      home: (context) => HomePage(),
+      home: (context) => const HomePage(),
       items: (context) => const ItemsPage(),
       signup: (context) => const SignUpPage(),
       verifyEmail: (context) => const VerifyEmailPage(),

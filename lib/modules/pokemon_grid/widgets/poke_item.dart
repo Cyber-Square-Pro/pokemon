@@ -1,5 +1,3 @@
-import 'package:app/modules/favourites/favourites_page.dart';
-import 'package:app/shared/providers/favourites_provider.dart';
 import 'package:app/shared/utils/spacer.dart';
 import 'package:flutter/material.dart';
 import 'package:app/shared/models/pokemon_summary.dart';
@@ -42,15 +40,13 @@ class PokeItemWidget extends StatelessWidget {
             Positioned(
               bottom: -15,
               right: -3,
-              child: Container(
-                child: CustomPaint(
-                  size: Size(
-                      85,
-                      (85 * 1.0040160642570282)
-                          .toDouble()), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
-                  painter: PokeballLogoPainter(
-                    color: Colors.white.withOpacity(0.2),
-                  ),
+              child: CustomPaint(
+                size: Size(
+                    85,
+                    (85 * 1.0040160642570282)
+                        .toDouble()), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
+                painter: PokeballLogoPainter(
+                  color: Colors.white.withOpacity(0.2),
                 ),
               ),
             ),
@@ -58,7 +54,7 @@ class PokeItemWidget extends StatelessWidget {
               alignment: Alignment.bottomRight,
               child: Padding(
                 padding: const EdgeInsets.only(right: 7, bottom: 10),
-                child: Container(
+                child: SizedBox(
                   height: 76,
                   width: 76,
                   child: Hero(

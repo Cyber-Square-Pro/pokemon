@@ -31,6 +31,7 @@ class TshirtCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(AppTheme.globalBorderRadius),
         ),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ClipRRect(
@@ -68,7 +69,10 @@ class TshirtCard extends StatelessWidget {
                         .textTheme
                         .titleMedium
                         ?.copyWith(fontWeight: FontWeight.bold),
+                    overflow: TextOverflow.fade,
+                    maxLines: 1,
                   ),
+                  hSpace(2.5),
                   Text(
                     description,
                     overflow: TextOverflow.fade,

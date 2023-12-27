@@ -1,7 +1,6 @@
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:app/shared/providers/auth_state_provider.dart';
 import 'package:app/shared/utils/spacer.dart';
-import 'package:app/theme/app_theme.dart';
 import 'package:app/theme/dark/dark_theme.dart';
 import 'package:app/theme/light/light_theme.dart';
 import 'package:flutter/cupertino.dart';
@@ -129,7 +128,7 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget>
                     onTap: () {
                       Navigator.pop(context);
 
-                      _homeStore.setPage(HomePageType.POKEMON_GRID);
+                      _homeStore.setPage(HomePageType.pokemonGrid);
                     },
                   ),
                   DrawerMenuItemWidget(
@@ -138,7 +137,7 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget>
                     onTap: () {
                       Navigator.pop(context);
 
-                      _homeStore.setPage(HomePageType.ITEMS);
+                      _homeStore.setPage(HomePageType.items);
                     },
                   ),
                   DrawerMenuItemWidget(
@@ -147,7 +146,7 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget>
                     onTap: () {
                       Navigator.pop(context);
 
-                      _homeStore.setPage(HomePageType.FAVOURITES);
+                      _homeStore.setPage(HomePageType.favourites);
                     },
                   ),
                   DrawerMenuItemWidget(
@@ -155,7 +154,7 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget>
                     text: "News",
                     onTap: () {
                       Navigator.pop(context);
-                      _homeStore.setPage(HomePageType.NEWS);
+                      _homeStore.setPage(HomePageType.news);
                     },
                   ),
                   DrawerMenuItemWidget(
@@ -163,7 +162,7 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget>
                     text: "Videos",
                     onTap: () {
                       Navigator.pop(context);
-                      _homeStore.setPage(HomePageType.VIDEOS);
+                      _homeStore.setPage(HomePageType.videos);
                     },
                   ),
                   DrawerMenuItemWidget(
@@ -171,7 +170,7 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget>
                     text: "Check In",
                     onTap: () {
                       Navigator.pop(context);
-                      _homeStore.setPage(HomePageType.CHECK_IN);
+                      _homeStore.setPage(HomePageType.checkIn);
                     },
                   ),
                   DrawerMenuItemWidget(
@@ -179,7 +178,7 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget>
                     text: "Merch",
                     onTap: () {
                       Navigator.pop(context);
-                      _homeStore.setPage(HomePageType.MERCH);
+                      _homeStore.setPage(HomePageType.merchandise);
                     },
                   ),
 
@@ -233,10 +232,13 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget>
 
                           SharedPreferences prefs =
                               await SharedPreferences.getInstance();
-                          prefs.setBool(
-                            "darkTheme",
-                            !(Theme.of(context).brightness == Brightness.dark),
-                          );
+                          if (context.mounted) {
+                            prefs.setBool(
+                              "darkTheme",
+                              !(Theme.of(context).brightness ==
+                                  Brightness.dark),
+                            );
+                          }
                         },
                         child: Icon(
                           Theme.of(context).brightness == Brightness.light
@@ -269,7 +271,7 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget>
                 text: "Logout",
                 contentAlignment: MainAxisAlignment.center,
                 onTap: () {
-                  _homeStore.setPage(HomePageType.POKEMON_GRID);
+                  _homeStore.setPage(HomePageType.pokemonGrid);
                   Provider.of<AuthProvider>(context, listen: false)
                       .logout(context);
                 },

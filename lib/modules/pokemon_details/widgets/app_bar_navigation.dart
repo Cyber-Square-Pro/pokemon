@@ -32,16 +32,18 @@ class AppBarNavigationWidget extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(bottom: 6, right: 5),
             child: ImageUtils.networkImage(
-                height: 35, width: 35, url: _pokemonStore.pokemon!.sprites.mainSpriteUrl),
+                height: 35,
+                width: 35,
+                url: _pokemonStore.pokemon!.sprites.mainSpriteUrl),
           ),
           Text(
             _pokemonStore.pokemon!.name,
-            style: themeData.headline5?.copyWith(
+            style: themeData.titleSmall?.copyWith(
               fontSize: 15,
               color: AppTheme.getColors(context).pokemonDetailsTitleColor,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             width: 15,
           ),
           if (_pokemonStore.index < _pokemonStore.pokemonsSummary!.length - 1)

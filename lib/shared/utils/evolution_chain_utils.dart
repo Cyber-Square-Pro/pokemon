@@ -4,69 +4,69 @@ import 'package:app/shared/models/pokemon.dart';
 
 class EvolutionChainUtils {
   static List<EvolutionChainItemWidget> buildEvolutionChain(Pokemon pokemon) {
-    List<EvolutionChainItemWidget> _evolutionChainWidgetList = [];
+    List<EvolutionChainItemWidget> evolutionChainWidgetList = [];
 
     if (pokemon.middleEvolutions.isEmpty && pokemon.lastEvolutions.isEmpty) {
-      return _evolutionChainWidgetList;
+      return evolutionChainWidgetList;
     }
 
     if (pokemon.middleEvolutions.isNotEmpty) {
-      pokemon.middleEvolutions.forEach((middleEvolution) {
-        var _evolutionChainItemWidget = EvolutionChainItemWidget(
+      for (var middleEvolution in pokemon.middleEvolutions) {
+        var evolutionChainItemWidget = EvolutionChainItemWidget(
           previousEvolution: pokemon.firstEvolution,
           nextEvolution: middleEvolution,
         );
 
-        _evolutionChainWidgetList.add(_evolutionChainItemWidget);
-      });
+        evolutionChainWidgetList.add(evolutionChainItemWidget);
+      }
     }
 
     if (pokemon.lastEvolutions.isNotEmpty) {
       if (pokemon.middleEvolutions.isEmpty) {
-        pokemon.lastEvolutions.forEach((lastEvolution) {
-          var _evolutionChainItemWidget = EvolutionChainItemWidget(
+        for (var lastEvolution in pokemon.lastEvolutions) {
+          var evolutionChainItemWidget = EvolutionChainItemWidget(
             previousEvolution: pokemon.firstEvolution,
             nextEvolution: lastEvolution,
           );
 
-          _evolutionChainWidgetList.add(_evolutionChainItemWidget);
-        });
+          evolutionChainWidgetList.add(evolutionChainItemWidget);
+        }
       } else {
-        pokemon.lastEvolutions.forEach((lastEvolution) {
-          pokemon.middleEvolutions.forEach((middleEvolution) {
-            var _evolutionChainItemWidget = EvolutionChainItemWidget(
+        for (var lastEvolution in pokemon.lastEvolutions) {
+          for (var middleEvolution in pokemon.middleEvolutions) {
+            var evolutionChainItemWidget = EvolutionChainItemWidget(
               previousEvolution: middleEvolution,
               nextEvolution: lastEvolution,
             );
 
-            _evolutionChainWidgetList.add(_evolutionChainItemWidget);
-          });
-        });
+            evolutionChainWidgetList.add(evolutionChainItemWidget);
+          }
+        }
       }
     }
 
-    return _evolutionChainWidgetList;
+    return evolutionChainWidgetList;
   }
 
   static List<SuperEvolutionChainItemWidget> buildSuperEvolutionChain(
       Pokemon pokemon) {
-    List<SuperEvolutionChainItemWidget> _evolutionChainWidgetList = [];
+    List<SuperEvolutionChainItemWidget> evolutionChainWidgetList = [];
 
     if (pokemon.superEvolutions.isEmpty) {
-      return _evolutionChainWidgetList;
+      return evolutionChainWidgetList;
     }
 
     if (pokemon.megaEvolutions.isNotEmpty) {
-      pokemon.megaEvolutions.forEach((megaEvolution) {
-        var _evolutionChainItemWidget = SuperEvolutionChainItemWidget(
+      for (var megaEvolution in pokemon.megaEvolutions) {
+        var evolutionChainItemWidget = SuperEvolutionChainItemWidget(
           pokemon: pokemon,
           superEvolution: megaEvolution,
         );
 
-        _evolutionChainWidgetList.add(_evolutionChainItemWidget);
-      });
+        evolutionChainWidgetList.add(evolutionChainItemWidget);
+      }
     }
 
-    return _evolutionChainWidgetList;
+    return evolutionChainWidgetList;
   }
 }

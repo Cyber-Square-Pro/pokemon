@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 enum AuthState {
-  LOGIN_FAILED,
-  LOGIN_SUCCESS,
-  EMAIL_NOT_VERIFIED,
-  SIGN_UP_FAILED,
+  loginFailed,
+  loginSuccess,
+  emailNotVerified,
+  signupFailed,
 }
 
 class AuthService {
@@ -36,18 +36,18 @@ class AuthService {
         prefs.setString('username', username);
         prefs.setString('password', password);
         Future.delayed(const Duration(milliseconds: 100));
-        return AuthState.LOGIN_SUCCESS;
+        return AuthState.loginSuccess;
       } else if (response.statusCode == 404) {
-        return AuthState.LOGIN_FAILED;
+        return AuthState.loginFailed;
       } else if (response.statusCode == 401) {
-        return AuthState.EMAIL_NOT_VERIFIED;
+        return AuthState.emailNotVerified;
       }
-      return AuthState.LOGIN_FAILED;
+      return AuthState.loginFailed;
     } on DioException catch (err) {
-      if (err.response!.statusCode == 401) return AuthState.EMAIL_NOT_VERIFIED;
-      return AuthState.LOGIN_FAILED;
+      if (err.response!.statusCode == 401) return AuthState.emailNotVerified;
+      return AuthState.loginFailed;
     } catch (e) {
-      return AuthState.LOGIN_FAILED;
+      return AuthState.loginFailed;
     }
   }
 
@@ -119,7 +119,8 @@ class AuthService {
       } else if (response.statusCode == 409) {
         final scaffoldKey = GlobalKey<ScaffoldState>();
         scaffoldKey.currentState!.showBottomSheet((context) {
-          return MySnackbars.error(response.statusMessage ?? 'Unexpected error during signup');
+          return MySnackbars.error(
+              response.statusMessage ?? 'Unexpected error during signup');
         });
         return false;
       } else if (response.statusCode == 500) {

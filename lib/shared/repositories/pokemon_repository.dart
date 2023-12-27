@@ -9,15 +9,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 class PokemonRepository {
   Future<List<PokemonSummary>> fetchPokemonsSummary() async {
     try {
-      final response = await http.get(Uri.parse(ApiConstants.pokedexSummaryData));
+      final response =
+          await http.get(Uri.parse(ApiConstants.pokedexSummaryData));
 
       return List<PokemonSummary>.from(
-        json.decode(Utf8Decoder().convert(response.body.codeUnits)).map(
+        json.decode(const Utf8Decoder().convert(response.body.codeUnits)).map(
               (model) => PokemonSummary.fromJson(model),
             ),
       );
     } catch (e) {
-      throw e;
+      rethrow;
     }
   }
 
@@ -33,7 +34,7 @@ class PokemonRepository {
         return favorites;
       }
     } catch (e) {
-      throw e;
+      rethrow;
     }
   }
 
@@ -44,17 +45,19 @@ class PokemonRepository {
       // await prefs.setStringList('favorites-pokemons', favorites);
       await prefs.setStringList('$username-favorites-pokemons', favorites);
     } catch (e) {
-      throw e;
+      rethrow;
     }
   }
 
   Future<Pokemon> fetchPokemon(String number) async {
     try {
-      final response = await http.get(Uri.parse(ApiConstants.pokemonDetails(number)));
+      final response =
+          await http.get(Uri.parse(ApiConstants.pokemonDetails(number)));
 
-      return Pokemon.fromJson(jsonDecode(Utf8Decoder().convert(response.body.codeUnits)));
+      return Pokemon.fromJson(
+          jsonDecode(const Utf8Decoder().convert(response.body.codeUnits)));
     } catch (e) {
-      throw e;
+      rethrow;
     }
   }
 }

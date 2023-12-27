@@ -35,13 +35,13 @@ class _MerchandisePageState extends State<MerchandisePage> {
     return SliverFillRemaining(
       hasScrollBody: true,
       child: GridView.builder(
-        padding: AppTheme.homePadding,
+        padding: AppTheme.pagePadding,
         physics: const BouncingScrollPhysics(),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           mainAxisSpacing: 10,
           crossAxisSpacing: 10,
-          childAspectRatio: 0.60,
+          childAspectRatio: 0.55,
         ),
         itemCount: tshirtList.length,
         itemBuilder: (_, index) {

@@ -25,8 +25,8 @@ class PlayVideo extends StatefulWidget {
 class _PlayVideoState extends State<PlayVideo> {
   late YoutubePlayerController _controller;
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  void initState() {
+    super.initState();
     _controller = YoutubePlayerController(
       initialVideoId: widget.id,
       flags: const YoutubePlayerFlags(
@@ -37,7 +37,6 @@ class _PlayVideoState extends State<PlayVideo> {
       ),
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -102,6 +101,8 @@ class _PlayVideoState extends State<PlayVideo> {
                                   : Clip.antiAlias,
                               borderRadius: BorderRadius.circular(15),
                               child: YoutubePlayer(
+                                bufferIndicator:
+                                    const CircularProgressIndicator(),
                                 controller: _controller,
                               ),
                             ),

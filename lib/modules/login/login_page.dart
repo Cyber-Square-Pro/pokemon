@@ -42,8 +42,9 @@ class _LoginPageState extends State<LoginPage> {
       showLoadingSpinnerModal(context, 'Auto logging in...');
       final username = prefs.getString('username')!;
       final password = prefs.getString('password')!;
-      final AuthState loginResult = await AuthService().login(username, password);
-      if (loginResult == AuthState.LOGIN_SUCCESS) {
+      final AuthState loginResult =
+          await AuthService().login(username, password);
+      if (loginResult == AuthState.loginSuccess) {
         context.read<AuthProvider>().getUserInfo();
         Navigator.pushReplacementNamed(context, '/home');
       } else {
@@ -128,7 +129,8 @@ class _LoginPageState extends State<LoginPage> {
                         // Password text field
 
                         Consumer<ObscureProvider>(
-                          builder: (context, provider, _) => CustomTextFormField(
+                          builder: (context, provider, _) =>
+                              CustomTextFormField(
                             controller: _passwordController,
                             keyboardType: TextInputType.text,
                             validator: (value) {
@@ -145,10 +147,13 @@ class _LoginPageState extends State<LoginPage> {
                                     : CupertinoIcons.eye,
                               ),
                               onPressed: () {
-                                context.read<ObscureProvider>().toggleLoginPasswordHidden();
+                                context
+                                    .read<ObscureProvider>()
+                                    .toggleLoginPasswordHidden();
                               },
                             ),
-                            isPassword: context.read<ObscureProvider>().obscurePassword,
+                            isPassword:
+                                context.read<ObscureProvider>().obscurePassword,
                             prefixIcon: Icons.lock,
                             labelText: 'Password',
                           ),
@@ -157,7 +162,8 @@ class _LoginPageState extends State<LoginPage> {
                         CustomTextButton(
                           onPressed: () {
                             otpProvider.setIntent(OtpIntent.RESET_PASS);
-                            Provider.of<ObscureProvider>(context, listen: false).resetSettings();
+                            Provider.of<ObscureProvider>(context, listen: false)
+                                .resetSettings();
                             Navigator.pushNamed(context, '/verifyEmail');
                           },
                           label: 'Forgot Password? Click Here',
@@ -176,14 +182,16 @@ class _LoginPageState extends State<LoginPage> {
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
                                 showLoadingSpinnerModal(context, 'Logging In');
-                                final AuthState loginResult = await authService.login(
-                                    _usernameController.text.trim(),
-                                    _passwordController.text.trim());
+                                final AuthState loginResult =
+                                    await authService.login(
+                                        _usernameController.text.trim(),
+                                        _passwordController.text.trim());
                                 print(loginResult);
-                                if (loginResult == AuthState.LOGIN_SUCCESS) {
+                                if (loginResult == AuthState.loginSuccess) {
                                   if (context.mounted) {
                                     Navigator.pop(context);
-                                    Provider.of<ObscureProvider>(context, listen: false)
+                                    Provider.of<ObscureProvider>(context,
+                                            listen: false)
                                         .resetSettings();
                                     authProvider.setAuthenticated(true);
                                     authProvider.getUserInfo();
@@ -191,30 +199,35 @@ class _LoginPageState extends State<LoginPage> {
                                       context,
                                       '/home',
                                       arguments: [
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                            MySnackbars.success('Welcome to Pokedex')),
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(MySnackbars.success(
+                                                'Welcome to Pokedex')),
                                       ],
                                     );
                                   }
-                                } else if (loginResult == AuthState.EMAIL_NOT_VERIFIED) {
+                                } else if (loginResult ==
+                                    AuthState.emailNotVerified) {
                                   otpProvider.setIntent(OtpIntent.SIGN_UP);
 
                                   Navigator.pop(context);
-                                  Navigator.pushNamed(context, '/verifyEmail', arguments: [
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                        MySnackbars.error('Please verify your email first')),
-                                  ]);
+                                  Navigator.pushNamed(context, '/verifyEmail',
+                                      arguments: [
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(MySnackbars.error(
+                                                'Please verify your email first')),
+                                      ]);
                                 } else {
                                   if (context.mounted) {
                                     Navigator.pop(context);
-                                    ScaffoldMessenger.of(context).showSnackBar(MySnackbars.error(
-                                        'Login Failed: Please check your credentials'));
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        MySnackbars.error(
+                                            'Login Failed: Please check your credentials'));
                                   }
                                 }
                                 // Navigate to secured screen on successful login
                               } else {
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(MySnackbars.error('Invalid submission!'));
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    MySnackbars.error('Invalid submission!'));
                               }
                             },
                           ),
@@ -223,7 +236,8 @@ class _LoginPageState extends State<LoginPage> {
                         CustomTextButton(
                           onPressed: () {
                             otpProvider.setIntent(OtpIntent.SIGN_UP);
-                            Provider.of<ObscureProvider>(context, listen: false).resetSettings();
+                            Provider.of<ObscureProvider>(context, listen: false)
+                                .resetSettings();
                             Navigator.pushNamed(context, '/signup');
                           },
                           label: 'Dont have an account? Sign Up.',

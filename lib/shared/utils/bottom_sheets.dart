@@ -19,13 +19,11 @@ class MyBottomSheets {
             ),
           ),
           builder: (context) {
-            return Container(
-              child: Column(
-                children: [
-                  Text(title),
-                  Text(message),
-                ],
-              ),
+            return Column(
+              children: [
+                Text(title),
+                Text(message),
+              ],
             );
           },
         );

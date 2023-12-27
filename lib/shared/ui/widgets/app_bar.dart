@@ -1,12 +1,13 @@
 import 'package:app/shared/utils/spacer.dart';
+import 'package:app/theme/app_layout.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:app/shared/ui/widgets/animated_pokeball.dart';
 
-import '../../utils/app_constants.dart';
-import '../enums/device_screen_type.dart';
+import 'package:app/shared/utils/app_constants.dart';
+import 'package:app/shared/ui/enums/device_screen_type.dart';
 
 class AppBarWidget extends StatefulWidget {
   final bool showBackButton;
@@ -21,19 +22,19 @@ class AppBarWidget extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _AppBarWidgetState createState() => _AppBarWidgetState();
+  AppBarWidgetState createState() => AppBarWidgetState();
 }
 
-class _AppBarWidgetState extends State<AppBarWidget> {
+class AppBarWidgetState extends State<AppBarWidget> {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
       automaticallyImplyLeading: widget.showBackButton,
       pinned: true,
       floating: false,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(15),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(
+          AppLayouts.globalBorderRadius,
         ),
       ),
       expandedHeight: 140.h,
@@ -107,12 +108,12 @@ class _AppBarWidgetState extends State<AppBarWidget> {
                   ),
             ),
             if (kIsWeb &&
-                getDeviceScreenType(context) != DeviceScreenType.CELLPHONE)
+                getDeviceScreenType(context) != DeviceScreenType.cellphone)
               const SizedBox(
                 width: 5,
               ),
             if (kIsWeb &&
-                getDeviceScreenType(context) != DeviceScreenType.CELLPHONE)
+                getDeviceScreenType(context) != DeviceScreenType.cellphone)
               Image.network(
                 AppConstants.getRandomPokemonGif(),
                 height: 32,

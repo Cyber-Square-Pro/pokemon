@@ -5,9 +5,9 @@ import 'package:app/shared/repositories/item_repository.dart';
 
 part 'item_store.g.dart';
 
-class ItemStore = _ItemStoreBase with _$ItemStore;
+class ItemStore = ItemStoreBase with _$ItemStore;
 
-abstract class _ItemStoreBase with Store {
+abstract class ItemStoreBase with Store {
   final ItemRepository _itemRepository = GetIt.instance<ItemRepository>();
 
   @observable
@@ -32,12 +32,12 @@ abstract class _ItemStoreBase with Store {
 
   @action
   void setFilter(String filter) {
-    this._filter = filter;
+    _filter = filter;
   }
 
   @action
   void clearFilter() {
-    this._filter = null;
+    _filter = null;
   }
 
   @action

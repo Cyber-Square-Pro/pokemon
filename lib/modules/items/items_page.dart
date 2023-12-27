@@ -68,9 +68,9 @@ class _ItemsPageState extends State<ItemsPage> {
     List<Widget> items = [];
 
     for (int index = initialRange; index < finalRange; index++) {
-      final _item = _itemStore.items[index];
+      final item = _itemStore.items[index];
 
-      items.add(await _buildItemWidget(item: _item));
+      items.add(await _buildItemWidget(item: item));
     }
 
     if (maxRange == finalRange) {

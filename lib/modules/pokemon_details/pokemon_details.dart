@@ -70,7 +70,7 @@ class PokemonDetailsPageState extends State<PokemonDetailsPage>
 
   @override
   Widget build(BuildContext context) {
-    if (getDeviceScreenType(context) == DeviceScreenType.CELLPHONE) {
+    if (getDeviceScreenType(context) == DeviceScreenType.cellphone) {
       SystemChrome.setPreferredOrientations([
         DeviceOrientation.portraitUp,
         DeviceOrientation.portraitDown,
@@ -156,7 +156,7 @@ class PokemonDetailsPageState extends State<PokemonDetailsPage>
                       actions: [
                         Consumer<FavouritesProvider>(
                           builder: (context, provider, _) {
-                            if (provider.state == FavouritesState.LOADING) {
+                            if (provider.state == FavouritesState.loading) {
                               return Container(
                                 margin: EdgeInsets.symmetric(horizontal: 10.w),
                                 height: 21.sp,
@@ -168,7 +168,7 @@ class PokemonDetailsPageState extends State<PokemonDetailsPage>
                                 ),
                               );
                             } else if (provider.state ==
-                                FavouritesState.LOADED) {
+                                FavouritesState.loaded) {
                               return (provider.isFavourite)
                                   ? IconButton(
                                       icon: Icon(
@@ -254,7 +254,7 @@ class PokemonDetailsPageState extends State<PokemonDetailsPage>
                     flex: 1,
                     child: Row(
                       children: [
-                        Container(
+                        SizedBox(
                           width: size.width,
                           height: size.height,
                           child: Stack(
@@ -330,7 +330,7 @@ class PokemonDetailsPageState extends State<PokemonDetailsPage>
                                     child: Padding(
                                       padding:
                                           const EdgeInsets.only(bottom: 35),
-                                      child: Container(
+                                      child: SizedBox(
                                         height: 220.h,
                                         child: Stack(
                                           children: [
@@ -345,7 +345,7 @@ class PokemonDetailsPageState extends State<PokemonDetailsPage>
                                                     getDeviceScreenType(
                                                             context) !=
                                                         DeviceScreenType
-                                                            .CELLPHONE) ||
+                                                            .cellphone) ||
                                                 (!kIsWeb &&
                                                     (Platform.isWindows ||
                                                         Platform.isLinux ||
@@ -429,7 +429,7 @@ class PokemonDetailsPageState extends State<PokemonDetailsPage>
                     flex: 1,
                     child: Row(
                       children: [
-                        Container(
+                        SizedBox(
                           width: size.width,
                           height: size.height,
                         )
@@ -438,7 +438,7 @@ class PokemonDetailsPageState extends State<PokemonDetailsPage>
                   ),
                 ],
               ),
-              Container(
+              SizedBox(
                 width: size.width,
                 height: size.height,
                 child: PokemonMobilePanelWidget(

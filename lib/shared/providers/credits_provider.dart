@@ -1,34 +1,21 @@
 import 'package:app/shared/repositories/auth_interceptor.dart';
 import 'package:app/shared/repositories/credits_service.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 enum CreditState { init, loading, loaded, error }
 
 class CreditsProvider extends ChangeNotifier {
+  CreditsProvider(BuildContext context) {
+    _dio = CreditService.instance.getDio();
+    _dio.interceptors.add(AuthInterceptor(dio: _dio, context: context));
+  }
+  late Dio _dio;
+
   late CreditState _state = CreditState.init;
   late double _credits = 0.00;
 
-  final CreditService _creditService = CreditService.instance;
-
-  Future<void> getCreditCount(BuildContext context) async {
-    _state = CreditState.loading;
-    notifyListeners();
-    final dio = _creditService.getDioInstance();
-    dio.interceptors.add(AuthInterceptor(dio: dio, context: context));
-    try {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      final String username = prefs.getString('username')!;
-      final result = await _creditService.getCreditCount(username);
-      _credits = result;
-      _state = CreditState.loaded;
-      notifyListeners();
-    } catch (e) {
-      _state = CreditState.error;
-      notifyListeners();
-      throw Exception(e);
-    }
-  }
 
   Future<void> addCredits(
     BuildContext context, [
@@ -36,12 +23,10 @@ class CreditsProvider extends ChangeNotifier {
   ]) async {
     _state = CreditState.loading;
     notifyListeners();
-    final dio = _creditService.getDioInstance();
-    dio.interceptors.add(AuthInterceptor(dio: dio, context: context));
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       final String username = prefs.getString('username')!;
-      await _creditService.addCredit(username, amount);
+      await CreditService.instance.addCredit(username, amount);
       _state = CreditState.loaded;
       notifyListeners();
     } catch (e) {
@@ -57,18 +42,34 @@ class CreditsProvider extends ChangeNotifier {
   ) async {
     _state = CreditState.loading;
     notifyListeners();
-    final dio = _creditService.getDioInstance();
-    dio.interceptors.add(AuthInterceptor(dio: dio, context: context));
+
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       final String username = prefs.getString('username')!;
-      await _creditService.spendCredit(username, amount);
+      await CreditService.instance.spendCredit(username, amount);
       _state = CreditState.loaded;
       notifyListeners();
     } catch (e) {
       _state = CreditState.error;
       notifyListeners();
       throw Exception(e);
+    }
+  }
+
+  Stream<double> fromCreditStream(BuildContext context) async* {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      final String username = prefs.getString('username')!;
+
+      await for (double data in CreditService.instance.creditStream(username)) {
+        yield data;
+      }
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 404) {
+        yield 0.0;
+      } else if (e.response?.statusCode == 500) {
+        yield 0.0;
+      }
     }
   }
 

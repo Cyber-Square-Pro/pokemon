@@ -9,6 +9,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 enum CheckinState { init, loading, loaded, error }
 
 class CheckinProvider extends ChangeNotifier {
+  CheckinProvider(BuildContext context) {
+    _dio = DailyCheckinService.dioInstance;
+    _dio.interceptors.add(
+      AuthInterceptor(dio: _dio, context: context),
+    );
+  }
+
+  late Dio _dio;
+
   late CheckinState _state = CheckinState.init;
   late DailyCheckinData _dailyCheckinData;
   late List<History> _checkinHistory = [];
@@ -17,12 +26,6 @@ class CheckinProvider extends ChangeNotifier {
   final _checkinRepository = DailyCheckinService.instance;
 
   Future<void> checkIn(BuildContext context) async {
-    _checkinRepository.getDioInstance().interceptors.add(
-          AuthInterceptor(
-            dio: _checkinRepository.getDioInstance(),
-            context: context,
-          ),
-        );
     _state = CheckinState.loading;
     notifyListeners();
     try {
@@ -40,12 +43,6 @@ class CheckinProvider extends ChangeNotifier {
   }
 
   Future<void> getHistory(BuildContext context) async {
-    _checkinRepository.getDioInstance().interceptors.add(
-          AuthInterceptor(
-            dio: _checkinRepository.getDioInstance(),
-            context: context,
-          ),
-        );
     _state = CheckinState.loading;
     notifyListeners();
     try {
@@ -64,6 +61,32 @@ class CheckinProvider extends ChangeNotifier {
       notifyListeners();
     } on DioException catch (e) {
       print(e.message);
+      _state = CheckinState.error;
+      notifyListeners();
+    }
+  }
+
+  Stream<DailyCheckinData> fromHistoryStream(BuildContext context) async* {
+    _state = CheckinState.loading;
+    notifyListeners();
+    try {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final String username = prefs.getString('username')!;
+      await for (final checkinData
+          in _checkinRepository.historyStream(username)) {
+        yield checkinData;
+        if (checkinData.history.isNotEmpty &&
+            checkinData.history.last.isCheckedIn == true &&
+            checkinData.history.last.createdAt.day == DateTime.now().day) {
+          _checkedInToday = true;
+        }
+        _dailyCheckinData = checkinData;
+        _checkinHistory = checkinData.history;
+        _state = CheckinState.loaded;
+      }
+
+      notifyListeners();
+    } on DioException {
       _state = CheckinState.error;
       notifyListeners();
     }

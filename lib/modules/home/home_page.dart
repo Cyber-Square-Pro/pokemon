@@ -16,7 +16,6 @@ import 'package:app/modules/videos/video_page.dart';
 import 'package:app/theme/app_layout.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
@@ -115,16 +114,6 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
     );
 
     _fabAnimationRotationController.forward();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    SystemChrome.setSystemUIOverlayStyle(
-      (Theme.of(context).brightness == Brightness.light)
-          ? SystemUiOverlayStyle.light
-          : SystemUiOverlayStyle.dark,
-    );
   }
 
   @override

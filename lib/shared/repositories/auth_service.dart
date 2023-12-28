@@ -12,6 +12,11 @@ enum AuthState {
 }
 
 class AuthService {
+  AuthService._();
+  static final AuthService _instance = AuthService._();
+  static AuthService get instance => _instance;
+
+  // Dio
   static final _dio = Dio();
   Dio getDioInstance() => _dio;
 
@@ -44,7 +49,7 @@ class AuthService {
       }
       return AuthState.loginFailed;
     } on DioException catch (err) {
-      if (err.response!.statusCode == 401) return AuthState.emailNotVerified;
+      if (err.response?.statusCode == 401) return AuthState.emailNotVerified;
       return AuthState.loginFailed;
     } catch (e) {
       return AuthState.loginFailed;

@@ -203,7 +203,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 showLoadingSpinnerModal(
                                     context, 'Signing up...');
 
-                                if (await AuthService().register(
+                                if (await AuthService.instance.register(
                                   username: _namecontroller.text.trim(),
                                   email: _emailController.text.trim(),
                                   phoneNumber:

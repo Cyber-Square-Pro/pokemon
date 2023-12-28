@@ -81,56 +81,63 @@ class _ItemsPageState extends State<ItemsPage> {
   }
 
   Future<ListTile> _buildItemWidget({required Item item}) {
-    return Future.delayed(Duration.zero, () {
-      final TextTheme textTheme = Theme.of(context).textTheme;
+    return Future.delayed(
+      Duration.zero,
+      () {
+        final TextTheme textTheme = Theme.of(context).textTheme;
 
-      return ListTile(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
-        ),
-        tileColor: AppTheme.getColors(context).panelBackground.withOpacity(0.9),
-        leading: item.imageUrl != null
-            ? ImageUtils.networkImage(
-                url: item.imageUrl!,
-                height: 30,
-                width: 30,
-              )
-            : const Icon(
-                Icons.image_not_supported,
-                color: Colors.grey,
-                size: 20,
-              ),
-        title: Text(
-          item.name,
-          style: TextStyle(
-            fontFamily: 'Circular',
-            fontWeight: FontWeight.bold,
-            letterSpacing: -0.5,
-            fontSize: 15.sp,
+        return ListTile(
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 20,
+            vertical: 5,
           ),
-        ),
-        trailing: Text(
-          item.category,
-          style: textTheme.titleSmall!.copyWith(
-            fontFamily: 'Circular',
-            fontWeight: FontWeight.normal,
-            fontSize: 13.sp,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
           ),
-        ),
-        subtitle: item.effect.trim().isNotEmpty
-            ? Text(
-                item.effect,
-                style: textTheme.bodySmall!.copyWith(
-                  fontFamily: 'Circular',
-                  height: 1.3,
-                  fontSize: 13.sp,
-                  fontWeight: FontWeight.w500,
+          tileColor:
+              AppTheme.getColors(context).panelBackground.withOpacity(0.8),
+          leading: item.imageUrl != null
+              ? ImageUtils.networkImage(
+                  url: item.imageUrl!,
+                  height: 30,
+                  width: 30,
+                )
+              : const Icon(
+                  Icons.image_not_supported,
+                  color: Colors.grey,
+                  size: 20,
                 ),
-              )
-            : null,
-      );
-    });
+          title: Text(
+            item.name,
+            style: TextStyle(
+              fontFamily: 'Circular',
+              fontWeight: FontWeight.bold,
+              letterSpacing: -0.5,
+              fontSize: 15.sp,
+            ),
+          ),
+          trailing: Text(
+            item.category,
+            style: textTheme.titleSmall!.copyWith(
+              fontFamily: 'Circular',
+              fontWeight: FontWeight.normal,
+              fontSize: 13.sp,
+            ),
+          ),
+          subtitle: item.effect.trim().isNotEmpty
+              ? Text(
+                  item.effect,
+                  style: textTheme.bodySmall!.copyWith(
+                    fontFamily: 'Circular',
+                    height: 1.3,
+                    fontSize: 13.sp,
+                    fontWeight: FontWeight.w500,
+                  ),
+                )
+              : null,
+        );
+      },
+    );
   }
 
   @override

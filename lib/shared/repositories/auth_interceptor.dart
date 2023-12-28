@@ -148,8 +148,7 @@ Future<String?> getAccessToken() async {
 Future<bool> regenerateToken() async {
   print('Regenerating access token...');
   try {
-    final authService = AuthService();
-    await authService.requestNewAccessToken();
+    AuthService.instance.requestNewAccessToken();
     print('Token re-generated succesfully');
     return true; // Token regenerated successfully
   } catch (error) {

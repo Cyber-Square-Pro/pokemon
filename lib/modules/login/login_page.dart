@@ -29,7 +29,6 @@ class _LoginPageState extends State<LoginPage> {
   final _usernameController = TextEditingController();
 
   // Auth
-  final authService = AuthService();
   @override
   void initState() {
     super.initState();
@@ -43,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
       final username = prefs.getString('username')!;
       final password = prefs.getString('password')!;
       final AuthState loginResult =
-          await AuthService().login(username, password);
+          await AuthService.instance.login(username, password);
       if (loginResult == AuthState.loginSuccess) {
         context.read<AuthProvider>().getUserInfo();
         Navigator.pushReplacementNamed(context, '/home');
@@ -183,7 +182,7 @@ class _LoginPageState extends State<LoginPage> {
                               if (_formKey.currentState!.validate()) {
                                 showLoadingSpinnerModal(context, 'Logging In');
                                 final AuthState loginResult =
-                                    await authService.login(
+                                    await AuthService.instance.login(
                                         _usernameController.text.trim(),
                                         _passwordController.text.trim());
                                 print(loginResult);

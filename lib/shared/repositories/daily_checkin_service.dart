@@ -12,7 +12,7 @@ class DailyCheckinService {
 
   // Dio
   static final _dio = Dio();
-  Dio getDioInstance() => _dio;
+  static Dio get dioInstance => _dio;
 
   Future<void> checkIn(String username) async {
     final String uri = '${ApiConstants.baseURL}/daily-checkin/check-in';
@@ -28,6 +28,19 @@ class DailyCheckinService {
 
     if (response.statusCode == 201) {
       return dailyCheckinDataFromJson(jsonEncode(response.data));
+    } else {
+      throw Exception();
+    }
+  }
+
+  Stream<DailyCheckinData> historyStream(String username) async* {
+    final String uri = '${ApiConstants.baseURL}/daily-checkin/history';
+
+    final Response response =
+        await _dio.post(uri, data: {'username': username});
+
+    if (response.statusCode == 201) {
+      yield dailyCheckinDataFromJson(jsonEncode(response.data));
     } else {
       throw Exception();
     }

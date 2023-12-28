@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 class Pokemon {
   late String number;
   late String name;
@@ -48,29 +50,24 @@ class Pokemon {
       required this.moves,
       required this.generation});
 
-  bool get hasAnimatedSprites => this.sprites.frontAnimatedSpriteUrl != null;
+  bool get hasAnimatedSprites => sprites.frontAnimatedSpriteUrl != null;
 
-  bool get hasAnimatedShinySprites =>
-      this.sprites.frontAnimatedSpriteUrl != null;
+  bool get hasAnimatedShinySprites => sprites.frontAnimatedSpriteUrl != null;
 
   EvolutionChain get firstEvolution =>
-      this.evolutionChain.where((it) => it.type == EvolutionType.FIRST).first;
+      evolutionChain.where((it) => it.type == EvolutionType.FIRST).first;
 
-  List<EvolutionChain> get middleEvolutions => this
-      .evolutionChain
-      .where((it) => it.type == EvolutionType.MIDDLE)
-      .toList();
+  List<EvolutionChain> get middleEvolutions =>
+      evolutionChain.where((it) => it.type == EvolutionType.MIDDLE).toList();
 
   List<EvolutionChain> get lastEvolutions =>
-      this.evolutionChain.where((it) => it.type == EvolutionType.LAST).toList();
+      evolutionChain.where((it) => it.type == EvolutionType.LAST).toList();
 
-  List<SuperEvolution> get megaEvolutions => this
-      .superEvolutions
+  List<SuperEvolution> get megaEvolutions => superEvolutions
       .where((it) => it.type == SuperEvolutionType.MEGA)
       .toList();
 
-  List<SuperEvolution> get gigantamaxEvolutions => this
-      .superEvolutions
+  List<SuperEvolution> get gigantamaxEvolutions => superEvolutions
       .where((it) => it.type == SuperEvolutionType.GIGANTAMAX)
       .toList();
 
@@ -80,7 +77,7 @@ class Pokemon {
       superEvolutions.isNotEmpty;
 
   EvolutionType get evolutionType =>
-      evolutionChain.where((it) => it.number == this.number).first.type;
+      evolutionChain.where((it) => it.number == number).first.type;
 
   Pokemon.fromJson(Map<String, dynamic> json) {
     number = json['number'];
@@ -241,18 +238,10 @@ class Sprites {
 
   Sprites.fromJson(Map<String, dynamic> json) {
     mainSpriteUrl = json['mainSpriteUrl']!;
-    frontAnimatedSpriteUrl = json['frontAnimatedSpriteUrl'] != null
-        ? json['frontAnimatedSpriteUrl']
-        : null;
-    backAnimatedSpriteUrl = json['backAnimatedSpriteUrl'] != null
-        ? json['backAnimatedSpriteUrl']
-        : null;
-    frontShinyAnimatedSpriteUrl = json['frontShinyAnimatedSpriteUrl'] != null
-        ? json['frontShinyAnimatedSpriteUrl']
-        : null;
-    backShinyAnimatedSpriteUrl = json['backShinyAnimatedSpriteUrl'] != null
-        ? json['backShinyAnimatedSpriteUrl']
-        : null;
+    frontAnimatedSpriteUrl = json['frontAnimatedSpriteUrl'];
+    backAnimatedSpriteUrl = json['backAnimatedSpriteUrl'];
+    frontShinyAnimatedSpriteUrl = json['frontShinyAnimatedSpriteUrl'];
+    backShinyAnimatedSpriteUrl = json['backShinyAnimatedSpriteUrl'];
   }
 }
 
@@ -326,9 +315,9 @@ class Abilities {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['name'] = this.name;
-    data['description'] = this.description;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
+    data['description'] = description;
     return data;
   }
 }

@@ -4,8 +4,12 @@ import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class FavouritesService {
+  FavouritesService._();
+  static final _instance = FavouritesService._();
+  static FavouritesService get instance => _instance;
+
   final _dio = Dio();
-  Dio getDioInstance() => _dio;
+  Dio getDio() => _dio;
 
   Future<bool> isFavourite(String favourite) async {
     final uri = '${ApiConstants.baseURL}/favourites/contains';
@@ -19,19 +23,16 @@ class FavouritesService {
           'username': username,
           'favourite': favourite,
         },
-        options: Options(headers: {'Connection': 'keep-alive'}),
       );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        final String res = response.data;
-        return bool.parse(res);
+        return true;
       } else {
         return false;
       }
-    } catch (e) {
-      print('Error');
+    } on DioException catch (e) {
+      print(e);
       return false;
-      // throw Exception(e);
     }
   }
 
@@ -47,7 +48,6 @@ class FavouritesService {
           'username': username,
           'favourite': favourite,
         },
-        options: Options(headers: {'Connection': 'keep-alive'}),
       );
 
       if (response.statusCode == 201 || response.statusCode == 200) {
@@ -55,8 +55,8 @@ class FavouritesService {
       } else {
         return false;
       }
-    } catch (e) {
-      print('Failed to add favourite');
+    } on DioException catch (e) {
+      print(e);
       // throw Exception(e);
       return false;
     }
@@ -70,7 +70,6 @@ class FavouritesService {
       final Response response = await _dio.post(
         uri,
         data: {'username': username},
-        options: Options(headers: {'Connection': 'keep-alive'}),
       );
 
       if (response.statusCode == 201) {
@@ -81,10 +80,9 @@ class FavouritesService {
       } else {
         return [];
       }
-    } catch (e) {
+    } on DioException catch (e) {
       print(e);
       return [];
-      // throw Exception(e);
     }
   }
 
@@ -106,8 +104,9 @@ class FavouritesService {
         return true;
       }
       return false;
-    } catch (e) {
-      throw Exception(e);
+    } on DioException catch (e) {
+      print(e);
+      return false;
     }
   }
 }

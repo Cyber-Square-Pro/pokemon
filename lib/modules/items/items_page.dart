@@ -94,8 +94,7 @@ class _ItemsPageState extends State<ItemsPage> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
           ),
-          tileColor:
-              AppTheme.getColors(context).panelBackground.withOpacity(0.8),
+          tileColor: textTheme.bodySmall?.color?.withOpacity(0.1),
           leading: item.imageUrl != null
               ? ImageUtils.networkImage(
                   url: item.imageUrl!,
@@ -130,7 +129,7 @@ class _ItemsPageState extends State<ItemsPage> {
                   style: textTheme.bodySmall!.copyWith(
                     fontFamily: 'Circular',
                     height: 1.3,
-                    fontSize: 13.sp,
+                    fontSize: 14.sp,
                     fontWeight: FontWeight.w500,
                   ),
                 )

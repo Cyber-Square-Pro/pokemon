@@ -1,9 +1,11 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:mobx/mobx.dart';
 part 'pokemon_details_store.g.dart';
 
-class PokemonDetailsStore = PokemonDetailsStoreBase with _$PokemonDetailsStore;
+class PokemonDetailsStore = _PokemonDetailsStoreBase with _$PokemonDetailsStore;
 
-abstract class PokemonDetailsStoreBase with Store {
+abstract class _PokemonDetailsStoreBase with Store {
   @observable
   double _progress = 0;
 

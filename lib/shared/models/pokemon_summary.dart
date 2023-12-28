@@ -11,15 +11,16 @@ class PokemonSummary extends Equatable {
   late final String specie;
   late final Generation generation;
 
-  PokemonSummary(
-      {required this.number,
-      required this.name,
-      required this.imageUrl,
-      required this.thumbnailUrl,
-      required this.sprites,
-      required this.types,
-      required this.specie,
-      required this.generation});
+  PokemonSummary({
+    required this.number,
+    required this.name,
+    required this.imageUrl,
+    required this.thumbnailUrl,
+    required this.sprites,
+    required this.types,
+    required this.specie,
+    required this.generation,
+  });
 
   PokemonSummary.fromJson(Map<String, dynamic> json) {
     number = json['number'];
@@ -29,10 +30,11 @@ class PokemonSummary extends Equatable {
     sprites = Sprites.fromJson(json['sprites']);
     types = json['types'].cast<String>();
     specie = json['specie'];
-    generation = Generation.values.where((it) => it.toString().endsWith(json['generation'])).first;
+    generation = Generation.values
+        .where((it) => it.toString().endsWith(json['generation']))
+        .first;
   }
 
   @override
-  // TODO: implement props
-  List<Object?> get props => [name, number];
+  List<Object?> get props => [number, name];
 }

@@ -32,4 +32,8 @@ class AppColorsDark extends AppColors {
 
   @override
   Color get appBarButtons => const Color(0xFFFFFFFF);
+
+  // UI Components
+  @override
+  Color get primaryColor => Colors.blue.shade800;
 }

@@ -1,3 +1,5 @@
+// ignore_for_file: unused_field
+
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:app/modules/daily_checkin/daily_checkin_page.dart';
 import 'package:app/modules/favourites/favourites_page.dart';

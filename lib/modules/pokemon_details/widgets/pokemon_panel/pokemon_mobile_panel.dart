@@ -2,7 +2,7 @@ import 'dart:io' as io;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+
 import 'package:app/modules/pokemon_details/widgets/pokemon_panel/pages/about/about_page.dart';
 import 'package:app/modules/pokemon_details/widgets/pokemon_panel/pages/base_stats/base_stats_page.dart';
 import 'package:app/modules/pokemon_details/widgets/pokemon_panel/pages/evolution/evolution_page.dart';
@@ -36,11 +36,11 @@ class PokemonMobilePanelWidget extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _PokemonMobilePanelWidgetState createState() =>
-      _PokemonMobilePanelWidgetState();
+  PokemonMobilePanelWidgetState createState() =>
+      PokemonMobilePanelWidgetState();
 }
 
-class _PokemonMobilePanelWidgetState extends State<PokemonMobilePanelWidget>
+class PokemonMobilePanelWidgetState extends State<PokemonMobilePanelWidget>
     with
         TickerProviderStateMixin,
         AutomaticKeepAliveClientMixin<PokemonMobilePanelWidget> {
@@ -113,17 +113,17 @@ class _PokemonMobilePanelWidgetState extends State<PokemonMobilePanelWidget>
       parallaxEnabled: true,
       parallaxOffset: 0.5,
       controller: _panelController,
-      color: Theme.of(context).backgroundColor,
+      color: Theme.of(context).colorScheme.background,
       panelBuilder: (scrollController) {
         return Padding(
           padding: const EdgeInsets.only(top: 10),
           child: Container(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(30),
                 topRight: Radius.circular(30),
               ),
-              color: Theme.of(context).backgroundColor,
+              color: Theme.of(context).colorScheme.background,
             ),
             child: NestedScrollView(
               controller: scrollController,
@@ -139,8 +139,8 @@ class _PokemonMobilePanelWidgetState extends State<PokemonMobilePanelWidget>
                       children: [
                         Container(
                           decoration: BoxDecoration(
-                            color: Theme.of(context).backgroundColor,
-                            borderRadius: BorderRadius.only(
+                            color: Theme.of(context).colorScheme.background,
+                            borderRadius: const BorderRadius.only(
                               topLeft: Radius.circular(30),
                               topRight: Radius.circular(30),
                             ),
@@ -150,9 +150,9 @@ class _PokemonMobilePanelWidgetState extends State<PokemonMobilePanelWidget>
                                 AppTheme.getColors(context).pokemonTabTitle,
                             labelColor: AppTheme.getColors(context)
                                 .selectPokemonTabTitle,
-                            unselectedLabelStyle: textTheme.bodyText1
+                            unselectedLabelStyle: textTheme.bodySmall
                                 ?.copyWith(fontWeight: FontWeight.bold),
-                            labelStyle: textTheme.bodyText1?.copyWith(
+                            labelStyle: textTheme.bodySmall?.copyWith(
                               fontWeight: FontWeight.bold,
                               color: null,
                             ),
@@ -164,28 +164,28 @@ class _PokemonMobilePanelWidgetState extends State<PokemonMobilePanelWidget>
                                 child: FittedBox(
                                   fit: BoxFit.fitWidth,
                                   child:
-                                      Text("About", style: textTheme.bodyText1),
+                                      Text("About", style: textTheme.bodySmall),
                                 ),
                               ),
                               Tab(
                                 child: FittedBox(
                                   fit: BoxFit.fitWidth,
                                   child: Text("Base Stats",
-                                      style: textTheme.bodyText1),
+                                      style: textTheme.bodySmall),
                                 ),
                               ),
                               Tab(
                                 child: FittedBox(
                                   fit: BoxFit.fitWidth,
                                   child: Text("Evolution",
-                                      style: textTheme.bodyText1),
+                                      style: textTheme.bodySmall),
                                 ),
                               ),
                               Tab(
                                 child: FittedBox(
                                   fit: BoxFit.fitWidth,
                                   child:
-                                      Text("Moves", style: textTheme.bodyText1),
+                                      Text("Moves", style: textTheme.bodySmall),
                                 ),
                               ),
                             ],
@@ -197,7 +197,7 @@ class _PokemonMobilePanelWidgetState extends State<PokemonMobilePanelWidget>
                 ];
               },
               body: Padding(
-                padding: EdgeInsets.only(top: 20),
+                padding: const EdgeInsets.only(top: 20),
                 child: TabBarView(
                   controller: _tabController,
                   children: [
@@ -215,9 +215,9 @@ class _PokemonMobilePanelWidgetState extends State<PokemonMobilePanelWidget>
                     ),
                     NotificationListener<UserScrollNotification>(
                       child: SingleChildScrollView(
-                        child: const BaseStatsPage(),
                         controller: setScrollControllerByPlatform(
                             context, _baseStatsController),
+                        child: const BaseStatsPage(),
                       ),
                       onNotification: (UserScrollNotification scrollInfo) {
                         onScroll(scrollInfo);
@@ -227,9 +227,9 @@ class _PokemonMobilePanelWidgetState extends State<PokemonMobilePanelWidget>
                     ),
                     NotificationListener<UserScrollNotification>(
                       child: SingleChildScrollView(
-                        child: const EvolutionPage(),
                         controller: setScrollControllerByPlatform(
                             context, _evolutionController),
+                        child: const EvolutionPage(),
                       ),
                       onNotification: (UserScrollNotification scrollInfo) {
                         onScroll(scrollInfo);
@@ -239,9 +239,9 @@ class _PokemonMobilePanelWidgetState extends State<PokemonMobilePanelWidget>
                     ),
                     NotificationListener<UserScrollNotification>(
                       child: SingleChildScrollView(
-                        child: const MovesPage(),
                         controller: setScrollControllerByPlatform(
                             context, _movesController),
+                        child: const MovesPage(),
                       ),
                       onNotification: (UserScrollNotification scrollInfo) {
                         onScroll(scrollInfo);
@@ -256,7 +256,7 @@ class _PokemonMobilePanelWidgetState extends State<PokemonMobilePanelWidget>
           ),
         );
       },
-      borderRadius: BorderRadius.only(
+      borderRadius: const BorderRadius.only(
         topLeft: Radius.circular(30),
         topRight: Radius.circular(30),
       ),

@@ -26,22 +26,22 @@ class TechnicalMachinesMovesTableWidget extends StatelessWidget {
           columns: [
             Text("TM",
                 style:
-                    textTheme.bodyText1?.copyWith(fontWeight: FontWeight.bold)),
+                    textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold)),
             Text("Move",
                 style:
-                    textTheme.bodyText1?.copyWith(fontWeight: FontWeight.bold)),
+                    textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold)),
             Text("Type",
                 style:
-                    textTheme.bodyText1?.copyWith(fontWeight: FontWeight.bold)),
+                    textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold)),
             Text("Cat.",
                 style:
-                    textTheme.bodyText1?.copyWith(fontWeight: FontWeight.bold)),
+                    textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold)),
             Text("Power",
                 style:
-                    textTheme.bodyText1?.copyWith(fontWeight: FontWeight.bold)),
+                    textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold)),
             Text("Acc.",
                 style:
-                    textTheme.bodyText1?.copyWith(fontWeight: FontWeight.bold)),
+                    textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold)),
           ],
           rows: _pokemonStore.pokemon!.moves.technicalMachine
               .map((move) => [
@@ -52,18 +52,18 @@ class TechnicalMachinesMovesTableWidget extends StatelessWidget {
                           width: 20,
                           height: 20,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 2,
                         ),
                         Text(move.technicalMachine.toString(),
-                            style: textTheme.bodyText1),
+                            style: textTheme.bodySmall),
                       ],
                     ),
-                    Text(move.move, style: textTheme.bodyText1),
+                    Text(move.move, style: textTheme.bodySmall),
                     PokemonTypeBadge(type: move.type, height: 16, width: 16),
-                    Text(move.category, style: textTheme.bodyText1),
-                    Text(move.power, style: textTheme.bodyText1),
-                    Text(move.accuracy, style: textTheme.bodyText1)
+                    Text(move.category, style: textTheme.bodySmall),
+                    Text(move.power, style: textTheme.bodySmall),
+                    Text(move.accuracy, style: textTheme.bodySmall)
                   ])
               .toList(),
         );

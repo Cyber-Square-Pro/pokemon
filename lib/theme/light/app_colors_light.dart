@@ -32,4 +32,7 @@ class AppColorsLight extends AppColors {
 
   @override
   Color get appBarButtons => const Color(0xFF000000);
+
+  @override
+  Color get primaryColor => Colors.blue.shade500;
 }

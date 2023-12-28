@@ -26,41 +26,41 @@ class BaseStatsPage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Column(
+          const Column(
             children: [
-              const BaseStatsItemWidget(
+              BaseStatsItemWidget(
                 title: "HP",
               ),
-              const BaseStatsItemWidget(
+              BaseStatsItemWidget(
                 title: "Attack",
               ),
-              const BaseStatsItemWidget(
+              BaseStatsItemWidget(
                 title: "Defense",
               ),
-              const BaseStatsItemWidget(
+              BaseStatsItemWidget(
                 title: "Sp. Atk",
               ),
-              const BaseStatsItemWidget(
+              BaseStatsItemWidget(
                 title: "Sp. Def",
               ),
-              const BaseStatsItemWidget(
+              BaseStatsItemWidget(
                 title: "Speed",
               ),
-              const BaseStatsItemWidget(
+              BaseStatsItemWidget(
                 title: "Total",
                 maxValue: 1200,
               ),
             ],
           ),
-          SizedBox(height: 40),
+          const SizedBox(height: 40),
           Text(
             "Type Effectiveness",
-            style: textTheme.bodyText1?.copyWith(fontWeight: FontWeight.bold),
+            style: textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Observer(
             builder: (_) => Table(
-              columnWidths: {0: const FixedColumnWidth(100)},
+              columnWidths: const {0: FixedColumnWidth(100)},
               children: [
                 TableRowFactory.build(context,
                     title: "Damaged normally by",
@@ -81,7 +81,7 @@ class BaseStatsPage extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 300,
           )
         ],

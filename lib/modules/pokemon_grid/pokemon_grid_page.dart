@@ -1,5 +1,4 @@
 import 'package:app/shared/widgets/loading_spinner.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
@@ -9,13 +8,13 @@ import 'package:app/shared/stores/pokemon_store/pokemon_store.dart';
 import 'package:app/shared/utils/app_constants.dart';
 
 class PokemonGridPage extends StatefulWidget {
-  PokemonGridPage({Key? key}) : super(key: key);
+  const PokemonGridPage({super.key});
 
   @override
-  _PokemonGridPageState createState() => _PokemonGridPageState();
+  PokemonGridPageState createState() => PokemonGridPageState();
 }
 
-class _PokemonGridPageState extends State<PokemonGridPage> {
+class PokemonGridPageState extends State<PokemonGridPage> {
   late PokemonStore _pokemonStore;
 
   @override

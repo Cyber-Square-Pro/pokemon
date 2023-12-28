@@ -7,27 +7,23 @@ import 'package:app/shared/ui/widgets/animated_pokeball.dart';
 import 'package:app/shared/utils/error_card.dart';
 import 'package:app/shared/utils/snackbars.dart';
 import 'package:app/shared/widgets/loading_spinner_modal.dart';
-import 'package:dio/dio.dart';
+import 'package:app/theme/app_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 class FavouritesPage extends StatefulWidget {
-  const FavouritesPage({
-    Key? key,
-  }) : super(key: key);
+  const FavouritesPage({super.key});
 
   @override
   State<FavouritesPage> createState() => _FavouritesPageState();
 }
 
 class _FavouritesPageState extends State<FavouritesPage> {
-  late Dio dio;
   @override
   void initState() {
     super.initState();
 
-    //
     Future.delayed(
       Duration.zero,
       () => context.read<FavouritesProvider>().fetchFavourites(context),
@@ -37,7 +33,7 @@ class _FavouritesPageState extends State<FavouritesPage> {
   @override
   Widget build(BuildContext context) {
     // UI
-    return SliverToBoxAdapter(
+    return SliverFillRemaining(
       child: Consumer<FavouritesProvider>(
         builder: (context, provider, _) {
           if (provider.state == FavouritesState.loading) {
@@ -74,18 +70,16 @@ class _FavouritesPageState extends State<FavouritesPage> {
             );
           }
           return GridView.builder(
-            shrinkWrap: true,
-            padding: EdgeInsets.only(
-              bottom: 20,
-              right: 10.w,
-              left: 10.w,
+            padding: EdgeInsets.symmetric(
+              horizontal: AppLayouts.horizontalPagePadding,
             ),
+            shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               mainAxisSpacing: 10,
               crossAxisSpacing: 10,
-              childAspectRatio: 1.35,
+              childAspectRatio: 1.4,
             ),
             itemCount: provider.favourites.length,
             itemBuilder: (context, index) {
@@ -99,8 +93,8 @@ class _FavouritesPageState extends State<FavouritesPage> {
                     pokemon: pokemon,
                   ),
                   Positioned(
-                    right: -2,
-                    bottom: -2,
+                    right: 5,
+                    bottom: 5,
                     child: removeButton(context, onTap: () async {
                       showDialog(
                         context: context,

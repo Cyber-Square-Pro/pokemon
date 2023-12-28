@@ -10,10 +10,10 @@ class PokeItemWidget extends StatelessWidget {
   final bool isFavorite;
 
   const PokeItemWidget({
-    Key? key,
+    super.key,
     required this.pokemon,
     this.isFavorite = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,15 +22,6 @@ class PokeItemWidget extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: AppTheme.getColors(context).pokemonItem(pokemon.types[0]),
-        boxShadow: [
-          BoxShadow(
-            color: AppTheme.getColors(context)
-                .pokemonItem(pokemon.types[0])
-                .withOpacity(0.5),
-            blurRadius: 10,
-            offset: const Offset(-1, 1),
-          ),
-        ],
         borderRadius: BorderRadius.circular(15),
       ),
       child: ClipRRect(
@@ -98,16 +89,16 @@ class PokeItemWidget extends StatelessWidget {
                   Text(
                     pokemon.name,
                     style: textTheme.bodySmall!.copyWith(
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Circular',
-                        fontSize: 15,
-                        letterSpacing: 0,
-                        color: AppTheme.getColors(context)
-                            .pokemonDetailsTitleColor),
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Circular',
+                      fontSize: 14,
+                      letterSpacing: 0,
+                      overflow: TextOverflow.fade,
+                      color:
+                          AppTheme.getColors(context).pokemonDetailsTitleColor,
+                    ),
+                    maxLines: 2,
                   ),
-                  // const SizedBox(
-                  //   height: 10,
-                  // ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: pokemon.types

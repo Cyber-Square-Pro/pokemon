@@ -7,6 +7,9 @@ import 'dark/app_colors_dark.dart';
 abstract class AppColors {
   const AppColors();
 
+  // Custom Components
+  Color get primaryColor;
+
   Color get panelBackground;
   Color get pokeballLogoBlack;
   Color get pokeballLogoGray;

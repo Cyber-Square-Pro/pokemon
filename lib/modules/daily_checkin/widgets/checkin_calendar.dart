@@ -26,11 +26,13 @@ class CheckinCalendar extends StatelessWidget {
     return TableCalendar(
       calendarStyle: _calStyle(context),
       headerStyle: _headerStyle(context),
+      pageAnimationDuration: Durations.long3,
+      daysOfWeekStyle: _daysOfWeekStyle(context),
       weekNumbersVisible: false,
       focusedDay: focusedDay,
       firstDay: firstDay,
       lastDay: lastDay,
-
+      weekendDays: const [DateTime.sunday],
       // Builders
       calendarBuilders: CalendarBuilders(
         markerBuilder: (context, currentDate, events) {
@@ -70,33 +72,50 @@ _markerDecoration(BuildContext context, Color color) {
   );
 }
 
+DaysOfWeekStyle _daysOfWeekStyle(context) {
+  return DaysOfWeekStyle(
+    weekendStyle: TextStyle(
+      fontWeight: FontWeight.bold,
+      color: Colors.red.shade400,
+    ),
+    weekdayStyle: const TextStyle(
+      fontWeight: FontWeight.bold,
+    ),
+  );
+}
+
 CalendarStyle _calStyle(BuildContext context) {
   final theme = Theme.of(context).colorScheme;
   return CalendarStyle(
     tablePadding: EdgeInsets.only(
       top: 10.h,
     ),
-    weekendTextStyle: TextStyle(
-      color: theme.error.withOpacity(0.75),
-    ),
     selectedDecoration: BoxDecoration(
       color: theme.primary,
     ),
-    disabledTextStyle: TextStyle(
-      color: theme.onBackground.withOpacity(0.25),
+    defaultTextStyle: TextStyle(
+      color: theme.onBackground.withOpacity(0.75),
     ),
-    todayDecoration: const BoxDecoration(
-      color: Colors.transparent,
+    disabledTextStyle: TextStyle(
+      color: theme.onBackground.withOpacity(0.15),
+    ),
+    todayDecoration: BoxDecoration(
+      color: AppTheme.getColors(context).primaryColor,
+      borderRadius: BorderRadius.circular(7),
     ),
     markerDecoration: BoxDecoration(
       color: theme.primary.withOpacity(0.25),
       borderRadius: BorderRadius.circular(10.r),
     ),
     todayTextStyle: TextStyle(
-      color: theme.onBackground,
-      fontSize: 16.sp,
+      color: Colors.white,
+      fontSize: 20.sp,
       fontWeight: FontWeight.bold,
     ),
+    weekendTextStyle: TextStyle(
+      color: Colors.red.shade400,
+    ),
+    outsideDaysVisible: false,
   );
 }
 
@@ -104,7 +123,7 @@ HeaderStyle _headerStyle(BuildContext context) {
   final theme = Theme.of(context).colorScheme;
   return HeaderStyle(
     decoration: BoxDecoration(
-      color: mediumBlue,
+      color: AppTheme.getColors(context).primaryColor,
       borderRadius: BorderRadius.circular(15.r),
     ),
     titleCentered: true,

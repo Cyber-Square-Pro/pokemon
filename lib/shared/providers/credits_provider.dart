@@ -16,7 +16,6 @@ class CreditsProvider extends ChangeNotifier {
   late CreditState _state = CreditState.init;
   late double _credits = 0.00;
 
-
   Future<void> addCredits(
     BuildContext context, [
     double amount = 25,

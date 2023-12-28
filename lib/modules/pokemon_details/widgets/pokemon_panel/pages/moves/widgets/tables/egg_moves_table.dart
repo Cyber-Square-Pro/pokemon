@@ -26,27 +26,27 @@ class EggMovesTableWidget extends StatelessWidget {
           columns: [
             Text("Move",
                 style:
-                    textTheme.bodyText1?.copyWith(fontWeight: FontWeight.bold)),
+                    textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold)),
             Text("Type",
                 style:
-                    textTheme.bodyText1?.copyWith(fontWeight: FontWeight.bold)),
+                    textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold)),
             Text("Cat.",
                 style:
-                    textTheme.bodyText1?.copyWith(fontWeight: FontWeight.bold)),
+                    textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold)),
             Text("Power",
                 style:
-                    textTheme.bodyText1?.copyWith(fontWeight: FontWeight.bold)),
+                    textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold)),
             Text("Acc.",
                 style:
-                    textTheme.bodyText1?.copyWith(fontWeight: FontWeight.bold)),
+                    textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold)),
           ],
           rows: _pokemonStore.pokemon!.moves.egg
               .map((move) => [
-                    Text(move.move, style: textTheme.bodyText1),
+                    Text(move.move, style: textTheme.bodySmall),
                     PokemonTypeBadge(type: move.type, height: 16, width: 16),
-                    Text(move.category, style: textTheme.bodyText1),
-                    Text(move.power, style: textTheme.bodyText1),
-                    Text(move.accuracy, style: textTheme.bodyText1)
+                    Text(move.category, style: textTheme.bodySmall),
+                    Text(move.power, style: textTheme.bodySmall),
+                    Text(move.accuracy, style: textTheme.bodySmall)
                   ])
               .toList(),
         );

@@ -26,12 +26,6 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
   late SignupProvider signupProv;
   late OtpProvider otpProvider;
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
   final _formKey = GlobalKey<FormState>();
   final _otpController = TextEditingController();
 
@@ -40,7 +34,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
     final otpProvider = Provider.of<OtpProvider>(context, listen: false);
     final signupProv = Provider.of<SignupProvider>(context, listen: false);
     TimerProvider();
-    print(otpProvider.email);
+
     return Container(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -106,7 +100,9 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                             controller: _otpController,
                             validator: (value) {
                               if (value != null || value != '') {
-                                if (value!.length < 6) return 'Please enter a valid OTP';
+                                if (value!.length < 6) {
+                                  return 'Please enter a valid OTP';
+                                }
                               }
                               return null;
                             },
@@ -115,29 +111,38 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                           hSpace(25),
                           StreamBuilder<int>(
                             stream: context.read<TimerProvider>().timerStream,
-                            initialData: context.read<TimerProvider>().initialTimeInSeconds,
+                            initialData: context
+                                .read<TimerProvider>()
+                                .initialTimeInSeconds,
                             builder: (context, snapshot) {
                               int remainingSeconds = snapshot.data!;
                               return !(remainingSeconds > 0)
                                   ? CustomTextButton(
                                       onPressed: () async {
                                         final String email = otpProvider.email;
-                                        showLoadingSpinnerModal(context, 'Sending OTP...');
-                                        if (await OtpService()
-                                            .sendOTP(email, otpProvider.intent.name)) {
+                                        showLoadingSpinnerModal(
+                                            context, 'Sending OTP...');
+                                        if (await OtpService().sendOTP(
+                                            email, otpProvider.intent.name)) {
                                           if (context.mounted) {
                                             Navigator.pop(context);
-                                            ScaffoldMessenger.of(context).showSnackBar(
-                                              MySnackbars.success('A new OTP has been sent'),
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              MySnackbars.success(
+                                                  'A new OTP has been sent'),
                                             );
-                                            context.read<TimerProvider>().restartTimer();
+                                            context
+                                                .read<TimerProvider>()
+                                                .restartTimer();
                                           }
                                         } else {
                                           if (context.mounted) {
                                             Navigator.pop(context);
 
-                                            ScaffoldMessenger.of(context).showSnackBar(
-                                              MySnackbars.error('Failed to send OTP'),
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              MySnackbars.error(
+                                                  'Failed to send OTP'),
                                             );
                                           }
                                         }
@@ -165,9 +170,11 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                               onPressed: () async {
                                 final otpProv = context.read<OtpProvider>();
                                 if (_formKey.currentState!.validate()) {
-                                  final String? sEmail = signupProv.getSignupData['email'];
+                                  final String? sEmail =
+                                      signupProv.getSignupData['email'];
                                   final String email = sEmail ?? otpProv.email;
-                                  final int otp = int.parse(_otpController.text);
+                                  final int otp =
+                                      int.parse(_otpController.text);
                                   //-------------------------------------------------------
                                   if (otpProv.intent == OtpIntent.SIGN_UP) {
                                     // OTP VERIFICATION FOR SIGN_UP
@@ -179,25 +186,32 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                                     )) {
                                       signupProv.clearSignupData();
                                       _otpController.clear();
-                                      Navigator.pushReplacementNamed(context, '/login', arguments: [
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          MySnackbars.success(
-                                              'Email Verified Succesfully, Login to continue '),
-                                        ),
-                                      ]);
+                                      Navigator.pushReplacementNamed(
+                                          context, '/login',
+                                          arguments: [
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              MySnackbars.success(
+                                                  'Email Verified Succesfully, Login to continue '),
+                                            ),
+                                          ]);
                                     } else {
                                       ScaffoldMessenger.of(context)
-                                          .showSnackBar(MySnackbars.error('Failed to verify OTP'));
+                                          .showSnackBar(MySnackbars.error(
+                                              'Failed to verify OTP'));
                                     }
                                     // OTP VERIFICATION FOR PASSWORD RESET
-                                  } else if (otpProv.intent == OtpIntent.RESET_PASS) {
-                                    if (await OtpService()
-                                        .verifyEmail(context, email, otp, otpProv.intent.name)) {
+                                  } else if (otpProv.intent ==
+                                      OtpIntent.RESET_PASS) {
+                                    if (await OtpService().verifyEmail(context,
+                                        email, otp, otpProv.intent.name)) {
                                       _otpController.clear();
                                       otpProv.clearAll();
-                                      Navigator.pushReplacementNamed(context, '/resetPass',
+                                      Navigator.pushReplacementNamed(
+                                          context, '/resetPass',
                                           arguments: [
-                                            ScaffoldMessenger.of(context).showSnackBar(
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
                                               MySnackbars.success(
                                                   'Email Verified Succesfully, Change your password from here'),
                                             ),

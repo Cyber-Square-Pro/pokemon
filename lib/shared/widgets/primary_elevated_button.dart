@@ -75,13 +75,13 @@ ButtonStyle _mainButtonStyle(BuildContext context) {
   return ButtonStyle(
     backgroundColor: MaterialStateProperty.resolveWith((states) {
       if (states.contains(MaterialState.pressed)) {
-        return theme.primary.withOpacity(0.5);
+        return AppTheme.getColors(context).primaryColor.withOpacity(0.5);
       } else {
-        return theme.primary;
+        return AppTheme.getColors(context).primaryColor;
       }
     }),
     foregroundColor: MaterialStatePropertyAll(
-      theme.onPrimary,
+      theme.background,
     ),
     padding: const MaterialStatePropertyAll(
       EdgeInsets.symmetric(horizontal: 15, vertical: 12.5),

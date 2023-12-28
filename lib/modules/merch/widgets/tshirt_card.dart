@@ -31,7 +31,6 @@ class TshirtCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(AppTheme.globalBorderRadius),
         ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ClipRRect(
@@ -61,6 +60,7 @@ class TshirtCard extends StatelessWidget {
                 vertical: 10.h,
               ),
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(

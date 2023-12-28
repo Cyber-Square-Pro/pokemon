@@ -45,6 +45,7 @@ class PokemonDetailsPageState extends State<PokemonDetailsPage>
   @override
   void initState() {
     super.initState();
+
     _pokemonStore = GetIt.instance<PokemonStore>();
     _pokemonDetailsStore = PokemonDetailsStore();
     _pageController =
@@ -82,10 +83,6 @@ class PokemonDetailsPageState extends State<PokemonDetailsPage>
 
     return ThemeSwitchingArea(
       child: Builder(builder: (context) {
-        Future.delayed(
-            Duration.zero,
-            () => context.read<FavouritesProvider>().checkIfCurrentIsFavourite(
-                context, _pokemonStore.pokemonSummary!));
         return Scaffold(
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(50),
@@ -93,6 +90,12 @@ class PokemonDetailsPageState extends State<PokemonDetailsPage>
               children: [
                 Observer(
                   builder: (_) {
+                    Future.delayed(
+                        Duration.zero,
+                        () => context
+                            .read<FavouritesProvider>()
+                            .checkIfCurrentIsFavourite(
+                                context, _pokemonStore.pokemonSummary!));
                     return Container(
                       height: size.height,
                       width: size.width,
@@ -177,14 +180,17 @@ class PokemonDetailsPageState extends State<PokemonDetailsPage>
                                             .pokemonDetailsTitleColor,
                                       ),
                                       onPressed: () async {
-                                        await provider.removeFavourite(context,
-                                            _pokemonStore.pokemon!.number);
+                                        await provider
+                                            .removeFavourite(context,
+                                                _pokemonStore.pokemon!.number)
+                                            .then((value) {
+                                          BotToast.showText(
+                                              text:
+                                                  "${_pokemonStore.pokemon!.name} was removed from favorites");
+                                        });
+                                        print(_pokemonStore.pokemon!.number);
                                         _pokemonStore.removeFavoritePokemon(
                                             _pokemonStore.pokemon!.number);
-
-                                        BotToast.showText(
-                                            text:
-                                                "${_pokemonStore.pokemon!.name} was removed from favorites");
                                       },
                                     )
                                   : IconButton(
@@ -192,6 +198,9 @@ class PokemonDetailsPageState extends State<PokemonDetailsPage>
                                           color: AppTheme.getColors(context)
                                               .pokemonDetailsTitleColor),
                                       onPressed: () async {
+                                        print(_pokemonStore.pokemon!.number);
+                                        _pokemonStore.addFavoritePokemon(
+                                            _pokemonStore.pokemon!.number);
                                         await provider.addFavourite(context,
                                             _pokemonStore.pokemon!.number);
                                         BotToast.showText(
@@ -204,41 +213,6 @@ class PokemonDetailsPageState extends State<PokemonDetailsPage>
                           },
                         ),
                         wSpace(10),
-                        // if (_pokemonStore.isFavorite(_pokemonStore.pokemon!.number))
-                        // if (context.read<FavouritesProvider>().isFavourite)
-                        //   IconButton(
-                        //     icon: Icon(
-                        //       Icons.favorite,
-                        //       color: AppTheme.getColors(context).pokemonDetailsTitleColor,
-                        //     ),
-                        //     onPressed: () async {
-                        //       _pokemonStore.removeFavoritePokemon(_pokemonStore.pokemon!.number);
-                        //       await favService.removeFavourite(_pokemonStore.pokemon!.number);
-
-                        //       BotToast.showText(
-                        //           text: "${_pokemonStore.pokemon!.name} was removed from favorites");
-                        //     },
-                        //   ),
-                        // // if (!_pokemonStore.isFavorite(_pokemonStore.pokemon!.number))
-                        // if (!context.read<FavouritesProvider>().isFavourite)
-                        //   IconButton(
-                        //     icon: Icon(Icons.favorite_border,
-                        //         color: AppTheme.getColors(context).pokemonDetailsTitleColor),
-                        //     onPressed: () async {
-                        //       // final SharedPreferences prefs = await SharedPreferences.getInstance();
-                        //       // final username = prefs.getString('username')!;
-
-                        //       //! ADD FAVOURITE FUNCTION
-                        //       if (await favService.addFavourite(
-                        //           username, _pokemonStore.pokemon!.number)) {
-                        //         BotToast.showText(text: 'Added favourite to mongo!');
-                        //       } else {
-                        //         BotToast.showText(text: 'Error/already exists!');
-                        //       }
-                        //       _pokemonStore.addFavoritePokemon(_pokemonStore.pokemon!.number);
-                        //       BotToast.showText(text: "${_pokemonStore.pokemon!.name} was favorited");
-                        //     },
-                        //   ),
                       ],
                     );
                   },

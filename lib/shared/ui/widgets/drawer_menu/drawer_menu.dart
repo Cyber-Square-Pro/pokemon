@@ -232,13 +232,11 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget>
 
                           SharedPreferences prefs =
                               await SharedPreferences.getInstance();
-                          if (context.mounted) {
-                            prefs.setBool(
-                              "darkTheme",
-                              !(Theme.of(context).brightness ==
-                                  Brightness.dark),
-                            );
-                          }
+
+                          prefs.setBool(
+                            "darkTheme",
+                            !(Theme.of(context).brightness == Brightness.dark),
+                          );
                         },
                         child: Icon(
                           Theme.of(context).brightness == Brightness.light

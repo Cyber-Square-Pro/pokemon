@@ -65,10 +65,11 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => OtpProvider()),
           ChangeNotifierProvider(create: (context) => TimerProvider()),
           ChangeNotifierProvider(create: (context) => ObscureProvider()),
-          ChangeNotifierProvider(create: (context) => FavouritesProvider()),
+          ChangeNotifierProvider(
+              create: (context) => FavouritesProvider(context)),
           ChangeNotifierProvider(create: (context) => YoutubeProvider()),
           ChangeNotifierProvider(create: (_) => CreditsProvider(context)),
-          ChangeNotifierProvider(create: (_) => CheckinProvider(context)),
+          ChangeNotifierProvider(create: (context) => CheckinProvider(context)),
         ],
         child: ScreenUtilInit(
           minTextAdapt: false,

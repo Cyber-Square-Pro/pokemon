@@ -18,20 +18,15 @@ class DailyCheckinPage extends StatefulWidget {
 }
 
 class _DailyCheckinPageState extends State<DailyCheckinPage> {
-  late CheckinProvider checkinProvider;
-  late CreditsProvider creditsProvider;
   @override
   void initState() {
     super.initState();
-    checkinProvider = context.read<CheckinProvider>();
-    // creditsProvider = context.read<CreditsProvider>();
+    context.read<CheckinProvider>().getHistory(context);
   }
 
   // UI
   @override
   Widget build(BuildContext context) {
-    creditsProvider = Provider.of<CreditsProvider>(context, listen: true);
-
     return SliverFillRemaining(
       fillOverscroll: false,
       key: const Key('checkin_page'),
@@ -40,42 +35,66 @@ class _DailyCheckinPageState extends State<DailyCheckinPage> {
           horizontal: AppLayouts.horizontalPagePadding,
         ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            StreamBuilder(
-              stream: checkinProvider.fromHistoryStream(context),
-              builder: (BuildContext context, AsyncSnapshot snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return AnimatedPokeballWidget(
-                    color: Theme.of(context).colorScheme.onBackground,
-                    size: 36.r,
-                  );
-                }
-                if (checkinProvider.history.isEmpty) {
-                  return const Center(
-                    child: Text(
-                      'You have no check-in record,\nCheckin Now to earn rewards!',
-                      textAlign: TextAlign.center,
+            Consumer<CheckinProvider>(
+              builder: (context, checkinProvider, _) {
+                if (checkinProvider.state == CheckinState.loading) {
+                  return Center(
+                    child: AnimatedPokeballWidget(
+                      color: Theme.of(context).colorScheme.onBackground,
+                      size: 36.r,
                     ),
                   );
+                } else {
+                  return CheckinCalendar(
+                    checkinProvider.history,
+                    firstDay: checkinProvider.data.joinDate,
+                    lastDay: DateTime(2100, 12, 30),
+                    focusedDay: DateTime.now(),
+                  );
                 }
-                return CheckinCalendar(
-                  checkinProvider.history,
-                  firstDay: checkinProvider.data.joinDate,
-                  lastDay: DateTime(2100, 12, 30),
-                  focusedDay: DateTime.now(),
-                );
               },
             ),
 
-            // Reward counter
+            // StreamBuilder(
+            //   stream:
+            //       context.read<CheckinProvider>().fromHistoryStream(context),
+            //   builder: (BuildContext context, AsyncSnapshot snapshot) {
+            //     if (snapshot.connectionState == ConnectionState.waiting) {
+            //       return Center(
+            //         child: AnimatedPokeballWidget(
+            //           color: Theme.of(context).colorScheme.onBackground,
+            //           size: 36.r,
+            //         ),
+            //       );
+            //     }
+            //     if (context.read<CheckinProvider>().history.isEmpty) {
+            //       return const Center(
+            //         child: Text(
+            //           'You have no check-in record,\nCheckin Now to earn rewards!',
+            //           textAlign: TextAlign.center,
+            //         ),
+            //       );
+            //     }
+            //     return CheckinCalendar(
+            //       context.read<CheckinProvider>().history,
+            //       firstDay: context.read<CheckinProvider>().data.joinDate,
+            //       lastDay: DateTime(2100, 12, 30),
+            //       focusedDay: DateTime.now(),
+            //     );
+            //   },
+            // ),
+            // const Spacer(),
+
+            hSpace(10),
             const Spacer(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 const Text('Credit Balance: '),
                 StreamBuilder(
-                  stream: creditsProvider.fromCreditStream(context),
+                  stream:
+                      context.read<CreditsProvider>().fromCreditStream(context),
                   initialData: 0.0,
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
                     print(snapshot.data);
@@ -90,19 +109,19 @@ class _DailyCheckinPageState extends State<DailyCheckinPage> {
                 ),
               ],
             ),
-            hSpace(10),
+
             // Check In Button
             //! Disable if already checked in once
 
-            Consumer<CreditsProvider>(
-              builder: (context, checkinProvider, _) {
-                if (checkinProvider.state == CreditState.loading) {
+            Consumer<CheckinProvider>(
+              builder: (context, provider, _) {
+                print(provider.checkedInToday);
+                if (provider.state == CheckinState.loading) {
                   return AnimatedPokeballWidget(
                     color: Theme.of(context).colorScheme.onBackground,
                     size: 36.r,
                   );
-                } else if (Provider.of<CheckinProvider>(context)
-                    .checkedInToday) {
+                } else if (provider.checkedInToday) {
                   return const NoticeLabel('Already checked in for today!');
                 } else {
                   return SizedBox(
@@ -114,10 +133,17 @@ class _DailyCheckinPageState extends State<DailyCheckinPage> {
                         Future.delayed(Duration.zero, () async {
                           await context
                               .read<CreditsProvider>()
-                              .addCredits(context);
-                          await context
-                              .read<CheckinProvider>()
-                              .checkIn(context);
+                              .addCredits(context)
+                              .then((_) async {
+                            await context
+                                .read<CheckinProvider>()
+                                .checkIn(context)
+                                .then((_) {
+                              context
+                                  .read<CheckinProvider>()
+                                  .getHistory(context);
+                            });
+                          });
                         });
                       },
                     ),
@@ -125,7 +151,6 @@ class _DailyCheckinPageState extends State<DailyCheckinPage> {
                 }
               },
             ),
-            hSpace(20),
           ],
         ),
       ),

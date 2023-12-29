@@ -76,6 +76,8 @@ ButtonStyle _mainButtonStyle(BuildContext context) {
     backgroundColor: MaterialStateProperty.resolveWith((states) {
       if (states.contains(MaterialState.pressed)) {
         return AppTheme.getColors(context).primaryColor.withOpacity(0.5);
+      } else if (states.contains(MaterialState.disabled)) {
+        return AppTheme.getColors(context).primaryColor.withOpacity(0.25);
       } else {
         return AppTheme.getColors(context).primaryColor;
       }

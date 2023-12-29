@@ -2,14 +2,15 @@ import 'package:app/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-Widget confirmDialog({
+Widget confirmDialog(
+  BuildContext context, {
   required String title,
   required String message,
   required void Function() onConfirm,
   required void Function() onDeny,
 }) {
   return AlertDialog(
-    backgroundColor: Colors.indigo,
+    backgroundColor: AppTheme.getColors(context).primaryColor,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(AppTheme.globalBorderRadius),
     ),

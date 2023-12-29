@@ -1,7 +1,9 @@
 import 'package:intl_phone_field/phone_number.dart';
 
 class FormValidators {
-  String? validatePassword(String? value) {
+  FormValidators._();
+
+  static String? validatePassword(String? value) {
     if (value == null || value == '') {
       return 'Password cannot be null';
     } else if (value.length < 6) {
@@ -12,14 +14,14 @@ class FormValidators {
     return null;
   }
 
-  String? validateConfirmPassword(String? value, String? compare) {
+  static String? validateConfirmPassword(String? value, String? compare) {
     if (value != compare) {
       return 'Passwords do not match';
     }
     return null;
   }
 
-  String? validateUsername(String? value) {
+  static String? validateUsername(String? value) {
     if (value == null || value == '') {
       return 'Username cannot be blank';
     } else if (value.length < 5) {
@@ -30,10 +32,12 @@ class FormValidators {
     return null;
   }
 
-  String? validatePhoneNumber(String? value) {
+  static String? validatePhoneNumber(String? value) {
     if (value == '' || value == null) {
       return 'Phone number cannot be blank';
-    } else if (value.contains(' ') || value.contains('.') || value.contains('#')) {
+    } else if (value.contains(' ') ||
+        value.contains('.') ||
+        value.contains('#')) {
       return 'Invalid phone number';
     } else if (value.length != 10) {
       return 'Invalid phone number';
@@ -41,7 +45,7 @@ class FormValidators {
     return null;
   }
 
-  String? validatePhoneField(PhoneNumber? value) {
+  static String? validatePhoneField(PhoneNumber? value) {
     final String? valueText = value?.completeNumber;
     if (valueText == '' || valueText == null) {
       return 'Phone number cannot be blank';
@@ -51,7 +55,7 @@ class FormValidators {
     return null;
   }
 
-  String? validateEmail(String? value) {
+  static String? validateEmail(String? value) {
     if (value == '' || value == null) {
       return 'Email number cannot be blank';
     } else if (!value.contains('@')) {
@@ -60,6 +64,40 @@ class FormValidators {
       return 'Invalid email format';
     }
     return null;
+  }
+
+  static String? expiryDateValidator(String? expiryDate) {
+    if (expiryDate == null || expiryDate.isEmpty) {
+      return 'Expiry date is required';
+    } else if (expiryDate.length != 5) {
+      return 'Invalid expiry date';
+    }
+    return null;
+  }
+
+  static String? cardHolderValidator(String? cardHolderName) {
+    if (cardHolderName == null || cardHolderName.isEmpty) {
+      return 'Cardholder name is required';
+    }
+    return null;
+  }
+
+  static String? cvvValidator(String? cvv) {
+    if (cvv == null || cvv.isEmpty) {
+      return 'CVV is required';
+    } else if (cvv.length != 3) {
+      return 'Invalid CVV';
+    }
+    return null;
+  }
+
+  static String? cardNumberValidator(String? cardNumber) {
+    if (cardNumber == null || cardNumber.isEmpty) {
+      return 'Card number is required';
+    } else if (cardNumber.length < 19) {
+      return 'Invalid card number';
+    }
+    return null; // Return null if validation is successful
   }
 }
 

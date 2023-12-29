@@ -22,18 +22,31 @@ class PokemonSummary extends Equatable {
     required this.generation,
   });
 
-  PokemonSummary.fromJson(Map<String, dynamic> json) {
-    number = json['number'];
-    name = json['name'];
-    imageUrl = json['imageUrl'];
-    thumbnailUrl = json['thumbnailUrl'];
-    sprites = Sprites.fromJson(json['sprites']);
-    types = json['types'].cast<String>();
-    specie = json['specie'];
-    generation = Generation.values
-        .where((it) => it.toString().endsWith(json['generation']))
-        .first;
-  }
+  factory PokemonSummary.fromJson(Map<String, dynamic> json) => PokemonSummary(
+        number: json['number'],
+        name: json['name'],
+        imageUrl: json['imageUrl'],
+        thumbnailUrl: json['thumbnailUrl'],
+        sprites: Sprites.fromJson(json['sprites']),
+        types: json['types'].cast<String>(),
+        specie: json['specie'],
+        generation: Generation.values
+            .where((it) => it.toString().endsWith(json['generation']))
+            .first,
+      );
+
+  // PokemonSummary.fromJson(Map<String, dynamic> json) {
+  //   number = json['number'];
+  //   name = json['name'];
+  //   imageUrl = json['imageUrl'];
+  //   thumbnailUrl = json['thumbnailUrl'];
+  //   sprites = Sprites.fromJson(json['sprites']);
+  //   types = json['types'].cast<String>();
+  //   specie = json['specie'];
+  //   generation = Generation.values
+  //       .where((it) => it.toString().endsWith(json['generation']))
+  //       .first;
+  // }
 
   @override
   List<Object?> get props => [number, name];

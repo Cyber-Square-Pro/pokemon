@@ -1,6 +1,8 @@
 import 'package:app/shared/widgets/loading_spinner.dart';
+import 'package:app/theme/app_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
 import 'package:lottie/lottie.dart';
 import 'package:app/modules/pokemon_grid/widgets/pokemon_grid.dart';
@@ -49,9 +51,9 @@ class PokemonGridPageState extends State<PokemonGridPage> {
           if (_pokemonStore.pokemonFilter.pokemonNameNumberFilter != null &&
               _pokemonStore.pokemonsSummary!.isEmpty) {
             return SliverToBoxAdapter(
-              child: Container(
-                height: 250,
-                width: 250,
+              child: SizedBox(
+                height: 250.h,
+                width: 250.w,
                 child: Stack(
                   children: [
                     Center(
@@ -76,7 +78,8 @@ class PokemonGridPageState extends State<PokemonGridPage> {
           }
 
           return SliverPadding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
+            padding: EdgeInsets.symmetric(
+                horizontal: AppLayouts.horizontalPagePadding),
             sliver: PokemonGridWidget(pokemonStore: _pokemonStore),
           );
         }

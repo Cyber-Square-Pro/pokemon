@@ -21,7 +21,9 @@ class _DailyCheckinPageState extends State<DailyCheckinPage> {
   @override
   void initState() {
     super.initState();
-    context.read<CheckinProvider>().getHistory(context);
+    Future.delayed(Duration.zero, () {
+      context.read<CheckinProvider>().getHistory(context);
+    });
   }
 
   // UI
@@ -55,36 +57,6 @@ class _DailyCheckinPageState extends State<DailyCheckinPage> {
                 }
               },
             ),
-
-            // StreamBuilder(
-            //   stream:
-            //       context.read<CheckinProvider>().fromHistoryStream(context),
-            //   builder: (BuildContext context, AsyncSnapshot snapshot) {
-            //     if (snapshot.connectionState == ConnectionState.waiting) {
-            //       return Center(
-            //         child: AnimatedPokeballWidget(
-            //           color: Theme.of(context).colorScheme.onBackground,
-            //           size: 36.r,
-            //         ),
-            //       );
-            //     }
-            //     if (context.read<CheckinProvider>().history.isEmpty) {
-            //       return const Center(
-            //         child: Text(
-            //           'You have no check-in record,\nCheckin Now to earn rewards!',
-            //           textAlign: TextAlign.center,
-            //         ),
-            //       );
-            //     }
-            //     return CheckinCalendar(
-            //       context.read<CheckinProvider>().history,
-            //       firstDay: context.read<CheckinProvider>().data.joinDate,
-            //       lastDay: DateTime(2100, 12, 30),
-            //       focusedDay: DateTime.now(),
-            //     );
-            //   },
-            // ),
-            // const Spacer(),
 
             hSpace(10),
             const Spacer(),
@@ -151,6 +123,7 @@ class _DailyCheckinPageState extends State<DailyCheckinPage> {
                 }
               },
             ),
+            hSpace(15),
           ],
         ),
       ),

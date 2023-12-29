@@ -11,7 +11,7 @@ class ApiConstants {
 
   // static const String _deployedURL = 'https://pokedex-teamb.cyclic.app';
   static const String _localURL =
-      'https://2db2-2405-201-f00c-3016-b120-2ac9-554c-77c4.ngrok-free.app';
+      'https://79cc-2405-201-f00c-3016-2c25-261a-12e2-c69f.ngrok-free.app';
 
   // Base URL
   static String baseURL = _localURL;

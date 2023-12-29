@@ -1,21 +1,39 @@
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
+import 'package:app/modules/add_credit_card/add_credit_card_page.dart';
+import 'package:app/modules/favourites/widgets/confirm_dialog.dart';
 import 'package:app/modules/merch/widgets/tshirt.dart';
+
+import 'package:app/shared/providers/credits_provider.dart';
+import 'package:app/shared/utils/page_transitions.dart';
+import 'package:app/shared/utils/snackbars.dart';
 import 'package:app/shared/utils/spacer.dart';
 import 'package:app/shared/widgets/primary_elevated_button.dart';
 import 'package:app/theme/app_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
-class BuyMerchPage extends StatelessWidget {
+class BuyMerchPage extends StatefulWidget {
   const BuyMerchPage({
     super.key,
-    required this.id,
+    required this.tag,
     required this.shirt,
   });
 
-  final String id;
+  final String tag;
   final Tshirt shirt;
+
+  @override
+  State<BuyMerchPage> createState() => _BuyMerchPageState();
+}
+
+class _BuyMerchPageState extends State<BuyMerchPage> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<CreditsProvider>().getCredits();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,11 +45,11 @@ class BuyMerchPage extends StatelessWidget {
               titleSpacing: 0,
               toolbarHeight: 60.h,
               title: Padding(
-                padding: EdgeInsets.only(right: 15.w),
+                padding: EdgeInsets.only(right: 10.w),
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Text(
-                    shirt.name,
+                    widget.shirt.name,
                     style: TextStyle(
                       fontSize: 20.sp,
                       overflow: TextOverflow.fade,
@@ -39,6 +57,12 @@ class BuyMerchPage extends StatelessWidget {
                   ),
                 ),
               ),
+              actions: [
+                const Icon(CupertinoIcons.money_dollar_circle_fill),
+                wSpace(5),
+                Text('${context.read<CreditsProvider>().credits}'),
+                wSpace(25),
+              ],
             ),
             body: Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w),
@@ -46,19 +70,19 @@ class BuyMerchPage extends StatelessWidget {
                 children: [
                   Expanded(
                     flex: 2,
-                    child: ClipRRect(
-                      borderRadius:
-                          BorderRadius.circular(AppTheme.globalBorderRadius),
-                      child: Hero(
-                        tag: 't_$id',
-                        child: Image.network(
-                          '',
-                          width: ScreenUtil.defaultSize.width,
-                          errorBuilder: (context, _, stackTrace) => Container(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onBackground
-                                .withOpacity(0.10),
+                    child: Hero(
+                      tag: 't_${widget.tag}',
+                      child: Container(
+                        padding: const EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(
+                              AppTheme.globalBorderRadius),
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onBackground
+                              .withOpacity(0.15),
+                          image: DecorationImage(
+                            image: NetworkImage(widget.shirt.imageURL),
                           ),
                         ),
                       ),
@@ -71,14 +95,14 @@ class BuyMerchPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          shirt.name,
+                          widget.shirt.name,
                           style: TextStyle(
                             fontSize: 24.sp,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         Text(
-                          shirt.description,
+                          widget.shirt.description,
                           style: TextStyle(
                             fontSize: 16.sp,
                             color: Theme.of(context).textTheme.bodySmall?.color,
@@ -86,7 +110,7 @@ class BuyMerchPage extends StatelessWidget {
                         ),
                         hSpace(5),
                         Text(
-                          '₹ ${shirt.price.toString()}',
+                          '₹ ${widget.shirt.price.toString()}',
                           style: TextStyle(
                             fontSize: 30.sp,
                           ),
@@ -97,7 +121,32 @@ class BuyMerchPage extends StatelessWidget {
                           child: MainElevatedButton(
                             icon: CupertinoIcons.money_dollar_circle_fill,
                             label: 'Redeem with credits',
-                            onPressed: () {},
+                            onPressed: () {
+                              if (context.read<CreditsProvider>().credits <
+                                  widget.shirt.price) {
+                                ScaffoldMessenger.of(context)
+                                    .hideCurrentSnackBar();
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    MySnackbars.error('Insufficient Credits'));
+                                return;
+                              }
+                              showDialog(
+                                context: context,
+                                builder: (context) => confirmDialog(
+                                  context,
+                                  title: 'Redeem with credits',
+                                  message:
+                                      'Are you sure you want to purchase this item with credits?',
+                                  onConfirm: () => context
+                                      .read<CreditsProvider>()
+                                      .spendCredits(
+                                        context,
+                                        widget.shirt.price,
+                                      ),
+                                  onDeny: () => Navigator.pop(context),
+                                ),
+                              );
+                            },
                           ),
                         ),
                         hSpace(10),
@@ -106,7 +155,17 @@ class BuyMerchPage extends StatelessWidget {
                           child: MainElevatedButton(
                             icon: CupertinoIcons.creditcard_fill,
                             label: 'Pay with card',
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                PageTransitionWrapper(
+                                  curve: Curves.ease,
+                                  duration: Durations.long2,
+                                  transitionType: PageTransitionType.slideLeft,
+                                  page: const AddCreditCardPage(),
+                                ),
+                              );
+                            },
                           ),
                         ),
                         hSpace(20),

@@ -152,7 +152,7 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         builder: (_) {
                           switch (_homeStore.page) {
                             case HomePageType.pokemonGrid:
-                              return PokemonGridPage();
+                              return const PokemonGridPage();
                             case HomePageType.items:
                               return const ItemsPage();
                             case HomePageType.favourites:
@@ -166,7 +166,7 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             case HomePageType.merchandise:
                               return const MerchandisePage();
                             default:
-                              return PokemonGridPage();
+                              return const PokemonGridPage();
                           }
                         },
                       ),

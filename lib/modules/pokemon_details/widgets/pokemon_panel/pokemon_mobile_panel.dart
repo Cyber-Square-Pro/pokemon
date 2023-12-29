@@ -150,9 +150,9 @@ class PokemonMobilePanelWidgetState extends State<PokemonMobilePanelWidget>
                                 AppTheme.getColors(context).pokemonTabTitle,
                             labelColor: AppTheme.getColors(context)
                                 .selectPokemonTabTitle,
-                            unselectedLabelStyle: textTheme.bodySmall
+                            unselectedLabelStyle: textTheme.bodyMedium
                                 ?.copyWith(fontWeight: FontWeight.bold),
-                            labelStyle: textTheme.bodySmall?.copyWith(
+                            labelStyle: textTheme.bodyMedium?.copyWith(
                               fontWeight: FontWeight.bold,
                               color: null,
                             ),
@@ -163,29 +163,29 @@ class PokemonMobilePanelWidgetState extends State<PokemonMobilePanelWidget>
                               Tab(
                                 child: FittedBox(
                                   fit: BoxFit.fitWidth,
-                                  child:
-                                      Text("About", style: textTheme.bodySmall),
+                                  child: Text("About",
+                                      style: textTheme.bodyMedium),
                                 ),
                               ),
                               Tab(
                                 child: FittedBox(
                                   fit: BoxFit.fitWidth,
                                   child: Text("Base Stats",
-                                      style: textTheme.bodySmall),
+                                      style: textTheme.bodyMedium),
                                 ),
                               ),
                               Tab(
                                 child: FittedBox(
                                   fit: BoxFit.fitWidth,
                                   child: Text("Evolution",
-                                      style: textTheme.bodySmall),
+                                      style: textTheme.bodyMedium),
                                 ),
                               ),
                               Tab(
                                 child: FittedBox(
                                   fit: BoxFit.fitWidth,
-                                  child:
-                                      Text("Moves", style: textTheme.bodySmall),
+                                  child: Text("Moves",
+                                      style: textTheme.bodyMedium),
                                 ),
                               ),
                             ],

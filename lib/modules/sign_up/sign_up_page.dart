@@ -115,7 +115,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             print(_phonenumbercontroller.value);
                           },
                           validator: (value) =>
-                              FormValidators().validatePhoneField(value),
+                              FormValidators.validatePhoneField(value),
                         ),
                         // hSpace(20),
                         // CustomTextFormField(
@@ -130,7 +130,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           controller: _emailController,
                           keyboardType: TextInputType.emailAddress,
                           validator: (value) =>
-                              FormValidators().validateEmail(value),
+                              FormValidators.validateEmail(value),
                           prefixIcon: Icons.email,
                           labelText: 'Email Address',
                         ),
@@ -142,7 +142,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 controller: _passwordcontroller,
                                 isPassword: provider.obscureSignupPassword,
                                 validator: (value) =>
-                                    FormValidators().validatePassword(value),
+                                    FormValidators.validatePassword(value),
                                 suffixIcon: IconButton(
                                   icon: Icon(
                                     provider.obscureSignupPassword
@@ -159,7 +159,7 @@ class _SignUpPageState extends State<SignUpPage> {
                               hSpace(20),
                               CustomTextFormField(
                                 controller: _confirmpasswordcontroller,
-                                validator: (value) => FormValidators()
+                                validator: (value) => FormValidators
                                     .validateConfirmPassword(
                                         value, _passwordcontroller.text),
                                 isPassword:

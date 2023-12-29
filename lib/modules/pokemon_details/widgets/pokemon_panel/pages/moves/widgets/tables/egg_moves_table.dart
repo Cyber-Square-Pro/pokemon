@@ -42,11 +42,11 @@ class EggMovesTableWidget extends StatelessWidget {
           ],
           rows: _pokemonStore.pokemon!.moves.egg
               .map((move) => [
-                    Text(move.move, style: textTheme.bodySmall),
+                    Text(move.move, style: textTheme.bodyMedium),
                     PokemonTypeBadge(type: move.type, height: 16, width: 16),
-                    Text(move.category, style: textTheme.bodySmall),
-                    Text(move.power, style: textTheme.bodySmall),
-                    Text(move.accuracy, style: textTheme.bodySmall)
+                    Text(move.category, style: textTheme.bodyMedium),
+                    Text(move.power, style: textTheme.bodyMedium),
+                    Text(move.accuracy, style: textTheme.bodyMedium)
                   ])
               .toList(),
         );

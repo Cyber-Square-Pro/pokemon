@@ -99,6 +99,7 @@ class _FavouritesPageState extends State<FavouritesPage> {
                       showDialog(
                         context: context,
                         builder: (context) => confirmDialog(
+                          context,
                           title: 'Remove Favourite',
                           message:
                               'Are you sure you want to remove ${pokemon.name} from your favourites?',

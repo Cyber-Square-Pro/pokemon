@@ -20,14 +20,14 @@ class _MerchandisePageState extends State<MerchandisePage> {
           'A simple and comfortable Tshirt featuring the iconic Pikkachu design.',
       price: 100,
       imageURL:
-          'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.amazon.in%2FPokemon-Pikachu-T-Shirt-13-14-Years%2Fdp%2FB01MAW524V&psig=AOvVaw1JxC2bRrfb34oiBW9paOag&ust=1703341107803000&source=images&cd=vfe&ved=0CBIQjRxqFwoTCJDog5-eo4MDFQAAAAAdAAAAABAE',
+          'https://imgs.search.brave.com/eZmrEVt1e2MiGd8QmsZnUD-rK5N2T4rr9xfqLz-DB5U/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9tLm1l/ZGlhLWFtYXpvbi5j/b20vaW1hZ2VzL0kv/OTFkQkpoaTRULUwu/anBn',
     ),
     Tshirt(
       name: 'PocketMonStyle Tee',
       description: 'A stylish and comfortable Tshirt.',
       price: 120,
       imageURL:
-          'https://www.google.com/imgres?imgurl=https%3A%2F%2Ffiles.ekmcdn.com%2Ff8c1cb%2Fimages%2Fpersonalised-pokemon-t-shirt-size-medium-9-11-years-406-p.jpg%3Fw%3D1000%26h%3D1000%26v%3D306e64e7-5f60-4ef4-9571-a7886baab2f0&tbnid=6HMnbRbEE-rLMM&vet=12ahUKEwiZ94nPn6ODAxWDamwGHcbXAuAQMygNegUIARCNAQ..i&imgrefurl=https%3A%2F%2Fwww.tees4geeks.co.uk%2Fpersonalised-pokemon-t-shirt-400-p.asp&docid=Max5u6cLNQ_bEM&w=1000&h=945&q=pokemon%20tshirt%20images&client=safari&ved=2ahUKEwiZ94nPn6ODAxWDamwGHcbXAuAQMygNegUIARCNAQ',
+          'https://imgs.search.brave.com/YjzePZtoPCExTIK4O-IeQ4SK2AQ--4TGPYOwj2U8MIE/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9paDEu/cmVkYnViYmxlLm5l/dC9pbWFnZS4yMzcz/MzA5ODEuMDU4Ny9z/c3JjbyxzbGltX2Zp/dF90X3NoaXJ0LHdv/bWVucywxMDEwMTA6/MDFjNWNhMjdjNixm/cm9udCxzcXVhcmVf/cHJvZHVjdCw2MDB4/NjAwLnUzLmpwZw',
     ),
   ];
   @override
@@ -58,7 +58,7 @@ class _MerchandisePageState extends State<MerchandisePage> {
                 PageTransitionWrapper(
                   duration: Durations.long2,
                   page: BuyMerchPage(
-                    id: 't_$index',
+                    tag: 't_$index',
                     shirt: tShirt,
                   ),
                   transitionType: (index % 2 == 0)

@@ -27,11 +27,12 @@ class TshirtCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(AppTheme.globalBorderRadius),
       onTap: onTap,
       child: Container(
+        alignment: Alignment.center,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(AppTheme.globalBorderRadius),
         ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(AppTheme.globalBorderRadius),
@@ -39,7 +40,8 @@ class TshirtCard extends StatelessWidget {
                 tag: 't_$tag',
                 child: Image.network(
                   imageURL,
-                  height: 175.h,
+                  fit: BoxFit.contain,
+                  height: 175,
                   errorBuilder: (context, _, stackTrace) {
                     return Container(
                       height: 175.h,

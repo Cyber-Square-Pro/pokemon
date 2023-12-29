@@ -1,6 +1,7 @@
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:app/shared/getit/getit.dart';
 import 'package:app/shared/providers/auth_state_provider.dart';
+import 'package:app/shared/providers/credit_card_provider.dart';
 import 'package:app/shared/providers/credits_provider.dart';
 import 'package:app/shared/providers/daily_checkin_provider.dart';
 import 'package:app/shared/providers/favourites_provider.dart';
@@ -70,6 +71,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => YoutubeProvider()),
           ChangeNotifierProvider(create: (_) => CreditsProvider(context)),
           ChangeNotifierProvider(create: (context) => CheckinProvider(context)),
+          ChangeNotifierProvider(create: (context) => CreditCardProvider()),
         ],
         child: ScreenUtilInit(
           minTextAdapt: false,

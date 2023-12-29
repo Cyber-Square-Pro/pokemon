@@ -59,4 +59,13 @@ ThemeData darkTheme = ThemeData(
       letterSpacing: 0,
     ),
   ),
+  colorScheme: ColorScheme.dark(
+    // Primary
+    primary: Colors.blue.shade800,
+    onPrimary: Colors.white,
+
+    // Background
+    background: const Color.fromRGBO(40, 40, 40, 1),
+    onBackground: Colors.white,
+  ),
 );

@@ -16,6 +16,19 @@ class CreditsProvider extends ChangeNotifier {
   late CreditState _state = CreditState.init;
   late double _credits = 0.00;
 
+  Future<void> getCredits() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      final String username = prefs.getString('username')!;
+      _credits = await CreditService.instance.getCredits(username);
+      notifyListeners();
+    } catch (e) {
+      _credits = 0.0;
+      notifyListeners();
+      throw Exception(e);
+    }
+  }
+
   Future<void> addCredits(
     BuildContext context, [
     double amount = 25,
@@ -62,7 +75,9 @@ class CreditsProvider extends ChangeNotifier {
 
       await for (double data in CreditService.instance.creditStream(username)) {
         yield data;
+        _credits = data;
       }
+      notifyListeners();
     } on DioException catch (e) {
       if (e.response?.statusCode == 404) {
         yield 0.0;

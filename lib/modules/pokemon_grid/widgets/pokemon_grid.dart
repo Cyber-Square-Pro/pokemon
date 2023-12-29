@@ -20,10 +20,10 @@ class PokemonGridWidget extends StatefulWidget {
   });
 
   @override
-  _PokemonGridWidgetState createState() => _PokemonGridWidgetState();
+  PokemonGridWidgetState createState() => PokemonGridWidgetState();
 }
 
-class _PokemonGridWidgetState extends State<PokemonGridWidget> {
+class PokemonGridWidgetState extends State<PokemonGridWidget> {
   static const _pageSize = 20;
 
   final PagingController<int, Widget> _pagingController =
@@ -109,20 +109,20 @@ class _PokemonGridWidgetState extends State<PokemonGridWidget> {
       {required int index, required PokemonSummary pokemon}) {
     return InkWell(
       onTap: () async {
-        context.read<FavouritesProvider>().fetchFavourites(context);
-        await widget.pokemonStore.setPokemon(index);
+        await context.read<FavouritesProvider>().fetchFavourites(context);
+        await widget.pokemonStore.setPokemon(index).then((value) {
+          context.read<FavouritesProvider>().checkIfCurrentIsFavourite(
+              context, widget.pokemonStore.pokemonSummary!);
+        });
 
         if (context.mounted) {
           Navigator.push(
             context,
-            // MaterialPageRoute(builder: (_) {
-            //   return const PokemonDetailsPage();
-            // }),
-            PageTransitionWrapper(
-              duration: const Duration(milliseconds: 600),
-              page: const PokemonDetailsPage(),
-              transitionType: PageTransitionType.other,
-              curve: Curves.easeIn,
+            TransitionPageRoute(
+              child: const PokemonDetailsPage(),
+              transition: index % 2 == 0
+                  ? PageTransitions.slideRight
+                  : PageTransitions.slideLeft,
             ),
           );
         }

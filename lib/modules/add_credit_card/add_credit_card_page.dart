@@ -7,6 +7,7 @@ import 'package:app/shared/widgets/primary_elevated_button.dart';
 import 'package:app/theme/app_layout.dart';
 import 'package:app/theme/app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -34,10 +35,14 @@ class _AddCreditCardPageState extends State<AddCreditCardPage> {
             return Scaffold(
               // resizeToAvoidBottomInset: false,
               appBar: AppBar(
+                systemOverlayStyle:
+                    Theme.of(context).brightness == Brightness.dark
+                        ? SystemUiOverlayStyle.light
+                        : SystemUiOverlayStyle.dark,
                 titleSpacing: 0,
                 toolbarHeight: 60.h,
                 title: Text(
-                  'Enter Card Info',
+                  'Add your card',
                   style: TextStyle(
                     fontSize: 20.sp,
                     overflow: TextOverflow.fade,
@@ -95,6 +100,7 @@ class _AddCreditCardPageState extends State<AddCreditCardPage> {
                               .read<CreditCardProvider>()
                               .cvv, // Required
                           onCreditCardModelChange: (CreditCardModel data) {
+                            context.read<CreditCardProvider>().hideSaveButton();
                             context.read<CreditCardProvider>().setCardDetails(
                                   cardHolderName: data.cardHolderName,
                                   cardNumber: data.cardNumber,
@@ -121,7 +127,14 @@ class _AddCreditCardPageState extends State<AddCreditCardPage> {
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           disableCardNumberAutoFillHints: false,
                           ////////////////////////////////////
-                          onFormComplete: () {},
+                          onFormComplete: () {
+                            if (formKey.currentState!.validate()) {
+                              print('done');
+                              context
+                                  .read<CreditCardProvider>()
+                                  .cardEntryCompleted();
+                            }
+                          },
                           /////////////////////////////////////
                           inputConfiguration: InputConfiguration(
                             cardNumberDecoration: InputDecoration(

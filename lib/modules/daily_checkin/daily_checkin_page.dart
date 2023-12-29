@@ -21,8 +21,9 @@ class _DailyCheckinPageState extends State<DailyCheckinPage> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration.zero, () {
-      context.read<CheckinProvider>().getHistory(context);
+    Future.delayed(Duration.zero, () async {
+      await context.read<CheckinProvider>().getHistory(context);
+      await context.read<CreditsProvider>().getCredits();
     });
   }
 
@@ -37,93 +38,92 @@ class _DailyCheckinPageState extends State<DailyCheckinPage> {
           horizontal: AppLayouts.horizontalPagePadding,
         ),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Consumer<CheckinProvider>(
-              builder: (context, checkinProvider, _) {
-                if (checkinProvider.state == CheckinState.loading) {
+              builder: (context, provider, _) {
+                if (provider.state == CheckinState.loading) {
                   return Center(
                     child: AnimatedPokeballWidget(
                       color: Theme.of(context).colorScheme.onBackground,
                       size: 36.r,
                     ),
                   );
-                } else {
+                } else if (provider.state == CheckinState.loaded) {
                   return CheckinCalendar(
-                    checkinProvider.history,
-                    firstDay: checkinProvider.data.joinDate,
+                    provider.history,
+                    firstDay: provider.data.joinDate,
                     lastDay: DateTime(2100, 12, 30),
                     focusedDay: DateTime.now(),
                   );
                 }
+                return const SizedBox();
               },
             ),
-
-            hSpace(10),
-            const Spacer(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+            Column(
               children: [
-                const Text('Credit Balance: '),
-                StreamBuilder(
-                  stream:
-                      context.read<CreditsProvider>().fromCreditStream(context),
-                  initialData: 0.0,
-                  builder: (BuildContext context, AsyncSnapshot snapshot) {
-                    print(snapshot.data);
-                    return Text(
-                      snapshot.data.toString(),
-                      style: TextStyle(
-                        fontSize: 20.sp,
-                        fontWeight: FontWeight.bold,
+                hSpace(10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    const Text('Credit Balance: '),
+                    Consumer<CreditsProvider>(
+                      builder: (context, prov, _) => Text(
+                        prov.credits.toString(),
+                        style: TextStyle(
+                          fontSize: 20.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    );
+                    ),
+                  ],
+                ),
+
+                // Check In Button
+                //! Disable if already checked in once
+
+                Consumer<CheckinProvider>(
+                  builder: (context, provider, _) {
+                    if (provider.state == CheckinState.loading) {
+                      return AnimatedPokeballWidget(
+                        color: Theme.of(context).colorScheme.onBackground,
+                        size: 36.r,
+                      );
+                    } else if (context.read<CheckinProvider>().checkedInToday) {
+                      return const NoticeLabel('Already checked in for today!');
+                    } else {
+                      return SizedBox(
+                        width: double.infinity,
+                        child: MainElevatedButton(
+                          label: 'Check In',
+                          icon: Icons.check,
+                          onPressed: () {
+                            Future.delayed(Duration.zero, () async {
+                              await context
+                                  .read<CreditsProvider>()
+                                  .addCredits(context)
+                                  .then((_) async {
+                                await context
+                                    .read<CheckinProvider>()
+                                    .checkIn(context)
+                                    .then((_) {
+                                  context
+                                      .read<CheckinProvider>()
+                                      .getHistory(context);
+                                }).then((_) {
+                                  context.read<CreditsProvider>().getCredits();
+                                });
+                              });
+                            });
+                          },
+                        ),
+                      );
+                    }
                   },
                 ),
+                hSpace(15),
               ],
-            ),
-
-            // Check In Button
-            //! Disable if already checked in once
-
-            Consumer<CheckinProvider>(
-              builder: (context, provider, _) {
-                print(provider.checkedInToday);
-                if (provider.state == CheckinState.loading) {
-                  return AnimatedPokeballWidget(
-                    color: Theme.of(context).colorScheme.onBackground,
-                    size: 36.r,
-                  );
-                } else if (provider.checkedInToday) {
-                  return const NoticeLabel('Already checked in for today!');
-                } else {
-                  return SizedBox(
-                    width: double.infinity,
-                    child: MainElevatedButton(
-                      label: 'Check In',
-                      icon: Icons.check,
-                      onPressed: () {
-                        Future.delayed(Duration.zero, () async {
-                          await context
-                              .read<CreditsProvider>()
-                              .addCredits(context)
-                              .then((_) async {
-                            await context
-                                .read<CheckinProvider>()
-                                .checkIn(context)
-                                .then((_) {
-                              context
-                                  .read<CheckinProvider>()
-                                  .getHistory(context);
-                            });
-                          });
-                        });
-                      },
-                    ),
-                  );
-                }
-              },
-            ),
-            hSpace(15),
+            )
           ],
         ),
       ),

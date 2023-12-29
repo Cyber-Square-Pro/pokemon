@@ -23,7 +23,7 @@ class _MerchandisePageState extends State<MerchandisePage> {
           'https://imgs.search.brave.com/eZmrEVt1e2MiGd8QmsZnUD-rK5N2T4rr9xfqLz-DB5U/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9tLm1l/ZGlhLWFtYXpvbi5j/b20vaW1hZ2VzL0kv/OTFkQkpoaTRULUwu/anBn',
     ),
     Tshirt(
-      name: 'PocketMonStyle Tee',
+      name: 'Team Rocket F',
       description: 'A stylish and comfortable Tshirt.',
       price: 120,
       imageURL:
@@ -55,15 +55,15 @@ class _MerchandisePageState extends State<MerchandisePage> {
             onTap: () {
               Navigator.push(
                 context,
-                PageTransitionWrapper(
+                TransitionPageRoute(
                   duration: Durations.long2,
-                  page: BuyMerchPage(
+                  child: BuyMerchPage(
                     tag: 't_$index',
                     shirt: tShirt,
                   ),
-                  transitionType: (index % 2 == 0)
-                      ? PageTransitionType.slideRight
-                      : PageTransitionType.slideLeft,
+                  transition: (index % 2 == 0)
+                      ? PageTransitions.slideRight
+                      : PageTransitions.slideLeft,
                   curve: Curves.ease,
                 ),
               );

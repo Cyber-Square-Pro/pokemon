@@ -1,8 +1,10 @@
+import 'package:app/modules/home/home_page.dart';
 import 'package:app/shared/providers/auth_state_provider.dart';
 import 'package:app/shared/providers/otp_provider.dart';
 import 'package:app/shared/providers/password_obscure_provider.dart';
 import 'package:app/shared/repositories/auth_service.dart';
 import 'package:app/shared/utils/app_constants.dart';
+import 'package:app/shared/utils/page_transitions.dart';
 import 'package:app/shared/utils/snackbars.dart';
 import 'package:app/shared/utils/spacer.dart';
 import 'package:app/shared/widgets/custom_text_button.dart';
@@ -44,8 +46,19 @@ class _LoginPageState extends State<LoginPage> {
       final AuthState loginResult =
           await AuthService.instance.login(username, password);
       if (loginResult == AuthState.loginSuccess) {
-        context.read<AuthProvider>().getUserInfo();
-        Navigator.pushReplacementNamed(context, '/home');
+        if (context.mounted) {
+          context.read<AuthProvider>().getUserInfo();
+          // Navigator.pushReplacementNamed(context, '/home');
+          Navigator.pushReplacement(
+            context,
+            TransitionPageRoute(
+              child: const HomePage(),
+              duration: const Duration(milliseconds: 1500),
+              transition: PageTransitions.slideLeft,
+              curve: Curves.easeOut,
+            ),
+          );
+        }
       } else {
         Navigator.pop(context);
         return;
@@ -194,14 +207,14 @@ class _LoginPageState extends State<LoginPage> {
                                         .resetSettings();
                                     authProvider.setAuthenticated(true);
                                     authProvider.getUserInfo();
-                                    Navigator.pushReplacementNamed(
+                                    Navigator.pushReplacement(
                                       context,
-                                      '/home',
-                                      arguments: [
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(MySnackbars.success(
-                                                'Welcome to Pokedex')),
-                                      ],
+                                      TransitionPageRoute(
+                                        child: const HomePage(),
+                                        duration: Durations.long4,
+                                        transition: PageTransitions.slideLeft,
+                                        curve: Curves.ease,
+                                      ),
                                     );
                                   }
                                 } else if (loginResult ==

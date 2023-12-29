@@ -5,7 +5,6 @@ import 'package:app/shared/utils/page_transitions.dart';
 import 'package:app/shared/utils/spacer.dart';
 import 'package:app/shared/widgets/video_card.dart';
 import 'package:app/theme/app_layout.dart';
-import 'package:app/theme/app_theme.dart';
 import 'package:app/modules/videos/play_video.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -95,14 +94,14 @@ class _VideoPageState extends State<VideoPage> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          PageTransitionWrapper(
-                            duration: const Duration(milliseconds: 500),
-                            page: PlayVideo(
+                          TransitionPageRoute(
+                            duration: const Duration(milliseconds: 600),
+                            child: PlayVideo(
                               index: index,
                               id: video.id.videoId,
                               video: video.snippet,
                             ),
-                            transitionType: PageTransitionType.other,
+                            transition: PageTransitions.slideLeft,
                             curve: Curves.ease,
                           ),
                         );

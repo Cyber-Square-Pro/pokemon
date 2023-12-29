@@ -49,10 +49,15 @@ class CreditService {
 
   Future<double> getCredits(String username) async {
     final String uri = '${ApiConstants.baseURL}/credits/';
-    final Response response = await _dio.post(uri, data: {
-      'username': username,
-    });
-    final body = jsonDecode(jsonEncode(response.data));
-    return double.parse(body['credits']);
+    final Response response = await _dio.post(
+      uri,
+      data: {
+        'username': username,
+      },
+    );
+    final Map<String, dynamic> result = jsonDecode(
+      jsonEncode(response.data),
+    );
+    return double.parse(result['credits'].toString());
   }
 }

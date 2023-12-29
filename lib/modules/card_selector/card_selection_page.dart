@@ -14,28 +14,29 @@ class _CardSelectionPageState extends State<CardSelectionPage> {
   Widget build(BuildContext context) {
     return ThemeSwitchingArea(
       child: Builder(
-          key: const Key('card_selector'),
-          builder: (context) {
-            return Scaffold(
-              appBar: AppBar(
-                titleSpacing: 0,
-                toolbarHeight: 60.h,
-                title: Text(
-                  'Choose your card',
-                  style: TextStyle(
-                    fontSize: 20.sp,
-                    overflow: TextOverflow.fade,
-                  ),
+        key: const Key('card_selector'),
+        builder: (context) {
+          return Scaffold(
+            appBar: AppBar(
+              titleSpacing: 0,
+              toolbarHeight: 60.h,
+              title: Text(
+                'Choose your card',
+                style: TextStyle(
+                  fontSize: 20.sp,
+                  overflow: TextOverflow.fade,
                 ),
               ),
-              body: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [],
-                ),
+            ),
+            body: const SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [],
               ),
-            );
-          }),
+            ),
+          );
+        },
+      ),
     );
   }
 }

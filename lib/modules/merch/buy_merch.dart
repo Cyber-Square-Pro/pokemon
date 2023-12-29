@@ -11,6 +11,7 @@ import 'package:app/shared/widgets/primary_elevated_button.dart';
 import 'package:app/theme/app_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
@@ -42,6 +43,10 @@ class _BuyMerchPageState extends State<BuyMerchPage> {
         builder: (context) {
           return Scaffold(
             appBar: AppBar(
+              systemOverlayStyle:
+                  Theme.of(context).brightness == Brightness.dark
+                      ? SystemUiOverlayStyle.light
+                      : SystemUiOverlayStyle.dark,
               titleSpacing: 0,
               toolbarHeight: 60.h,
               title: Padding(
@@ -60,7 +65,10 @@ class _BuyMerchPageState extends State<BuyMerchPage> {
               actions: [
                 const Icon(CupertinoIcons.money_dollar_circle_fill),
                 wSpace(5),
-                Text('${context.read<CreditsProvider>().credits}'),
+                Consumer<CreditsProvider>(
+                  builder: (context, provider, _) =>
+                      Text(provider.credits.toString()),
+                ),
                 wSpace(25),
               ],
             ),
@@ -137,12 +145,24 @@ class _BuyMerchPageState extends State<BuyMerchPage> {
                                   title: 'Redeem with credits',
                                   message:
                                       'Are you sure you want to purchase this item with credits?',
-                                  onConfirm: () => context
+                                  onConfirm: () async => await context
                                       .read<CreditsProvider>()
                                       .spendCredits(
                                         context,
                                         widget.shirt.price,
+                                      )
+                                      .then((_) {
+                                    Navigator.pop(context);
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      MySnackbars.success(
+                                        'Purchase Succesful',
                                       ),
+                                    );
+                                  }).then(
+                                    (_) => context
+                                        .read<CreditsProvider>()
+                                        .getCredits(),
+                                  ),
                                   onDeny: () => Navigator.pop(context),
                                 ),
                               );
@@ -158,11 +178,11 @@ class _BuyMerchPageState extends State<BuyMerchPage> {
                             onPressed: () {
                               Navigator.push(
                                 context,
-                                PageTransitionWrapper(
+                                TransitionPageRoute(
                                   curve: Curves.ease,
                                   duration: Durations.long2,
-                                  transitionType: PageTransitionType.slideLeft,
-                                  page: const AddCreditCardPage(),
+                                  transition: PageTransitions.slideLeft,
+                                  child: const AddCreditCardPage(),
                                 ),
                               );
                             },

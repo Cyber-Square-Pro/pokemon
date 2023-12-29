@@ -19,7 +19,8 @@ class CheckinProvider extends ChangeNotifier {
   late Dio _dio;
 
   late CheckinState _state = CheckinState.init;
-  late DailyCheckinData _dailyCheckinData;
+  late DailyCheckinData _dailyCheckinData =
+      DailyCheckinData(joinDate: DateTime.now(), history: []);
   late List<History> _checkinHistory = [];
   late bool _checkedInToday = false;
 
@@ -92,11 +93,14 @@ class CheckinProvider extends ChangeNotifier {
     }
   }
 
-  void clearCheckinProvider() {
+  @override
+  void dispose() {
     _checkedInToday = false;
+    _dailyCheckinData = DailyCheckinData(joinDate: DateTime.now(), history: []);
     _checkinHistory = [];
     _state = CheckinState.init;
     notifyListeners();
+    super.dispose();
   }
 
   DailyCheckinData get data => _dailyCheckinData;

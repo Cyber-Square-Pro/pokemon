@@ -116,14 +116,15 @@ class AuthInterceptor extends Interceptor {
             contentType: options.contentType,
             path: options.path,
           );
-          final Options opts = Options(
-            method: options.method,
-            headers: options.headers,
-            contentType: options.contentType,
-          );
+          // final Options opts = Options(
+          //   method: options.method,
+          //   headers: options.headers,
+          //   contentType: options.contentType,
+          // );
           retryOptions.headers['Authorization'] =
               'Bearer ${await getAccessToken()}';
-          return await dio.request(retryOptions.path, options: opts);
+          print('retried ${options.path} with new access token');
+          return await dio.request(retryOptions.path);
         } catch (retryError) {
           context.mounted ? logout(context) : null;
           return handler.reject(retryError as DioException);

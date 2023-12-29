@@ -137,11 +137,11 @@ HeaderStyle _headerStyle(BuildContext context) {
     headerPadding: EdgeInsets.zero,
     leftChevronIcon: Icon(
       CupertinoIcons.left_chevron,
-      color: theme.onPrimary,
+      color: theme.background,
     ),
     rightChevronIcon: Icon(
       CupertinoIcons.right_chevron,
-      color: theme.onPrimary,
+      color: theme.background,
     ),
     formatButtonVisible: false,
   );

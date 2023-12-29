@@ -56,7 +56,7 @@ class PhoneNumberFormField extends StatelessWidget {
       //
 
       pickerDialogStyle: PickerDialogStyle(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).colorScheme.background,
         padding: EdgeInsets.zero,
         listTilePadding: EdgeInsets.symmetric(
           horizontal: 15.w,
@@ -85,10 +85,10 @@ class PhoneNumberFormField extends StatelessWidget {
         listTileDivider: hSpace(1),
       ),
 
-      style: const TextStyle(
+      style: TextStyle(
         fontFamily: 'Circular',
         letterSpacing: 0.5,
-        fontSize: 16,
+        fontSize: 16.sp,
         color: Colors.white,
       ),
 
@@ -135,7 +135,8 @@ class PhoneNumberFormField extends StatelessWidget {
           ),
         ),
         prefix: wSpace(10),
-        contentPadding: const EdgeInsets.only(left: 10, bottom: 10, top: 10, right: 25),
+        contentPadding:
+            const EdgeInsets.only(left: 10, bottom: 10, top: 10, right: 25),
       ),
     );
   }

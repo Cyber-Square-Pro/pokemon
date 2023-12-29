@@ -1,41 +1,38 @@
 import 'package:flutter/material.dart';
 
-enum PageTransitionType {
+enum PageTransitions {
   slideLeft,
   slideRight,
-  fadeIn,
-  fadeOut,
   circularReveal,
-  other,
 }
 
-class PageTransitionWrapper extends PageRouteBuilder {
-  final PageTransitionType transitionType;
-  final Widget page;
-  final Curve curve;
-  final Duration duration;
+class TransitionPageRoute extends PageRouteBuilder {
+  final PageTransitions? transition;
+  final Widget child;
+  final Curve? curve;
+  final Duration? duration;
 
-  PageTransitionWrapper({
-    required this.duration,
-    required this.page,
-    required this.transitionType,
-    required this.curve,
+  TransitionPageRoute({
+    required this.child,
+    this.duration,
+    this.transition,
+    this.curve,
   }) : super(
-          transitionDuration: duration,
+          transitionDuration: duration ?? const Duration(milliseconds: 800),
           pageBuilder: (
             BuildContext context,
             Animation<double> animation,
             Animation<double> secondaryAnimation,
           ) =>
-              page,
+              child,
           transitionsBuilder: (
             BuildContext context,
             Animation<double> animation,
             Animation<double> secondaryAnimation,
             Widget child,
           ) {
-            switch (transitionType) {
-              case PageTransitionType.slideLeft:
+            switch (transition) {
+              case PageTransitions.slideLeft:
                 return SlideTransition(
                   position: Tween<Offset>(
                     begin: const Offset(1.0, 0),
@@ -43,12 +40,12 @@ class PageTransitionWrapper extends PageRouteBuilder {
                   ).animate(
                     CurvedAnimation(
                       parent: animation,
-                      curve: curve,
+                      curve: curve ?? Curves.easeOut,
                     ),
                   ),
                   child: child,
                 );
-              case PageTransitionType.slideRight:
+              case PageTransitions.slideRight:
                 return SlideTransition(
                   position: Tween<Offset>(
                     begin: const Offset(-1.0, 0),
@@ -56,7 +53,7 @@ class PageTransitionWrapper extends PageRouteBuilder {
                   ).animate(
                     CurvedAnimation(
                       parent: animation,
-                      curve: curve,
+                      curve: curve ?? Curves.easeOut,
                     ),
                   ),
                   child: child,
@@ -71,7 +68,7 @@ class PageTransitionWrapper extends PageRouteBuilder {
                   ).animate(
                     CurvedAnimation(
                       parent: animation,
-                      curve: curve,
+                      curve: curve ?? Curves.easeOut,
                     ),
                   ),
                   child: child,

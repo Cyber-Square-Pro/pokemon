@@ -27,8 +27,10 @@ import 'package:provider/provider.dart';
 class PokemonDetailsPage extends StatefulWidget {
   final bool isFavoritePokemon;
 
-  const PokemonDetailsPage({Key? key, this.isFavoritePokemon = false})
-      : super(key: key);
+  const PokemonDetailsPage({
+    super.key,
+    this.isFavoritePokemon = false,
+  });
 
   @override
   PokemonDetailsPageState createState() => PokemonDetailsPageState();
@@ -48,8 +50,10 @@ class PokemonDetailsPageState extends State<PokemonDetailsPage>
 
     _pokemonStore = GetIt.instance<PokemonStore>();
     _pokemonDetailsStore = PokemonDetailsStore();
-    _pageController =
-        PageController(initialPage: _pokemonStore.index, viewportFraction: 0.4);
+    _pageController = PageController(
+      initialPage: _pokemonStore.index,
+      viewportFraction: 0.4,
+    );
 
     player = AudioPlayer();
 

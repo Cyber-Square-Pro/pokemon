@@ -1,5 +1,4 @@
 import 'package:app/theme/app_layout.dart';
-import 'package:app/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class CreditCardInputDecoration {

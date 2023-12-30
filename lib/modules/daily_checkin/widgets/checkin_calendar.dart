@@ -31,7 +31,11 @@ class CheckinCalendar extends StatelessWidget {
       weekNumbersVisible: false,
       focusedDay: focusedDay,
       firstDay: firstDay,
+
       lastDay: lastDay,
+
+      enabledDayPredicate: (day) => !day.isAfter(DateTime.now()),
+
       weekendDays: const [DateTime.sunday],
       // Builders
       calendarBuilders: CalendarBuilders(
@@ -122,6 +126,8 @@ CalendarStyle _calStyle(BuildContext context) {
 HeaderStyle _headerStyle(BuildContext context) {
   final theme = Theme.of(context).colorScheme;
   return HeaderStyle(
+    leftChevronVisible: false,
+    rightChevronVisible: false,
     decoration: BoxDecoration(
       color: AppTheme.getColors(context).primaryColor,
       borderRadius: BorderRadius.circular(15.r),
@@ -134,7 +140,7 @@ HeaderStyle _headerStyle(BuildContext context) {
       letterSpacing: 0,
       height: 1,
     ),
-    headerPadding: EdgeInsets.zero,
+    headerPadding: EdgeInsets.symmetric(vertical: 12.5.h),
     leftChevronIcon: Icon(
       CupertinoIcons.left_chevron,
       color: theme.background,

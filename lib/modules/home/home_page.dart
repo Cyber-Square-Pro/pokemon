@@ -7,7 +7,7 @@ import 'package:app/modules/home/home_page_store.dart';
 import 'package:app/modules/items/items_page.dart';
 import 'package:app/modules/news/news_page.dart';
 import 'package:app/modules/pokemon_grid/pokemon_grid_page.dart';
-import 'package:app/modules/merch/merch_page.dart';
+import 'package:app/modules/merch/tshirts_page.dart';
 
 import 'package:app/shared/stores/item_store/item_store.dart';
 import 'package:app/shared/stores/pokemon_store/pokemon_store.dart';
@@ -164,7 +164,7 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             case HomePageType.checkIn:
                               return const DailyCheckinPage();
                             case HomePageType.merchandise:
-                              return const MerchandisePage();
+                              return const TShirtsPage();
                             default:
                               return const PokemonGridPage();
                           }

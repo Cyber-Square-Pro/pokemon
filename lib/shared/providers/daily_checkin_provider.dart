@@ -10,7 +10,7 @@ enum CheckinState { init, loading, loaded, error }
 
 class CheckinProvider extends ChangeNotifier {
   CheckinProvider(BuildContext context) {
-    _dio = DailyCheckinService.dioInstance;
+    _dio = DailyCheckinService.getDio();
     _dio.interceptors.add(
       AuthInterceptor(dio: _dio, context: context),
     );

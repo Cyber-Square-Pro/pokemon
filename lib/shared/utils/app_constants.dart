@@ -10,6 +10,7 @@ class AppConstants {
   static String get pikachuMaterialImage => 'assets/images/pikachu.png';
   static String get pikachuSadImage => 'assets/images/pikachu_sad.png';
   static String get pokemonLogo => 'assets/images/pokemon_logo.png';
+  static String get blankShirt => 'assets/images/shirts/blank_tshirt.png';
 
   static String get fabIcon => "assets/images/icons/fab.png";
   static String get pokedexIcon => "assets/images/icons/pokedex_icon.png";

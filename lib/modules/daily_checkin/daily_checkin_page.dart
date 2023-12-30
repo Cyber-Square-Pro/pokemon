@@ -23,7 +23,6 @@ class _DailyCheckinPageState extends State<DailyCheckinPage> {
     super.initState();
     Future.delayed(Duration.zero, () async {
       await context.read<CheckinProvider>().getHistory(context);
-      await context.read<CreditsProvider>().getCredits();
     });
   }
 
@@ -53,7 +52,8 @@ class _DailyCheckinPageState extends State<DailyCheckinPage> {
                   return CheckinCalendar(
                     provider.history,
                     firstDay: provider.data.joinDate,
-                    lastDay: DateTime(2100, 12, 30),
+                    lastDay: DateTime(
+                        DateTime.now().year, DateTime.now().month + 1, 0),
                     focusedDay: DateTime.now(),
                   );
                 }

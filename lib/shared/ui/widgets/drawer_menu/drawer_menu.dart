@@ -1,5 +1,6 @@
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:app/shared/providers/auth_state_provider.dart';
+import 'package:app/shared/providers/credits_provider.dart';
 import 'package:app/shared/utils/spacer.dart';
 import 'package:app/theme/dark/dark_theme.dart';
 import 'package:app/theme/light/light_theme.dart';
@@ -194,6 +195,17 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget>
                   // DrawerMenuItemWidget(
                   //     color: AppTheme.getColors(context).drawerLocations, text: "Locations"),
                 ],
+              ),
+              hSpace(10),
+              Consumer<CreditsProvider>(
+                builder: (context, prov, _) => Text(
+                  'Credits: ${prov.credits.toString()}',
+                  style: TextStyle(
+                    fontSize: 20.sp,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
               hSpace(10),
               Container(

@@ -12,7 +12,7 @@ class DailyCheckinService {
 
   // Dio
   static final _dio = Dio();
-  static Dio get dioInstance => _dio;
+  static Dio getDio() => _dio;
 
   Future<void> checkIn(String username) async {
     final String uri = '${ApiConstants.baseURL}/daily-checkin/check-in';

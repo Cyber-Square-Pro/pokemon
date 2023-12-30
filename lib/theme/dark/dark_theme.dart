@@ -67,7 +67,7 @@ ThemeData darkTheme = ThemeData(
     onPrimary: Colors.white,
 
     // Background
-    background: const Color.fromRGBO(45, 45, 45, 1),
+    background: const Color.fromRGBO(35, 35, 35, 1),
     onBackground: Colors.white,
   ),
 );

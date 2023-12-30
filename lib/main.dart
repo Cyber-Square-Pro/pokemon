@@ -1,4 +1,5 @@
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
+import 'package:app/modules/merch/widgets/shirt_provider.dart';
 import 'package:app/shared/getit/getit.dart';
 import 'package:app/shared/providers/auth_state_provider.dart';
 import 'package:app/shared/providers/credit_card_provider.dart';
@@ -72,6 +73,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => CreditsProvider(context)),
           ChangeNotifierProvider(create: (context) => CheckinProvider(context)),
           ChangeNotifierProvider(create: (context) => CreditCardProvider()),
+          ChangeNotifierProvider(create: (context) => ShirtProvider()),
         ],
         child: ScreenUtilInit(
           minTextAdapt: false,

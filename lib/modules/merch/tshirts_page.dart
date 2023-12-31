@@ -1,11 +1,15 @@
+import 'package:app/modules/merch/buy_tshirt.dart';
 import 'package:app/modules/merch/widgets/favourite_print_picker.dart';
 import 'package:app/modules/merch/widgets/shirt_provider.dart';
 import 'package:app/modules/merch/widgets/tshirt_color_picker.dart';
+import 'package:app/shared/providers/credits_provider.dart';
 import 'package:app/shared/providers/favourites_provider.dart';
+import 'package:app/shared/utils/page_transitions.dart';
 import 'package:app/shared/utils/spacer.dart';
 import 'package:app/shared/widgets/primary_elevated_button.dart';
 import 'package:app/theme/app_layout.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 class TShirtsPage extends StatefulWidget {
@@ -19,6 +23,7 @@ class _TShirtsPageState extends State<TShirtsPage> {
   @override
   void initState() {
     Future.delayed(Duration.zero, () async {
+      await context.read<CreditsProvider>().getCredits();
       await context.read<FavouritesProvider>().fetchFavourites(context);
     });
     super.initState();
@@ -89,32 +94,53 @@ class _TShirtsPageState extends State<TShirtsPage> {
             hSpace(10),
             const Text('Pick a shirt color'),
             hSpace(25),
-            Row(
+            Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                MainElevatedButton(
-                  label: 'Select Pokemon',
-                  icon: Icons.add,
-                  onPressed: () {
-                    showFavouritePickerDialog(context);
-                  },
+                SizedBox(
+                  width: ScreenUtil.defaultSize.width,
+                  child: MainElevatedButton(
+                    label: 'Select Pokemon',
+                    icon: Icons.add,
+                    onPressed: () {
+                      showFavouritePickerDialog(context);
+                    },
+                  ),
                 ),
-                wSpace(10),
-                MainElevatedButton(
-                  label: 'Finalize',
-                  icon: Icons.check,
-                  onPressed:
-                      context.watch<ShirtProvider>().selectedPokemon != null
-                          ? () {
-                              // Navigator.push(
-                              //   context,
-                              //   TransitionPageRoute(
-                              //     child: const SelectPokemonPrintPage(),
-                              //     transition: PageTransitions.slideLeft,
-                              //   ),
-                              // );
-                            }
-                          : null,
+                hSpace(5),
+                SizedBox(
+                  width: ScreenUtil.defaultSize.width,
+                  child: MainElevatedButton(
+                    label: 'Finalize',
+                    icon: Icons.check,
+                    onPressed:
+                        context.watch<ShirtProvider>().selectedPokemon != null
+                            ? () {
+                                final credits =
+                                    context.read<CreditsProvider>().credits;
+                                final String colorName = context
+                                    .read<ShirtProvider>()
+                                    .selectedPokemon!
+                                    .types[0];
+                                final String pokemonName = context
+                                    .read<ShirtProvider>()
+                                    .selectedPokemon!
+                                    .name;
+                                Navigator.push(
+                                  context,
+                                  TransitionPageRoute(
+                                    child: BuyShirtPage(
+                                      colorName: colorName,
+                                      pokemonName: pokemonName,
+                                      credits: credits,
+                                    ),
+                                    transition: PageTransitions.slideLeft,
+                                    duration: Durations.long1,
+                                  ),
+                                );
+                              }
+                            : null,
+                  ),
                 ),
               ],
             ),

@@ -1,10 +1,10 @@
 name: app
 description: Pokemon Pokedex App By Team B
-publish_to: 'none'
+publish_to: "none"
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.1.2 <4.0.0'
+  sdk: ">=3.1.2 <4.0.0"
 
 dependencies:
   flutter:
@@ -40,18 +40,22 @@ dependencies:
   table_calendar: ^3.0.9
   collection: ^1.18.0
   http: ^1.1.2
-  flutter_credit_card: ^4.0.1 
-  hive: ^2.2.3
+  flutter_credit_card: ^4.0.1
+  isar: ^3.1.0+1
+  isar_flutter_libs: ^3.1.0+1
+  path_provider: ^2.1.1
+  build_runner: ^2.4.7
 
 dev_dependencies:
   mockito:
-  build_runner:
   flutter_test:
     sdk: flutter
   integration_test:
-    sdk: flutter  
+    sdk: flutter
 
   flutter_lints: ^2.0.0
+  mobx_codegen: ^2.6.0
+  isar_generator: ^3.1.0+1
 flutter:
   uses-material-design: true
   assets:
@@ -80,5 +84,5 @@ flutter:
   fonts:
     - family: Circular
       fonts:
-        - asset:  assets/fonts/CircularStd-Book.otf
-        - asset:  assets/fonts/CircularStd-Black.otf
+        - asset: assets/fonts/CircularStd-Book.otf
+        - asset: assets/fonts/CircularStd-Black.otf

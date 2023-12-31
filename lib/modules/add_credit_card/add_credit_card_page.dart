@@ -1,6 +1,8 @@
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:app/modules/add_credit_card/widgets/decoration.dart';
+import 'package:app/shared/providers/auth_state_provider.dart';
 import 'package:app/shared/providers/credit_card_provider.dart';
+import 'package:app/shared/repositories/credit_card_db.dart';
 import 'package:app/shared/utils/spacer.dart';
 import 'package:app/shared/utils/validators.dart';
 import 'package:app/shared/widgets/primary_elevated_button.dart';
@@ -21,10 +23,6 @@ class AddCreditCardPage extends StatefulWidget {
 
 class _AddCreditCardPageState extends State<AddCreditCardPage> {
   final formKey = GlobalKey<FormState>();
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -185,8 +183,32 @@ class _AddCreditCardPageState extends State<AddCreditCardPage> {
                           icon: Icons.credit_card_rounded,
                           onPressed: Provider.of<CreditCardProvider>(context)
                                   .saveButtonVisible
-                              ? () {
-                                  print('object');
+                              ? () async {
+                                  final username =
+                                      context.read<AuthProvider>().username;
+                                  final provider =
+                                      context.read<CreditCardProvider>();
+                                  // save
+                                  try {
+                                    await context
+                                        .read<CreditCardDatabase>()
+                                        .saveCard(
+                                          username,
+                                          number: provider.cardNumber,
+                                          holderName: provider.cardHolderName,
+                                          expiryDate: provider.expiry,
+                                          cvv: provider.cvv,
+                                        )
+                                        .then((_) {
+                                      provider.clearAll();
+                                      context
+                                          .read<CreditCardDatabase>()
+                                          .getSavedCardsOfUser(username);
+                                      Navigator.pop(context);
+                                    });
+                                  } catch (e) {
+                                    print(e);
+                                  }
                                 }
                               : null,
                         ),

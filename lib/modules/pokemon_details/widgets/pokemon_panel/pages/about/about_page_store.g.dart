@@ -14,18 +14,18 @@ mixin _$AboutPageStore on AboutPageStoreBase, Store {
   @override
   Duration get audioProgress =>
       (_$audioProgressComputed ??= Computed<Duration>(() => super.audioProgress,
-              name: '_AboutPageStoreBase.audioProgress'))
+              name: 'AboutPageStoreBase.audioProgress'))
           .value;
   Computed<Duration>? _$audioTotalComputed;
 
   @override
   Duration get audioTotal =>
       (_$audioTotalComputed ??= Computed<Duration>(() => super.audioTotal,
-              name: '_AboutPageStoreBase.audioTotal'))
+              name: 'AboutPageStoreBase.audioTotal'))
           .value;
 
   late final _$_audioProgressAtom =
-      Atom(name: '_AboutPageStoreBase._audioProgress', context: context);
+      Atom(name: 'AboutPageStoreBase._audioProgress', context: context);
 
   @override
   Duration get _audioProgress {
@@ -41,7 +41,7 @@ mixin _$AboutPageStore on AboutPageStoreBase, Store {
   }
 
   late final _$_audioTotalAtom =
-      Atom(name: '_AboutPageStoreBase._audioTotal', context: context);
+      Atom(name: 'AboutPageStoreBase._audioTotal', context: context);
 
   @override
   Duration get _audioTotal {
@@ -56,28 +56,28 @@ mixin _$AboutPageStore on AboutPageStoreBase, Store {
     });
   }
 
-  late final _$_AboutPageStoreBaseActionController =
-      ActionController(name: '_AboutPageStoreBase', context: context);
+  late final _$AboutPageStoreBaseActionController =
+      ActionController(name: 'AboutPageStoreBase', context: context);
 
   @override
   void setAudioProgress(Duration audioProgress) {
-    final _$actionInfo = _$_AboutPageStoreBaseActionController.startAction(
-        name: '_AboutPageStoreBase.setAudioProgress');
+    final _$actionInfo = _$AboutPageStoreBaseActionController.startAction(
+        name: 'AboutPageStoreBase.setAudioProgress');
     try {
       return super.setAudioProgress(audioProgress);
     } finally {
-      _$_AboutPageStoreBaseActionController.endAction(_$actionInfo);
+      _$AboutPageStoreBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
   void setAudioTotal(Duration audioTotal) {
-    final _$actionInfo = _$_AboutPageStoreBaseActionController.startAction(
-        name: '_AboutPageStoreBase.setAudioTotal');
+    final _$actionInfo = _$AboutPageStoreBaseActionController.startAction(
+        name: 'AboutPageStoreBase.setAudioTotal');
     try {
       return super.setAudioTotal(audioTotal);
     } finally {
-      _$_AboutPageStoreBaseActionController.endAction(_$actionInfo);
+      _$AboutPageStoreBaseActionController.endAction(_$actionInfo);
     }
   }
 

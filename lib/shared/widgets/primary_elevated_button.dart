@@ -88,7 +88,10 @@ class MainElevatedButton extends StatelessWidget {
     } else {
       return ElevatedButton.icon(
         onPressed: onPressed,
-        icon: Icon(icon),
+        icon: Icon(
+          icon,
+          size: 21.sp,
+        ),
         style: _mainButtonStyle(context),
         label: Text(label),
       );

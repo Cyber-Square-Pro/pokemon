@@ -13,17 +13,17 @@ mixin _$ItemStore on ItemStoreBase, Store {
 
   @override
   String? get filter => (_$filterComputed ??=
-          Computed<String?>(() => super.filter, name: '_ItemStoreBase.filter'))
+          Computed<String?>(() => super.filter, name: 'ItemStoreBase.filter'))
       .value;
   Computed<List<Item>>? _$itemsComputed;
 
   @override
   List<Item> get items => (_$itemsComputed ??=
-          Computed<List<Item>>(() => super.items, name: '_ItemStoreBase.items'))
+          Computed<List<Item>>(() => super.items, name: 'ItemStoreBase.items'))
       .value;
 
   late final _$_itemsAtom =
-      Atom(name: '_ItemStoreBase._items', context: context);
+      Atom(name: 'ItemStoreBase._items', context: context);
 
   @override
   List<Item> get _items {
@@ -39,7 +39,7 @@ mixin _$ItemStore on ItemStoreBase, Store {
   }
 
   late final _$_filterAtom =
-      Atom(name: '_ItemStoreBase._filter', context: context);
+      Atom(name: 'ItemStoreBase._filter', context: context);
 
   @override
   String? get _filter {
@@ -55,35 +55,35 @@ mixin _$ItemStore on ItemStoreBase, Store {
   }
 
   late final _$fetchItemsAsyncAction =
-      AsyncAction('_ItemStoreBase.fetchItems', context: context);
+      AsyncAction('ItemStoreBase.fetchItems', context: context);
 
   @override
   Future<void> fetchItems() {
     return _$fetchItemsAsyncAction.run(() => super.fetchItems());
   }
 
-  late final _$_ItemStoreBaseActionController =
-      ActionController(name: '_ItemStoreBase', context: context);
+  late final _$ItemStoreBaseActionController =
+      ActionController(name: 'ItemStoreBase', context: context);
 
   @override
   void setFilter(String filter) {
-    final _$actionInfo = _$_ItemStoreBaseActionController.startAction(
-        name: '_ItemStoreBase.setFilter');
+    final _$actionInfo = _$ItemStoreBaseActionController.startAction(
+        name: 'ItemStoreBase.setFilter');
     try {
       return super.setFilter(filter);
     } finally {
-      _$_ItemStoreBaseActionController.endAction(_$actionInfo);
+      _$ItemStoreBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
   void clearFilter() {
-    final _$actionInfo = _$_ItemStoreBaseActionController.startAction(
-        name: '_ItemStoreBase.clearFilter');
+    final _$actionInfo = _$ItemStoreBaseActionController.startAction(
+        name: 'ItemStoreBase.clearFilter');
     try {
       return super.clearFilter();
     } finally {
-      _$_ItemStoreBaseActionController.endAction(_$actionInfo);
+      _$ItemStoreBaseActionController.endAction(_$actionInfo);
     }
   }
 

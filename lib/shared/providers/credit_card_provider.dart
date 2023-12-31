@@ -34,6 +34,8 @@ class CreditCardProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+
+
   void clearAll() {
     _cardHolderName = '';
     _cardNumber = '';

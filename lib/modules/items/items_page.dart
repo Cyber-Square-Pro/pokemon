@@ -1,5 +1,4 @@
 import 'package:app/shared/widgets/loading_spinner.dart';
-import 'package:app/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

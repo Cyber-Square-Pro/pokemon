@@ -11,6 +11,7 @@ import 'package:app/shared/providers/password_obscure_provider.dart';
 import 'package:app/shared/providers/signup_provider.dart';
 import 'package:app/shared/providers/timer_provider.dart';
 import 'package:app/shared/providers/youtube_provider.dart';
+import 'package:app/shared/repositories/credit_card_db.dart';
 import 'package:app/shared/utils/connectivity_wrapper.dart';
 import 'package:app/shared_preferences_provider.dart';
 import 'package:app/theme/dark/dark_theme.dart';
@@ -40,6 +41,7 @@ void main() async {
 
     final initializer = MyAppInitializer();
     final prefs = await initializer.initialize();
+    await CreditCardDatabase.initialize();
 
     // .env service
     await loadEnv();
@@ -72,6 +74,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => YoutubeProvider()),
           ChangeNotifierProvider(create: (_) => CreditsProvider(context)),
           ChangeNotifierProvider(create: (context) => CheckinProvider(context)),
+          ChangeNotifierProvider(create: (context) => CreditCardDatabase()),
           ChangeNotifierProvider(create: (context) => CreditCardProvider()),
           ChangeNotifierProvider(create: (context) => ShirtProvider()),
         ],

@@ -40,6 +40,7 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> checkIfCredentialsExistOnDevice() async {
     final prefs = await SharedPreferences.getInstance();
     if (prefs.containsKey('username') && prefs.containsKey('password')) {
+      // ignore: use_build_context_synchronously
       showLoadingSpinnerModal(context, 'Auto logging in...');
       final username = prefs.getString('username')!;
       final password = prefs.getString('password')!;
@@ -47,15 +48,16 @@ class _LoginPageState extends State<LoginPage> {
           await AuthService.instance.login(username, password);
       if (loginResult == AuthState.loginSuccess) {
         if (context.mounted) {
+          context.read<AuthProvider>().setAuthenticated(true);
           context.read<AuthProvider>().getUserInfo();
-          // Navigator.pushReplacementNamed(context, '/home');
+          Navigator.pop(context);
           Navigator.pushReplacement(
             context,
             TransitionPageRoute(
               child: const HomePage(),
-              duration: const Duration(milliseconds: 1500),
+              duration: const Duration(milliseconds: 2000),
               transition: PageTransitions.slideLeft,
-              curve: Curves.easeOut,
+              curve: Curves.ease,
             ),
           );
         }
@@ -69,7 +71,6 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final otpProvider = Provider.of<OtpProvider>(context, listen: false);
-    final authProvider = Provider.of<AuthProvider>(context, listen: false);
 
     return Container(
       decoration: BoxDecoration(
@@ -205,8 +206,10 @@ class _LoginPageState extends State<LoginPage> {
                                     Provider.of<ObscureProvider>(context,
                                             listen: false)
                                         .resetSettings();
-                                    authProvider.setAuthenticated(true);
-                                    authProvider.getUserInfo();
+                                    context
+                                        .read<AuthProvider>()
+                                        .setAuthenticated(true);
+                                    context.read<AuthProvider>().getUserInfo();
                                     Navigator.pushReplacement(
                                       context,
                                       TransitionPageRoute(

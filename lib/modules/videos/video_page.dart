@@ -101,7 +101,9 @@ class _VideoPageState extends State<VideoPage> {
                               id: video.id.videoId,
                               video: video.snippet,
                             ),
-                            transition: PageTransitions.slideLeft,
+                            transition: index % 2 == 0
+                                ? PageTransitions.slideRight
+                                : PageTransitions.slideLeft,
                             curve: Curves.ease,
                           ),
                         );

@@ -2,6 +2,7 @@ import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:app/shared/providers/auth_state_provider.dart';
 import 'package:app/shared/providers/credits_provider.dart';
 import 'package:app/shared/utils/spacer.dart';
+import 'package:app/shared/widgets/primary_elevated_button.dart';
 import 'package:app/theme/dark/dark_theme.dart';
 import 'package:app/theme/light/light_theme.dart';
 import 'package:flutter/cupertino.dart';
@@ -197,71 +198,84 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget>
                 ],
               ),
               hSpace(10),
-              Consumer<CreditsProvider>(
-                builder: (context, prov, _) => Text(
-                  'Credits: ${prov.credits.toString()}',
-                  style: TextStyle(
-                    fontSize: 20.sp,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
+              hSpace(10),
+              ThemeSwitcher(
+                builder: (context) => InkWell(
+                  borderRadius: BorderRadius.circular(15),
+                  onTap: () async {
+                    ThemeSwitcher.of(context).changeTheme(
+                      theme: Theme.of(context).brightness == Brightness.light
+                          ? darkTheme
+                          : lightTheme,
+                    );
+
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+
+                    prefs
+                        .setBool(
+                      "darkTheme",
+                      !(Theme.of(context).brightness == Brightness.dark),
+                    )
+                        .then((value) {
+                      Scaffold.of(context).closeEndDrawer();
+                    });
+                  },
+                  child: CustomElevatedButton(
+                    icon: Icon(
+                      Theme.of(context).colorScheme.brightness ==
+                              Brightness.dark
+                          ? Icons.dark_mode
+                          : Icons.light_mode,
+                    ),
+                    label: Theme.of(context).colorScheme.brightness ==
+                            Brightness.dark
+                        ? 'DARK MODE'
+                        : 'LIGHT MODE',
+                    onPressed: () async {
+                      ThemeSwitcher.of(context).changeTheme(
+                        theme: Theme.of(context).brightness == Brightness.light
+                            ? darkTheme
+                            : lightTheme,
+                      );
+
+                      SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+
+                      prefs
+                          .setBool(
+                        "darkTheme",
+                        !(Theme.of(context).brightness == Brightness.dark),
+                      )
+                          .then((value) {
+                        Scaffold.of(context).closeEndDrawer();
+                      });
+                    },
                   ),
                 ),
               ),
               hSpace(10),
-              Container(
-                padding: EdgeInsets.symmetric(
-                  vertical: 10.h,
-                  horizontal: 15.w,
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  border: Border.all(
-                    width: 2,
-                    color: Colors.white.withOpacity(0.75),
-                  ),
-                ),
-                child: Row(
+              Consumer<CreditsProvider>(
+                builder: (context, prov, _) => Row(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    Icon(
+                      CupertinoIcons.money_dollar_circle_fill,
+                      color: Colors.white,
+                      size: 25.sp,
+                    ),
                     Text(
-                      'App Theme',
-                      style: textTheme.bodySmall!.copyWith(
-                        fontSize: 16.sp,
+                      ' ${prov.credits.toString()}',
+                      style: TextStyle(
+                        fontSize: 25.sp,
                         color: Colors.white,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                    wSpace(10),
-                    ThemeSwitcher(builder: (context) {
-                      return InkWell(
-                        onTap: () async {
-                          ThemeSwitcher.of(context).changeTheme(
-                            theme:
-                                Theme.of(context).brightness == Brightness.light
-                                    ? darkTheme
-                                    : lightTheme,
-                          );
-
-                          SharedPreferences prefs =
-                              await SharedPreferences.getInstance();
-
-                          prefs.setBool(
-                            "darkTheme",
-                            !(Theme.of(context).brightness == Brightness.dark),
-                          );
-                        },
-                        child: Icon(
-                          Theme.of(context).brightness == Brightness.light
-                              ? Icons.dark_mode
-                              : Icons.light_mode,
-                          color: Colors.white,
-                        ),
-                      );
-                    }),
                   ],
                 ),
               ),
-              hSpace(10),
             ],
           ),
           Align(

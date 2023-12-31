@@ -62,23 +62,6 @@ class _DailyCheckinPageState extends State<DailyCheckinPage> {
             ),
             Column(
               children: [
-                hSpace(10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    const Text('Credit Balance: '),
-                    Consumer<CreditsProvider>(
-                      builder: (context, prov, _) => Text(
-                        prov.credits.toString(),
-                        style: TextStyle(
-                          fontSize: 20.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-
                 // Check In Button
                 //! Disable if already checked in once
 

@@ -7,35 +7,61 @@ class CustomElevatedButton extends StatelessWidget {
     required this.label,
     required this.onPressed,
     super.key,
+    this.icon,
   });
   final String label;
   final void Function() onPressed;
 
+  final Widget? icon;
+
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: onPressed,
-
-      //
-      style: ElevatedButton.styleFrom(
-        elevation: 0,
-        shadowColor: Colors.transparent,
-        backgroundColor: Colors.white.withOpacity(0.95),
-        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppTheme.globalBorderRadius),
+    if (icon == null) {
+      return ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          elevation: 0,
+          shadowColor: Colors.transparent,
+          backgroundColor: Colors.white.withOpacity(0.95),
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppTheme.globalBorderRadius),
+          ),
         ),
-      ),
-      child: Text(
-        label,
-        style: TextStyle(
-          fontFamily: 'Circular',
-          fontSize: 16,
-          color: Colors.blue.shade700,
-          fontWeight: FontWeight.w900,
+        child: Text(
+          label,
+          style: TextStyle(
+            fontFamily: 'Circular',
+            fontSize: 16,
+            color: Colors.blue.shade700,
+            fontWeight: FontWeight.w900,
+          ),
         ),
-      ),
-    );
+      );
+    } else {
+      return ElevatedButton.icon(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          elevation: 0,
+          shadowColor: Colors.transparent,
+          backgroundColor: Colors.white.withOpacity(0.95),
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppTheme.globalBorderRadius),
+          ),
+        ),
+        icon: icon!,
+        label: Text(
+          label,
+          style: TextStyle(
+            fontFamily: 'Circular',
+            fontSize: 16,
+            color: Colors.blue.shade700,
+            fontWeight: FontWeight.w900,
+          ),
+        ),
+      );
+    }
   }
 }
 

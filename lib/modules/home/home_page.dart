@@ -5,9 +5,12 @@ import 'package:app/modules/daily_checkin/daily_checkin_page.dart';
 import 'package:app/modules/favourites/favourites_page.dart';
 import 'package:app/modules/home/home_page_store.dart';
 import 'package:app/modules/items/items_page.dart';
+
 import 'package:app/modules/news/news_page.dart';
 import 'package:app/modules/pokemon_grid/pokemon_grid_page.dart';
 import 'package:app/modules/merch/tshirts_page.dart';
+
+import 'package:app/shared/providers/credits_provider.dart';
 
 import 'package:app/shared/stores/item_store/item_store.dart';
 import 'package:app/shared/stores/pokemon_store/pokemon_store.dart';
@@ -15,12 +18,14 @@ import 'package:app/shared/ui/widgets/app_bar.dart';
 import 'package:app/shared/ui/widgets/drawer_menu/drawer_menu.dart';
 import 'package:app/shared/utils/app_constants.dart';
 import 'package:app/modules/videos/video_page.dart';
+
 import 'package:app/theme/app_layout.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
+import 'package:provider/provider.dart';
 
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
@@ -50,6 +55,7 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    context.read<CreditsProvider>().getCredits();
 
     _pokemonStore = GetIt.instance<PokemonStore>();
     _itemStore = GetIt.instance<ItemStore>();

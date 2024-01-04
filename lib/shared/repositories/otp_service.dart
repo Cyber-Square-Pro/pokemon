@@ -2,6 +2,13 @@ import 'package:app/shared/utils/api_constants.dart';
 import 'package:app/shared/utils/snackbars.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+final _options = Options(
+  headers: {
+    'api-key': dotenv.env['API_KEY'],
+  },
+);
 
 class OtpService {
   final Dio _dio = Dio();
@@ -18,7 +25,7 @@ class OtpService {
           'email': email,
           'intent': intent,
         },
-        options: Options(headers: {'Connection': 'keep-alive'}),
+        options: _options,
       );
 
       if (response.statusCode == 201) {
@@ -37,11 +44,15 @@ class OtpService {
     final uri = '${ApiConstants.baseURL}/users/verify-email';
 
     try {
-      final Response response = await _dio.post(uri, data: {
-        'email': email,
-        'otp': otp,
-        'intent': intent,
-      });
+      final Response response = await _dio.post(
+        uri,
+        data: {
+          'email': email,
+          'otp': otp,
+          'intent': intent,
+        },
+        options: _options,
+      );
       print(response.statusMessage);
 
       if (response.statusCode == 201) {
@@ -83,7 +94,7 @@ class OtpService {
           'email': email,
           'password': password,
         },
-        options: Options(headers: {'Connection': 'keep-alive'}),
+        options: _options,
       );
 
       if (response.statusCode == 201 || response.statusCode == 200) {

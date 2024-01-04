@@ -1,4 +1,5 @@
 import 'package:app/modules/daily_checkin/widgets/checkin_calendar.dart';
+import 'package:app/modules/daily_checkin/widgets/legend.dart';
 import 'package:app/modules/daily_checkin/widgets/notice_label.dart';
 import 'package:app/shared/providers/credits_provider.dart';
 import 'package:app/shared/providers/daily_checkin_provider.dart';
@@ -60,6 +61,10 @@ class _DailyCheckinPageState extends State<DailyCheckinPage> {
                 return const SizedBox();
               },
             ),
+            LegendsList(legends: {
+              Colors.red: 'Missed Days',
+              Colors.teal: 'Checked Days',
+            }),
             Column(
               children: [
                 // Check In Button

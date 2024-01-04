@@ -2,6 +2,7 @@ import 'package:app/shared/utils/api_constants.dart';
 import 'package:app/shared/utils/snackbars.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 enum AuthState {
@@ -10,6 +11,8 @@ enum AuthState {
   emailNotVerified,
   signupFailed,
 }
+
+final _options = Options(headers: {'api-key': dotenv.env['API_KEY']});
 
 class AuthService {
   AuthService._();
@@ -24,7 +27,11 @@ class AuthService {
     try {
       Response response = await _dio.post(
         '${ApiConstants.baseURL}/auth/login',
-        data: {'username': username, 'password': password},
+        data: {
+          'username': username,
+          'password': password,
+        },
+        options: _options,
       );
 
       if (response.statusCode == 201) {
@@ -64,6 +71,7 @@ class AuthService {
       Response response = await _dio.post(
         '${ApiConstants.baseURL}/auth/refresh-token',
         data: {'refreshToken': refreshToken},
+        options: _options,
       );
 
       final newAccessToken = response.data['accessToken'];
@@ -115,6 +123,7 @@ class AuthService {
           'phone_number': phoneNumber,
           'password': password,
         },
+        options: _options,
       );
 
       print(response.statusMessage);

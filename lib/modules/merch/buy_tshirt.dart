@@ -1,6 +1,5 @@
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:app/modules/add_credit_card/add_credit_card_page.dart';
-import 'package:app/shared/models/credit_card_model.dart';
 import 'package:app/shared/providers/auth_state_provider.dart';
 import 'package:app/shared/repositories/credit_card_db.dart';
 import 'package:app/shared/utils/page_transitions.dart';
@@ -34,15 +33,12 @@ class _BuyShirtPageState extends State<BuyShirtPage> {
   @override
   void initState() {
     super.initState();
+    final username = context.read<AuthProvider>().username;
+    context.read<CreditCardDatabase>().getSavedCardsOfUser(username);
   }
 
   @override
   Widget build(BuildContext context) {
-    final db = context.read<CreditCardDatabase>();
-    final List<CreditCard> cards = db.cards;
-    final username = context.read<AuthProvider>().username;
-    context.read<CreditCardDatabase>().getSavedCardsOfUser(username);
-
     return ThemeSwitchingArea(
       child: Builder(
         key: const Key('buy_shirt'),
@@ -73,23 +69,13 @@ class _BuyShirtPageState extends State<BuyShirtPage> {
                 wSpace(20),
               ],
             ),
-            body: SingleChildScrollView(
+            body: Padding(
               padding: EdgeInsets.symmetric(
                 horizontal: AppLayouts.horizontalPagePadding,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  MainElevatedButton(
-                    label: 'Redeem with Credits',
-                    icon: CupertinoIcons.money_dollar_circle_fill,
-                    onPressed: () {},
-                  ),
-                  hSpace(10),
-                  const Center(
-                    child: Text('OR'),
-                  ),
-                  hSpace(10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -114,32 +100,53 @@ class _BuyShirtPageState extends State<BuyShirtPage> {
                       ),
                     ],
                   ),
-                  hSpace(5),
-                  if (cards.isEmpty)
-                    const Text('No cards saved')
-                  else
-                    ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: cards.length,
-                      itemBuilder: (context, index) {
-                        final card = cards[index];
-                        return InkWell(
-                          borderRadius: BorderRadius.circular(15),
-                          onTap: () {},
-                          child: CreditCardWidget(
-                            padding: 0,
-                            cardNumber: card.number,
-                            expiryDate: card.expiryDate,
-                            cardHolderName: card.holderName,
-                            cvvCode: card.cvv,
-                            isHolderNameVisible: true,
-                            showBackView: false,
-                            isSwipeGestureEnabled: false,
-                            onCreditCardWidgetChange: (_) {},
-                          ),
-                        );
-                      },
-                    )
+                  hSpace(10),
+                  Consumer<CreditCardDatabase>(
+                    builder: (context, provider, _) {
+                      if (provider.cards.isEmpty) {
+                        return const Text('You have no saved cards');
+                      }
+                      return Expanded(
+                        flex: 1,
+                        child: ListView.separated(
+                          separatorBuilder: (context, index) =>
+                              const SizedBox(height: 15),
+                          shrinkWrap: true,
+                          itemCount: provider.cards.length,
+                          itemBuilder: (context, index) {
+                            final card = provider.cards[index];
+                            return InkWell(
+                              borderRadius: BorderRadius.circular(15),
+                              onTap: () {},
+                              child: CreditCardWidget(
+                                padding: 0,
+                                cardNumber: card.number,
+                                expiryDate: card.expiryDate,
+                                cardHolderName: card.holderName,
+                                cvvCode: card.cvv,
+                                isHolderNameVisible: true,
+                                showBackView: false,
+                                isSwipeGestureEnabled: false,
+                                onCreditCardWidgetChange: (_) {},
+                              ),
+                            );
+                          },
+                        ),
+                      );
+                    },
+                  ),
+//
+                  const Text('OR'),
+                  hSpace(10),
+                  SizedBox(
+                    width: ScreenUtil.defaultSize.width,
+                    child: MainElevatedButton(
+                      label: 'Redeem with Credits',
+                      icon: CupertinoIcons.money_dollar_circle_fill,
+                      onPressed: () {},
+                    ),
+                  ),
+                  hSpace(15),
                 ],
               ),
             ),

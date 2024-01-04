@@ -17,7 +17,10 @@ class DailyCheckinService {
   Future<void> checkIn(String username) async {
     final String uri = '${ApiConstants.baseURL}/daily-checkin/check-in';
 
-    await _dio.patch(uri, data: {'username': username});
+    await _dio.patch(
+      uri,
+      data: {'username': username},
+    );
   }
 
   Future<DailyCheckinData> getHistory(String username) async {

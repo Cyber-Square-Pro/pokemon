@@ -68,6 +68,13 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                   ),
                 ),
+                Text(
+                  'Pokedex',
+                  style: TextStyle(
+                    fontSize: 30.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 hSpace(25),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -159,8 +166,8 @@ class _SignUpPageState extends State<SignUpPage> {
                               hSpace(20),
                               CustomTextFormField(
                                 controller: _confirmpasswordcontroller,
-                                validator: (value) => FormValidators
-                                    .validateConfirmPassword(
+                                validator: (value) =>
+                                    FormValidators.validateConfirmPassword(
                                         value, _passwordcontroller.text),
                                 isPassword:
                                     provider.obscureSignupConfirmPassword,

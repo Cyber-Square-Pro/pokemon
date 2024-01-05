@@ -30,7 +30,6 @@ class _LoginPageState extends State<LoginPage> {
   final _passwordController = TextEditingController();
   final _usernameController = TextEditingController();
 
-  // Auth
   @override
   void initState() {
     super.initState();
@@ -96,6 +95,13 @@ class _LoginPageState extends State<LoginPage> {
                         AppConstants.pokemonLogo,
                       ),
                     ),
+                  ),
+                ),
+                Text(
+                  'Pokedex',
+                  style: TextStyle(
+                    fontSize: 30.sp,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
                 hSpace(25),

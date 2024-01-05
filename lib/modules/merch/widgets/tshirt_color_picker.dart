@@ -1,4 +1,5 @@
 import 'package:app/modules/merch/widgets/shirt_provider.dart';
+import 'package:app/shared/ui/widgets/animated_pokeball.dart';
 import 'package:app/shared/utils/app_constants.dart';
 import 'package:app/shared/utils/spacer.dart';
 import 'package:flutter/material.dart';
@@ -45,6 +46,14 @@ class TShirtBuilder extends StatelessWidget {
                   child: Image.network(
                     provider.selectedPokemon!.imageUrl,
                     height: 110.w,
+                    loadingBuilder: (context, _, loadingProgress) {
+                      return Center(
+                        child: AnimatedPokeballWidget(
+                          color: Theme.of(context).colorScheme.onBackground,
+                          size: 30.r,
+                        ),
+                      );
+                    },
                   ),
                 )
               else

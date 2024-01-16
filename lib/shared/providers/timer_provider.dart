@@ -39,7 +39,6 @@ class TimerProvider extends ChangeNotifier {
     _stopTimer();
     initialTimeInSeconds = 180;
     _timerController.add(initialTimeInSeconds);
-
     _startTimer();
   }
 

@@ -49,7 +49,6 @@ class _LoginPageState extends State<LoginPage> {
         if (context.mounted) {
           context.read<AuthProvider>().setAuthenticated(true);
           context.read<AuthProvider>().getUserInfo();
-          Navigator.pop(context);
           Navigator.pushReplacement(
             context,
             TransitionPageRoute(

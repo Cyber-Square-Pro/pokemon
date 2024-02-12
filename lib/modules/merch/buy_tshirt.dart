@@ -2,14 +2,15 @@ import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:app/modules/add_credit_card/add_credit_card_page.dart';
 import 'package:app/shared/providers/auth_state_provider.dart';
 import 'package:app/shared/repositories/credit_card_db.dart';
+import 'package:app/shared/repositories/payment_service.dart';
 import 'package:app/shared/utils/page_transitions.dart';
 import 'package:app/shared/utils/spacer.dart';
+import 'package:app/shared/widgets/custom_text_form_field.dart';
 import 'package:app/shared/widgets/primary_elevated_button.dart';
 import 'package:app/theme/app_layout.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
@@ -74,72 +75,100 @@ class _BuyShirtPageState extends State<BuyShirtPage> {
                 horizontal: AppLayouts.horizontalPagePadding,
               ),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Row(
+                  Text(
+                    'Enter Shipping Address',
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  SizedBox(
+                    width: double.maxFinite,
+                    child: CustomTextFormField(
+                      prefixIcon: Icons.home,
+                      labelText: '',
+                      controller: TextEditingController(),
+                      validator: (value) {
+                        return null;
+                      },
+                      keyboardType: TextInputType.streetAddress,
+                      isPassword: false,
+                      maxLines: 5,
+                      borderColor: Colors.blue,
+                      errorBorderColor: Colors.red,
+                      textColor: Theme.of(context).colorScheme.onBackground,
+                    ),
+                  ),
+                  hSpace(25),
+                  Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Pay with card',
+                        'Select Payment Method',
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
-                      wSpace(5),
-                      MainElevatedButton(
-                        label: 'Add new card',
-                        icon: CupertinoIcons.plus,
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            TransitionPageRoute(
-                              child: const AddCreditCardPage(),
-                              transition: PageTransitions.slideLeft,
-                              duration: Durations.long1,
-                            ),
-                          );
-                        },
+                      hSpace(10),
+                      SizedBox(
+                        width: double.maxFinite,
+                        child: MainElevatedButton(
+                          label: 'Pay with Card',
+                          icon: CupertinoIcons.creditcard,
+                          onPressed: () async {
+                            // Navigator.push(
+                            //   context,
+                            //   TransitionPageRoute(
+                            //     child: const AddCreditCardPage(),
+                            //     transition: PageTransitions.slideLeft,
+                            //     duration: Durations.long1,
+                            //   ),
+                            // );
+                            await PaymentService.createPaymentIntent(250);
+                          },
+                        ),
                       ),
                     ],
                   ),
-                  hSpace(10),
-                  Consumer<CreditCardDatabase>(
-                    builder: (context, provider, _) {
-                      if (provider.cards.isEmpty) {
-                        return const Text('You have no saved cards');
-                      }
-                      return Expanded(
-                        flex: 1,
-                        child: ListView.separated(
-                          separatorBuilder: (context, index) =>
-                              const SizedBox(height: 15),
-                          shrinkWrap: true,
-                          itemCount: provider.cards.length,
-                          itemBuilder: (context, index) {
-                            final card = provider.cards[index];
-                            return InkWell(
-                              borderRadius: BorderRadius.circular(15),
-                              onTap: () {},
-                              child: CreditCardWidget(
-                                padding: 0,
-                                cardNumber: card.number,
-                                expiryDate: card.expiryDate,
-                                cardHolderName: card.holderName,
-                                cvvCode: card.cvv,
-                                isHolderNameVisible: true,
-                                showBackView: false,
-                                isSwipeGestureEnabled: false,
-                                onCreditCardWidgetChange: (_) {},
-                              ),
-                            );
-                          },
-                        ),
-                      );
-                    },
-                  ),
-//
-                  const Text('OR'),
-                  hSpace(10),
+                  hSpace(5),
+                  // Consumer<CreditCardDatabase>(
+                  //   builder: (context, provider, _) {
+                  //     if (provider.cards.isEmpty) {
+                  //       return const Text('You have no saved cards');
+                  //     }
+                  //     return Expanded(
+                  //       flex: 1,
+                  //       child: ListView.separated(
+                  //         separatorBuilder: (context, index) =>
+                  //             const SizedBox(height: 15),
+                  //         shrinkWrap: true,
+                  //         itemCount: provider.cards.length,
+                  //         itemBuilder: (context, index) {
+                  //           final card = provider.cards[index];
+                  //           return InkWell(
+                  //             onTap: () {
+
+                  //             },
+                  //             borderRadius: BorderRadius.circular(15),
+                  //             child: CreditCardWidget(
+                  //               padding: 0,
+                  //               cardNumber: card.number,
+                  //               expiryDate: card.expiryDate,
+                  //               cardHolderName: card.holderName,
+                  //               cvvCode: card.cvv,
+                  //               isHolderNameVisible: true,
+                  //               showBackView: false,
+                  //               isSwipeGestureEnabled: false,
+                  //               onCreditCardWidgetChange: (_) {},
+                  //             ),
+                  //           );
+                  //         },
+                  //       ),
+                  //     );
+                  //   },
+                  // ),
+
+                  hSpace(5),
                   SizedBox(
-                    width: ScreenUtil.defaultSize.width,
+                    width: double.maxFinite,
                     child: MainElevatedButton(
                       label: 'Redeem with Credits',
                       icon: CupertinoIcons.money_dollar_circle_fill,

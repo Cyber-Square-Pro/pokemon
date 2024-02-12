@@ -21,6 +21,7 @@ import 'package:flutter/material.dart';
 import 'package:app/shared/routes/router.dart' as router;
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -45,6 +46,7 @@ void main() async {
 
     // .env service
     await loadEnv();
+    Stripe.publishableKey = dotenv.env['STRIPE_KEY'].toString();
     runApp(MyApp(prefs));
   });
 }

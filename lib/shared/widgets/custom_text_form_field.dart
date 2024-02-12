@@ -1,7 +1,7 @@
 import 'package:app/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
-class CustomTextFormField extends StatefulWidget {
+class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
     required this.prefixIcon,
     required this.labelText,
@@ -12,6 +12,10 @@ class CustomTextFormField extends StatefulWidget {
     this.keyboardType,
     this.isPasswordField,
     this.suffixIcon,
+    this.maxLines,
+    this.borderColor,
+    this.errorBorderColor,
+    this.textColor,
   });
 
   final String labelText;
@@ -22,28 +26,28 @@ class CustomTextFormField extends StatefulWidget {
   final TextInputType? keyboardType;
   final bool? isPasswordField;
   final Widget? suffixIcon;
+  final int? maxLines;
+  final Color? borderColor;
+  final Color? errorBorderColor;
+  final Color? textColor;
 
-  @override
-  State<CustomTextFormField> createState() => _CustomTextFormFieldState();
-}
-
-class _CustomTextFormFieldState extends State<CustomTextFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       // Settings
-      obscureText: widget.isPassword ?? false,
+      obscureText: isPassword ?? false,
 
-      style: const TextStyle(
+      style: TextStyle(
         fontFamily: 'Circular',
         letterSpacing: 0.5,
         fontSize: 16,
-        color: Colors.white,
+        color: textColor ?? Colors.white,
       ),
+      maxLines: maxLines ?? 1,
 
-      controller: widget.controller,
-      validator: widget.validator,
-      keyboardType: widget.keyboardType,
+      controller: controller,
+      validator: validator,
+      keyboardType: keyboardType,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       // Decoration
       decoration: InputDecoration(
@@ -51,38 +55,43 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
           borderRadius: BorderRadius.circular(_borderRadius),
           borderSide: BorderSide(
             width: 2,
-            color: Colors.white.withOpacity(0.6),
+            color: borderColor ?? Colors.white.withOpacity(0.6),
           ),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(_borderRadius),
-          borderSide: const BorderSide(
+          borderSide: BorderSide(
             width: 2,
-            color: Colors.white,
+            color: borderColor ?? Colors.white,
           ),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(_borderRadius),
-          borderSide: const BorderSide(
+          borderSide: BorderSide(
             width: 2,
-            color: Colors.red,
+            color: errorBorderColor ?? Colors.red,
           ),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(_borderRadius),
-          borderSide: const BorderSide(
+          borderSide: BorderSide(
             width: 2,
-            color: Colors.red,
+            color: errorBorderColor ?? Colors.red,
           ),
         ),
-        contentPadding: const EdgeInsets.only(left: 10, bottom: 10, top: 10, right: 25),
+        contentPadding: const EdgeInsets.only(
+          left: 10,
+          bottom: 10,
+          top: 10,
+          right: 25,
+        ),
 
         // Label
         floatingLabelStyle: TextStyle(
           fontSize: 15,
           color: Colors.white.withOpacity(0.75),
         ),
-        labelText: widget.labelText,
+        labelText: labelText,
         labelStyle: TextStyle(
           fontSize: 15,
           color: Colors.white.withOpacity(0.5),
@@ -95,10 +104,12 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         ]),
 
         // Prefix Icon
-        prefixIcon: SizedBox(width: 50, child: Icon(widget.prefixIcon)),
-
+        prefixIcon: SizedBox(
+          width: 45,
+          child: Icon(prefixIcon),
+        ),
         // Suffix icon for password field
-        suffixIcon: widget.suffixIcon,
+        suffixIcon: suffixIcon,
       ),
     );
   }

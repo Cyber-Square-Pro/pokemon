@@ -10,6 +10,8 @@ final _options = Options(
   },
 );
 
+
+
 class OtpService {
   final Dio _dio = Dio();
   Dio getDioInstance() {
@@ -102,6 +104,7 @@ class OtpService {
       }
       return false;
     } catch (e) {
+      print(e);
       return false;
     }
   }

@@ -31,7 +31,12 @@ class _NewsPageState extends State<NewsPage> {
     super.initState();
 
     // Fetch the initial page
-    dio.interceptors.add(AuthInterceptor(dio: dio, context: context));
+    dio.interceptors.add(
+      AuthInterceptor(
+        dio: dio,
+        context: context,
+      ),
+    );
     _fetchPage(1);
   }
 

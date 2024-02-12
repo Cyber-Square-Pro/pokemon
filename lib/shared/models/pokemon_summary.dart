@@ -1,17 +1,23 @@
+import 'dart:convert';
+
 import 'package:app/shared/models/pokemon.dart';
 import 'package:equatable/equatable.dart';
 
-class PokemonSummary extends Equatable {
-  late final String number;
-  late final String name;
-  late final String imageUrl;
-  late final String thumbnailUrl;
-  late final Sprites sprites;
-  late final List<String> types;
-  late final String specie;
-  late final Generation generation;
+List<PokemonSummary> pokemonSummaryListFromJson(String str) =>
+    List<PokemonSummary>.from(
+        json.decode(str).map((x) => PokemonSummary.fromJson(x)));
 
-  PokemonSummary({
+class PokemonSummary extends Equatable {
+  final String number;
+  final String name;
+  final String imageUrl;
+  final String thumbnailUrl;
+  final Sprites sprites;
+  final List<String> types;
+  final String specie;
+  final Generation generation;
+
+  const PokemonSummary({
     required this.number,
     required this.name,
     required this.imageUrl,

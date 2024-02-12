@@ -10,7 +10,7 @@ class YoutubeProvider with ChangeNotifier {
   late List<VideoItem> _searchResults = [];
 
   void changeState(YoutubeSearchState newState) async {
-    _state = newState;
+   _state = newState;
   }
 
   Future<void> fetchVideoList(String apiKey) async {

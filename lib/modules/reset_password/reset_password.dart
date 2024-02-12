@@ -116,12 +116,14 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                               CustomTextFormField(
                                 controller: _confirmpasswordcontroller,
                                 validator: (value) {
-                                  if (value == '' || value != _newpasswordcontroller.text) {
+                                  if (value == '' ||
+                                      value != _newpasswordcontroller.text) {
                                     return 'Confirmed password does not match!!!';
                                   }
                                   return null;
                                 },
-                                isPassword: provider.obscureResetConfirmPassword,
+                                isPassword:
+                                    provider.obscureResetConfirmPassword,
                                 suffixIcon: IconButton(
                                   icon: Icon(
                                     provider.obscureResetConfirmPassword
@@ -152,18 +154,21 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                             label: 'Reset',
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
-                                showLoadingSpinnerModal(context, 'Resetting password...');
+                                showLoadingSpinnerModal(
+                                    context, 'Resetting password...');
                                 final email = otpProvider.email;
-                                if (await OtpService()
-                                    .resetPassword(email, _newpasswordcontroller.text.trim())) {
+                                if (await OtpService().resetPassword(email,
+                                    _newpasswordcontroller.text.trim())) {
                                   if (context.mounted) {
-                                    Provider.of<ObscureProvider>(context, listen: false)
+                                    Provider.of<ObscureProvider>(context,
+                                            listen: false)
                                         .resetSettings();
                                     Navigator.popAndPushNamed(
                                       context,
                                       '/login',
                                       arguments: [
-                                        ScaffoldMessenger.of(context).showSnackBar(
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
                                           MySnackbars.success(
                                               'Password has been reset, login to continue'),
                                         ),
@@ -174,12 +179,14 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                                   if (context.mounted) {
                                     Navigator.pop(context);
                                     ScaffoldMessenger.of(context).showSnackBar(
-                                        MySnackbars.error('Failed To Reset Password'));
+                                        MySnackbars.error(
+                                            'Failed To Reset Password'));
                                   }
                                 }
                               } else {
-                                ScaffoldMessenger.of(context).showSnackBar(MySnackbars.error(
-                                    'Passwords do not match / Invalid passwords'));
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    MySnackbars.error(
+                                        'Passwords do not match / Invalid passwords'));
                               }
                             },
                           ),

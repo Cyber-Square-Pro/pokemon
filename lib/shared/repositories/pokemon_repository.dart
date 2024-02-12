@@ -1,6 +1,6 @@
 import 'dart:convert';
-
 import 'package:app/shared/utils/api_constants.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:app/shared/models/pokemon.dart';
 import 'package:app/shared/models/pokemon_summary.dart';
@@ -9,14 +9,22 @@ import 'package:shared_preferences/shared_preferences.dart';
 class PokemonRepository {
   Future<List<PokemonSummary>> fetchPokemonsSummary() async {
     try {
-      final response =
-          await http.get(Uri.parse(ApiConstants.pokedexSummaryData));
-
-      return List<PokemonSummary>.from(
-        json.decode(const Utf8Decoder().convert(response.body.codeUnits)).map(
-              (model) => PokemonSummary.fromJson(model),
-            ),
+      final response = await http.get(
+        Uri.parse(
+          // ApiConstants.pokedexSummaryData,
+          '${ApiConstants.baseURL}/pokemon',
+        ),
+        headers: {
+          'api-key': dotenv.env['API_KEY'].toString(),
+        },
       );
+
+      // return List<PokemonSummary>.from(
+      //   json.decode(const Utf8Decoder().convert(response.body.codeUnits)).map(
+      //         (model) => PokemonSummary.fromJson(model),
+      //       ),
+      // );
+      return pokemonSummaryListFromJson(response.body);
     } catch (e) {
       rethrow;
     }

@@ -9,13 +9,13 @@ import 'package:app/theme/app_theme.dart';
 class BreedingInfoWidget extends StatelessWidget {
   static final _pokemonStore = GetIt.instance<PokemonStore>();
 
-  const BreedingInfoWidget({Key? key}) : super(key: key);
+  const BreedingInfoWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
 
-    return Container(
+    return SizedBox(
       width: MediaQuery.of(context).size.width,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 20),
@@ -27,7 +27,7 @@ class BreedingInfoWidget extends StatelessWidget {
               child: Text(
                 "Breeding",
                 style:
-                    textTheme.bodyText1?.copyWith(fontWeight: FontWeight.bold),
+                    textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
               ),
             ),
             SingleChildScrollView(
@@ -43,13 +43,13 @@ class BreedingInfoWidget extends StatelessWidget {
                         child: Observer(
                           builder: (_) => Row(
                             children: [
-                              Container(
+                              SizedBox(
                                 width: 88,
                                 child: Opacity(
                                   opacity: 0.4,
                                   child: Text(
                                     "Gender",
-                                    style: textTheme.bodyText1,
+                                    style: textTheme.bodyMedium,
                                   ),
                                 ),
                               ),
@@ -87,14 +87,14 @@ class BreedingInfoWidget extends StatelessWidget {
                                               horizontal: 5),
                                           child: Text(
                                             "???",
-                                            style: textTheme.bodyText1,
+                                            style: textTheme.bodyMedium,
                                           ),
                                         ),
                                       Text(
                                         gender.type == GenderType.UNKNOWN
                                             ? "--%"
                                             : "${gender.percentage}",
-                                        style: textTheme.bodyText1,
+                                        style: textTheme.bodyMedium,
                                       ),
                                     ],
                                   ),
@@ -108,18 +108,19 @@ class BreedingInfoWidget extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(vertical: 9),
                         child: Row(
                           children: [
-                            Container(
+                            SizedBox(
                               width: 88,
                               child: Opacity(
                                 opacity: 0.4,
                                 child: Text("Egg Groups",
-                                    style: textTheme.bodyText1),
+                                    style: textTheme.bodyMedium),
                               ),
                             ),
                             Observer(
                               builder: (_) => Text(
-                                "${_pokemonStore.pokemon!.breeding.egg!.groups.join(", ")}",
-                                style: textTheme.bodyText1,
+                                _pokemonStore.pokemon!.breeding.egg!.groups
+                                    .join(", "),
+                                style: textTheme.bodyMedium,
                               ),
                             ),
                           ],
@@ -129,20 +130,20 @@ class BreedingInfoWidget extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(vertical: 9),
                         child: Row(
                           children: [
-                            Container(
+                            SizedBox(
                               width: 88,
                               child: Opacity(
                                 opacity: 0.4,
                                 child: Text(
                                   "Egg Cycle",
-                                  style: textTheme.bodyText1,
+                                  style: textTheme.bodyMedium,
                                 ),
                               ),
                             ),
                             Observer(
                               builder: (_) => Text(
-                                "${_pokemonStore.pokemon!.breeding.egg!.cycle}",
-                                style: textTheme.bodyText1,
+                                _pokemonStore.pokemon!.breeding.egg!.cycle,
+                                style: textTheme.bodyMedium,
                               ),
                             ),
                           ],

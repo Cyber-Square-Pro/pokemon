@@ -46,19 +46,19 @@ class BaseStatsItemWidget extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Container(
+          SizedBox(
             width: 87,
             child: Opacity(
               opacity: 0.4,
-              child: Text(title, style: textTheme.bodyText1),
+              child: Text(title, style: textTheme.bodyMedium),
             ),
           ),
           Observer(
-            builder: (_) => Container(
+            builder: (_) => SizedBox(
               width: 40,
               child: Text(
                 value().toString(),
-                style: textTheme.bodyText1,
+                style: textTheme.bodyMedium,
               ),
             ),
           ),
@@ -69,7 +69,7 @@ class BaseStatsItemWidget extends StatelessWidget {
                 Container(
                   height: 10,
                   decoration: BoxDecoration(
-                    color: Color(0xFFF4F5F4),
+                    color: const Color(0xFFF4F5F4),
                     borderRadius: BorderRadius.circular(5),
                   ),
                   //color: Colors.red,
@@ -78,7 +78,7 @@ class BaseStatsItemWidget extends StatelessWidget {
                   builder: (_) => FractionallySizedBox(
                     widthFactor: barPercentage,
                     child: AnimatedContainer(
-                      duration: Duration(seconds: 3),
+                      duration: const Duration(seconds: 3),
                       height: 10,
                       decoration: BoxDecoration(
                         color: AppTheme.getColors(context)

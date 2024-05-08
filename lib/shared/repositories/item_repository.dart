@@ -17,7 +17,7 @@ class ItemRepository {
         ),
       );
     } catch (e) {
-      throw e;
+      rethrow;
     }
   }
 }

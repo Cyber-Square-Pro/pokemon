@@ -48,10 +48,11 @@ class SoundPlayer extends StatelessWidget {
               ),
               onPressed: () async {
                 player.seek(Duration.zero);
-                player.play(UrlSource(pokemon!.soundUrl!));
+                player.play(UrlSource(pokemon.soundUrl!));
               },
             ),
             SizedBox(
+              width: size.width * 0.65 - horizontalPadding,
               child: Observer(
                 builder: (_) => ProgressBar(
                   progress: aboutPageStore.audioProgress,
@@ -72,7 +73,6 @@ class SoundPlayer extends StatelessWidget {
                   },
                 ),
               ),
-              width: size.width * 0.65 - horizontalPadding,
             )
           ],
         ),

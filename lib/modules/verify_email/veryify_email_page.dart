@@ -1,8 +1,16 @@
+import 'package:app/shared/providers/otp_provider.dart';
+import 'package:app/shared/providers/timer_provider.dart';
+import 'package:app/shared/repositories/otp_service.dart';
+import 'package:app/shared/utils/app_constants.dart';
+import 'package:app/shared/utils/snackbars.dart';
 import 'package:app/shared/utils/spacer.dart';
 import 'package:app/shared/widgets/custom_text_form_field.dart';
+import 'package:app/shared/widgets/loading_spinner_modal.dart';
 import 'package:app/shared/widgets/primary_elevated_button.dart';
 import 'package:app/theme/text_styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 class VerifyEmailPage extends StatefulWidget {
   const VerifyEmailPage({super.key});
@@ -12,13 +20,17 @@ class VerifyEmailPage extends StatefulWidget {
 }
 
 class _VerifyEmailPageState extends State<VerifyEmailPage> {
+  final _emailController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
+    final _otpProvider = Provider.of<OtpProvider>(context, listen: false);
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('assets/images/bg/login_bg.png'),
-          fit: BoxFit.fill,
+          image: AssetImage(AppConstants.backgroundImage),
+          fit: BoxFit.cover,
         ),
       ),
       child: Scaffold(
@@ -29,12 +41,12 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
           children: [
             hSpace(150),
             Container(
-              height: 60,
-              decoration: const BoxDecoration(
+              height: 60.h,
+              decoration: BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.fitHeight,
                   image: AssetImage(
-                    'assets/images/pokemon_logo.png',
+                    AppConstants.pokemonLogo,
                   ),
                 ),
               ),
@@ -50,7 +62,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                 ),
                 wSpace(5),
                 Text(
-                  'Verify Your Email',
+                  'Enter your email',
                   style: pageTitleWithShadow,
                 ),
               ],
@@ -61,19 +73,29 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                 horizontal: 40,
               ),
               child: Form(
+                key: _formKey,
                 child: Column(
                   children: [
                     hSpace(5),
                     Text(
-                      'Please re-enter your email, An OTP Number will be sent to this email shortly.',
+                      'Please enter your email, An OTP Number will be sent to this email shortly.',
                       maxLines: 3,
                       textAlign: TextAlign.center,
                       style: pageSubtitle,
                     ),
                     hSpace(20),
-                    const CustomTextFormField(
+                    CustomTextFormField(
+                      controller: _emailController,
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (value) {
+                        if (value == '') {
+                          return 'invalid email';
+                        } else {
+                          return null;
+                        }
+                      },
                       prefixIcon: Icons.email,
-                      labelText: 'Re-enter your email',
+                      labelText: 'Enter your email',
                     ),
                     hSpace(20),
                     Container(
@@ -87,8 +109,37 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                       ),
                       child: CustomElevatedButton(
                         label: 'Continue',
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/otp');
+                        onPressed: () async {
+                          if (_formKey.currentState!.validate()) {
+                            showLoadingSpinnerModal(context, 'Loading...');
+                            _otpProvider.setEmail(_emailController.text.trim());
+                            print(_otpProvider.email);
+                            if (await OtpService()
+                                .sendOTP(_emailController.text.trim(), _otpProvider.intent.name)) {
+                              if (context.mounted) {
+                                Navigator.pop(context);
+                                context.read<TimerProvider>().restartTimer();
+                                Navigator.popAndPushNamed(context, '/otp', arguments: [
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    MySnackbars.success('OTP Has been sent succesfully'),
+                                  )
+                                ]);
+                              }
+                            } else {
+                              if (context.mounted) {
+                                Navigator.pop(context);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  MySnackbars.error('Failed to send OTP'),
+                                );
+                              }
+                            }
+                          } else {
+                            // Navigator.pop(context);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              MySnackbars.error(
+                                  'Invalid Submission, please check your email again.'),
+                            );
+                          }
                         },
                       ),
                     ),

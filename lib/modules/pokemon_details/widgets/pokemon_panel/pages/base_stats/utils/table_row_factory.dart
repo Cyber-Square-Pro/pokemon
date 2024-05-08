@@ -12,7 +12,7 @@ class TableRowFactory {
         padding: const EdgeInsets.symmetric(vertical: 10),
         child: Opacity(
           opacity: 0.4,
-          child: Text(title, style: textTheme.bodyText1),
+          child: Text(title, style: textTheme.bodyMedium),
         ),
       ),
       if (types.isNotEmpty)
@@ -31,8 +31,8 @@ class TableRowFactory {
           ),
         ),
       if (types.isEmpty)
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10),
+        const Padding(
+          padding: EdgeInsets.symmetric(vertical: 10),
           child: Wrap(
             children: [
               TypeEffectivenessWidget(

@@ -46,12 +46,12 @@ class TypeEffectivenessWidget extends StatelessWidget {
                   ),
                   child: Text(
                     value!,
-                    style: textTheme.bodyText1,
+                    style: textTheme.bodyMedium,
                     textAlign: TextAlign.center,
                   ),
                 ),
               if (hasNone!)
-                Container(
+                SizedBox(
                   width: 20,
                   child: Icon(
                     Icons.block,
@@ -63,7 +63,7 @@ class TypeEffectivenessWidget extends StatelessWidget {
         ),
         Text(
           hasNone! ? "NONE" : type!,
-          style: textTheme.bodyText1?.copyWith(fontSize: 8),
+          style: textTheme.bodyMedium?.copyWith(fontSize: 8),
         )
       ],
     );

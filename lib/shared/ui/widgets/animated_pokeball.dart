@@ -7,25 +7,24 @@ class AnimatedPokeballWidget extends StatefulWidget {
   final Color color;
   final double size;
 
-  const AnimatedPokeballWidget(
-      {Key? key, required this.color, required this.size})
-      : super(key: key);
+  const AnimatedPokeballWidget({
+    required this.color,
+    required this.size,
+    super.key,
+  });
 
   @override
   State<AnimatedPokeballWidget> createState() => _AnimatedPokeballWidgetState();
 }
 
-class _AnimatedPokeballWidgetState extends State<AnimatedPokeballWidget>
-    with SingleTickerProviderStateMixin {
+class _AnimatedPokeballWidgetState extends State<AnimatedPokeballWidget> with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
 
   @override
   void initState() {
     super.initState();
 
-    _controller =
-        AnimationController(vsync: this, duration: Duration(seconds: 2))
-          ..repeat();
+    _controller = AnimationController(vsync: this, duration: const Duration(seconds: 2))..repeat();
   }
 
   @override

@@ -23,7 +23,7 @@ class EvolutionChainItemWidget extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Container(
+          SizedBox(
             width: 83,
             child: Column(
               children: [
@@ -31,7 +31,7 @@ class EvolutionChainItemWidget extends StatelessWidget {
                   onTap: () {
                     Navigator.push(
                       context,
-                      new HeroDialogRoute(
+                      HeroDialogRoute(
                         builder: (BuildContext context) {
                           return ImageDialogWidget(
                               tag:
@@ -43,7 +43,7 @@ class EvolutionChainItemWidget extends StatelessWidget {
                   },
                   child: Stack(
                     children: [
-                      Container(
+                      SizedBox(
                         height: 83,
                         width: 83,
                         child: CustomPaint(
@@ -53,7 +53,7 @@ class EvolutionChainItemWidget extends StatelessWidget {
                                   AppTheme.getColors(context).pokeballLogoGray),
                         ),
                       ),
-                      Container(
+                      SizedBox(
                         height: 83,
                         width: 83,
                         child: Center(
@@ -73,12 +73,12 @@ class EvolutionChainItemWidget extends StatelessWidget {
                 ),
                 Text(
                   previousEvolution.name,
-                  style: textTheme.bodyText1,
+                  style: textTheme.bodySmall,
                   textAlign: TextAlign.center,
                 ),
                 Text(
                   "#${previousEvolution.number}",
-                  style: textTheme.bodyText1?.copyWith(fontSize: 12),
+                  style: textTheme.bodySmall?.copyWith(fontSize: 12),
                   textAlign: TextAlign.center,
                 ),
               ],
@@ -86,20 +86,20 @@ class EvolutionChainItemWidget extends StatelessWidget {
           ),
           Column(
             children: [
-              Icon(
+              const Icon(
                 Icons.arrow_forward,
               ),
-              Container(
+              SizedBox(
                 width: 100,
                 child: Text(
                   nextEvolution.requirement!,
-                  style: textTheme.bodyText1?.copyWith(fontSize: 12),
+                  style: textTheme.bodySmall?.copyWith(fontSize: 12),
                   textAlign: TextAlign.center,
                 ),
               ),
             ],
           ),
-          Container(
+          SizedBox(
             width: 83,
             child: Column(
               children: [
@@ -107,7 +107,7 @@ class EvolutionChainItemWidget extends StatelessWidget {
                   onTap: () async {
                     Navigator.push(
                       context,
-                      new HeroDialogRoute(
+                      HeroDialogRoute(
                         builder: (BuildContext context) {
                           return ImageDialogWidget(
                               tag:
@@ -119,7 +119,7 @@ class EvolutionChainItemWidget extends StatelessWidget {
                   },
                   child: Stack(
                     children: [
-                      Container(
+                      SizedBox(
                         height: 83,
                         width: 83,
                         child: CustomPaint(
@@ -129,7 +129,7 @@ class EvolutionChainItemWidget extends StatelessWidget {
                                   AppTheme.getColors(context).pokeballLogoGray),
                         ),
                       ),
-                      Container(
+                      SizedBox(
                         height: 83,
                         width: 83,
                         child: Center(
@@ -149,12 +149,12 @@ class EvolutionChainItemWidget extends StatelessWidget {
                 ),
                 Text(
                   nextEvolution.name,
-                  style: textTheme.bodyText1,
+                  style: textTheme.bodySmall,
                   textAlign: TextAlign.center,
                 ),
                 Text(
                   "#${nextEvolution.number}",
-                  style: textTheme.bodyText1?.copyWith(fontSize: 12),
+                  style: textTheme.bodySmall?.copyWith(fontSize: 12),
                   textAlign: TextAlign.center,
                 ),
               ],

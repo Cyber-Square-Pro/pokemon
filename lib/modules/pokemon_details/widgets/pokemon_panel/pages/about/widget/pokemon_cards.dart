@@ -13,10 +13,10 @@ class PokemonCardsWidget extends StatefulWidget {
   const PokemonCardsWidget({Key? key}) : super(key: key);
 
   @override
-  _PokemonCardsWidgetState createState() => _PokemonCardsWidgetState();
+  PokemonCardsWidgetState createState() => PokemonCardsWidgetState();
 }
 
-class _PokemonCardsWidgetState extends State<PokemonCardsWidget> {
+class PokemonCardsWidgetState extends State<PokemonCardsWidget> {
   static final _pokemonStore = GetIt.instance<PokemonStore>();
   late PageController _pageController;
 
@@ -72,12 +72,12 @@ class _PokemonCardsWidgetState extends State<PokemonCardsWidget> {
                   padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
                   child: Text(
                     "${_pokemonStore.pokemon!.name} Cards",
-                    style: textTheme.bodyText1
+                    style: textTheme.bodyMedium
                         ?.copyWith(fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
-              SizedBox(height: 9),
+              const SizedBox(height: 9),
               SizedBox(
                 height: 400,
                 width: MediaQuery.of(context).size.width,
@@ -93,12 +93,11 @@ class _PokemonCardsWidgetState extends State<PokemonCardsWidget> {
                           onTap: () {
                             Navigator.push(
                               context,
-                              new HeroDialogRoute(
+                              HeroDialogRoute(
                                 builder: (BuildContext context) {
                                   return ImageDialogWidget(
-                                      tag: "${card.name}-" +
-                                          "${card.number}- " +
-                                          "${card.expansionName}",
+                                      tag:
+                                          "${card.name}-${card.number}- ${card.expansionName}",
                                       imageUrl: card.imageUrl);
                                 },
                               ),
@@ -107,14 +106,10 @@ class _PokemonCardsWidgetState extends State<PokemonCardsWidget> {
                           child: Column(
                             children: [
                               Hero(
-                                tag: "${card.name}-" +
-                                    "${card.number}- " +
-                                    "${card.expansionName}",
+                                tag:
+                                    "${card.name}-${card.number}- ${card.expansionName}",
                                 child: Container(
                                   margin: const EdgeInsets.all(10),
-                                  child: ImageUtils.networkImage(
-                                    url: card.imageUrl,
-                                  ),
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(15),
                                       border: Border.fromBorderSide(
@@ -124,27 +119,30 @@ class _PokemonCardsWidgetState extends State<PokemonCardsWidget> {
                                       ),
                                       boxShadow: [
                                         BoxShadow(
-                                          color: Color(0xFF000000)
+                                          color: const Color(0xFF000000)
                                               .withOpacity(0.08),
                                           blurRadius: 4.0,
                                           spreadRadius: 3.0,
-                                          offset: Offset(
+                                          offset: const Offset(
                                             0.0,
                                             4.0,
                                           ),
                                         ),
                                       ]),
+                                  child: ImageUtils.networkImage(
+                                    url: card.imageUrl,
+                                  ),
                                 ),
                               ),
                               Text(
                                 "${card.number} - ${card.name}",
-                                style: textTheme.bodyText1,
+                                style: textTheme.bodySmall,
                               ),
                               FittedBox(
                                 fit: BoxFit.scaleDown,
                                 child: Text(
-                                  "${card.expansionName}",
-                                  style: textTheme.bodyText1,
+                                  card.expansionName,
+                                  style: textTheme.bodySmall,
                                 ),
                               ),
                             ],
@@ -153,7 +151,7 @@ class _PokemonCardsWidgetState extends State<PokemonCardsWidget> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 150,
               )
             ],

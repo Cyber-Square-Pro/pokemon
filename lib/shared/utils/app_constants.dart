@@ -1,17 +1,33 @@
 import 'dart:math';
 
 class AppConstants {
+  // ImageAssets
+  static String get backgroundImage => 'assets/images/bg/login_bg.png';
+  static String get backgroundPlainImage => 'assets/images/bg/bg.png';
+  static String get ashThrowImage => 'assets/images/ash_throw.png';
+  static String get ashShockedImage => 'assets/images/ash_shocked.png';
+  static String get ashMaterialImage => 'assets/images/ashtransparent.png';
+  static String get pikachuMaterialImage => 'assets/images/pikachu.png';
+  static String get pikachuSadImage => 'assets/images/pikachu_sad.png';
+  static String get pokemonLogo => 'assets/images/pokemon_logo.png';
+  static String get blankShirt => 'assets/images/shirts/blank_tshirt.png';
+
+  static String get fabIcon => "assets/images/icons/fab.png";
+  static String get pokedexIcon => "assets/images/icons/pokedex_icon.png";
+
+  // Lottie Assets
+  static String get pikachuTurnLottie => "assets/lotties/pikachu_turn.json";
+  static String get pokeballSpinLottie => "assets/lotties/pokeball_spin.json";
+  static String get noInternetLottie => "assets/lotties/no_internet.json";
+
   static String get pikachuLottie => "assets/lotties/pikachu.json";
   static String get squirtleLottie => "assets/lotties/squirtle.json";
   static String get diglettLottie => "assets/lotties/diglett.json";
-  static String get fabIcon => "assets/images/icons/fab.png";
-  static String get pokedexIcon => "assets/images/icons/pokedex_icon.png";
 
   static String getRandomPokemonGif() {
     final pokemonGif = Random().nextInt(650).toString().padLeft(3, '0');
 
-    return "https://pokedex.alansantos.dev/assets/pokemons/sprites/" +
-        "${pokemonGif}/${pokemonGif}_front_animated.gif";
+    return "https://pokedex.alansantos.dev/assets/pokemons/sprites/$pokemonGif/${pokemonGif}_front_animated.gif";
   }
 
   static List<String> types = [

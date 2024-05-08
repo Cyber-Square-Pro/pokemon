@@ -1,77 +1,100 @@
+import 'package:app/shared/utils/spacer.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:app/shared/ui/widgets/pokeball.dart';
 import 'package:app/theme/app_theme.dart';
 
 class DrawerMenuItemWidget extends StatelessWidget {
-  final Color color;
   final String text;
   final double height;
   final double width;
+  final IconData icon;
   final VoidCallback? onTap;
+  final MainAxisAlignment? contentAlignment;
 
-  const DrawerMenuItemWidget(
-      {Key? key,
-      required this.color,
-      required this.text,
-      this.height = 60,
-      this.width = 155,
-      this.onTap})
-      : super(key: key);
+  const DrawerMenuItemWidget({
+    Key? key,
+    required this.text,
+    this.height = 50,
+    this.width = 155,
+    this.onTap,
+    required this.icon,
+    this.contentAlignment,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final TextTheme textTheme = Theme.of(context).textTheme;
-
     return Padding(
       padding: const EdgeInsets.all(5),
       child: InkWell(
-        onTap: onTap != null
-            ? onTap
-            : () {
-                BotToast.showText(text: "Not implemented yet");
-              },
-        child: Container(
-          decoration: BoxDecoration(
-            color: onTap != null
-                ? color
-                : AppTheme.getColors(context).drawerDisabled,
-            borderRadius: BorderRadius.circular(15),
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(15),
-            child: Stack(
-              children: [
-                Positioned(
-                  top: -12,
-                  right: -14,
-                  child: PokeballWidget(
-                    size: 83,
-                    color: Colors.white.withOpacity(0.2),
-                  ),
-                ),
-                Positioned(
-                  top: -60,
-                  left: -50,
-                  child: PokeballWidget(
-                    size: 83,
-                    color: Colors.white.withOpacity(0.2),
-                  ),
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10),
-                      child: Text(
-                        text,
-                        style:
-                            textTheme.bodyText1?.copyWith(color: Colors.white),
-                      ),
+        onTap: onTap ??
+            () {
+              BotToast.showText(text: "Not implemented yet");
+            },
+        child: Ink(
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(
+                width: 2,
+                color: (onTap != null)
+                    ? Colors.white.withOpacity(0.75)
+                    : Colors.white.withOpacity(0.15),
+              ),
+              color: onTap != null
+                  ? Colors.transparent
+                  : AppTheme.getColors(context)
+                      .drawerDisabled
+                      .withOpacity(0.15),
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(15),
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Positioned(
+                    top: -12,
+                    right: -14,
+                    child: PokeballWidget(
+                      size: 83,
+                      color: Colors.white.withOpacity(0.05),
                     ),
-                  ],
-                )
-              ],
+                  ),
+                  Positioned(
+                    top: -60,
+                    left: -50,
+                    child: PokeballWidget(
+                      size: 83,
+                      color: Colors.white.withOpacity(0.05),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Row(
+                      mainAxisAlignment:
+                          contentAlignment ?? MainAxisAlignment.start,
+                      children: [
+                        Icon(
+                          icon,
+                          color: (onTap != null)
+                              ? Colors.white
+                              : Colors.white.withOpacity(0.25),
+                        ),
+                        wSpace(10),
+                        Text(
+                          text,
+                          style: TextStyle(
+                            color: (onTap != null)
+                                ? Colors.white
+                                : Colors.white.withOpacity(0.5),
+                            fontFamily: 'Circular',
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),

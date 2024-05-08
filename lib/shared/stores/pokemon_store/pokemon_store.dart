@@ -7,10 +7,12 @@ import 'package:mobx/mobx.dart';
 
 part 'pokemon_store.g.dart';
 
+// ignore: library_private_types_in_public_api
 class PokemonStore = _PokemonStoreBase with _$PokemonStore;
 
 abstract class _PokemonStoreBase with Store {
-  PokemonRepository _pokemonRepository = GetIt.instance<PokemonRepository>();
+  final PokemonRepository _pokemonRepository =
+      GetIt.instance<PokemonRepository>();
 
   @observable
   PokemonFilter _pokemonFilter = PokemonFilter();

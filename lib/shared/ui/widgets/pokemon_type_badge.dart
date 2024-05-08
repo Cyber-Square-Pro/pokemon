@@ -29,11 +29,6 @@ class PokemonTypeBadge extends StatelessWidget {
         Container(
           width: width,
           height: height,
-          child: Image.asset(
-            AppConstants.pokemonTypeLogo(type, size: width.toInt()),
-            width: width,
-            height: height,
-          ),
           decoration: BoxDecoration(
             color: AppTheme.getColors(context).pokemonItem(type),
             border: showBorder!
@@ -41,14 +36,19 @@ class PokemonTypeBadge extends StatelessWidget {
                 : null,
             borderRadius: BorderRadius.circular(50),
           ),
+          child: Image.asset(
+            AppConstants.pokemonTypeLogo(type, size: width.toInt()),
+            width: width,
+            height: height,
+          ),
         ),
         if (showText!)
-          Container(
+          SizedBox(
             width: 30,
             child: Text(
               type,
               textAlign: TextAlign.center,
-              style: textTheme.bodyText1?.copyWith(fontSize: 8),
+              style: textTheme.bodySmall?.copyWith(fontSize: 8),
             ),
           )
       ],

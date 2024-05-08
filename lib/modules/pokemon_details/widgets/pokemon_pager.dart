@@ -1,3 +1,4 @@
+import 'package:app/shared/providers/favourites_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
@@ -5,29 +6,31 @@ import 'package:mobx/mobx.dart';
 import 'package:app/modules/pokemon_details/pokemon_details_store.dart';
 import 'package:app/shared/stores/pokemon_store/pokemon_store.dart';
 import 'package:app/shared/utils/image_utils.dart';
+import 'package:provider/provider.dart';
 
 class PokemonPagerWidget extends StatefulWidget {
   final PageController pageController;
   final PokemonDetailsStore pokemonDetailStore;
   final bool isFavorite;
 
-  PokemonPagerWidget(
-      {Key? key,
-      required this.pageController,
-      required this.pokemonDetailStore,
-      this.isFavorite = false})
-      : super(key: key);
+  const PokemonPagerWidget({
+    super.key,
+    required this.pageController,
+    required this.pokemonDetailStore,
+    this.isFavorite = false,
+  });
 
   @override
-  _PokemonPagerState createState() => _PokemonPagerState(this.pageController);
+  // ignore: no_logic_in_create_state
+  PokemonPagerState createState() => PokemonPagerState(pageController);
 }
 
-class _PokemonPagerState extends State<PokemonPagerWidget> {
+class PokemonPagerState extends State<PokemonPagerWidget> {
   final PageController pageController;
   late PokemonStore _pokemonStore = GetIt.instance<PokemonStore>();
   late ReactionDisposer _updatePagerReaction;
 
-  _PokemonPagerState(this.pageController);
+  PokemonPagerState(this.pageController);
 
   @override
   void initState() {
@@ -40,7 +43,7 @@ class _PokemonPagerState extends State<PokemonPagerWidget> {
               _pokemonStore.index != pageController)
             {
               await pageController.animateToPage(_pokemonStore.index,
-                  duration: Duration(microseconds: 300),
+                  duration: const Duration(microseconds: 300),
                   curve: Curves.bounceIn),
             }
         });
@@ -59,7 +62,14 @@ class _PokemonPagerState extends State<PokemonPagerWidget> {
       child: PageView.builder(
         controller: pageController,
         itemCount: _pokemonStore.pokemonsSummary!.length,
-        onPageChanged: _pokemonStore.setPokemon,
+        onPageChanged: (index) async {
+          _pokemonStore.setPokemon(index);
+          context.read<FavouritesProvider>().checkIfCurrentIsFavourite(
+                context,
+                _pokemonStore.pokemonSummary!,
+              );
+          context.read<FavouritesProvider>().fetchFavourites(context);
+        },
         allowImplicitScrolling: true,
         itemBuilder: (context, index) {
           final listPokemon = _pokemonStore.pokemonsSummary![index];
@@ -71,7 +81,7 @@ class _PokemonPagerState extends State<PokemonPagerWidget> {
                     _pokemonStore.pokemonSummary!.number == listPokemon.number
                         ? 0
                         : 40),
-                duration: Duration(milliseconds: 300),
+                duration: const Duration(milliseconds: 300),
                 child: Container(
                   child:
                       _pokemonStore.pokemonSummary!.number == listPokemon.number

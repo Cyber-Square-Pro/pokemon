@@ -5,6 +5,7 @@ import 'package:app/shared/ui/widgets/image_dialog.dart';
 import 'package:app/shared/utils/hero_dialog_route.dart';
 import 'package:app/shared/utils/image_utils.dart';
 import 'package:app/theme/app_theme.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SuperEvolutionChainItemWidget extends StatelessWidget {
   final Pokemon pokemon;
@@ -26,7 +27,7 @@ class SuperEvolutionChainItemWidget extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Container(
+          SizedBox(
             width: 83,
             child: Column(
               children: [
@@ -34,7 +35,7 @@ class SuperEvolutionChainItemWidget extends StatelessWidget {
                   onTap: () {
                     Navigator.push(
                       context,
-                      new HeroDialogRoute(
+                      HeroDialogRoute(
                         builder: (BuildContext context) {
                           return ImageDialogWidget(
                               tag: pokemonHeroTag, imageUrl: pokemon.imageUrl);
@@ -44,7 +45,7 @@ class SuperEvolutionChainItemWidget extends StatelessWidget {
                   },
                   child: Stack(
                     children: [
-                      Container(
+                      SizedBox(
                         height: 83,
                         width: 83,
                         child: CustomPaint(
@@ -56,7 +57,7 @@ class SuperEvolutionChainItemWidget extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Container(
+                      SizedBox(
                         height: 83,
                         width: 83,
                         child: Center(
@@ -75,19 +76,19 @@ class SuperEvolutionChainItemWidget extends StatelessWidget {
                 ),
                 Text(
                   pokemon.name,
-                  style: textTheme.bodyText1,
+                  style: textTheme.bodyMedium,
                   textAlign: TextAlign.center,
                 ),
               ],
             ),
           ),
-          Container(
-            width: 100,
-            child: Icon(
+          SizedBox(
+            width: 100.w,
+            child: const Icon(
               Icons.arrow_forward,
             ),
           ),
-          Container(
+          SizedBox(
             width: 83,
             child: Column(
               children: [
@@ -95,7 +96,7 @@ class SuperEvolutionChainItemWidget extends StatelessWidget {
                   onTap: () {
                     Navigator.push(
                       context,
-                      new HeroDialogRoute(
+                      HeroDialogRoute(
                         builder: (BuildContext context) {
                           return ImageDialogWidget(
                               tag: superEvolutionHeroTag,
@@ -106,7 +107,7 @@ class SuperEvolutionChainItemWidget extends StatelessWidget {
                   },
                   child: Stack(
                     children: [
-                      Container(
+                      SizedBox(
                         height: 83,
                         width: 83,
                         child: CustomPaint(
@@ -118,7 +119,7 @@ class SuperEvolutionChainItemWidget extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Container(
+                      SizedBox(
                         height: 83,
                         width: 83,
                         child: Center(
@@ -137,7 +138,7 @@ class SuperEvolutionChainItemWidget extends StatelessWidget {
                 ),
                 Text(
                   superEvolution.name,
-                  style: textTheme.bodyText1,
+                  style: textTheme.bodyMedium,
                   textAlign: TextAlign.center,
                 ),
               ],

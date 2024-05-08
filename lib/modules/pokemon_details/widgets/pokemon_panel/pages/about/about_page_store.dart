@@ -2,9 +2,9 @@ import 'package:mobx/mobx.dart';
 
 part 'about_page_store.g.dart';
 
-class AboutPageStore = _AboutPageStoreBase with _$AboutPageStore;
+class AboutPageStore = AboutPageStoreBase with _$AboutPageStore;
 
-abstract class _AboutPageStoreBase with Store {
+abstract class AboutPageStoreBase with Store {
   @observable
   Duration _audioProgress = Duration.zero;
 

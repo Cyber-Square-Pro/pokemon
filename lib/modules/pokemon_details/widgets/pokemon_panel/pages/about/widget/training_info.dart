@@ -12,7 +12,7 @@ class TrainingInfoWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
 
-    return Container(
+    return SizedBox(
       width: MediaQuery.of(context).size.width,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 20),
@@ -24,7 +24,7 @@ class TrainingInfoWidget extends StatelessWidget {
               child: Text(
                 "Training",
                 style:
-                    textTheme.bodyText1?.copyWith(fontWeight: FontWeight.bold),
+                    textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold),
               ),
             ),
             SingleChildScrollView(
@@ -39,20 +39,20 @@ class TrainingInfoWidget extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(vertical: 9),
                         child: Row(
                           children: [
-                            Container(
+                            SizedBox(
                               width: 88,
                               child: Opacity(
                                 opacity: 0.4,
                                 child: Text(
                                   "EV yield",
-                                  style: textTheme.bodyText1,
+                                  style: textTheme.bodySmall,
                                 ),
                               ),
                             ),
                             Observer(
                               builder: (_) => Text(
-                                "${_pokemonStore.pokemon!.training.evYield}",
-                                style: textTheme.bodyText1,
+                                _pokemonStore.pokemon!.training.evYield,
+                                style: textTheme.bodySmall,
                               ),
                             ),
                           ],
@@ -62,20 +62,20 @@ class TrainingInfoWidget extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(vertical: 9),
                         child: Row(
                           children: [
-                            Container(
+                            SizedBox(
                               width: 88,
                               child: Opacity(
                                 opacity: 0.4,
                                 child: Text(
                                   "Catch rate",
-                                  style: textTheme.bodyText1,
+                                  style: textTheme.bodySmall,
                                 ),
                               ),
                             ),
                             Observer(
                               builder: (_) => Text(
-                                "${_pokemonStore.pokemon!.training.catchRate}",
-                                style: textTheme.bodyText1,
+                                _pokemonStore.pokemon!.training.catchRate,
+                                style: textTheme.bodySmall,
                               ),
                             ),
                           ],
@@ -85,20 +85,20 @@ class TrainingInfoWidget extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(vertical: 9),
                         child: Row(
                           children: [
-                            Container(
+                            SizedBox(
                               width: 88,
                               child: Opacity(
                                 opacity: 0.4,
                                 child: Text(
                                   "Base Friendship",
-                                  style: textTheme.bodyText1,
+                                  style: textTheme.bodySmall,
                                 ),
                               ),
                             ),
                             Observer(
                               builder: (_) => Text(
-                                "${_pokemonStore.pokemon!.training.baseFriendship}",
-                                style: textTheme.bodyText1,
+                                _pokemonStore.pokemon!.training.baseFriendship,
+                                style: textTheme.bodySmall,
                               ),
                             ),
                           ],
@@ -108,20 +108,20 @@ class TrainingInfoWidget extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(vertical: 9),
                         child: Row(
                           children: [
-                            Container(
+                            SizedBox(
                               width: 88,
                               child: Opacity(
                                 opacity: 0.4,
                                 child: Text(
                                   "Base Exp.",
-                                  style: textTheme.bodyText1,
+                                  style: textTheme.bodySmall,
                                 ),
                               ),
                             ),
                             Observer(
                               builder: (_) => Text(
-                                "${_pokemonStore.pokemon!.training.baseExp}",
-                                style: textTheme.bodyText1,
+                                _pokemonStore.pokemon!.training.baseExp,
+                                style: textTheme.bodySmall,
                               ),
                             ),
                           ],
@@ -131,20 +131,20 @@ class TrainingInfoWidget extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(vertical: 9),
                         child: Row(
                           children: [
-                            Container(
+                            SizedBox(
                               width: 88,
                               child: Opacity(
                                 opacity: 0.4,
                                 child: Text(
                                   "Growth Rate",
-                                  style: textTheme.bodyText1,
+                                  style: textTheme.bodySmall,
                                 ),
                               ),
                             ),
                             Observer(
                               builder: (_) => Text(
-                                "${_pokemonStore.pokemon!.training.growthRate}",
-                                style: textTheme.bodyText1,
+                                _pokemonStore.pokemon!.training.growthRate,
+                                style: textTheme.bodySmall,
                               ),
                             ),
                           ],

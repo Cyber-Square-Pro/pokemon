@@ -1,5 +1,7 @@
+import 'package:app/shared/widgets/loading_spinner.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:mobx/mobx.dart';
@@ -65,9 +67,9 @@ class _ItemsPageState extends State<ItemsPage> {
     List<Widget> items = [];
 
     for (int index = initialRange; index < finalRange; index++) {
-      final _item = _itemStore.items[index];
+      final item = _itemStore.items[index];
 
-      items.add(await _buildItemWidget(item: _item));
+      items.add(await _buildItemWidget(item: item));
     }
 
     if (maxRange == finalRange) {
@@ -78,37 +80,62 @@ class _ItemsPageState extends State<ItemsPage> {
   }
 
   Future<ListTile> _buildItemWidget({required Item item}) {
-    return Future.delayed(Duration.zero, () {
-      final TextTheme textTheme = Theme.of(context).textTheme;
+    return Future.delayed(
+      Duration.zero,
+      () {
+        final TextTheme textTheme = Theme.of(context).textTheme;
 
-      return ListTile(
-        leading: item.imageUrl != null
-            ? ImageUtils.networkImage(
-                url: item.imageUrl!,
-                height: 25,
-                width: 25,
-              )
-            : Icon(
-                Icons.image_not_supported,
-                color: Colors.grey,
-                size: 20,
-              ),
-        title: Text(
-          item.name,
-          style: textTheme.bodyText1,
-        ),
-        trailing: Text(
-          item.category,
-          style: textTheme.bodyText1,
-        ),
-        subtitle: item.effect.trim().length > 0
-            ? Text(
-                item.effect,
-                style: textTheme.subtitle1,
-              )
-            : null,
-      );
-    });
+        return ListTile(
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 20,
+            vertical: 5,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          tileColor: textTheme.bodySmall?.color?.withOpacity(0.1),
+          leading: item.imageUrl != null
+              ? ImageUtils.networkImage(
+                  url: item.imageUrl!,
+                  height: 30,
+                  width: 30,
+                )
+              : const Icon(
+                  Icons.image_not_supported,
+                  color: Colors.grey,
+                  size: 20,
+                ),
+          title: Text(
+            item.name,
+            style: TextStyle(
+              fontFamily: 'Circular',
+              fontWeight: FontWeight.bold,
+              letterSpacing: -0.5,
+              fontSize: 15.sp,
+            ),
+          ),
+          trailing: Text(
+            item.category,
+            style: textTheme.titleSmall!.copyWith(
+              fontFamily: 'Circular',
+              fontWeight: FontWeight.normal,
+              fontSize: 13.sp,
+            ),
+          ),
+          subtitle: item.effect.trim().isNotEmpty
+              ? Text(
+                  item.effect,
+                  style: textTheme.bodySmall!.copyWith(
+                    fontFamily: 'Circular',
+                    height: 1.3,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w500,
+                  ),
+                )
+              : null,
+        );
+      },
+    );
   }
 
   @override
@@ -117,9 +144,13 @@ class _ItemsPageState extends State<ItemsPage> {
 
     return Observer(builder: (_) {
       if (_itemStore.items.isEmpty) {
-        return SliverFillRemaining(
-          child: Center(
-            child: CircularProgressIndicator(),
+        return SliverToBoxAdapter(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              loadingSpinner(context),
+            ],
           ),
         );
       } else {
@@ -133,7 +164,9 @@ class _ItemsPageState extends State<ItemsPage> {
               itemBuilder: (context, item, index) => item,
             ),
             separatorBuilder: (context, index) {
-              return Divider();
+              return const SizedBox(
+                height: 10,
+              );
             },
           ),
         );

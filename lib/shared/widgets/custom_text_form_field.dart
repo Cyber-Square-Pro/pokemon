@@ -1,78 +1,118 @@
+import 'package:app/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
-class CustomTextFormField extends StatefulWidget {
+class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
     required this.prefixIcon,
     required this.labelText,
     this.isPassword,
     super.key,
+    required this.controller,
+    required this.validator,
+    this.keyboardType,
+    this.isPasswordField,
+    this.suffixIcon,
+    this.maxLines,
+    this.borderColor,
+    this.errorBorderColor,
+    this.textColor,
   });
 
   final String labelText;
   final bool? isPassword;
   final IconData prefixIcon;
+  final TextEditingController controller;
+  final String? Function(String? value) validator;
+  final TextInputType? keyboardType;
+  final bool? isPasswordField;
+  final Widget? suffixIcon;
+  final int? maxLines;
+  final Color? borderColor;
+  final Color? errorBorderColor;
+  final Color? textColor;
 
-  @override
-  State<CustomTextFormField> createState() => _CustomTextFormFieldState();
-}
-
-class _CustomTextFormFieldState extends State<CustomTextFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       // Settings
-      obscureText: widget.isPassword ?? false,
+      obscureText: isPassword ?? false,
 
-      style: const TextStyle(
+      style: TextStyle(
         fontFamily: 'Circular',
-        fontSize: 18,
-        color: Colors.white,
+        letterSpacing: 0.5,
+        fontSize: 16,
+        color: textColor ?? Colors.white,
       ),
+      maxLines: maxLines ?? 1,
+
+      controller: controller,
+      validator: validator,
+      keyboardType: keyboardType,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       // Decoration
       decoration: InputDecoration(
-        // Text STyle
-
-        //Enabled, Focused, Error
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(_borderRadius),
           borderSide: BorderSide(
             width: 2,
-            color: Colors.white.withOpacity(0.5),
+            color: borderColor ?? Colors.white.withOpacity(0.6),
           ),
         ),
-
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(_borderRadius),
           borderSide: BorderSide(
             width: 2,
-            color: Colors.white.withOpacity(0.75),
+            color: borderColor ?? Colors.white,
           ),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(_borderRadius),
-          borderSide: const BorderSide(
+          borderSide: BorderSide(
             width: 2,
-            color: Colors.red,
+            color: errorBorderColor ?? Colors.red,
           ),
         ),
-        contentPadding: const EdgeInsets.only(left: 10, bottom: 10, top: 10, right: 25),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(_borderRadius),
+          borderSide: BorderSide(
+            width: 2,
+            color: errorBorderColor ?? Colors.red,
+          ),
+        ),
+        contentPadding: const EdgeInsets.only(
+          left: 10,
+          bottom: 10,
+          top: 10,
+          right: 25,
+        ),
 
         // Label
         floatingLabelStyle: TextStyle(
           fontSize: 15,
           color: Colors.white.withOpacity(0.75),
         ),
-        labelText: widget.labelText,
+        labelText: labelText,
         labelStyle: TextStyle(
           fontSize: 15,
           color: Colors.white.withOpacity(0.5),
         ),
+        errorStyle: TextStyle(color: Colors.white, height: 1, shadows: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.5),
+            blurRadius: 5,
+          )
+        ]),
+
         // Prefix Icon
-        prefixIcon: SizedBox(width: 65, child: Icon(widget.prefixIcon)),
-        prefixIconColor: Colors.white,
+        prefixIcon: SizedBox(
+          width: 45,
+          child: Icon(prefixIcon),
+        ),
+        // Suffix icon for password field
+        suffixIcon: suffixIcon,
       ),
     );
   }
 }
 
-const double _borderRadius = 20;
+final double _borderRadius = AppTheme.globalBorderRadius;

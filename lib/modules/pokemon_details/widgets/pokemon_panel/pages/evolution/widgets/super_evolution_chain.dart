@@ -29,7 +29,7 @@ class SuperEvolutionChainWidget extends StatelessWidget {
               children: [
                 Text(
                   "Mega Evolution${_pokemonStore.pokemon!.megaEvolutions.length > 1 ? "s" : ""}",
-                  style: textTheme.bodyText1
+                  style: textTheme.bodyMedium
                       ?.copyWith(fontWeight: FontWeight.bold),
                 ),
                 ...megaEvolutionChain
@@ -43,7 +43,7 @@ class SuperEvolutionChainWidget extends StatelessWidget {
               children: [
                 Text(
                   "Gigantamax Evolution${_pokemonStore.pokemon!.megaEvolutions.length > 1 ? "s" : ""}",
-                  style: textTheme.bodyText1
+                  style: textTheme.bodyMedium
                       ?.copyWith(fontWeight: FontWeight.bold),
                 ),
                 ..._pokemonStore.pokemon!.gigantamaxEvolutions.map(
@@ -54,7 +54,7 @@ class SuperEvolutionChainWidget extends StatelessWidget {
                           onTap: () {
                             Navigator.push(
                               context,
-                              new HeroDialogRoute(
+                              HeroDialogRoute(
                                 builder: (BuildContext context) {
                                   return ImageDialogWidget(
                                       tag:
@@ -64,7 +64,7 @@ class SuperEvolutionChainWidget extends StatelessWidget {
                               ),
                             );
                           },
-                          child: Container(
+                          child: SizedBox(
                             width: 300,
                             child: Hero(
                               tag: "super-evolution-chain-${gigantamax.name}",
@@ -76,7 +76,7 @@ class SuperEvolutionChainWidget extends StatelessWidget {
                         ),
                         Text(
                           gigantamax.name,
-                          style: textTheme.bodyText1,
+                          style: textTheme.bodySmall,
                         ),
                       ],
                     ),

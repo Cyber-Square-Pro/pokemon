@@ -1,6 +1,8 @@
-import 'package:flutter/foundation.dart';
+import 'package:app/shared/widgets/loading_spinner.dart';
+import 'package:app/theme/app_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
 import 'package:lottie/lottie.dart';
 import 'package:app/modules/pokemon_grid/widgets/pokemon_grid.dart';
@@ -8,13 +10,13 @@ import 'package:app/shared/stores/pokemon_store/pokemon_store.dart';
 import 'package:app/shared/utils/app_constants.dart';
 
 class PokemonGridPage extends StatefulWidget {
-  PokemonGridPage({Key? key}) : super(key: key);
+  const PokemonGridPage({super.key});
 
   @override
-  _PokemonGridPageState createState() => _PokemonGridPageState();
+  PokemonGridPageState createState() => PokemonGridPageState();
 }
 
-class _PokemonGridPageState extends State<PokemonGridPage> {
+class PokemonGridPageState extends State<PokemonGridPage> {
   late PokemonStore _pokemonStore;
 
   @override
@@ -40,16 +42,18 @@ class _PokemonGridPageState extends State<PokemonGridPage> {
           return SliverFillRemaining(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [CircularProgressIndicator()],
+              children: [
+                loadingSpinner(context),
+              ],
             ),
           );
         } else {
           if (_pokemonStore.pokemonFilter.pokemonNameNumberFilter != null &&
               _pokemonStore.pokemonsSummary!.isEmpty) {
             return SliverToBoxAdapter(
-              child: Container(
-                height: 250,
-                width: 250,
+              child: SizedBox(
+                height: 250.h,
+                width: 250.w,
                 child: Stack(
                   children: [
                     Center(
@@ -63,7 +67,7 @@ class _PokemonGridPageState extends State<PokemonGridPage> {
                         padding: const EdgeInsets.only(bottom: 30),
                         child: Text(
                           "${_pokemonStore.pokemonFilter.pokemonNameNumberFilter} was not found",
-                          style: textTheme.bodyText1,
+                          style: textTheme.bodySmall!,
                         ),
                       ),
                     )
@@ -74,7 +78,8 @@ class _PokemonGridPageState extends State<PokemonGridPage> {
           }
 
           return SliverPadding(
-            padding: EdgeInsets.symmetric(horizontal: 10),
+            padding: EdgeInsets.symmetric(
+                horizontal: AppLayouts.horizontalPagePadding),
             sliver: PokemonGridWidget(pokemonStore: _pokemonStore),
           );
         }

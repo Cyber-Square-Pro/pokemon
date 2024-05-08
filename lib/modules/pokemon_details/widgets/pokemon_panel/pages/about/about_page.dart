@@ -17,10 +17,10 @@ class AboutPage extends StatefulWidget {
   const AboutPage({Key? key}) : super(key: key);
 
   @override
-  _AboutPageState createState() => _AboutPageState();
+  AboutPageState createState() => AboutPageState();
 }
 
-class _AboutPageState extends State<AboutPage> {
+class AboutPageState extends State<AboutPage> {
   static final _pokemonStore = GetIt.instance<PokemonStore>();
   late AboutPageStore _aboutPageStoreStore;
   late AudioPlayer _player;
@@ -73,14 +73,14 @@ class _AboutPageState extends State<AboutPage> {
                             padding: const EdgeInsets.symmetric(vertical: 4),
                             child: Text(
                               it,
-                              style: textTheme.bodyText1,
+                              style: textTheme.bodySmall,
                             ),
                           ))
                       .toList(),
                 );
               }),
               Observer(builder: (_) {
-                if (_pokemonStore.pokemon!.soundUrl != null)
+                if (_pokemonStore.pokemon!.soundUrl != null) {
                   return Padding(
                     padding: const EdgeInsets.only(top: 15),
                     child: SoundPlayer(
@@ -90,28 +90,31 @@ class _AboutPageState extends State<AboutPage> {
                       aboutPageStore: _aboutPageStoreStore,
                     ),
                   );
-                else
+                } else {
                   return Container();
+                }
               }),
               Observer(builder: (_) {
-                if (_pokemonStore.pokemon!.hasAnimatedSprites)
+                if (_pokemonStore.pokemon!.hasAnimatedSprites) {
                   return const AnimatedSpritesWidget(
                     isShiny: false,
                   );
-                else
+                } else {
                   return Container();
+                }
               }),
               Observer(builder: (_) {
-                if (_pokemonStore.pokemon!.hasAnimatedShinySprites)
+                if (_pokemonStore.pokemon!.hasAnimatedShinySprites) {
                   return const AnimatedSpritesWidget(
                     isShiny: true,
                   );
-                else
+                } else {
                   return Container();
+                }
               }),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20),
-                child: const HeightWeightInfoWidget(),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 20),
+                child: HeightWeightInfoWidget(),
               ),
               const BreedingInfoWidget(),
               const TrainingInfoWidget(),

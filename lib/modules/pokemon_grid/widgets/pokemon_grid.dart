@@ -1,3 +1,5 @@
+import 'package:app/shared/providers/favourites_provider.dart';
+import 'package:app/shared/utils/page_transitions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -7,17 +9,21 @@ import 'package:app/modules/pokemon_details/pokemon_details.dart';
 import 'package:app/modules/pokemon_grid/widgets/poke_item.dart';
 import 'package:app/shared/models/pokemon_summary.dart';
 import 'package:app/shared/stores/pokemon_store/pokemon_store.dart';
+import 'package:provider/provider.dart';
 
 class PokemonGridWidget extends StatefulWidget {
   final PokemonStore pokemonStore;
 
-  PokemonGridWidget({Key? key, required this.pokemonStore}) : super(key: key);
+  const PokemonGridWidget({
+    required this.pokemonStore,
+    super.key,
+  });
 
   @override
-  _PokemonGridWidgetState createState() => _PokemonGridWidgetState();
+  PokemonGridWidgetState createState() => PokemonGridWidgetState();
 }
 
-class _PokemonGridWidgetState extends State<PokemonGridWidget> {
+class PokemonGridWidgetState extends State<PokemonGridWidget> {
   static const _pageSize = 20;
 
   final PagingController<int, Widget> _pagingController =
@@ -103,14 +109,23 @@ class _PokemonGridWidgetState extends State<PokemonGridWidget> {
       {required int index, required PokemonSummary pokemon}) {
     return InkWell(
       onTap: () async {
-        await widget.pokemonStore.setPokemon(index);
+        await context.read<FavouritesProvider>().fetchFavourites(context);
+        await widget.pokemonStore.setPokemon(index).then((value) {
+          context.read<FavouritesProvider>().checkIfCurrentIsFavourite(
+              context, widget.pokemonStore.pokemonSummary!);
+        });
 
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) {
-            return PokemonDetailsPage();
-          }),
-        );
+        if (context.mounted) {
+          Navigator.push(
+            context,
+            TransitionPageRoute(
+              child: const PokemonDetailsPage(),
+              transition: index % 2 == 0
+                  ? PageTransitions.slideRight
+                  : PageTransitions.slideLeft,
+            ),
+          );
+        }
       },
       child: Ink(
         child: PokeItemWidget(
@@ -131,7 +146,7 @@ class _PokemonGridWidgetState extends State<PokemonGridWidget> {
         maxCrossAxisExtent: 200,
         mainAxisSpacing: 10.0,
         crossAxisSpacing: 10.0,
-        childAspectRatio: 3 / 2,
+        childAspectRatio: 1.4,
       ),
       builderDelegate: PagedChildBuilderDelegate<Widget>(
         itemBuilder: (context, item, index) => item,

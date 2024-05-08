@@ -117,7 +117,7 @@ class _BuyShirtPageState extends State<BuyShirtPage> {
                             // Navigator.push(
                             //   context,
                             //   TransitionPageRoute(
-                            //     child: const AddCreditCardPage(),
+                            //     child: const PaymentSu(),
                             //     transition: PageTransitions.slideLeft,
                             //     duration: Durations.long1,
                             //   ),

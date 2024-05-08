@@ -61,8 +61,6 @@ class PokemonDetailsPageState extends State<PokemonDetailsPage>
       vsync: this,
       duration: const Duration(seconds: 2),
     )..repeat();
-
-    //
   }
 
   @override

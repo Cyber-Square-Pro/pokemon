@@ -63,7 +63,11 @@ flutter:
     - assets/images/pokemons_generations/generation_8/
     - assets/lotties/
     - assets/images/pokemons_types/20/water.png
-    - assets/images/signup_bg.png
+    - assets/images/forest.png
+    - assets/images/pokeeforest.png
+
+
+
 
 
   fonts:

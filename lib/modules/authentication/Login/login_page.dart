@@ -74,26 +74,33 @@ class _LoginScreenState extends State<LoginScreen> {
                 width: _deviceWidth,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage('assets/images/signup_bg.png'),
+                    image: AssetImage('assets/images/forest.png'),
+                    fit: BoxFit.cover,
                   ),
                 ),
                 child: Center(
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 40, vertical: 60),
                     decoration: BoxDecoration(
-                      color: Colors.black.withOpacity(0.6),
+                      color: Colors.black.withOpacity(0.2),
                     ),
                     child: Column(
                       children: [
-                        hSpace(_deviceHeight * 0.2),
-                        Heading(
-                            text: 'Log In',
-                            size: TextSizes.headingSize,
-                            weight: FontWeight.bold,
-                            color: Colors.white),
-                        hSpace(20),
+                        hSpace(_deviceHeight * 0.4),
+                        // Heading(
+                        //     text: 'Log In',
+                        //     size: TextSizes.headingSize,
+                        //     weight: FontWeight.bold,
+                        //     color: Colors.white),
+                        // hSpace(20),
                         TextFormField(
                           controller: _textEmailController,
+                          validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'please fill this field';
+                          }
+                        },
+                          
                           style: TextStyle(
                             fontFamily: 'circular',
                             color: FormColors.fieldTextcolor,
@@ -131,10 +138,15 @@ class _LoginScreenState extends State<LoginScreen> {
                               color: Colors.white.withOpacity(0.4),
                             ),
                           ),
-                        ),
+                        ),                        
                         hSpace(20),
                         TextFormField(
                           controller: _textPasswordController,
+                          validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'please fill this field';
+                          }
+                        },
                           style: TextStyle(
                             fontFamily: 'circular',
                             color: FormColors.fieldTextcolor,
@@ -190,11 +202,18 @@ class _LoginScreenState extends State<LoginScreen> {
                         Padding(
                           padding: const EdgeInsets.only(top: 20.0),
                           child: InkWell(
-                            onTap: () => {},
+                            onTap: () => {
+                               Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ForgetPassword(),
+                                ),
+                              )
+                            },
                             child: RichText(
                               text: TextSpan(children: [
                                 TextSpan(
-                                  text: 'forgot password? ',
+                                  text: 'forget password? ',
                                 ),
                                 // TextSpan(
                                 //     text: ' Signup Now! ',

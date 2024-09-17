@@ -25,22 +25,20 @@ class _ForgetPasswordState extends State<ForgetPassword> {
           height: _deviceHeight,
           width: _deviceWidth,
           decoration: BoxDecoration(
-       
-
-         color: Color.fromARGB(255, 5, 30, 50)
+         color: Color.fromARGB(255, 155, 202, 240)
           ),
           
           child:  Center(
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 40,vertical: 60),
                 decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.6),
+                  color: Colors.black.withOpacity(0.1),
                 ),
                 child: Column(
                   
                   children: [
                     hSpace(250),
-                    Heading(text: 'Log In', size: TextSizes.headingSize, weight: FontWeight.bold, color: Colors.white),
+                    Heading(text: 'Forget Password?', size: TextSizes.headingSize, weight: FontWeight.bold, color: Colors.white),
                     hSpace(20),
                     // PokeTextField(
                     //   prefixIcon: Icons.email_outlined,
@@ -51,14 +49,13 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                     //   prefixIcon: Icons.email_outlined,
                     // label: 'verification code',
                     // ),
-                    hSpace(20),
+                    // hSpace(20),
                   PrimaryButton(
                       label: 'Next', 
                       onPressed:  () {
                         Navigator.push(context, MaterialPageRoute(builder: (context) => ConfirmPassword(),));
                       }, 
-                      width: 100)                                      
-                     
+                      width: 100)                                                        
                   ],
                 ),
               ),

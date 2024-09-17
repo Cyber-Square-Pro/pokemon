@@ -12,9 +12,7 @@ class PrimaryButton extends StatelessWidget {
     required this.label,
     required this.onPressed,
     required this.width,
-    super.key,
-  
-  
+    super.key,  
   });
 
   @override
